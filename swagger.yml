@@ -1,0 +1,234 @@
+
+swagger: '2.0'
+
+info:
+  version: "0.1"
+  title: Customer Portal
+  
+host: cp.agabor.hu
+schemes:
+  - http
+basePath: /api/v1
+produces:
+  - application/json
+    
+paths:
+  /login:
+    post:
+      description: |
+       Login with username and password. The response contains a JWT.
+      parameters:
+        -
+          name: user_name
+          in: query
+          required: true
+          type: string
+        -
+          name: password
+          in: query
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+             $ref: '#/definitions/AuthToken'
+        401:
+          description: If username or password is incorrect.
+          schema:
+             $ref: '#/definitions/LoginError'
+  /logout:
+    post:
+      parameters:
+        -
+          $ref: '#/parameters/jwtHeaderParam'
+      responses:
+        200:
+          description: OK
+  /projects:
+    get:
+      description: list of projects
+      parameters:
+        -
+          $ref: '#/parameters/jwtHeaderParam'
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ProjectBase'
+  /projects/{id}:
+    get:
+      description: project data
+      parameters:
+        -
+          $ref: '#/parameters/jwtHeaderParam'
+        -
+          name: id
+          in: path
+          description: project identifier
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Project'
+  
+parameters:
+   jwtHeaderParam:
+      name: token
+      in: header
+      description: JSON Web Token
+      required: true
+      type: string
+      
+definitions:
+  LoginError:
+    type: object
+    properties:
+      error:
+        type: string
+        enum: ["user_not_found", "password_error"]
+  AuthToken:
+    type: object
+    properties:
+      jwt:
+        type: string
+        example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOj ...
+
+  ProjectBase:
+    type: object
+    properties:
+      name:
+        type: string
+        example: Sample Project
+      id:
+        type: string
+        example: sample_project
+  Project:
+    allOf:
+      - $ref: '#/definitions/ProjectBase'
+      - properties:
+          texts:
+            type: array
+            items:
+              $ref: '#/definitions/Text'
+          images:
+            type: array
+            items:
+              $ref: '#/definitions/Image'
+          files:
+            type: array
+            items:
+              $ref: '#/definitions/File'
+          locales:
+            type: array
+            items:
+              $ref: '#/definitions/Locale'
+            example: [{"id": "en_US",  "name": "English"},{"id": "hu_HU",  "name": "Hungarian"}]
+  Locale:
+    type: object
+    properties:
+      id:
+        type: string
+        example: en_US
+      name:
+        type: string
+        example: English
+  Image:
+    type: object
+    properties:
+      id:
+        type: string
+        example: facebook_icon
+      name:
+        type: string
+        example: "Facebook Icon"
+      width:
+        type: number
+        format: integer
+        example: 500
+      height:
+        type: number
+        format: integer
+        example: 512
+      url:
+        type: string
+        example: "http://cp.agabor.hu/sample_project/images/facebook_icon/logo.png"
+      conditions:
+        type: array
+        items:
+          $ref: '#/definitions/ImageCondition'
+        example: [{"name":"fix_width", "value":512}, {"name":"fix_height", "value":512}]
+  ImageCondition:
+    type: object
+    required: [ name, value ]
+    properties:
+      name:
+        type: string
+        enum: ["fix_width", "fix_height", "min_width", "max_width", "min_height", "max_height"]
+      value:
+        type: integer
+  Text:
+    type: object
+    properties:
+      id:
+        type: string
+        example: "webpage_title"
+      name:
+        type: string
+        example: "Webpage Title"
+      values:
+        type: array
+        items:
+          $ref: '#/definitions/LocalText'
+        example: [{"locale_id": "en_US",  "value": "Sample Project Webpage"},{"locale_id": "hu_HU",  "value": "Pelda Projekt Weboldal"}]
+      conditions:
+        type: array
+        items:
+          $ref: '#/definitions/TextCondition'
+  LocalText:
+    type: object
+    properties:
+      locale_id:
+        type: string
+        example: en_US
+      value:
+        type: string
+        example: Sample Project Webpage
+  TextCondition:
+    type: object
+    required: [ name, value ]
+    properties:
+      name:
+        type: string
+        enum: [ "min_length", "max_length"]
+      value:
+        type: integer
+        example: 15
+  File:
+    type: object
+    properties:
+      id:
+        type: string
+        example: terms_and_conditions
+      name:
+        type: string
+        example: "Terms and Conditions"
+      url:
+        type: string
+        example: "http://cp.agabor.hu/sample_project/files/terms_and_conditions/licence.pdf"
+      ext:
+        type: array
+        description: allowed file extensions
+        items:
+          type: string
+        example: ["doc", "docx", "pdf"]
+      max_size:
+        type: number
+        format: integer
+        description: maximum file size in KB
+        example: 10000
+      

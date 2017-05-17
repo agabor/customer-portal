@@ -17,6 +17,8 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Support\Facades\Request;
+use \Firebase\JWT\JWT;
+use JsonSerializable;
 
 class DefaultApi extends Controller
 {
@@ -26,6 +28,9 @@ class DefaultApi extends Controller
     public function __construct()
     {
     }
+
+
+
 
     /**
      * Operation loginPost
@@ -38,9 +43,6 @@ class DefaultApi extends Controller
     public function loginPost()
     {
         $input = Request::all();
-
-        //path params validation
-
 
         //not path params validation
         if (!isset($input['user_name'])) {
@@ -57,13 +59,13 @@ class DefaultApi extends Controller
 
 
         if ($u == null)
-            return response('no such user', 401);
+            return response(array('error' => 'user_not_found'), 401);
 
-        if ($u->password != password_hash($password, PASSWORD_DEFAULT))
-            return response('wrong password', 401);
+        if (!password_verify($password, $u->password))
+            return response(array('error' => 'password_error') , 401);
 
 
-        return response('How about implementing loginPost as a POST method ?');
+        return response(array('jwt' => JWT::encode(array($u->name, $u->id), env('APP_KEY'))));
     }
     /**
      * Operation logoutPost

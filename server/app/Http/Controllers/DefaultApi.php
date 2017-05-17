@@ -18,10 +18,12 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Support\Facades\Request;
 use \Firebase\JWT\JWT;
-use JsonSerializable;
 
 class DefaultApi extends Controller
 {
+
+    public static $authUser;
+
     /**
      * Constructor
      */
@@ -65,7 +67,7 @@ class DefaultApi extends Controller
             return response(array('error' => 'password_error') , 401);
 
 
-        return response(array('jwt' => JWT::encode(array($u->name, $u->id), env('APP_KEY'))));
+        return response(array('jwt' => JWT::encode(array('id' => $u->id), env('APP_KEY'))));
     }
     /**
      * Operation logoutPost
@@ -77,19 +79,7 @@ class DefaultApi extends Controller
      */
     public function logoutPost()
     {
-        $input = Request::all();
-
-        //path params validation
-
-
-        //not path params validation
-        if (!isset($input['token'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $token when calling logoutPost');
-        }
-        $token = $input['token'];
-
-
-        return response('How about implementing logoutPost as a POST method ?');
+        return self::$authUser;
     }
     /**
      * Operation projectsGet

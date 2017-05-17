@@ -15,6 +15,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Support\Facades\Request;
 
 class DefaultApi extends Controller
@@ -51,6 +52,15 @@ class DefaultApi extends Controller
             throw new \InvalidArgumentException('Missing the required parameter $password when calling loginPost');
         }
         $password = $input['password'];
+
+        $u = User::where('name', $user_name)->first();
+
+
+        if ($u == null)
+            return response('no such user', 401);
+
+        if ($u->password != password_hash($password, PASSWORD_DEFAULT))
+            return response('wrong password', 401);
 
 
         return response('How about implementing loginPost as a POST method ?');

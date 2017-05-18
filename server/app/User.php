@@ -15,6 +15,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 
 /**
+ * @property integer id
  * @property string name
  * @property string email
  * @property string password

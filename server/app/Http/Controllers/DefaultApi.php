@@ -16,6 +16,7 @@
 namespace App\Http\Controllers;
 
 use App\Auth;
+use App\Project;
 use App\User;
 use Illuminate\Support\Facades\Request;
 use \Firebase\JWT\JWT;
@@ -92,19 +93,7 @@ class DefaultApi extends Controller
      */
     public function projectsGet()
     {
-        $input = Request::all();
-
-        //path params validation
-
-
-        //not path params validation
-        if (!isset($input['token'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $token when calling projectsGet');
-        }
-        $token = $input['token'];
-
-
-        return response('How about implementing projectsGet as a GET method ?');
+        return Project::all();
     }
     /**
      * Operation projectsIdGet
@@ -117,13 +106,9 @@ class DefaultApi extends Controller
      */
     public function projectsIdGet($id)
     {
-        $input = Request::all();
-
-        //path params validation
-
-
-        //not path params validation
-
-        return response('How about implementing projectsIdGet as a GET method ?');
+        $project = Project::where('slug', $id)->first();
+        if ($project == null)
+            return response('',404);
+        return $project;
     }
 }

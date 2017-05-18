@@ -104,7 +104,7 @@ definitions:
       name:
         type: string
         example: Sample Project
-      id:
+      slug:
         type: string
         example: sample_project
   Project:
@@ -174,21 +174,23 @@ definitions:
   Text:
     type: object
     properties:
-      id:
+      text_id:
         type: string
         example: "webpage_title"
       name:
         type: string
         example: "Webpage Title"
+      min_length:
+        type: integer
+        example: 10
+      max_length:
+        type: integer
+        example: 20
       values:
         type: array
         items:
           $ref: '#/definitions/LocalText'
         example: [{"locale_id": "en_US",  "value": "Sample Project Webpage"},{"locale_id": "hu_HU",  "value": "Pelda Projekt Weboldal"}]
-      conditions:
-        type: array
-        items:
-          $ref: '#/definitions/TextCondition'
   LocalText:
     type: object
     properties:
@@ -198,16 +200,6 @@ definitions:
       value:
         type: string
         example: Sample Project Webpage
-  TextCondition:
-    type: object
-    required: [ name, value ]
-    properties:
-      name:
-        type: string
-        enum: [ "min_length", "max_length"]
-      value:
-        type: integer
-        example: 15
   File:
     type: object
     properties:

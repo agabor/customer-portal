@@ -6,23 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property integer id
- * @property string text_id
  * @property string name
- * @property integer min_length
- * @property integer max_length
+ * @property integer value
  */
-class Text extends Model
+class Imagecondition extends Model
 {
     public $timestamps = false;
 
-    protected $touches = ['project'];
-
-    public function project(){
-        return $this->belongsTo(Project::class);
-    }
-
-    public function localtexts(){
-        return $this->hasMany(Localtext::class);
+    public function image(){
+        return $this->belongsTo(Image::class);
     }
 
     /**
@@ -31,7 +23,7 @@ class Text extends Model
      * @var array
      */
     protected $fillable = [
-        'min_length', 'max_length',
+        'name', 'value',
     ];
 
     /**
@@ -40,6 +32,6 @@ class Text extends Model
      * @var array
      */
     protected $hidden = [
-        'id', 'project_id'
+        'id', 'image_id'
     ];
 }

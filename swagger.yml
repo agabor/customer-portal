@@ -140,7 +140,7 @@ definitions:
   Image:
     type: object
     properties:
-      id:
+      image_id:
         type: string
         example: facebook_icon
       name:
@@ -154,9 +154,9 @@ definitions:
         type: number
         format: integer
         example: 512
-      url:
+      file_name:
         type: string
-        example: "http://cp.agabor.hu/sample_project/images/facebook_icon/logo.png"
+        example: "logo.png"
       conditions:
         type: array
         items:

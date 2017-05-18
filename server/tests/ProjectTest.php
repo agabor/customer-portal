@@ -13,8 +13,9 @@ class ProjectTest extends TestCase
                 'name' => 'Sample Project',
                 'slug' => 'sample_project'
             ]]);
-         $this->assertEquals(200, $this->response->status());
+        $this->assertEquals(200, $this->response->status());
     }
+
     public function testProjectData()
     {
         $this->json('POST', '/api/v1/login', ['user_name' => 'gabor', 'password' => 'secret']);
@@ -23,7 +24,40 @@ class ProjectTest extends TestCase
         $this->json('GET', '/api/v1/projects/sample_project', array(), array('token' => $actual['jwt']))
             ->seeJsonEquals([
                 'name' => 'Sample Project',
-                'slug' => 'sample_project'
+                'slug' => 'sample_project',
+                'texts' => [[
+                    'name' => 'Webpage Title',
+                    'text_id' => 'webpage_title',
+                    'min_length' => 10,
+                    'max_length' => 20,
+                    'localtexts' => [
+                        [
+                            'locale_id' => 'en_US',
+                            'value' => 'Sample Project Webpage'
+                        ],
+                        [
+                            'locale_id' => 'hu_HU',
+                            'value' => 'Pelda Projekt Weboldal'
+                        ]
+                    ],
+                ]],
+                'images' => [[
+                        'image_id' => 'facebook_icon',
+                        'name' => 'Facebook Icon',
+                        'width' => 500,
+                        'height' => 512,
+                        'file_name' => 'logo.png',
+                        'conditions' => [
+                            [
+                                'name' => 'fix_width',
+                                'value' => 512
+                            ],
+                            [
+                                'name' => 'fix_height',
+                                'value' => 512
+                            ]
+                        ],
+                    ]]
             ]);
         $this->assertEquals(200, $this->response->status());
     }

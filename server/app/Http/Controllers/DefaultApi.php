@@ -104,11 +104,18 @@ class DefaultApi extends Controller
      *
      * @return Http response
      */
-    public function projectsIdGet($id)
+    public function projectsIdGet(string $id)
     {
-        $project = Project::where('slug', $id)->first();
+        $project = $this->getProjectWithSlug($id);
         if ($project == null)
             return response('',404);
+        $project->load(['texts.localtexts', 'images.conditions']);
+        return $project;
+    }
+
+    protected function getProjectWithSlug(string $id) : Project
+    {
+        $project = Project::where('slug', $id)->first();
         return $project;
     }
 }

@@ -26,4 +26,13 @@ class Localtext extends Model
         'locale_id', 'value',
     ];
 
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'id', 'text_id'
+    ];
+
 }

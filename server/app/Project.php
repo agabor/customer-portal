@@ -14,6 +14,9 @@ class Project extends Model
     public function texts(){
         return $this->hasMany(Text::class);
     }
+    public function images(){
+        return $this->hasMany(Image::class);
+    }
     public function project(){
         return $this->belongsTo(Project::class);
     }

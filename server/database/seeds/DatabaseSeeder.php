@@ -31,13 +31,27 @@ class DatabaseSeeder extends Seeder
 
         $p->texts()->save($t);
 
-        $t->localtexts()->saveMany([new \App\Localtext([
-            'locale_id' => 'en_US',
-            'value' => 'Sample Project Webpage'
-        ]),
+        $t->localtexts()->saveMany([
+            new \App\Localtext([
+                'locale_id' => 'en_US',
+                'value' => 'Sample Project Webpage'
+            ]),
             new \App\Localtext([
                 'locale_id' => 'hu_HU',
                 'value' => 'Pelda Projekt Weboldal'
             ])]);
+
+        $i = new \App\Image();
+        $i->image_id = 'facebook_icon';
+        $i->name = 'Facebook Icon';
+        $i->width = 500;
+        $i->height = 512;
+        $i->file_name = 'logo.png';
+        $p->images()->save($i);
+
+        $i->conditions()->saveMany([
+            new \App\Imagecondition(['name' => 'fix_width', 'value' => 512]),
+            new \App\Imagecondition(['name' => 'fix_height', 'value' => 512])
+        ]);
     }
 }

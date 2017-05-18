@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTextsTable extends Migration
+class CreateImagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,13 @@ class CreateTextsTable extends Migration
      */
     public function up()
     {
-        Schema::create('texts', function (Blueprint $table) {
+        Schema::create('images', function (Blueprint $table) {
             $table->increments('id');
+            $table->text('image_id');
             $table->text('name');
-            $table->text('text_id');
-            $table->integer('min_length');
-            $table->integer('max_length');
+            $table->integer('width');
+            $table->integer('height');
+            $table->text('file_name');
             $table->unsignedInteger('project_id')->index();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
         });
@@ -30,6 +31,6 @@ class CreateTextsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('texts');
+        Schema::drop('images');
     }
 }

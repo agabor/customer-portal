@@ -65,6 +65,16 @@ class ProjectTest extends TestCase
                         'file_name' => 'licence.pdf',
                         'max_size' => 10000
                     ]
+                ],
+                'locales' => [
+                    [
+                        'locale_id' => 'en_US',
+                        'name' => 'English'
+                    ],
+                    [
+                        'locale_id' => 'hu_HU',
+                        'name' => 'Hungarian'
+                    ]
                 ]
             ]);
         $this->assertEquals(200, $this->response->status());

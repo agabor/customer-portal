@@ -12,6 +12,7 @@ use JsonSerializable;
  * @property string name
  * @property string file_name
  * @property string extensions
+ * @property array ext
  * @property integer max_size
  */
 class File extends Model
@@ -20,10 +21,6 @@ class File extends Model
 
     protected $touches = ['project'];
     protected $appends = ['ext'];
-
-    public function setExtensions(array $extensions){
-        $this->extensions = json_encode($extensions);
-    }
 
     public function project(){
         return $this->belongsTo(Project::class);
@@ -54,5 +51,11 @@ class File extends Model
     public function getExtAttribute()
     {
         return json_decode($this->extensions);
+    }
+
+
+    public function setExtAttribute($value)
+    {
+        $this->extensions = json_encode($value);
     }
 }

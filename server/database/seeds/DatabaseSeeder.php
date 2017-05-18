@@ -65,7 +65,7 @@ class DatabaseSeeder extends Seeder
         $f->file_id = 'terms_and_conditions';
         $f->name = 'Terms and Conditions';
         $f->file_name = 'licence.pdf';
-        $f->setExtensions(['doc', 'docx', 'pdf']);
+        $f->ext = ['doc', 'docx', 'pdf'];
         $f->max_size = 10000;
         $p->files()->save($f);
 

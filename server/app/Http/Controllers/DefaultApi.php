@@ -15,15 +15,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Auth;
 use App\User;
 use Illuminate\Support\Facades\Request;
 use \Firebase\JWT\JWT;
 
 class DefaultApi extends Controller
 {
-
-    public static $authUser;
-
     /**
      * Constructor
      */
@@ -59,15 +57,15 @@ class DefaultApi extends Controller
 
         $u = User::where('name', $user_name)->first();
 
-
         if ($u == null)
             return response(array('error' => 'user_not_found'), 401);
 
         if (!password_verify($password, $u->password))
             return response(array('error' => 'password_error') , 401);
 
+        Auth::startSession($u);
 
-        return response(array('jwt' => JWT::encode(array('id' => $u->id), env('APP_KEY'))));
+        return response(array('jwt' => Auth::JWT()));
     }
     /**
      * Operation logoutPost
@@ -79,7 +77,10 @@ class DefaultApi extends Controller
      */
     public function logoutPost()
     {
-        return self::$authUser;
+        $user = Auth::user();
+        $user->session_id = null;
+        $user->save();
+        return response('');
     }
     /**
      * Operation projectsGet

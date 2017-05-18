@@ -29,32 +29,31 @@ $app->get('/', function () use ($app) {
  * Notes: Login with username and password. The response contains a JWT.
  * Output-Formats: [application/json]
  */
-$app->POST('/api/v1/login', fqname('loginPost'));
+$app->POST('/api/v1/login', 'DefaultApi@loginPost');
 
 $app->group(['middleware' => 'auth', 'prefix' => '/api/v1/'], function () use ($app) {
+
     /**
      * POST logoutPost
      * Summary:
      * Notes:
      * Output-Formats: [application/json]
      */
-    $app->POST('logout', fqname('logoutPost'));
+    $app->POST('logout', DefaultApi::class . '@logoutPost');
     /**
      * GET projectsGet
      * Summary:
      * Notes: list of projects
      * Output-Formats: [application/json]
      */
-    $app->GET('projects', fqname('projectsGet'));
+    $app->GET('projects', DefaultApi::class . '@projectsGet');
     /**
      * GET projectsIdGet
      * Summary:
      * Notes: project data
      * Output-Formats: [application/json]
      */
-    $app->GET('projects/{id}', fqname('projectsIdGet'));
-});
+    $app->GET('projects/{id}', DefaultApi::class . '@projectsIdGet');
 
-function fqname(String $functionName) : String {
-    return DefaultApi::class . '@' . $functionName;
-}
+
+});

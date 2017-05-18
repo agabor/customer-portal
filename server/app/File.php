@@ -19,6 +19,7 @@ class File extends Model
     public $timestamps = false;
 
     protected $touches = ['project'];
+    protected $appends = ['ext'];
 
     public function setExtensions(array $extensions){
         $this->extensions = json_encode($extensions);
@@ -50,10 +51,8 @@ class File extends Model
         'id', 'project_id', 'extensions'
     ];
 
-    function jsonSerialize()
+    public function getExtAttribute()
     {
-        $arr = parent::jsonSerialize();
-        $arr['ext'] = json_decode($this->extensions);
-        return $arr;
+        return json_decode($this->extensions);
     }
 }

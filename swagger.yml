@@ -194,7 +194,7 @@ definitions:
   LocalText:
     type: object
     properties:
-      locale_id:
+      locale_code:
         type: string
         example: en_US
       value:

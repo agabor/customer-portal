@@ -32,11 +32,11 @@ class ProjectTest extends TestCase
                     'max_length' => 20,
                     'localtexts' => [
                         [
-                            'locale_id' => 'en_US',
+                            'locale_code' => 'en_US',
                             'value' => 'Sample Project Webpage'
                         ],
                         [
-                            'locale_id' => 'hu_HU',
+                            'locale_code' => 'hu_HU',
                             'value' => 'Pelda Projekt Weboldal'
                         ]
                     ],
@@ -63,7 +63,12 @@ class ProjectTest extends TestCase
                         'file_id' => 'terms_and_conditions',
                         'name' => 'Terms and Conditions',
                         'file_name' => 'licence.pdf',
-                        'max_size' => 10000
+                        'max_size' => 10000,
+                        'ext' => [
+                            'doc',
+                            'docx',
+                            'pdf'
+                        ],
                     ]
                 ],
                 'locales' => [

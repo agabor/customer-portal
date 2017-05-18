@@ -31,13 +31,20 @@ class DatabaseSeeder extends Seeder
 
         $p->texts()->save($t);
 
+        $en_US = new \App\Locale(['locale_id' => 'en_US', 'name' => 'English']);
+        $hu_HU = new \App\Locale(['locale_id' => 'hu_HU', 'name' => 'Hungarian']);
+        $p->locales()->saveMany([
+            $en_US,
+            $hu_HU
+        ]);
+
         $t->localtexts()->saveMany([
             new \App\Localtext([
-                'locale_id' => 'en_US',
+                'locale_id' => $en_US->id,
                 'value' => 'Sample Project Webpage'
             ]),
             new \App\Localtext([
-                'locale_id' => 'hu_HU',
+                'locale_id' => $hu_HU->id,
                 'value' => 'Pelda Projekt Weboldal'
             ])]);
 
@@ -62,9 +69,5 @@ class DatabaseSeeder extends Seeder
         $f->max_size = 10000;
         $p->files()->save($f);
 
-        $p->locales()->saveMany([
-            new \App\Locale(['locale_id' => 'en_US',  'name' => 'English']),
-            new \App\Locale(['locale_id' => 'hu_HU',  'name' => 'Hungarian'])
-        ]);
     }
 }

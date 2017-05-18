@@ -12,9 +12,14 @@ use Illuminate\Database\Eloquent\Model;
 class Localtext extends Model
 {
     public $timestamps = false;
+    protected $appends = ['locale_code'];
 
     public function text(){
         return $this->belongsTo(Text::class);
+    }
+
+    public function locale(){
+        return $this->belongsTo(Locale::class);
     }
 
     /**
@@ -32,7 +37,11 @@ class Localtext extends Model
      * @var array
      */
     protected $hidden = [
-        'id', 'text_id'
+        'id', 'text_id', 'locale_id', 'locale'
     ];
 
+    public function getLocaleCodeAttribute()
+    {
+        return $this->locale->locale_id;
+    }
 }

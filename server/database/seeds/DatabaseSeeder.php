@@ -61,5 +61,10 @@ class DatabaseSeeder extends Seeder
         $f->setExtensions(['doc', 'docx', 'pdf']);
         $f->max_size = 10000;
         $p->files()->save($f);
+
+        $p->locales()->saveMany([
+            new \App\Locale(['locale_id' => 'en_US',  'name' => 'English']),
+            new \App\Locale(['locale_id' => 'hu_HU',  'name' => 'Hungarian'])
+        ]);
     }
 }

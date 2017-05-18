@@ -23,8 +23,8 @@ class Project extends Model
         return $this->hasMany(File::class);
     }
 
-    public function project(){
-        return $this->belongsTo(Project::class);
+    public function locales(){
+        return $this->belongsToMany(Locale::class);
     }
 
     /**

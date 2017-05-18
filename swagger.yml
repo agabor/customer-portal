@@ -127,11 +127,11 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/Locale'
-            example: [{"id": "en_US",  "name": "English"},{"id": "hu_HU",  "name": "Hungarian"}]
+            example: [{"locale_id": "en_US",  "name": "English"},{"locale_id": "hu_HU",  "name": "Hungarian"}]
   Locale:
     type: object
     properties:
-      id:
+      locale_id:
         type: string
         example: en_US
       name:
@@ -205,7 +205,7 @@ definitions:
     properties:
       file_id:
         type: string
-        example: terms_and_conditions
+        example: "terms_and_conditions"
       name:
         type: string
         example: "Terms and Conditions"

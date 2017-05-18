@@ -42,22 +42,30 @@ class ProjectTest extends TestCase
                     ],
                 ]],
                 'images' => [[
-                        'image_id' => 'facebook_icon',
-                        'name' => 'Facebook Icon',
-                        'width' => 500,
-                        'height' => 512,
-                        'file_name' => 'logo.png',
-                        'conditions' => [
-                            [
-                                'name' => 'fix_width',
-                                'value' => 512
-                            ],
-                            [
-                                'name' => 'fix_height',
-                                'value' => 512
-                            ]
+                    'image_id' => 'facebook_icon',
+                    'name' => 'Facebook Icon',
+                    'width' => 500,
+                    'height' => 512,
+                    'file_name' => 'logo.png',
+                    'conditions' => [
+                        [
+                            'name' => 'fix_width',
+                            'value' => 512
                         ],
-                    ]]
+                        [
+                            'name' => 'fix_height',
+                            'value' => 512
+                        ]
+                    ],
+                ]],
+                'files' => [
+                    [
+                        'file_id' => 'terms_and_conditions',
+                        'name' => 'Terms and Conditions',
+                        'file_name' => 'licence.pdf',
+                        'max_size' => 10000
+                    ]
+                ]
             ]);
         $this->assertEquals(200, $this->response->status());
     }

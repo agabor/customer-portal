@@ -53,5 +53,13 @@ class DatabaseSeeder extends Seeder
             new \App\Imagecondition(['name' => 'fix_width', 'value' => 512]),
             new \App\Imagecondition(['name' => 'fix_height', 'value' => 512])
         ]);
+
+        $f = new \App\File();
+        $f->file_id = 'terms_and_conditions';
+        $f->name = 'Terms and Conditions';
+        $f->file_name = 'licence.pdf';
+        $f->setExtensions(['doc', 'docx', 'pdf']);
+        $f->max_size = 10000;
+        $p->files()->save($f);
     }
 }

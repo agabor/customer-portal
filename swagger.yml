@@ -203,15 +203,15 @@ definitions:
   File:
     type: object
     properties:
-      id:
+      file_id:
         type: string
         example: terms_and_conditions
       name:
         type: string
         example: "Terms and Conditions"
-      url:
+      file_name:
         type: string
-        example: "http://cp.agabor.hu/sample_project/files/terms_and_conditions/licence.pdf"
+        example: "licence.pdf"
       ext:
         type: array
         description: allowed file extensions

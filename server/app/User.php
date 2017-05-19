@@ -19,13 +19,18 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
  * @property string name
  * @property string email
  * @property string password
- * @property string session_id
+ * @property \Carbon\Carbon created_at
+ * @property \Carbon\Carbon updated_at
  */
 class User extends Model implements
     AuthenticatableContract,
     AuthorizableContract
 {
     use Authenticatable, Authorizable;
+
+    public function sessions(){
+        return $this->hasMany(Session::class);
+    }
 
     /**
      * The attributes that are mass assignable.

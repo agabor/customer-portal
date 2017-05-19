@@ -78,9 +78,7 @@ class DefaultApi extends Controller
      */
     public function logoutPost()
     {
-        $user = Auth::user();
-        $user->session_id = null;
-        $user->save();
+        Auth::logout();
         return response('');
     }
     /**

@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer id
  * @property string name
  * @property string slug
+ * @property \Carbon\Carbon created_at
+ * @property \Carbon\Carbon updated_at
  */
 class Project extends Model
 {
@@ -21,6 +23,7 @@ class Project extends Model
 
     public function files(){
         return $this->hasMany(File::class);
+
     }
 
     public function locales(){

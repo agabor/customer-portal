@@ -14,6 +14,8 @@ class ProjectTest extends TestCase
                 'slug' => 'sample_project'
             ]]);
         $this->assertEquals(200, $this->response->status());
+        $this->post('/api/v1/logout',array(), array('token' => $actual['jwt']));
+        $this->assertEquals(200, $this->response->status());
     }
 
     public function testProjectData()
@@ -82,6 +84,8 @@ class ProjectTest extends TestCase
                     ]
                 ]
             ]);
+        $this->assertEquals(200, $this->response->status());
+        $this->post('/api/v1/logout',array(), array('token' => $actual['jwt']));
         $this->assertEquals(200, $this->response->status());
     }
 }

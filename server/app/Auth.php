@@ -13,26 +13,33 @@ use Firebase\JWT\JWT;
 
 class Auth
 {
+    /**
+     * @var User
+     */
     static private $user;
 
-    public static function login(User $user){
-        self::$user = $user;
-    }
+    /**
+     * @var Session
+     */
+    static private $session;
 
-    public static function user() : User{
+
+    public static function user() : User
+    {
         return self::$user;
     }
 
     public static function startSession(User $user)
     {
         self::$user = $user;
-        $user->session_id = uniqid();
-        $user->save();
+        self::$session = new Session();
+        self::$session->session_id = uniqid();
+        self::$user->sessions()->save(self::$session);
     }
 
     public static function JWT() : string
     {
-        return JWT::encode(array('id' => self::$user ->id, 'session_id' => self::$user ->session_id), env('APP_KEY'));
+        return JWT::encode(array('session_id' => self::$session->session_id), env('APP_KEY'));
     }
 
     public static function tryLogin($token) : bool
@@ -44,10 +51,23 @@ class Auth
         if ($decoded == null )
             return false;
 
-        $u = User::find($decoded->id);
-        if ($u == null || !isset($decoded->session_id) || $u->session_id != $decoded->session_id)
+        if(!isset($decoded->session_id))
             return false;
-        self::login($u);
+
+        self::$session = Session::where('session_id', $decoded->session_id)->first();
+        if (self::$session == null)
+            return false;
+        self::$user = self::$session->user;
+
+        self::$session->touch();
+
         return true;
+    }
+
+    public static function logout()
+    {
+        self::$session->delete();
+        self::$session = null;
+        self::$user = null;
     }
 }

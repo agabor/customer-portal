@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {Presenter} from "./presenter";
+import {MenuItem} from "./menu-item";
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
+  menuItems: MenuItem[] = null;
+
+  constructor (private presenter: Presenter) {
+    this.menuItems = presenter.activeMenuItems();
+    presenter.setAppComponent(this);
+  }
 }

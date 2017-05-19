@@ -9,17 +9,20 @@ import { AppComponent } from './app.component';
 import { LoginFormComponent } from './login-form.component'
 import {Presenter} from "./presenter";
 import {ProjectListComponent} from "./project-list.component";
+import {HomeComponent} from "./home.component";
 
 const appRoutes: Routes = [
-  { path: 'login',      component: LoginFormComponent },
-  { path: 'projects',      component: ProjectListComponent }
+  { path: '',         component: HomeComponent },
+  { path: 'login',    component: LoginFormComponent },
+  { path: 'projects', component: ProjectListComponent }
   ];
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginFormComponent,
-    ProjectListComponent
+    ProjectListComponent,
+    HomeComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

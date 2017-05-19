@@ -1,6 +1,5 @@
 <h1>Customer Portal</h1>
 <nav>
-  <a routerLink="/login" routerLinkActive="active">Login</a>
-  <a routerLink="/" routerLinkActive="active">Home</a>
+  <a *ngFor="let item of menuItems" routerLink="/{{item.path}}" routerLinkActive="active">{{item.name}}</a>
 </nav>
 <router-outlet></router-outlet>

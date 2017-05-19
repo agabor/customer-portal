@@ -66,4 +66,8 @@ export class Presenter {
     setAppComponent(appComponent: AppComponent) {
         this.appComponent = appComponent;
     }
+
+    isLoggedIn() {
+        return this.jwt != null;
+    }
 }

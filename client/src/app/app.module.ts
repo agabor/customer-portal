@@ -10,11 +10,12 @@ import { LoginFormComponent } from './login-form.component'
 import {Presenter} from "./presenter";
 import {ProjectListComponent} from "./project-list.component";
 import {HomeComponent} from "./home.component";
+import {AuthGuard} from "./authguard";
 
 const appRoutes: Routes = [
   { path: '',         component: HomeComponent },
   { path: 'login',    component: LoginFormComponent },
-  { path: 'projects', component: ProjectListComponent }
+  { path: 'projects', component: ProjectListComponent, canActivate: [AuthGuard]}
   ];
 
 @NgModule({
@@ -30,7 +31,7 @@ const appRoutes: Routes = [
     FormsModule,
     HttpModule
   ],
-  providers: [Presenter],
+  providers: [Presenter, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

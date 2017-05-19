@@ -1,6 +1,6 @@
 <div class="container">
     <h1>Login Form</h1>
-    <form #loginForm="ngForm">
+    <form  (ngSubmit)="onSubmit()"  #loginForm="ngForm">
         {{diagnostic}}
         <div class="form-group">
             <label for="name">Name</label>
@@ -20,6 +20,6 @@
                 Password is required
             </div>
         </div>
-        <button type="submit" class="btn btn-success">Submit</button>
+        <button type="submit" class="btn btn-success" [disabled]="!loginForm.form.valid">Submit</button>
     </form>
 </div>

@@ -23,15 +23,18 @@ $app->get('/', function () use ($app) {
     return $app->version();
 });
 
-/**
- * POST loginPost
- * Summary:
- * Notes: Login with username and password. The response contains a JWT.
- * Output-Formats: [application/json]
- */
-$app->POST('/api/v1/login', 'DefaultApi@loginPost');
 
-$app->group(['middleware' => 'auth', 'prefix' => '/api/v1/'], function () use ($app) {
+$app->group(['middleware' => 'cors', 'prefix' => '/api/v1/'], function () use ($app) {
+    /**
+     * POST loginPost
+     * Summary:
+     * Notes: Login with username and password. The response contains a JWT.
+     * Output-Formats: [application/json]
+     */
+    $app->POST('login', DefaultApi::class . '@loginPost');
+});
+
+$app->group(['middleware' => ['auth', 'cors'], 'prefix' => '/api/v1/'], function () use ($app) {
 
     /**
      * POST logoutPost
@@ -40,6 +43,7 @@ $app->group(['middleware' => 'auth', 'prefix' => '/api/v1/'], function () use ($
      * Output-Formats: [application/json]
      */
     $app->POST('logout', DefaultApi::class . '@logoutPost');
+
     /**
      * GET projectsGet
      * Summary:
@@ -47,6 +51,7 @@ $app->group(['middleware' => 'auth', 'prefix' => '/api/v1/'], function () use ($
      * Output-Formats: [application/json]
      */
     $app->GET('projects', DefaultApi::class . '@projectsGet');
+
     /**
      * GET projectsIdGet
      * Summary:

@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         $p = new \App\Project();
         $p->name = 'Sample Project';
         $p->slug = 'sample_project';
-        $p->save();
+        $u->projects()->save($p);
 
         $t = new \App\Text();
 

@@ -91,7 +91,7 @@ class DefaultApi extends Controller
      */
     public function projectsGet()
     {
-        return Project::all();
+        return response(Auth::user()->projects);
     }
     /**
      * Operation projectsIdGet

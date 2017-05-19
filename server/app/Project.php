@@ -30,6 +30,10 @@ class Project extends Model
         return $this->belongsToMany(Locale::class);
     }
 
+    public function users(){
+        return $this->belongsToMany(User::class);
+    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -45,6 +49,6 @@ class Project extends Model
      * @var array
      */
     protected $hidden = [
-        'created_at', 'updated_at', 'id'
+        'created_at', 'updated_at', 'id', 'pivot'
     ];
 }

@@ -28,8 +28,14 @@ class User extends Model implements
 {
     use Authenticatable, Authorizable;
 
-    public function sessions(){
+    public function sessions()
+    {
         return $this->hasMany(Session::class);
+    }
+
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class);
     }
 
     /**

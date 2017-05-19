@@ -7,15 +7,19 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { LoginFormComponent } from './login-form.component'
+import {Presenter} from "./presenter";
+import {ProjectListComponent} from "./project-list.component";
 
 const appRoutes: Routes = [
-  { path: 'login',      component: LoginFormComponent }
+  { path: 'login',      component: LoginFormComponent },
+  { path: 'projects',      component: ProjectListComponent }
   ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginFormComponent
+    LoginFormComponent,
+    ProjectListComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -23,7 +27,7 @@ const appRoutes: Routes = [
     FormsModule,
     HttpModule
   ],
-  providers: [],
+  providers: [Presenter],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

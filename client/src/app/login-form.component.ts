@@ -6,8 +6,7 @@ import {Presenter} from "./presenter";
 @Component({
     selector: 'login-form',
     templateUrl: './login-form.component.html',
-    styleUrls: ['./login-form.component.css'],
-    providers: [Presenter]
+    styleUrls: ['./login-form.component.css']
 })
 export class LoginFormComponent {
 
@@ -17,8 +16,6 @@ export class LoginFormComponent {
     model = new LoginData('', '');
 
     submitted = false;
-
-    self = this;
 
     onSubmit() {
         this.submitted = true;

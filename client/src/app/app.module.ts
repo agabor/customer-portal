@@ -11,6 +11,7 @@ import {Presenter} from "./presenter";
 import {ProjectListComponent} from "./project-list.component";
 import {HomeComponent} from "./home.component";
 import {AuthGuard} from "./authguard";
+import {DefaultApi} from "../swagger/api/DefaultApi";
 
 const appRoutes: Routes = [
   { path: '',         component: HomeComponent },
@@ -31,7 +32,7 @@ const appRoutes: Routes = [
     FormsModule,
     HttpModule
   ],
-  providers: [Presenter, AuthGuard],
+  providers: [Presenter, AuthGuard, DefaultApi],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

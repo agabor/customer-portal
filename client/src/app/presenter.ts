@@ -6,17 +6,19 @@ import {Router} from "@angular/router";
 import {Menu} from "./menu";
 import {MenuItem} from "./menu-item";
 import {AppComponent} from "./app.component";
+import {DefaultApi} from "../swagger/api/DefaultApi";
+import {ProjectBase} from "../swagger/model/ProjectBase";
 
 @Injectable()
 export class Presenter {
-    constructor (private http: Http, private router: Router) {
+    constructor (private api: DefaultApi, private router: Router) {
         this.menu.add(new MenuItem('Home', '', true));
         this.menu.add(new MenuItem('Login', 'login', true));
         this.menu.add(new MenuItem('Projects', 'projects', false));
     }
 
     jwt = null;
-    projects = null;
+    projects: ProjectBase[] = null;
     menu: Menu = new Menu();
     appComponent: AppComponent = null;
 
@@ -25,31 +27,29 @@ export class Presenter {
         data.append('user_name', model.name);
         data.append('password', model.password);
 
-        this.http
-            .post('http://localhost:8000/api/v1/login', data)
-            .subscribe(data => {
-                this.jwt = data.json().jwt;
-                this.loadProjects();
-                this.menu.deactivate('login');
-                this.menu.activate('projects');
-                this.appComponent.menuItems = this.activeMenuItems();
-            }, error => {
-                console.log(error.json());
-            });
+        let res= this.api.loginPost(model.name, model.password);
+        res.subscribe(data => {
+            this.jwt = data.jwt;
+            this.loadProjects();
+            this.menu.deactivate('login');
+            this.menu.activate('projects');
+            this.appComponent.menuItems = this.activeMenuItems();
+        }, error => {
+            console.log(error.json());
+        });
     }
 
     loadProjects() {
         let headers = new Headers({ 'token': this.jwt });
         let options = new RequestOptions({ headers: headers });
 
-        this.http
-            .get('http://localhost:8000/api/v1/projects',options)
-            .subscribe(data => {
-                this.projects = data.json();
-                this.router.navigate(['/projects']);
-            }, error => {
-                console.log(error.json());
-            });
+        let res = this.api.projectsGet(this.jwt);
+        res.subscribe(data => {
+            this.projects = data;
+            this.router.navigate(['/projects']);
+        }, error => {
+            console.log(error.json());
+        });
     }
 
     activeMenuItems() : MenuItem[] {

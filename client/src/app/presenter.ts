@@ -7,6 +7,7 @@ import {AppComponent} from "./components/app.component";
 import {DefaultApi} from "../swagger/api/DefaultApi";
 import {ProjectBase} from "../swagger/model/ProjectBase";
 import {ProjectListComponent} from "./components/project-list.component";
+import {LoginFormComponent} from "./components/login-form.component";
 
 @Injectable()
 export class Presenter {
@@ -16,9 +17,10 @@ export class Presenter {
     menu: Menu = new Menu();
     appComponent: AppComponent = null;
     private projectListComponent: ProjectListComponent;
+    private loginFormComponent: LoginFormComponent;
 
     constructor (private api: DefaultApi, private router: Router) {
-        this.menu.add(new MenuItem('Home', '', true));
+        this.menu.add(new MenuItem('Home', 'home', true));
         this.menu.add(new MenuItem('Login', 'login', true));
         this.menu.add(new MenuItem('Projects', 'projects', false));
         this.menu.add(new MenuItem('Logout', 'logout', false));
@@ -42,7 +44,10 @@ export class Presenter {
             this.router.navigate(['/projects']);
             this.setLoggedInMenu();
         }, error => {
-            console.log(error.json());
+            if (error.json().error == 'user_not_found')
+                this.loginFormComponent.showUserError();
+            else
+                this.loginFormComponent.showPasswordError();
         });
     }
 
@@ -106,5 +111,9 @@ export class Presenter {
         this.jwt = null;
         localStorage.removeItem('jwt');
         this.setLoggedOutMenu();
+    }
+
+    setLoginFormComponent(loginFormComponent: LoginFormComponent) {
+        this.loginFormComponent = loginFormComponent;
     }
 }

@@ -15,9 +15,10 @@ import {DefaultApi} from "../swagger/api/DefaultApi";
 import {LogoutGuard} from "./guards/logoutguard";
 
 const appRoutes: Routes = [
-  { path: '',         component: HomeComponent },
+  { path: '',         redirectTo: 'home', pathMatch: 'full' },
+  { path: 'home',     component: HomeComponent },
   { path: 'login',    component: LoginFormComponent },
-  { path: 'logout',    component: LoginFormComponent, canActivate: [LogoutGuard] },
+  { path: 'logout',   component: LoginFormComponent, canActivate: [LogoutGuard] },
   { path: 'projects', component: ProjectListComponent, canActivate: [AuthGuard]}
   ];
 

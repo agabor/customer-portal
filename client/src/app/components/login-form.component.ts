@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { LoginData }    from '../login-data';
 import {Presenter} from "../presenter";
 
@@ -10,15 +9,28 @@ import {Presenter} from "../presenter";
 })
 export class LoginFormComponent {
 
-
-    constructor (private presenter: Presenter) {}
-
     model = new LoginData('', '');
-
     submitted = false;
+    passwordError = false;
+    userError = false;
+
+    constructor (private presenter: Presenter) {
+        presenter.setLoginFormComponent(this);
+    }
+
 
     onSubmit() {
         this.submitted = true;
+        this.userError = false;
+        this.passwordError = false;
         this.presenter.login(this.model);
+    }
+
+    showUserError() {
+        this.userError = true;
+    }
+
+    showPasswordError() {
+        this.passwordError = true;
     }
 }

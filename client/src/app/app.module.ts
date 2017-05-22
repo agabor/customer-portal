@@ -10,12 +10,14 @@ import { LoginFormComponent } from './login-form.component'
 import {Presenter} from "./presenter";
 import {ProjectListComponent} from "./project-list.component";
 import {HomeComponent} from "./home.component";
-import {AuthGuard} from "./authguard";
+import {AuthGuard} from "./guards/authguard";
 import {DefaultApi} from "../swagger/api/DefaultApi";
+import {LogoutGuard} from "./guards/logoutguard";
 
 const appRoutes: Routes = [
   { path: '',         component: HomeComponent },
   { path: 'login',    component: LoginFormComponent },
+  { path: 'logout',    component: LoginFormComponent, canActivate: [LogoutGuard] },
   { path: 'projects', component: ProjectListComponent, canActivate: [AuthGuard]}
   ];
 
@@ -32,7 +34,7 @@ const appRoutes: Routes = [
     FormsModule,
     HttpModule
   ],
-  providers: [Presenter, AuthGuard, DefaultApi],
+  providers: [Presenter, AuthGuard, LogoutGuard, DefaultApi],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

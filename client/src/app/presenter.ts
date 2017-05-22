@@ -1,5 +1,3 @@
-
-import {URLSearchParams, Http, Headers, RequestOptions} from "@angular/http"
 import {LoginData} from "./login-data";
 import {Injectable} from "@angular/core";
 import {Router} from "@angular/router";
@@ -8,19 +6,28 @@ import {MenuItem} from "./menu-item";
 import {AppComponent} from "./app.component";
 import {DefaultApi} from "../swagger/api/DefaultApi";
 import {ProjectBase} from "../swagger/model/ProjectBase";
+import {ProjectListComponent} from "./project-list.component";
 
 @Injectable()
 export class Presenter {
+
+    jwt:string = null;
+    projects: ProjectBase[] = null;
+    menu: Menu = new Menu();
+    appComponent: AppComponent = null;
+    private projectListComponent: ProjectListComponent;
+
     constructor (private api: DefaultApi, private router: Router) {
         this.menu.add(new MenuItem('Home', '', true));
         this.menu.add(new MenuItem('Login', 'login', true));
         this.menu.add(new MenuItem('Projects', 'projects', false));
+        this.menu.add(new MenuItem('Logout', 'logout', false));
+        this.jwt = localStorage.getItem('jwt');
+        if (this.jwt != null) {
+            this.setLoggedInMenu();
+            this.loadProjects();
+        }
     }
-
-    jwt = null;
-    projects: ProjectBase[] = null;
-    menu: Menu = new Menu();
-    appComponent: AppComponent = null;
 
     login(model: LoginData){
         let data = new URLSearchParams();
@@ -30,23 +37,36 @@ export class Presenter {
         let res= this.api.loginPost(model.name, model.password);
         res.subscribe(data => {
             this.jwt = data.jwt;
+            localStorage.setItem('jwt', data.jwt);
             this.loadProjects();
-            this.menu.deactivate('login');
-            this.menu.activate('projects');
-            this.appComponent.menuItems = this.activeMenuItems();
+            this.router.navigate(['/projects']);
+            this.setLoggedInMenu();
         }, error => {
             console.log(error.json());
         });
     }
 
-    loadProjects() {
-        let headers = new Headers({ 'token': this.jwt });
-        let options = new RequestOptions({ headers: headers });
+    private setLoggedInMenu() {
+        this.menu.deactivate('login');
+        this.menu.activate('projects');
+        this.menu.activate('logout');
+        if (this.appComponent != null)
+            this.appComponent.menuItems = this.activeMenuItems();
+    }
 
+    private setLoggedOutMenu() {
+        this.menu.activate('login');
+        this.menu.deactivate('projects');
+        this.menu.deactivate('logout');
+        if (this.appComponent != null)
+            this.appComponent.menuItems = this.activeMenuItems();
+    }
+
+    loadProjects() {
         let res = this.api.projectsGet(this.jwt);
         res.subscribe(data => {
             this.projects = data;
-            this.router.navigate(['/projects']);
+            this.setProjects();
         }, error => {
             console.log(error.json());
         });
@@ -65,9 +85,26 @@ export class Presenter {
 
     setAppComponent(appComponent: AppComponent) {
         this.appComponent = appComponent;
+        this.appComponent.menuItems = this.activeMenuItems();
     }
 
     isLoggedIn() {
         return this.jwt != null;
+    }
+
+    setProjectListComponent(projectListComponent: ProjectListComponent) {
+        this.projectListComponent = projectListComponent;
+        this.setProjects();
+    }
+
+    private setProjects() {
+        if (this.projectListComponent != null)
+        this.projectListComponent.projects = this.projects;
+    }
+
+    logout() {
+        this.jwt = null;
+        localStorage.removeItem('jwt');
+        this.setLoggedOutMenu();
     }
 }

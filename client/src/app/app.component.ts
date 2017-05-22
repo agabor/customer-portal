@@ -12,7 +12,6 @@ export class AppComponent {
   menuItems: MenuItem[] = null;
 
   constructor (private presenter: Presenter) {
-    this.menuItems = presenter.activeMenuItems();
     presenter.setAppComponent(this);
   }
 }

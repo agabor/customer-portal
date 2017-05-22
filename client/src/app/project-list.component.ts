@@ -10,7 +10,7 @@ export class ProjectListComponent {
     projects = null;
 
     constructor (private presenter: Presenter) {
-        this.projects = presenter.projects;
+        presenter.setProjectListComponent(this);
     }
 
 }

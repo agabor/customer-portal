@@ -108,9 +108,11 @@ export class Presenter {
     }
 
     logout() {
+        let jwt = this.jwt;
         this.jwt = null;
         localStorage.removeItem('jwt');
         this.setLoggedOutMenu();
+        this.api.logoutPost(jwt);
     }
 
     setLoginFormComponent(loginFormComponent: LoginFormComponent) {

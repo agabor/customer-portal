@@ -1,6 +1,6 @@
-<h2>Projects</h2>
-<ul>
-    <li *ngFor="let project of projects" [value]="project">
+<h1>Projects</h1>
+<ul class="list-group">
+    <li class="list-group-item" *ngFor="let project of projects" [value]="project">
         {{project.name}}
     </li>
 </ul>

@@ -3,10 +3,10 @@ import {Injectable} from "@angular/core";
 import {Router} from "@angular/router";
 import {Menu} from "./menu";
 import {MenuItem} from "./menu-item";
-import {AppComponent} from "./app.component";
+import {AppComponent} from "./components/app.component";
 import {DefaultApi} from "../swagger/api/DefaultApi";
 import {ProjectBase} from "../swagger/model/ProjectBase";
-import {ProjectListComponent} from "./project-list.component";
+import {ProjectListComponent} from "./components/project-list.component";
 
 @Injectable()
 export class Presenter {

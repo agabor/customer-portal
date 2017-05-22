@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
-import { LoginData }    from './login-data';
-import {Presenter} from "./presenter";
+import { LoginData }    from '../login-data';
+import {Presenter} from "../presenter";
 
 @Component({
     selector: 'login-form',

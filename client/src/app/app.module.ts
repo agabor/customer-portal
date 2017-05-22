@@ -5,11 +5,11 @@ import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 
 
-import { AppComponent } from './app.component';
-import { LoginFormComponent } from './login-form.component'
+import { AppComponent } from './components/app.component';
+import { LoginFormComponent } from './components/login-form.component'
 import {Presenter} from "./presenter";
-import {ProjectListComponent} from "./project-list.component";
-import {HomeComponent} from "./home.component";
+import {ProjectListComponent} from "./components/project-list.component";
+import {HomeComponent} from "./components/home.component";
 import {AuthGuard} from "./guards/authguard";
 import {DefaultApi} from "../swagger/api/DefaultApi";
 import {LogoutGuard} from "./guards/logoutguard";

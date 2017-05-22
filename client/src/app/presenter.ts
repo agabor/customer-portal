@@ -118,4 +118,12 @@ export class Presenter {
     setLoginFormComponent(loginFormComponent: LoginFormComponent) {
         this.loginFormComponent = loginFormComponent;
     }
+
+    getProject(slug: string):ProjectBase {
+      for( let p of this.projects){
+          if (p.slug == slug)
+              return p;
+      }
+      return null;
+    }
 }

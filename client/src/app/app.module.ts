@@ -13,13 +13,15 @@ import {HomeComponent} from "./components/home.component";
 import {AuthGuard} from "./guards/authguard";
 import {DefaultApi} from "../swagger/api/DefaultApi";
 import {LogoutGuard} from "./guards/logoutguard";
+import {ProjectComponent} from "./components/project.component";
 
 const appRoutes: Routes = [
   { path: '',         redirectTo: 'home', pathMatch: 'full' },
   { path: 'home',     component: HomeComponent },
   { path: 'login',    component: LoginFormComponent },
   { path: 'logout',   component: LoginFormComponent, canActivate: [LogoutGuard] },
-  { path: 'projects', component: ProjectListComponent, canActivate: [AuthGuard]}
+  { path: 'projects', component: ProjectListComponent, canActivate: [AuthGuard]},
+  { path: 'projects/:slug', component: ProjectComponent, canActivate: [AuthGuard]}
   ];
 
 @NgModule({
@@ -27,6 +29,7 @@ const appRoutes: Routes = [
     AppComponent,
     LoginFormComponent,
     ProjectListComponent,
+    ProjectComponent,
     HomeComponent
   ],
   imports: [

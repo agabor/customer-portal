@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Presenter } from "../presenter";
 
 @Component({
-    selector: 'project-list',
     templateUrl: './project-list.component.html'
 })
 export class ProjectListComponent {

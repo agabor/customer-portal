@@ -14,6 +14,7 @@ import {AuthGuard} from "./guards/authguard";
 import {DefaultApi} from "../swagger/api/DefaultApi";
 import {LogoutGuard} from "./guards/logoutguard";
 import {ProjectComponent} from "./components/project.component";
+import {MenuComponent} from "./components/menu.component";
 
 const appRoutes: Routes = [
   { path: '',         redirectTo: 'home', pathMatch: 'full' },
@@ -30,7 +31,8 @@ const appRoutes: Routes = [
     LoginFormComponent,
     ProjectListComponent,
     ProjectComponent,
-    HomeComponent
+    HomeComponent,
+    MenuComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -39,6 +41,6 @@ const appRoutes: Routes = [
     HttpModule
   ],
   providers: [Presenter, AuthGuard, LogoutGuard, DefaultApi],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent, MenuComponent]
 })
 export class AppModule { }

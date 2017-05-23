@@ -9,6 +9,7 @@ import {ProjectBase} from "../swagger/model/ProjectBase";
 import {ProjectListComponent} from "./components/project-list.component";
 import {LoginFormComponent} from "./components/login-form.component";
 import {ProjectComponent} from "./components/project.component";
+import {MenuComponent} from "./components/menu.component";
 
 @Injectable()
 export class Presenter {
@@ -21,6 +22,7 @@ export class Presenter {
     private loginFormComponent: LoginFormComponent;
     private projectComponent: ProjectComponent;
     private activeProjectSlug: string;
+    private menuComponent: MenuComponent;
 
     constructor (private api: DefaultApi, private router: Router) {
         this.menu.add(new MenuItem('Home', 'home', true));
@@ -58,16 +60,16 @@ export class Presenter {
         this.menu.deactivate('login');
         this.menu.activate('projects');
         this.menu.activate('logout');
-        if (this.appComponent != null)
-            this.appComponent.menuItems = this.activeMenuItems();
+        if (this.menuComponent != null)
+            this.menuComponent.menuItems = this.activeMenuItems();
     }
 
     private setLoggedOutMenu() {
         this.menu.activate('login');
         this.menu.deactivate('projects');
         this.menu.deactivate('logout');
-        if (this.appComponent != null)
-            this.appComponent.menuItems = this.activeMenuItems();
+        if (this.menuComponent != null)
+            this.menuComponent.menuItems = this.activeMenuItems();
     }
 
     loadProjects() {
@@ -94,7 +96,6 @@ export class Presenter {
 
     setAppComponent(appComponent: AppComponent) {
         this.appComponent = appComponent;
-        this.appComponent.menuItems = this.activeMenuItems();
     }
 
     isLoggedIn() {
@@ -147,5 +148,10 @@ export class Presenter {
     private setActiveProject() {
         if (this.projectComponent != null)
             this.projectComponent.project = this.getProject(this.activeProjectSlug);
+    }
+
+    setMenuComponent(menuComponent: MenuComponent) {
+        this.menuComponent = menuComponent;
+        this.menuComponent.menuItems = this.activeMenuItems();
     }
 }

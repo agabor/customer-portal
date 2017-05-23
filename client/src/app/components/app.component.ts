@@ -9,8 +9,6 @@ import {MenuItem} from "../menu-item";
 })
 export class AppComponent {
 
-  menuItems: MenuItem[] = null;
-
   constructor (private presenter: Presenter) {
     presenter.setAppComponent(this);
   }

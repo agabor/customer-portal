@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string name
  * @property integer width
  * @property integer height
+ * @property integer preferredWidth
+ * @property integer preferredHeight
  * @property string file_name
  */
 class Image extends Model

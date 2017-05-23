@@ -18,6 +18,8 @@ class CreateImagesTable extends Migration
             $table->text('name');
             $table->integer('width');
             $table->integer('height');
+            $table->integer('preferredWidth');
+            $table->integer('preferredHeight');
             $table->text('file_name');
             $table->unsignedInteger('project_id')->index();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');

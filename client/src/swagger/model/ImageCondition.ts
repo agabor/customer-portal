@@ -20,8 +20,6 @@ export interface ImageCondition {
 }
 export namespace ImageCondition {
     export enum NameEnum {
-        FixWidth = <any> 'fix_width',
-        FixHeight = <any> 'fix_height',
         MinWidth = <any> 'min_width',
         MaxWidth = <any> 'max_width',
         MinHeight = <any> 'min_height',

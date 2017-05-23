@@ -20,8 +20,6 @@ export interface InlineResponse2002Conditions {
 }
 export namespace InlineResponse2002Conditions {
     export enum NameEnum {
-        FixWidth = <any> 'fix_width',
-        FixHeight = <any> 'fix_height',
         MinWidth = <any> 'min_width',
         MaxWidth = <any> 'max_width',
         MinHeight = <any> 'min_height',

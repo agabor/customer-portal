@@ -154,6 +154,14 @@ definitions:
         type: number
         format: integer
         example: 512
+      preferredWidth:
+        type: number
+        format: integer
+        example: 500
+      preferredHeight:
+        type: number
+        format: integer
+        example: 512
       file_name:
         type: string
         example: "logo.png"
@@ -168,7 +176,7 @@ definitions:
     properties:
       name:
         type: string
-        enum: ["fix_width", "fix_height", "min_width", "max_width", "min_height", "max_height"]
+        enum: ["min_width", "max_width", "min_height", "max_height"]
       value:
         type: integer
   Text:

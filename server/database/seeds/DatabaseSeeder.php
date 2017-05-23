@@ -53,13 +53,10 @@ class DatabaseSeeder extends Seeder
         $i->name = 'Facebook Icon';
         $i->width = 500;
         $i->height = 512;
+        $i->preferredWidth = 512;
+        $i->preferredHeight = 512;
         $i->file_name = 'logo.png';
         $p->images()->save($i);
-
-        $i->conditions()->saveMany([
-            new \App\Imagecondition(['name' => 'fix_width', 'value' => 512]),
-            new \App\Imagecondition(['name' => 'fix_height', 'value' => 512])
-        ]);
 
         $f = new \App\File();
         $f->file_id = 'terms_and_conditions';

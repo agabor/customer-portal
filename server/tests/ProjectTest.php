@@ -48,17 +48,10 @@ class ProjectTest extends TestCase
                     'name' => 'Facebook Icon',
                     'width' => 500,
                     'height' => 512,
+                    'preferredWidth' => 512,
+                    'preferredHeight' => 512,
                     'file_name' => 'logo.png',
-                    'conditions' => [
-                        [
-                            'name' => 'fix_width',
-                            'value' => 512
-                        ],
-                        [
-                            'name' => 'fix_height',
-                            'value' => 512
-                        ]
-                    ],
+                    'conditions' => []
                 ]],
                 'files' => [
                     [

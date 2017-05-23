@@ -21,6 +21,10 @@ export interface Image {
 
     height?: number;
 
+    preferredWidth?: number;
+
+    preferredHeight?: number;
+
     fileName?: string;
 
     conditions?: Array<models.InlineResponse2002Conditions>;

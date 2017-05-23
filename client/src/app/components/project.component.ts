@@ -8,11 +8,12 @@ import {ProjectBase} from "../../swagger/model/ProjectBase";
 })
 export class ProjectComponent {
 
-    project:ProjectBase;
+    project: ProjectBase = {name: ''};
 
-    constructor (private route: ActivatedRoute,private presenter: Presenter) {
-        let slug:string = route.snapshot.params['slug'];
-        this.project = presenter.getProject(slug);
+    constructor(private route: ActivatedRoute, private presenter: Presenter) {
+        let slug: string = route.snapshot.params['slug'];
+        presenter.setProjectComponent(this);
+        presenter.setActiveProjectSlug(slug);
     }
 
 }

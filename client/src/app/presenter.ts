@@ -8,6 +8,7 @@ import {DefaultApi} from "../swagger/api/DefaultApi";
 import {ProjectBase} from "../swagger/model/ProjectBase";
 import {ProjectListComponent} from "./components/project-list.component";
 import {LoginFormComponent} from "./components/login-form.component";
+import {ProjectComponent} from "./components/project.component";
 
 @Injectable()
 export class Presenter {
@@ -18,6 +19,8 @@ export class Presenter {
     appComponent: AppComponent = null;
     private projectListComponent: ProjectListComponent;
     private loginFormComponent: LoginFormComponent;
+    private projectComponent: ProjectComponent;
+    private activeProjectSlug: string;
 
     constructor (private api: DefaultApi, private router: Router) {
         this.menu.add(new MenuItem('Home', 'home', true));
@@ -72,6 +75,7 @@ export class Presenter {
         res.subscribe(data => {
             this.projects = data;
             this.setProjects();
+            this.setActiveProject();
         }, error => {
             console.log(error.json());
         });
@@ -125,5 +129,23 @@ export class Presenter {
               return p;
       }
       return null;
+    }
+
+    setProjectComponent(projectComponent: ProjectComponent) {
+        this.projectComponent = projectComponent;
+    }
+
+    setActiveProjectSlug(slug: string) {
+        this.activeProjectSlug = slug;
+        if (this.projects != null) {
+            this.setActiveProject();
+        } else {
+            this.loadProjects()
+        }
+    }
+
+    private setActiveProject() {
+        if (this.projectComponent != null)
+            this.projectComponent.project = this.getProject(this.activeProjectSlug);
     }
 }

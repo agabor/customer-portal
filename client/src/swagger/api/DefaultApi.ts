@@ -27,7 +27,7 @@ import { Configuration }                                     from '../configurat
 
 @Injectable()
 export class DefaultApi {
-    protected basePath = 'http://cp.agabor.hu/api/v1';
+    protected basePath = 'http://localhost:8000/api/v1';
     public defaultHeaders: Headers = new Headers();
     public configuration: Configuration = new Configuration();
 
@@ -127,17 +127,17 @@ export class DefaultApi {
             throw new Error('Required parameter password was null or undefined when calling loginPost.');
         }
         if (userName !== undefined) {
-            if(userName instanceof Date) {
+            /*if(userName instanceof Date) {
                 queryParameters.set('user_name', <any>userName.d.toISOString());
-            } else {
+            } else */{
                 queryParameters.set('user_name', <any>userName);
             }
         }
 
         if (password !== undefined) {
-            if(password instanceof Date) {
+            /*if(password instanceof Date) {
                 queryParameters.set('password', <any>password.d.toISOString());
-            } else {
+            } else */{
                 queryParameters.set('password', <any>password);
             }
         }

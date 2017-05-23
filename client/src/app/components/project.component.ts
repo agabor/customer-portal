@@ -3,6 +3,7 @@ import { Presenter } from "../presenter";
 import {ActivatedRoute} from "@angular/router";
 import {Project} from "../../swagger/model/Project";
 import { Tab } from "../ui/tab";
+import {Image} from "../../swagger/model/Image";
 
 @Component({
     templateUrl: './project.component.html'
@@ -30,7 +31,9 @@ export class ProjectComponent {
         this.showImages();
     }
 
-
+    getImageUrl(image: Image) {
+        return this.presenter.getImageUrl(image);
+    }
 
     showImages(){
         this.tabTexts.setInactive();

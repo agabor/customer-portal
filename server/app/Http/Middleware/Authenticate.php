@@ -20,6 +20,8 @@ class Authenticate
     public function handle(Request $request, Closure $next)
     {
         $token = $request->header('token');
+        if ($token == null)
+            $token = $request->get('token');
 
         if (!Auth::tryLogin($token))
             return self::unauthorized();

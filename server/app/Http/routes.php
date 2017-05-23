@@ -60,5 +60,13 @@ $app->group(['middleware' => ['auth', 'cors'], 'prefix' => '/api/v1/'], function
      */
     $app->GET('projects/{id}', DefaultApi::class . '@projectsIdGet');
 
+    /**
+     * GET projectsIdGet
+     * Summary:
+     * Notes: project data
+     * Output-Formats: [application/json]
+     */
+    $app->GET('projects/{project_id}/images/{image_id}', DefaultApi::class . '@imageGet');
+
 
 });

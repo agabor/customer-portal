@@ -116,4 +116,24 @@ class DefaultApi extends Controller
         $project = Project::where('slug', $id)->first();
         return $project;
     }
+
+    public function imageGet(string $project_id,string $image_id)
+    {
+        $project = $this->getProjectWithSlug($project_id);
+        if ($project == null)
+            return response('',404);
+        foreach ($project->images as $img) {
+            if ($img->image_id == $image_id){
+                $arrContextOptions=array(
+                    "ssl"=>array(
+                        "verify_peer"=>false,
+                        "verify_peer_name"=>false,
+                    ),
+                );
+
+                header("Content-Type: image/png");
+                return file_get_contents('https://dummyimage.com/'.$img->preferredWidth.'x'.$img->preferredHeight.'/e7e7e7/3379b7.png', false, stream_context_create($arrContextOptions));
+            }
+        }
+    }
 }

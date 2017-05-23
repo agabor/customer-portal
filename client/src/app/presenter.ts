@@ -1,6 +1,6 @@
 import {LoginData} from "./login-data";
 import {Injectable} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
+import { Router} from "@angular/router";
 import {AppComponent} from "./components/app.component";
 import {DefaultApi} from "../swagger/api/DefaultApi";
 import {ProjectBase} from "../swagger/model/ProjectBase";
@@ -136,5 +136,9 @@ export class Presenter {
 
     private navigateToProject(slug: string) {
         this.router.navigate(['/projects/' + slug]);
+    }
+
+    getImageUrl(image) {
+        return  "http://localhost:8000/api/v1/projects/"+this.activeProject.slug+"/images/"+image.image_id + "?token=" + this.jwt;
     }
 }

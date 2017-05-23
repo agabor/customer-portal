@@ -8,11 +8,18 @@ import {Project} from "../../swagger/model/Project";
 })
 export class ProjectComponent {
 
-    project: Project;
+    project: Project = {
+        name : null,
+        slug:null,
+        files: null,
+        locales: null,
+        texts: null,
+        images: null
+    };
 
     constructor(private route: ActivatedRoute, private presenter: Presenter) {
         let slug: string = route.snapshot.params['slug'];
-        presenter.setProjectComponent(this);
+        presenter.setProjectComponent(this, slug);
     }
 
 }

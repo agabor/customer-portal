@@ -1,6 +1,6 @@
 import {LoginData} from "./login-data";
 import {Injectable} from "@angular/core";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {AppComponent} from "./components/app.component";
 import {DefaultApi} from "../swagger/api/DefaultApi";
 import {ProjectBase} from "../swagger/model/ProjectBase";
@@ -19,7 +19,7 @@ export class Presenter {
     private projectListComponent: ProjectListComponent;
     private loginFormComponent: LoginFormComponent;
     private projectComponent: ProjectComponent;
-    private activeProject: Project;
+    private activeProject: Project = null;
     private menuComponent: MenuComponent;
 
     constructor (private api: DefaultApi, private router: Router) {
@@ -99,9 +99,19 @@ export class Presenter {
       return null;
     }
 
-    setProjectComponent(projectComponent: ProjectComponent) {
+    setProjectComponent(projectComponent: ProjectComponent, slug: string) {
         this.projectComponent = projectComponent;
-        this.projectComponent.project = this.activeProject;
+        if (this.activeProject != null) {
+            this.projectComponent.project = this.activeProject;
+        } else {
+            let res = this.api.projectsIdGet(this.jwt, slug);
+            res.subscribe(data => {
+                this.activeProject = data;
+                this.projectComponent.project = this.activeProject;
+            }, error => {
+                console.log(error.json());
+            });
+        }
     }
 
 

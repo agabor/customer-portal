@@ -111,12 +111,20 @@ export class Presenter {
     }
 
     showProject(slug: string) {
+        if (this.activeProject != null && this.activeProject.slug == slug) {
+            this.navigateToProject(slug);
+            return;
+        }
         let res = this.api.projectsIdGet(this.jwt, slug);
         res.subscribe(data => {
-            this.router.navigate(['/projects/' + slug]);
             this.activeProject = data;
+            this.navigateToProject(slug);
         }, error => {
             console.log(error.json());
         });
+    }
+
+    private navigateToProject(slug: string) {
+        this.router.navigate(['/projects/' + slug]);
     }
 }

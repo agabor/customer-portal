@@ -1,6 +1,6 @@
 <h1>Projects</h1>
-<ul class="list-group">
-    <li class="list-group-item" *ngFor="let project of projects" [value]="project" (click)="showProject(project.slug)">
-        <a>{{project.name}}</a>
-    </li>
-</ul>
+<div class="list-group">
+    <a href="javascript:void(0)" class="list-group-item" *ngFor="let project of projects" (click)="showProject(project.slug)">
+        {{project.name}}
+    </a>
+</div>

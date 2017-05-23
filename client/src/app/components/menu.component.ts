@@ -4,24 +4,38 @@ import {MenuItem} from "../menu-item";
 
 @Component({
     selector: 'menu',
-    templateUrl: './menu.component.html'
+    templateUrl: './menu.component.html',
+    styleUrls: ['./menu.component.css']
 })
 export class MenuComponent {
 
     items: MenuItem[] = [];
     activeItems: MenuItem[] = [];
-    add(item: MenuItem){
+    constructor (private presenter: Presenter) {
+        presenter.setMenuComponent(this);
+        this.add(new MenuItem('Home', 'home', true, 'glyphicon-home'));
+        this.add(new MenuItem('Login', 'login', true, 'glyphicon-log-in'));
+        this.add(new MenuItem('Projects', 'projects', false, 'glyphicon-tasks'));
+        this.add(new MenuItem('Logout', 'logout', false, 'glyphicon-log-out'));
+        if (presenter.isLoggedIn())
+            this.setLoggedIn();
+        else
+            this.setLoggedOut();
+    }
+
+    private add(item: MenuItem){
         this.items.push(item);
     }
-    activate(path: string){
+
+    private activate(path: string){
         this.getItem(path).active = true;
     }
 
-    deactivate(path: string){
+    private deactivate(path: string){
         this.getItem(path).active = false;
     }
 
-    getItem(path: string): MenuItem {
+    private getItem(path: string): MenuItem {
         for(let item of this.items){
             if (item.path == path)
                 return item;
@@ -29,7 +43,7 @@ export class MenuComponent {
         return null;
     }
 
-    getActiveItems() : MenuItem[] {
+    private getActiveItems() : MenuItem[] {
         let result: MenuItem[] = [];
 
         for(let mi of this.items){
@@ -39,14 +53,6 @@ export class MenuComponent {
         return result;
     }
 
-    constructor (private presenter: Presenter) {
-        presenter.setMenuComponent(this);
-        this.add(new MenuItem('Home', 'home', true));
-        this.add(new MenuItem('Login', 'login', true));
-        this.add(new MenuItem('Projects', 'projects', false));
-        this.add(new MenuItem('Logout', 'logout', false));
-        this.activeItems = this.getActiveItems();
-    }
 
     public setLoggedIn() {
         this.deactivate('login');

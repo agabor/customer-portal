@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {Presenter} from "../presenter";
-import {MenuItem} from "../menu-item";
+import {MenuItem} from "../ui/menu-item";
 
 @Component({
   selector: 'app-root',

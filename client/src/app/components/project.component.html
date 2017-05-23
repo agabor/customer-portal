@@ -7,4 +7,24 @@
         <li class="active">{{project.name}}</li>
     </ol>
     <h1>{{project.name}}</h1>
+    <ul class="nav nav-pills">
+        <li role="presentation" class="{{tabImages.pillClass}}"><a href="javascript:void(0);" (click)="showImages()">Images</a></li>
+        <li role="presentation" class="{{tabTexts.pillClass}}"><a href="javascript:void(0);" (click)="showTexts()" >Texts</a></li>
+        <li role="presentation" class="{{tabFiles.pillClass}}"><a href="javascript:void(0);" (click)="showFiles()">Files</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="images" class="tab-pane {{tabImages.paneClass}}">
+            <h3>HOME</h3>
+            <p>Some content.</p>
+        </div>
+        <div id="texts" class="tab-pane {{tabTexts.paneClass}}">
+            <h3>Menu 1</h3>
+            <p>Some content in menu 1.</p>
+        </div>
+        <div id="files" class="tab-pane {{tabFiles.paneClass}}">
+            <h3>Menu 2</h3>
+            <p>Some content in menu 2.</p>
+        </div>
+    </div>
 </div>

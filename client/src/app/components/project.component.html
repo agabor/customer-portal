@@ -61,9 +61,9 @@
             </ul>
             <form id="textList">
                 <div *ngFor="let text of project.texts">
-                    <div class="form-group" *ngFor="let lt of text.values" [hidden]="currentLocale.locale_id != lt.locale_code">
-                        <label for="{{text.text_id + lt.locale_code}}">{{text.name}}</label>
-                        <input type="text" class="form-control" name="{{text.text_id + lt.locale_code}}" id="{{text.text_id + lt.locale_code}}" [value]="lt.value">
+                    <div class="form-group" *ngFor="let lt of text.values" [hidden]="currentLocale.localeId != lt.localeCode">
+                        <label for="{{text.textId + lt.localeCode}}">{{text.name}}</label>
+                        <input type="text" class="form-control" name="{{text.textId + lt.localeCode}}" id="{{text.textId + lt.localeCode}}" [value]="lt.value">
                     </div>
                 </div>
             </form>

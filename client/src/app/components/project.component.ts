@@ -44,7 +44,7 @@ export class ProjectComponent {
 
     localeTabs: Tab[] = [];
 
-    currentLocale;
+    currentLocale: Locale;
 
     constructor(private route: ActivatedRoute, private presenter: Presenter) {
         let slug: string = route.snapshot.params['slug'];
@@ -100,7 +100,7 @@ export class ProjectComponent {
     }
     getTextValue(text) {
         for(let lt of text.values) {
-            if (lt.locale_code == this.currentLocale.locale_id)
+            if (lt.locale_code == this.currentLocale.localeId)
                 return lt.value;
         }
         return '';

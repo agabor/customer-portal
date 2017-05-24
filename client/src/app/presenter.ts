@@ -9,6 +9,7 @@ import {LoginFormComponent} from "./components/login-form.component";
 import {ProjectComponent} from "./components/project.component";
 import {MenuComponent} from "./components/menu.component";
 import {Project} from "../swagger/model/Project";
+import {Image} from "../swagger/model/Image";
 
 @Injectable()
 export class Presenter {
@@ -138,7 +139,7 @@ export class Presenter {
         this.router.navigate(['/projects/' + slug]);
     }
 
-    getImageUrl(image) {
-        return  "http://localhost:8000/api/v1/projects/"+this.activeProject.slug+"/images/"+image.image_id + "?token=" + this.jwt;
+    getImageUrl(image: Image) {
+        return  "http://localhost:8000/api/v1/projects/"+this.activeProject.slug+"/images/"+image.imageId + "?token=" + this.jwt;
     }
 }

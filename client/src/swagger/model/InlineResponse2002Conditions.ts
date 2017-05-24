@@ -20,9 +20,9 @@ export interface InlineResponse2002Conditions {
 }
 export namespace InlineResponse2002Conditions {
     export enum NameEnum {
-        MinWidth = <any> 'min_width',
-        MaxWidth = <any> 'max_width',
-        MinHeight = <any> 'min_height',
-        MaxHeight = <any> 'max_height'
+        MinWidth = <any> 'minWidth',
+        MaxWidth = <any> 'maxWidth',
+        MinHeight = <any> 'minHeight',
+        MaxHeight = <any> 'maxHeight'
     }
 }

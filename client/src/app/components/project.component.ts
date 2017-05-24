@@ -8,6 +8,7 @@ import {Text} from "../../swagger/model/Text";
 import {Locale} from "../../swagger/model/Locale";
 import {current} from "codelyzer/util/syntaxKind";
 import {ProjectLogic} from "../logic/project-logic";
+import {LocalText} from "../../swagger/model/LocalText";
 
 @Component({
     templateUrl: './project.component.html',
@@ -122,6 +123,24 @@ export class ProjectComponent {
         if (count == 0)
             return '';
         return '<span class="badge">' +  count +'</span>';
+    }
+    getBadgeImage() : string {
+        let count = this.projectLogic.getImageWarningCount();
+        if (count == 0)
+            return '';
+        return '<span class="badge">' +  count +'</span>';
+    }
+    getBadgeFile() : string {
+        let count = this.projectLogic.getFileWarningCount();
+        if (count == 0)
+            return '';
+        return '<span class="badge">' +  count +'</span>';
+    }
+
+    getTextIndicator(text: Text, localText: LocalText){
+        if (this.projectLogic.hasWarning(text, localText))
+            return '<span class="glyphicon glyphicon-remove"></span>';
+        return '<span class="glyphicon glyphicon-ok"></span>'
     }
 
 }

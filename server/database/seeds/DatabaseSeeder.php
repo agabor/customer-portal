@@ -53,11 +53,22 @@ class DatabaseSeeder extends Seeder
         $i->imageId = 'facebook_icon';
         $i->name = 'Facebook Icon';
         $i->description = 'This image will appear on Facebook, when users log in to your application.';
-        $i->width = 500;
+        $i->width = 512;
         $i->height = 512;
         $i->preferredWidth = 512;
         $i->preferredHeight = 512;
-        $i->fileName = 'logo.png';
+        $i->fileName = '';
+        $p->images()->save($i);
+
+        $i = new \App\Image();
+        $i->imageId = 'play_store_banner';
+        $i->name = 'Play Store Banner';
+        $i->description = 'This image will appear in the Google Play store as a banner.';
+        $i->width = 1024;
+        $i->height = 500;
+        $i->preferredWidth = 1024;
+        $i->preferredHeight = 500;
+        $i->fileName = '';
         $p->images()->save($i);
 
         $f = new \App\File();

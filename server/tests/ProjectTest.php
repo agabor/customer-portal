@@ -52,7 +52,7 @@ class ProjectTest extends TestCase
                     'height' => 512,
                     'preferredWidth' => 512,
                     'preferredHeight' => 512,
-                    'fileName' => 'logo.png',
+                    'fileName' => '',
                     'conditions' => []
                 ]],
                 'files' => [

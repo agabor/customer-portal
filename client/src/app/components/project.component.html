@@ -13,16 +13,16 @@
         </div>
     </div>
     <ul class="nav nav-pills">
-        <li role="presentation" [class]="tabImages.pillClass"><a href="javascript:void(0);" (click)="showImages()">{{tabImages.name}}</a></li>
+        <li role="presentation" [class]="tabImages.pillClass"><a href="javascript:void(0);" (click)="showImages()">{{tabImages.name}} <span [innerHTML]="getBadgeImage()"></span></a></li>
         <li role="presentation" [class]="tabTexts.pillClass"><a href="javascript:void(0);" (click)="showTexts()" >{{tabTexts.name}} <span [innerHTML]="getBadgeText()"></span></a></li>
-        <li role="presentation" [class]="tabFiles.pillClass"><a href="javascript:void(0);" (click)="showFiles()">{{tabFiles.name}}</a></li>
+        <li role="presentation" [class]="tabFiles.pillClass"><a href="javascript:void(0);" (click)="showFiles()">{{tabFiles.name}} <span [innerHTML]="getBadgeFile()"></span></a></li>
     </ul>
 
     <div class="tab-content">
         <div id="images" [class]="tabImages.paneClass">
             <div class="row">
-                <div class="col-sm-6 col-md-4">
-                    <div *ngFor="let image of project.images" class="thumbnail">
+                <div *ngFor="let image of project.images" class="col-sm-6 col-md-4">
+                    <div class="thumbnail">
                         <a href="javascript:void(0);" (click)="showImage(image)">
                             <img alt="{{image.name}}"
                                  src="{{getImageUrl(image)}}"
@@ -30,7 +30,11 @@
                         </a>
                         <div class="caption">
                             <h3>{{image.name}}</h3>
-                            <p>Lorem ipsum dolor sit amet</p>
+                            <p>{{image.description}}</p>
+                            <div [hidden]="image.fileName != null && image.fileName.length > 0"
+                                 class="alert alert-warning">
+                                You must upload this image!
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -39,7 +43,7 @@
                 <div class="modal-dialog">
 
                     <!-- Modal content-->
-                    <div class="modal-content">
+                    <div class="modal-content" [style.width]="(currentImage.width+50)+'px'">
                         <div class="modal-header">
                             <button type="button" class="close" (click)="modal.hide()">×</button>
                             <h4 class="modal-title">{{currentImage.name}}</h4>
@@ -50,6 +54,7 @@
                                  [height]="currentImage.preferredHeight"
                                  src="{{getImageUrl(currentImage)}}"
                                  data-holder-rendered="true">
+                            <p>{{currentImage.description}}</p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" (click)="modal.hide()">Close</button>
@@ -67,25 +72,38 @@
             <form id="textList">
                 <div *ngFor="let text of project.texts">
                     <div class="form-group" *ngFor="let lt of text.values" [hidden]="currentLocale.localeId != lt.localeCode">
-                        <label for="{{text.textId + lt.localeCode}}">{{text.name}}</label>
-                        <input type="text" class="form-control" name="{{text.textId + lt.localeCode}}" id="{{text.textId + lt.localeCode}}" [(ngModel)]="lt.value"  #textvalue="ngModel">
-                        <div [hidden]="text.minLength <= textvalue.value?.length"
-                                class="alert alert-warning">
-                            Text is too short! Minimum required length is: {{text.minLength}}, current length is: {{textvalue.value?.length}}
-                        </div>
-                        <div [hidden]="text.maxLength >= textvalue.value?.length"
-                             class="alert alert-warning">
-                            Text is too long! Maximum required length is: {{text.maxLength}}, current length is: {{textvalue.value?.length}}
+                        <div class="thumbnail">
+                            <div class="caption">
+                            <label for="{{text.textId + lt.localeCode}}">{{text.name}}</label>
+                            <p>{{text.description}}</p>
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1" [innerHTML]="getTextIndicator(text, lt)"></span>
+                                <input type="text" class="form-control" name="{{text.textId + lt.localeCode}}" id="{{text.textId + lt.localeCode}}"  aria-describedby="basic-addon1" [(ngModel)]="lt.value"  #textvalue="ngModel">
+                            </div>
+                            <div [hidden]="text.minLength <= textvalue.value?.length"
+                                 class="alert alert-warning">
+                                Text is too short! Minimum required length is: {{text.minLength}}, current length is: {{textvalue.value?.length}}
+                            </div>
+                            <div [hidden]="text.maxLength >= textvalue.value?.length"
+                                 class="alert alert-warning">
+                                Text is too long! Maximum required length is: {{text.maxLength}}, current length is: {{textvalue.value?.length}}
+                            </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-        </form>
+            </form>
         </div>
         <div id="files" [class]="tabFiles.paneClass">
             <div class="list-group">
                 <a href="javascript:void(0)" class="list-group-item" *ngFor="let file of project.files">
                     <span class="glyphicon glyphicon-download"></span>
-                    {{file.name}}
+                    <strong>{{file.name}}</strong> {{file.fileName}} ({{file.size}} KB) <br>
+                    {{file.description}}
+                    <div [hidden]="file.fileName != null && file.fileName.length > 0"
+                         class="alert alert-warning">
+                        You must upload this image!
+                    </div>
                 </a>
             </div>
         </div>

@@ -17,6 +17,8 @@ export interface InlineResponse2002Images {
 
     name?: string;
 
+    description?: string;
+
     width?: number;
 
     height?: number;

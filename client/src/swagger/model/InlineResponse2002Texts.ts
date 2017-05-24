@@ -17,6 +17,8 @@ export interface InlineResponse2002Texts {
 
     name?: string;
 
+    description?: string;
+
     minLength?: number;
 
     maxLength?: number;

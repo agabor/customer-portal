@@ -17,12 +17,19 @@ export interface File {
 
     name?: string;
 
+    description?: string;
+
     fileName?: string;
 
     /**
      * allowed file extensions
      */
     ext?: Array<string>;
+
+    /**
+     * maximum file size in KB
+     */
+    size?: number;
 
     /**
      * maximum file size in KB

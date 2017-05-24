@@ -17,6 +17,8 @@ export interface Text {
 
     name?: string;
 
+    description?: string;
+
     minLength?: number;
 
     maxLength?: number;

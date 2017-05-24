@@ -17,10 +17,10 @@ export class ProjectComponent {
     project: Project = {
         name : null,
         slug:null,
-        files: null,
-        locales: null,
-        texts: null,
-        images: null
+        files: [],
+        locales: [],
+        texts: [],
+        images: []
     };
 
     currentImage: Image = {

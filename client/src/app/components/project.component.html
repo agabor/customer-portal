@@ -63,14 +63,26 @@
                 <div *ngFor="let text of project.texts">
                     <div class="form-group" *ngFor="let lt of text.values" [hidden]="currentLocale.localeId != lt.localeCode">
                         <label for="{{text.textId + lt.localeCode}}">{{text.name}}</label>
-                        <input type="text" class="form-control" name="{{text.textId + lt.localeCode}}" id="{{text.textId + lt.localeCode}}" [value]="lt.value">
+                        <input type="text" class="form-control" name="{{text.textId + lt.localeCode}}" id="{{text.textId + lt.localeCode}}" [(ngModel)]="lt.value"  #textvalue="ngModel">
+                        <div [hidden]="text.minLength <= textvalue.value?.length"
+                                class="alert alert-warning">
+                            Text is too short! Minimum required length is: {{text.minLength}}, current length is: {{textvalue.value?.length}}
+                        </div>
+                        <div [hidden]="text.maxLength >= textvalue.value?.length"
+                             class="alert alert-warning">
+                            Text is too long! Maximum required length is: {{text.maxLength}}, current length is: {{textvalue.value?.length}}
+                        </div>
                     </div>
                 </div>
-            </form>
+        </form>
         </div>
         <div id="files" [class]="tabFiles.paneClass">
-            <h3>Menu 2</h3>
-            <p>Some content in menu 2.</p>
+            <div class="list-group">
+                <a href="javascript:void(0)" class="list-group-item" *ngFor="let file of project.files">
+                    <span class="glyphicon glyphicon-download"></span>
+                    {{file.name}}
+                </a>
+            </div>
         </div>
     </div>
 </div>

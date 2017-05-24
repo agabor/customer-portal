@@ -9,7 +9,7 @@
     <h1>{{project.name}}</h1>
     <ul class="nav nav-pills">
         <li role="presentation" [class]="tabImages.pillClass"><a href="javascript:void(0);" (click)="showImages()">{{tabImages.name}}</a></li>
-        <li role="presentation" [class]="tabTexts.pillClass"><a href="javascript:void(0);" (click)="showTexts()" >{{tabTexts.name}}</a></li>
+        <li role="presentation" [class]="tabTexts.pillClass"><a href="javascript:void(0);" (click)="showTexts()" >{{tabTexts.name}} <span [innerHTML]="getBadgeText()"></span></a></li>
         <li role="presentation" [class]="tabFiles.pillClass"><a href="javascript:void(0);" (click)="showFiles()">{{tabFiles.name}}</a></li>
     </ul>
 
@@ -57,7 +57,7 @@
         </div>
         <div id="texts" [class]="tabTexts.paneClass">
             <ul class="nav nav-tabs">
-                <li *ngFor="let tab of localeTabs; let i = index"  role="presentation" [class]="tab.pillClass"><a href="javascript:void(0);" (click)="setLocale(i)">{{tab.name}}</a></li>
+                <li *ngFor="let tab of localeTabs; let i = index"  role="presentation" [class]="tab.pillClass"><a href="javascript:void(0);" (click)="setLocale(i)">{{tab.name}} <span [innerHTML]="getBadgeLocaleText(i)"></span></a></li>
             </ul>
             <form id="textList">
                 <div *ngFor="let text of project.texts">

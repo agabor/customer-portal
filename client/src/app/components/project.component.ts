@@ -105,6 +105,49 @@ export class ProjectComponent {
         }
         return '';
     }
+
+    getBadgeLocaleText(localeIdx: number) : string {
+        let count = this.getLocaleTextWarningCount(localeIdx);
+        if (count == 0)
+            return '';
+        return '<span class="badge">' +  count +'</span>';
+    }
+
+    getBadgeText() : string {
+        let count = this.getTextWarningCount();
+        if (count == 0)
+            return '';
+        return '<span class="badge">' +  count +'</span>';
+    }
+
+    getLocaleTextWarningCount(localeIdx: number) : number {
+        let locale: Locale = this.project.locales[localeIdx];
+        let count: number = 0;
+        for (let text of this.project.texts) {
+            for (let lt of text.values) {
+                if (lt.localeCode == locale.localeId){
+                    if (lt.value.length < text.minLength)
+                        ++count;
+                    if (lt.value.length > text.maxLength)
+                        ++count;
+                }
+            }
+        }
+        return count;
+    }
+
+    getTextWarningCount() : number {
+        let count: number = 0;
+        for (let text of this.project.texts) {
+            for (let lt of text.values) {
+                    if (lt.value.length < text.minLength)
+                        ++count;
+                    if (lt.value.length > text.maxLength)
+                        ++count;
+            }
+        }
+        return count;
+    }
 }
 
 class Modal {

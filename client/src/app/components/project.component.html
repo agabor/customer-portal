@@ -8,8 +8,8 @@
     </ol>
     <h1>{{project.name}}</h1>
     <div class="progress">
-        <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" [attr.aria-valuenow]="getInfoPercentage()" aria-valuemin="0" aria-valuemax="100" [style.width]="getInfoPercentage()+'%'">
-            <span class="sr-only">{{getInfoPercentage()}}% Complete</span>
+        <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" [attr.aria-valuenow]="projectLogic.getInfoPercentage()" aria-valuemin="0" aria-valuemax="100" [style.width]="projectLogic.getInfoPercentage()+'%'">
+            <span class="sr-only">{{projectLogic.getInfoPercentage()}}% Complete</span>
         </div>
     </div>
     <ul class="nav nav-pills">

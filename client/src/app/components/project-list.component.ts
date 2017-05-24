@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Presenter } from "../presenter";
+import { Presenter } from "../logic/presenter";
 import {ProjectBase} from "../../swagger/model/ProjectBase";
 
 @Component({

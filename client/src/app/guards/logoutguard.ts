@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import {Presenter} from "../presenter";
+import {Presenter} from "../logic/presenter";
 
 @Injectable()
 export class LogoutGuard implements CanActivate {

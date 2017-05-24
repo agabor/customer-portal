@@ -1,15 +1,15 @@
-import {LoginData} from "./login-data";
+import {LoginData} from "../login-data";
 import {Injectable} from "@angular/core";
 import { Router} from "@angular/router";
-import {AppComponent} from "./components/app.component";
-import {DefaultApi} from "../swagger/api/DefaultApi";
-import {ProjectBase} from "../swagger/model/ProjectBase";
-import {ProjectListComponent} from "./components/project-list.component";
-import {LoginFormComponent} from "./components/login-form.component";
-import {ProjectComponent} from "./components/project.component";
-import {MenuComponent} from "./components/menu.component";
-import {Project} from "../swagger/model/Project";
-import {Image} from "../swagger/model/Image";
+import {AppComponent} from "../components/app.component";
+import {DefaultApi} from "../../swagger/api/DefaultApi";
+import {ProjectBase} from "../../swagger/model/ProjectBase";
+import {ProjectListComponent} from "../components/project-list.component";
+import {LoginFormComponent} from "../components/login-form.component";
+import {ProjectComponent} from "../components/project.component";
+import {MenuComponent} from "../components/menu.component";
+import {Project} from "../../swagger/model/Project";
+import {Image} from "../../swagger/model/Image";
 
 @Injectable()
 export class Presenter {

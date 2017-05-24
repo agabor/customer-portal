@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {Presenter} from "../presenter";
+import {Presenter} from "../logic/presenter";
 import {MenuItem} from "../ui/menu-item";
 
 @Component({

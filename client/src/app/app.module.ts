@@ -7,7 +7,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './components/app.component';
 import { LoginFormComponent } from './components/login-form.component'
-import {Presenter} from "./presenter";
+import {Presenter} from "./logic/presenter";
 import {ProjectListComponent} from "./components/project-list.component";
 import {HomeComponent} from "./components/home.component";
 import {AuthGuard} from "./guards/authguard";

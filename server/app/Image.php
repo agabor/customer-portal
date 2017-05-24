@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer projectId
  * @property string imageId
  * @property string name
+ * @property string description
  * @property integer width
  * @property integer height
  * @property integer preferredWidth

@@ -16,6 +16,7 @@ class CreateImagesTable extends Migration
             $table->increments('id');
             $table->text('imageId');
             $table->text('name');
+            $table->text('description');
             $table->integer('width');
             $table->integer('height');
             $table->integer('preferredWidth');

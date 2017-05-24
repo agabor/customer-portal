@@ -29,6 +29,7 @@ class ProjectTest extends TestCase
                 'slug' => 'sample_project',
                 'texts' => [[
                     'name' => 'Webpage Title',
+                    'description' => 'This text will appear in the titlebar of the browser, an on the fron page of your website.',
                     'textId' => 'webpage_title',
                     'minLength' => 10,
                     'maxLength' => 20,
@@ -46,6 +47,7 @@ class ProjectTest extends TestCase
                 'images' => [[
                     'imageId' => 'facebook_icon',
                     'name' => 'Facebook Icon',
+                    'description' => 'This image will appear on Facebook, when users log in to your application.',
                     'width' => 500,
                     'height' => 512,
                     'preferredWidth' => 512,
@@ -57,7 +59,9 @@ class ProjectTest extends TestCase
                     [
                         'fileId' => 'terms_and_conditions',
                         'name' => 'Terms and Conditions',
+                        'description' => 'Terms and conditions will be readable on your website. You can not start a webshop without this!',
                         'fileName' => 'licence.pdf',
+                        'size' => 127,
                         'maxSize' => 10000,
                         'ext' => [
                             'doc',

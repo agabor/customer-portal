@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
         $t = new \App\Text();
 
         $t->name = 'Webpage Title';
+        $t->description = 'This text will appear in the titlebar of the browser, an on the fron page of your website.';
         $t->textId = 'webpage_title';
         $t->minLength = 10;
         $t->maxLength = 20;
@@ -51,6 +52,7 @@ class DatabaseSeeder extends Seeder
         $i = new \App\Image();
         $i->imageId = 'facebook_icon';
         $i->name = 'Facebook Icon';
+        $i->description = 'This image will appear on Facebook, when users log in to your application.';
         $i->width = 500;
         $i->height = 512;
         $i->preferredWidth = 512;
@@ -61,6 +63,8 @@ class DatabaseSeeder extends Seeder
         $f = new \App\File();
         $f->fileId = 'terms_and_conditions';
         $f->name = 'Terms and Conditions';
+        $f->description = 'Terms and conditions will be readable on your website. You can not start a webshop without this!';
+        $f->size = 127;
         $f->fileName = 'licence.pdf';
         $f->ext = ['doc', 'docx', 'pdf'];
         $f->maxSize = 10000;

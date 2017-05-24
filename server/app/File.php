@@ -9,9 +9,11 @@ use JsonSerializable;
  * @property integer id
  * @property string fileId
  * @property string name
+ * @property string description
  * @property string fileName
  * @property string extensions
  * @property array ext
+ * @property integer size
  * @property integer maxSize
  */
 class File extends Model

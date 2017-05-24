@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer id
  * @property string textId
  * @property string name
+ * @property string description
  * @property integer minLength
  * @property integer maxLength
  */

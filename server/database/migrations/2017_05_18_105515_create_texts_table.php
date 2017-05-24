@@ -15,6 +15,7 @@ class CreateTextsTable extends Migration
         Schema::create('texts', function (Blueprint $table) {
             $table->increments('id');
             $table->text('name');
+            $table->text('description');
             $table->text('textId');
             $table->integer('minLength');
             $table->integer('maxLength');

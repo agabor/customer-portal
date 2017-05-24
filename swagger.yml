@@ -146,6 +146,8 @@ definitions:
       name:
         type: string
         example: "Facebook Icon"
+      description:
+        type: string
       width:
         type: number
         format: integer
@@ -187,6 +189,8 @@ definitions:
       name:
         type: string
         example: "Webpage Title"
+      description:
+        type: string
       minLength:
         type: integer
         example: 10
@@ -216,6 +220,8 @@ definitions:
       name:
         type: string
         example: "Terms and Conditions"
+      description:
+        type: string
       fileName:
         type: string
         example: "licence.pdf"
@@ -225,6 +231,11 @@ definitions:
         items:
           type: string
         example: ["doc", "docx", "pdf"]
+      size:
+        type: number
+        format: integer
+        description: maximum file size in KB
+        example: 10000
       maxSize:
         type: number
         format: integer

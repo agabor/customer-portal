@@ -16,8 +16,10 @@ class CreateFilesTable extends Migration
             $table->increments('id');
             $table->text('fileId');
             $table->text('name');
+            $table->text('description');
             $table->text('fileName');
             $table->text('extensions');
+            $table->integer('size');
             $table->integer('maxSize');
             $table->unsignedInteger('project_id')->index();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');

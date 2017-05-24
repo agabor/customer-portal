@@ -148,6 +148,23 @@ export class ProjectComponent {
         }
         return count;
     }
+
+    getTextCount() : number {
+        let count: number = 0;
+        for (let text of this.project.texts) {
+            count += text.values.length;
+        }
+        return count;
+    }
+
+    getWarningCount() : number {
+        return this.getTextWarningCount();
+    }
+
+    getInfoPercentage() : number {
+        let count = this.getTextCount();
+        return (count -  this.getWarningCount()) * 100 / count;
+    }
 }
 
 class Modal {

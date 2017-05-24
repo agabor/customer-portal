@@ -29,36 +29,36 @@ class ProjectTest extends TestCase
                 'slug' => 'sample_project',
                 'texts' => [[
                     'name' => 'Webpage Title',
-                    'text_id' => 'webpage_title',
-                    'min_length' => 10,
-                    'max_length' => 20,
-                    'localtexts' => [
+                    'textId' => 'webpage_title',
+                    'minLength' => 10,
+                    'maxLength' => 20,
+                    'values' => [
                         [
-                            'locale_code' => 'en_US',
+                            'localeCode' => 'en_US',
                             'value' => 'Sample Project Webpage'
                         ],
                         [
-                            'locale_code' => 'hu_HU',
+                            'localeCode' => 'hu_HU',
                             'value' => 'Pelda Projekt Weboldal'
                         ]
                     ],
                 ]],
                 'images' => [[
-                    'image_id' => 'facebook_icon',
+                    'imageId' => 'facebook_icon',
                     'name' => 'Facebook Icon',
                     'width' => 500,
                     'height' => 512,
                     'preferredWidth' => 512,
                     'preferredHeight' => 512,
-                    'file_name' => 'logo.png',
+                    'fileName' => 'logo.png',
                     'conditions' => []
                 ]],
                 'files' => [
                     [
-                        'file_id' => 'terms_and_conditions',
+                        'fileId' => 'terms_and_conditions',
                         'name' => 'Terms and Conditions',
-                        'file_name' => 'licence.pdf',
-                        'max_size' => 10000,
+                        'fileName' => 'licence.pdf',
+                        'maxSize' => 10000,
                         'ext' => [
                             'doc',
                             'docx',
@@ -68,11 +68,11 @@ class ProjectTest extends TestCase
                 ],
                 'locales' => [
                     [
-                        'locale_id' => 'en_US',
+                        'localeId' => 'en_US',
                         'name' => 'English'
                     ],
                     [
-                        'locale_id' => 'hu_HU',
+                        'localeId' => 'hu_HU',
                         'name' => 'Hungarian'
                     ]
                 ]

@@ -7,13 +7,12 @@ use JsonSerializable;
 
 /**
  * @property integer id
- * @property integer project_id
- * @property string file_id
+ * @property string fileId
  * @property string name
- * @property string file_name
+ * @property string fileName
  * @property string extensions
  * @property array ext
- * @property integer max_size
+ * @property integer maxSize
  */
 class File extends Model
 {
@@ -36,7 +35,7 @@ class File extends Model
      * @var array
      */
     protected $fillable = [
-        'file_id', 'name', 'file_name', 'extensions', 'max_size',
+        'file_id', 'name', 'fileName', 'extensions', 'maxSize',
     ];
 
     /**

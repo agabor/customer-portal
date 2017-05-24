@@ -7,7 +7,7 @@ use JsonSerializable;
 
 /**
  * @property integer id
- * @property string locale_id
+ * @property string localeId
  * @property string name
  */
 class Locale extends Model
@@ -24,7 +24,7 @@ class Locale extends Model
      * @var array
      */
     protected $fillable = [
-        'locale_id', 'name'
+        'localeId', 'name'
     ];
 
     /**

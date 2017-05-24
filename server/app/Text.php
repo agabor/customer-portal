@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property integer id
- * @property string text_id
+ * @property string textId
  * @property string name
- * @property integer min_length
- * @property integer max_length
+ * @property integer minLength
+ * @property integer maxLength
  */
 class Text extends Model
 {
@@ -31,7 +31,7 @@ class Text extends Model
      * @var array
      */
     protected $fillable = [
-        'min_length', 'max_length',
+        'minLength', 'maxLength',
     ];
 
     /**

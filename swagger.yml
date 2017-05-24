@@ -127,11 +127,11 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/Locale'
-            example: [{"locale_id": "en_US",  "name": "English"},{"locale_id": "hu_HU",  "name": "Hungarian"}]
+            example: [{"localeId": "en_US",  "name": "English"},{"localeId": "hu_HU",  "name": "Hungarian"}]
   Locale:
     type: object
     properties:
-      locale_id:
+      localeId:
         type: string
         example: en_US
       name:
@@ -140,7 +140,7 @@ definitions:
   Image:
     type: object
     properties:
-      image_id:
+      imageId:
         type: string
         example: facebook_icon
       name:
@@ -162,47 +162,46 @@ definitions:
         type: number
         format: integer
         example: 512
-      file_name:
+      fileName:
         type: string
         example: "logo.png"
       conditions:
         type: array
         items:
           $ref: '#/definitions/ImageCondition'
-        example: [{"name":"fix_width", "value":512}, {"name":"fix_height", "value":512}]
   ImageCondition:
     type: object
     required: [ name, value ]
     properties:
       name:
         type: string
-        enum: ["min_width", "max_width", "min_height", "max_height"]
+        enum: ["minWidth", "maxWidth", "minHeight", "maxHeight"]
       value:
         type: integer
   Text:
     type: object
     properties:
-      text_id:
+      textId:
         type: string
         example: "webpage_title"
       name:
         type: string
         example: "Webpage Title"
-      min_length:
+      minLength:
         type: integer
         example: 10
-      max_length:
+      maxLength:
         type: integer
         example: 20
       values:
         type: array
         items:
           $ref: '#/definitions/LocalText'
-        example: [{"locale_id": "en_US",  "value": "Sample Project Webpage"},{"locale_id": "hu_HU",  "value": "Pelda Projekt Weboldal"}]
+        example: [{"localeId": "en_US",  "value": "Sample Project Webpage"},{"localeId": "hu_HU",  "value": "Pelda Projekt Weboldal"}]
   LocalText:
     type: object
     properties:
-      locale_code:
+      localeCode:
         type: string
         example: en_US
       value:
@@ -211,13 +210,13 @@ definitions:
   File:
     type: object
     properties:
-      file_id:
+      fileId:
         type: string
         example: "terms_and_conditions"
       name:
         type: string
         example: "Terms and Conditions"
-      file_name:
+      fileName:
         type: string
         example: "licence.pdf"
       ext:
@@ -226,7 +225,7 @@ definitions:
         items:
           type: string
         example: ["doc", "docx", "pdf"]
-      max_size:
+      maxSize:
         type: number
         format: integer
         description: maximum file size in KB

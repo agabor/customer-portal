@@ -140,11 +140,8 @@ class DefaultApi extends Controller
         if ($project == null)
             return response('',404);
         foreach ($project->images as $img) {
-            if ($img->image_id == $image_id){
-
-
+            if ($img->imageId == $image_id){
                 $image = $this->getPlaceholderImage($img);
-
                 header("Content-Type: image/png");
                 imagepng($image);
             }

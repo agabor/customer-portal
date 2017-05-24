@@ -14,7 +14,7 @@ class CreateLocalesTable extends Migration
     {
         Schema::create('locales', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('locale_id');
+            $table->text('localeId');
             $table->text('name');
         });
     }

@@ -14,11 +14,11 @@ class CreateFilesTable extends Migration
     {
         Schema::create('files', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('file_id');
+            $table->text('fileId');
             $table->text('name');
-            $table->text('file_name');
+            $table->text('fileName');
             $table->text('extensions');
-            $table->integer('max_size');
+            $table->integer('maxSize');
             $table->unsignedInteger('project_id')->index();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
         });

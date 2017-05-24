@@ -15,9 +15,9 @@ class CreateTextsTable extends Migration
         Schema::create('texts', function (Blueprint $table) {
             $table->increments('id');
             $table->text('name');
-            $table->text('text_id');
-            $table->integer('min_length');
-            $table->integer('max_length');
+            $table->text('textId');
+            $table->integer('minLength');
+            $table->integer('maxLength');
             $table->unsignedInteger('project_id')->index();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
         });

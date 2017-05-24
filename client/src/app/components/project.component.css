@@ -1,3 +1,11 @@
 div.modal-body {
     text-align: center;
 }
+
+div.tab-content {
+    margin-top: 20px;
+}
+
+#textList {
+    margin-top: 20px;
+}

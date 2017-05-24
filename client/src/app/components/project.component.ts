@@ -4,6 +4,9 @@ import {ActivatedRoute} from "@angular/router";
 import {Project} from "../../swagger/model/Project";
 import { Tab } from "../ui/tab";
 import {Image} from "../../swagger/model/Image";
+import {Text} from "../../swagger/model/Text";
+import {Locale} from "../../swagger/model/Locale";
+import {current} from "codelyzer/util/syntaxKind";
 
 @Component({
     templateUrl: './project.component.html',
@@ -33,11 +36,15 @@ export class ProjectComponent {
 
     modal:Modal = new Modal();
 
-    tabImages: Tab = new Tab();
+    tabImages: Tab = new Tab('Images');
 
-    tabTexts: Tab = new Tab();
+    tabTexts: Tab = new Tab('Texts');
 
-    tabFiles: Tab = new Tab();
+    tabFiles: Tab = new Tab('Files');
+
+    localeTabs: Tab[] = [];
+
+    currentLocale;
 
     constructor(private route: ActivatedRoute, private presenter: Presenter) {
         let slug: string = route.snapshot.params['slug'];
@@ -70,6 +77,33 @@ export class ProjectComponent {
     showImage(image: Image){
         this.currentImage = image;
         this.modal.show();
+    }
+
+    setProject(project: Project) {
+        this.project = project;
+        this.localeTabs = [];
+        for (let locale of project.locales) {
+            this.localeTabs.push(new Tab(locale.name))
+        }
+        this.setLocale(1);
+    }
+    setLocale(i: number) {
+        let idx = 0;
+        for (let tab of this.localeTabs) {
+            if (i == idx)
+                tab.setActive();
+            else
+                tab.setInactive();
+            ++idx;
+        }
+        this.currentLocale = this.project.locales[i];
+    }
+    getTextValue(text) {
+        for(let lt of text.values) {
+            if (lt.locale_code == this.currentLocale.locale_id)
+                return lt.value;
+        }
+        return '';
     }
 }
 

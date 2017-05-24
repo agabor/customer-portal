@@ -21,7 +21,7 @@ class Text extends Model
         return $this->belongsTo(Project::class);
     }
 
-    public function localtexts(){
+    public function values(){
         return $this->hasMany(Localtext::class);
     }
 

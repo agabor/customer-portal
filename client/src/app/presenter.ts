@@ -102,12 +102,12 @@ export class Presenter {
     setProjectComponent(projectComponent: ProjectComponent, slug: string) {
         this.projectComponent = projectComponent;
         if (this.activeProject != null) {
-            this.projectComponent.project = this.activeProject;
+            this.projectComponent.setProject(this.activeProject);
         } else {
             let res = this.api.projectsIdGet(this.jwt, slug);
             res.subscribe(data => {
                 this.activeProject = data;
-                this.projectComponent.project = this.activeProject;
+                this.projectComponent.setProject(this.activeProject);
             }, error => {
                 console.log(error.json());
             });

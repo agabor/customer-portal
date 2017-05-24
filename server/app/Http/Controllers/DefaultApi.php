@@ -16,6 +16,7 @@
 namespace App\Http\Controllers;
 
 use App\Auth;
+use App\Image;
 use App\Project;
 use App\User;
 use Illuminate\Support\Facades\Request;
@@ -117,6 +118,22 @@ class DefaultApi extends Controller
         return $project;
     }
 
+    static function hex2rgb($colour)
+    {
+        $colour = preg_replace("/[^abcdef0-9]/i", "", $colour);
+        if (strlen($colour) == 6)
+        {
+            list($r, $g, $b) = str_split($colour, 2);
+            return Array("r" => hexdec($r), "g" => hexdec($g), "b" => hexdec($b));
+        }
+        elseif (strlen($colour) == 3)
+        {
+            list($r, $g, $b) = array($colour[0] . $colour[0], $colour[1] . $colour[1], $colour[2] . $colour[2]);
+            return Array("r" => hexdec($r), "g" => hexdec($g), "b" => hexdec($b));
+        }
+        return false;
+    }
+
     public function imageGet(string $project_id,string $image_id)
     {
         $project = $this->getProjectWithSlug($project_id);
@@ -124,16 +141,47 @@ class DefaultApi extends Controller
             return response('',404);
         foreach ($project->images as $img) {
             if ($img->image_id == $image_id){
-                $arrContextOptions=array(
-                    "ssl"=>array(
-                        "verify_peer"=>false,
-                        "verify_peer_name"=>false,
-                    ),
-                );
+
+
+                $image = $this->getPlaceholderImage($img);
 
                 header("Content-Type: image/png");
-                return file_get_contents('https://dummyimage.com/'.$img->preferredWidth.'x'.$img->preferredHeight.'/e7e7e7/3379b7.png', false, stream_context_create($arrContextOptions));
+                imagepng($image);
             }
         }
+    }
+
+    /**
+     * @param $img
+     * @return resource
+     */
+    protected function getPlaceholderImage(Image $img)
+    {
+        // Create image
+        $image = imagecreate($img->preferredWidth, $img->preferredHeight);
+
+        // Colours
+        $bg = 'f5f5f5';
+        $bg = self::hex2rgb($bg);
+        $setbg = imagecolorallocate($image, $bg['r'], $bg['g'], $bg['b']);
+
+        $fg = '337ab7';
+        $fg = self::hex2rgb($fg);
+        $setfg = imagecolorallocate($image, $fg['r'], $fg['g'], $fg['b']);
+
+        // Text
+        $text = $img->preferredWidth .' x ' . $img->preferredHeight;
+
+        $font = dirname(__FILE__) . '/HelveticaNeueMed.ttf';
+        // Text positioning
+        $fontsize = 20;
+        $bbox = imagettfbbox($fontsize, 0, $font, $text);
+        $fontheight = $bbox[5] - $bbox[1];   // height of a character
+        $textwidth = $bbox[2] - $bbox[0];         // text width
+        $xpos = (imagesx($image) - $textwidth) / 2;
+        $ypos = (imagesy($image) - $fontheight) / 2;
+        // Generate text
+        imagettftext($image, $fontsize, 0, $xpos, $ypos, $setfg, $font, $text);
+        return $image;
     }
 }

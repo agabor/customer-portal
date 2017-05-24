@@ -6,7 +6,8 @@ import { Tab } from "../ui/tab";
 import {Image} from "../../swagger/model/Image";
 
 @Component({
-    templateUrl: './project.component.html'
+    templateUrl: './project.component.html',
+    styleUrls: ['./project.component.css']
 })
 export class ProjectComponent {
 
@@ -18,6 +19,19 @@ export class ProjectComponent {
         texts: null,
         images: null
     };
+
+    currentImage: Image = {
+        imageId: null,
+        name: null,
+        width: 0,
+        height: 0,
+        preferredWidth: 0,
+        preferredHeight: 0,
+        fileName: null,
+        conditions: []
+    };
+
+    modal:Modal = new Modal();
 
     tabImages: Tab = new Tab();
 
@@ -52,6 +66,26 @@ export class ProjectComponent {
         this.tabImages.setInactive();
         this.tabFiles.setActive();
     }
+
+    showImage(image: Image){
+        this.currentImage = image;
+        this.modal.show();
+    }
 }
 
+class Modal {
+    hClass: string = 'modal fade';
+    hStyle: string = 'display: none;';
+    shown: boolean = false;
+    show(){
+        this.hClass = 'modal fade in';
+        this.hStyle = 'display: block;';
+        this.shown = true;
+    }
+    hide(){
+        this.hClass = 'modal fade';
+        this.hStyle = 'display: none;';
+        this.shown = false;
+    }
+}
 

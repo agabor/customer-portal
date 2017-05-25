@@ -11,6 +11,7 @@ import {MenuComponent} from "../components/menu.component";
 import {Project} from "../../swagger/model/Project";
 import {Image} from "../../swagger/model/Image";
 import {ImagesComponent} from "../components/project/images.component";
+import {ImageModalComponent} from "../components/project/image-modal.component";
 
 @Injectable()
 export class Presenter {
@@ -24,6 +25,7 @@ export class Presenter {
     activeProject: Project = null;
     private menuComponent: MenuComponent;
     private imagesComponent: ImagesComponent;
+    private imageModalComponent: ImageModalComponent;
 
     constructor (private api: DefaultApi, private router: Router) {
         this.jwt = localStorage.getItem('jwt');
@@ -154,5 +156,13 @@ export class Presenter {
 
     setImageComponent(imagesComponent: ImagesComponent) {
         this.imagesComponent = imagesComponent;
+    }
+
+    showImage(image: Image) {
+        this.imageModalComponent.showImage(image);
+    }
+
+    setImageModalComponent(imageModalComponent: ImageModalComponent) {
+        this.imageModalComponent = imageModalComponent;
     }
 }

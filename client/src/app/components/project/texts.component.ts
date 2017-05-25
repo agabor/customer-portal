@@ -10,8 +10,8 @@ import {LocalText} from "../../../swagger/model/LocalText";
 
 @Component({
     selector: 'project-texts',
-    templateUrl: './texts.component.html'
-    //styleUrls: ['./texts.component.css']
+    templateUrl: './texts.component.html',
+    styleUrls: ['./texts.component.css']
 })
 export class TextsComponent {
     project: Project = {

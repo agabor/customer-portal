@@ -3,12 +3,7 @@ import { Presenter } from "../../logic/presenter";
 import {ActivatedRoute} from "@angular/router";
 import {Project} from "../../../swagger/model/Project";
 import { Tab } from "../../ui/tab";
-import {Image} from "../../../swagger/model/Image";
-import {Text} from "../../../swagger/model/Text";
-import {Locale} from "../../../swagger/model/Locale";
-import {current} from "codelyzer/util/syntaxKind";
 import {ProjectLogic} from "../../logic/project-logic";
-import {LocalText} from "../../../swagger/model/LocalText";
 
 @Component({
     templateUrl: './project.component.html',

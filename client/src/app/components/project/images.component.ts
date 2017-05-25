@@ -6,8 +6,8 @@ import {Modal} from "../../ui/modal";
 
 @Component({
     selector: 'project-images',
-    templateUrl: './images.component.html'
-    //styleUrls: ['./images.component.css']
+    templateUrl: './images.component.html',
+    styleUrls: ['./images.component.css']
 })
 export class ImagesComponent {
     project: Project = {
@@ -17,17 +17,6 @@ export class ImagesComponent {
         locales: [],
         texts: [],
         images: []
-    };
-
-    currentImage: Image = {
-        imageId: null,
-        name: null,
-        width: 0,
-        height: 0,
-        preferredWidth: 0,
-        preferredHeight: 0,
-        fileName: null,
-        conditions: []
     };
 
 
@@ -42,8 +31,7 @@ export class ImagesComponent {
     }
 
     showImage(image: Image){
-        this.currentImage = image;
-        this.modal.show();
+        this.presenter.showImage(image);
     }
 
     setProject(project: Project) {

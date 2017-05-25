@@ -18,6 +18,7 @@ import {MenuComponent} from "./components/menu.component";
 import {ImagesComponent} from "./components/project/images.component";
 import {TextsComponent} from "./components/project/texts.component";
 import {FilesComponent} from "./components/project/files.component";
+import {ImageModalComponent} from "./components/project/image-modal.component";
 
 const appRoutes: Routes = [
   { path: '',         redirectTo: 'home', pathMatch: 'full' },
@@ -38,7 +39,8 @@ const appRoutes: Routes = [
     MenuComponent,
     ImagesComponent,
     TextsComponent,
-    FilesComponent
+    FilesComponent,
+    ImageModalComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

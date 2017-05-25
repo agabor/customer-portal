@@ -13,8 +13,9 @@ import {HomeComponent} from "./components/home.component";
 import {AuthGuard} from "./guards/authguard";
 import {DefaultApi} from "../swagger/api/DefaultApi";
 import {LogoutGuard} from "./guards/logoutguard";
-import {ProjectComponent} from "./components/project.component";
+import {ProjectComponent} from "./components/project/project.component";
 import {MenuComponent} from "./components/menu.component";
+import {ImagesComponent} from "./components/project/images.component";
 
 const appRoutes: Routes = [
   { path: '',         redirectTo: 'home', pathMatch: 'full' },
@@ -32,7 +33,8 @@ const appRoutes: Routes = [
     ProjectListComponent,
     ProjectComponent,
     HomeComponent,
-    MenuComponent
+    MenuComponent,
+    ImagesComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

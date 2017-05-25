@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { Presenter } from "../logic/presenter";
+import { Presenter } from "../../logic/presenter";
 import {ActivatedRoute} from "@angular/router";
-import {Project} from "../../swagger/model/Project";
-import { Tab } from "../ui/tab";
-import {Image} from "../../swagger/model/Image";
-import {Text} from "../../swagger/model/Text";
-import {Locale} from "../../swagger/model/Locale";
+import {Project} from "../../../swagger/model/Project";
+import { Tab } from "../../ui/tab";
+import {Image} from "../../../swagger/model/Image";
+import {Text} from "../../../swagger/model/Text";
+import {Locale} from "../../../swagger/model/Locale";
 import {current} from "codelyzer/util/syntaxKind";
-import {ProjectLogic} from "../logic/project-logic";
-import {LocalText} from "../../swagger/model/LocalText";
+import {ProjectLogic} from "../../logic/project-logic";
+import {LocalText} from "../../../swagger/model/LocalText";
 
 @Component({
     templateUrl: './project.component.html',
@@ -27,18 +27,6 @@ export class ProjectComponent {
 
     projectLogic: ProjectLogic = new ProjectLogic(this.project);
 
-    currentImage: Image = {
-        imageId: null,
-        name: null,
-        width: 0,
-        height: 0,
-        preferredWidth: 0,
-        preferredHeight: 0,
-        fileName: null,
-        conditions: []
-    };
-
-    modal:Modal = new Modal();
 
     tabImages: Tab = new Tab('Images');
 
@@ -51,13 +39,13 @@ export class ProjectComponent {
     currentLocale: Locale;
 
     constructor(private route: ActivatedRoute, private presenter: Presenter) {
-        let slug: string = route.snapshot.params['slug'];
-        presenter.setProjectComponent(this, slug);
-        this.showImages();
+        presenter.setProjectComponent(this);
     }
 
-    getImageUrl(image: Image) {
-        return this.presenter.getImageUrl(image);
+    ngOnInit() {
+        let slug: string = this.route.snapshot.params['slug'];
+        this.presenter.initProject(slug);
+        this.showImages();
     }
 
     showImages(){
@@ -78,10 +66,6 @@ export class ProjectComponent {
         this.tabFiles.setActive();
     }
 
-    showImage(image: Image){
-        this.currentImage = image;
-        this.modal.show();
-    }
 
     setProject(project: Project) {
         this.project = project;
@@ -144,20 +128,3 @@ export class ProjectComponent {
     }
 
 }
-
-class Modal {
-    hClass: string = 'modal fade';
-    hStyle: string = 'display: none;';
-    shown: boolean = false;
-    show(){
-        this.hClass = 'modal fade in';
-        this.hStyle = 'display: block;';
-        this.shown = true;
-    }
-    hide(){
-        this.hClass = 'modal fade';
-        this.hStyle = 'display: none;';
-        this.shown = false;
-    }
-}
-

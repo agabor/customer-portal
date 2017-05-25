@@ -6,10 +6,11 @@ import {DefaultApi} from "../../swagger/api/DefaultApi";
 import {ProjectBase} from "../../swagger/model/ProjectBase";
 import {ProjectListComponent} from "../components/project-list.component";
 import {LoginFormComponent} from "../components/login-form.component";
-import {ProjectComponent} from "../components/project.component";
+import {ProjectComponent} from "../components/project/project.component";
 import {MenuComponent} from "../components/menu.component";
 import {Project} from "../../swagger/model/Project";
 import {Image} from "../../swagger/model/Image";
+import {ImagesComponent} from "../components/project/images.component";
 
 @Injectable()
 export class Presenter {
@@ -20,8 +21,9 @@ export class Presenter {
     private projectListComponent: ProjectListComponent;
     private loginFormComponent: LoginFormComponent;
     private projectComponent: ProjectComponent;
-    private activeProject: Project = null;
+    activeProject: Project = null;
     private menuComponent: MenuComponent;
+    private imagesComponent: ImagesComponent;
 
     constructor (private api: DefaultApi, private router: Router) {
         this.jwt = localStorage.getItem('jwt');
@@ -100,19 +102,26 @@ export class Presenter {
       return null;
     }
 
-    setProjectComponent(projectComponent: ProjectComponent, slug: string) {
+    setProjectComponent(projectComponent: ProjectComponent) {
         this.projectComponent = projectComponent;
+    }
+
+    initProject(slug: string) {
         if (this.activeProject != null) {
-            this.projectComponent.setProject(this.activeProject);
+            this.setProject();
         } else {
             let res = this.api.projectsIdGet(this.jwt, slug);
             res.subscribe(data => {
                 this.activeProject = data;
-                this.projectComponent.setProject(this.activeProject);
+                this.setProject();
             }, error => {
                 console.log(error.json());
             });
         }
+    }
+
+    private setProject() {
+        this.projectComponent.setProject(this.activeProject);
     }
 
 
@@ -141,5 +150,9 @@ export class Presenter {
 
     getImageUrl(image: Image) {
         return  "http://localhost:8000/api/v1/projects/"+this.activeProject.slug+"/images/"+image.imageId + "?token=" + this.jwt;
+    }
+
+    setImageComponent(imagesComponent: ImagesComponent) {
+        this.imagesComponent = imagesComponent;
     }
 }

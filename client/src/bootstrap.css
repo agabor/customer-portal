@@ -1,0 +1,8 @@
+.progress {
+    height: 6px;
+    border-radius: 0;
+}
+
+.modal-body {
+    padding: 0;
+}

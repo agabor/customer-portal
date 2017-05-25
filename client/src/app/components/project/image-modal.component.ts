@@ -37,4 +37,8 @@ export class ImageModalComponent {
     getImageUrl(image: Image) {
         return this.presenter.getImageUrl(image);
     }
+
+    getModalLeft() : number {
+        return (window.innerWidth-this.currentImage.width-2)/2;
+    }
 }

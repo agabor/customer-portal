@@ -1,5 +1,5 @@
 <div [class]="modal.hClass" id="myModal" role="dialog" [style.display]="modal.shown? 'block' : 'none'">
-    <div class="modal-dialog">
+    <div class="modal-dialog" [style.left]="getModalLeft()+'px'">
 
         <!-- Modal content-->
         <div class="modal-content" [style.width]="(currentImage.width+2)+'px'">

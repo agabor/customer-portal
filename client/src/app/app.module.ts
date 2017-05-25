@@ -20,6 +20,13 @@ import {TextsComponent} from "./components/project/texts.component";
 import {FilesComponent} from "./components/project/files.component";
 import {ImageModalComponent} from "./components/project/image-modal.component";
 
+
+import {VgCoreModule} from 'videogular2/core';
+import {VgControlsModule} from 'videogular2/controls';
+import {VgOverlayPlayModule} from 'videogular2/overlay-play';
+import {VgBufferingModule} from 'videogular2/buffering';
+import {VideosComponent} from "./components/project/videos.component";
+
 const appRoutes: Routes = [
   { path: '',         redirectTo: 'home', pathMatch: 'full' },
   { path: 'home',     component: HomeComponent },
@@ -40,13 +47,18 @@ const appRoutes: Routes = [
     ImagesComponent,
     TextsComponent,
     FilesComponent,
-    ImageModalComponent
+    ImageModalComponent,
+    VideosComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    VgCoreModule,
+    VgControlsModule,
+    VgOverlayPlayModule,
+    VgBufferingModule
   ],
   providers: [Presenter, AuthGuard, LogoutGuard, DefaultApi],
   bootstrap: [AppComponent, MenuComponent]

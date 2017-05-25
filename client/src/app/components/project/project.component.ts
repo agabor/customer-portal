@@ -29,6 +29,8 @@ export class ProjectComponent {
 
     tabFiles: Tab = new Tab('Files');
 
+    tabVideos: Tab = new Tab('Videos');
+
 
     constructor(private route: ActivatedRoute, private presenter: Presenter) {
         presenter.setProjectComponent(this);
@@ -41,23 +43,32 @@ export class ProjectComponent {
     }
 
     showImages(){
+        this.tabVideos.setInactive();
         this.tabTexts.setInactive();
         this.tabFiles.setInactive();
         this.tabImages.setActive();
     }
 
     showTexts(){
+        this.tabVideos.setInactive();
         this.tabImages.setInactive();
         this.tabFiles.setInactive();
         this.tabTexts.setActive();
     }
 
     showFiles() {
+        this.tabVideos.setInactive();
         this.tabTexts.setInactive();
         this.tabImages.setInactive();
         this.tabFiles.setActive();
     }
 
+    showVideos() {
+        this.tabTexts.setInactive();
+        this.tabImages.setInactive();
+        this.tabFiles.setInactive();
+        this.tabVideos.setActive();
+    }
 
     setProject(project: Project) {
         this.project = project;

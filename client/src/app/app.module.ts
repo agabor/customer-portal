@@ -17,6 +17,7 @@ import {ProjectComponent} from "./components/project/project.component";
 import {MenuComponent} from "./components/menu.component";
 import {ImagesComponent} from "./components/project/images.component";
 import {TextsComponent} from "./components/project/texts.component";
+import {FilesComponent} from "./components/project/files.component";
 
 const appRoutes: Routes = [
   { path: '',         redirectTo: 'home', pathMatch: 'full' },
@@ -36,7 +37,8 @@ const appRoutes: Routes = [
     HomeComponent,
     MenuComponent,
     ImagesComponent,
-    TextsComponent
+    TextsComponent,
+    FilesComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

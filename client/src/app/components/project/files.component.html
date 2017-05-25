@@ -1,0 +1,11 @@
+<div class="list-group">
+    <a href="javascript:void(0)" class="list-group-item" *ngFor="let file of project.files">
+        <span class="glyphicon glyphicon-download"></span>
+        <strong>{{file.name}}</strong> {{file.fileName}} ({{file.size}} KB) <br>
+        {{file.description}}
+        <div [hidden]="file.fileName != null && file.fileName.length > 0"
+             class="alert alert-warning">
+            You must upload this image!
+        </div>
+    </a>
+</div>

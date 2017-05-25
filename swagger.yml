@@ -75,6 +75,30 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Project'
+  /projects/{id}/texts:
+    put:
+      description: update texts
+      parameters:
+        -
+          $ref: '#/parameters/jwtHeaderParam'
+        -
+          name: id
+          in: path
+          description: project identifier
+          required: true
+          type: string
+        -
+          name: body
+          in: body
+          schema:
+            properties:
+              sources:
+                type: array
+                items:
+                  $ref: '#/definitions/Text'
+      responses:
+        200:
+          description: OK
   
 parameters:
    jwtHeaderParam:

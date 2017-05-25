@@ -1,4 +1,5 @@
 export * from './AuthToken';
+export * from './Body';
 export * from './File';
 export * from './Image';
 export * from './ImageCondition';

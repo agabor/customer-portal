@@ -106,6 +106,24 @@ export class DefaultApi {
             });
     }
 
+    /**
+     * 
+     * update texts
+     * @param token JSON Web Token
+     * @param id project identifier
+     * @param body 
+     */
+    public projectsIdTextsPut(token: string, id: string, body?: models.Body, extraHttpRequestParams?: any): Observable<{}> {
+        return this.projectsIdTextsPutWithHttpInfo(token, id, body, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
 
     /**
      * 
@@ -276,6 +294,54 @@ export class DefaultApi {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
+            search: queryParameters
+        });
+
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * update texts
+     * @param token JSON Web Token
+     * @param id project identifier
+     * @param body 
+     */
+    public projectsIdTextsPutWithHttpInfo(token: string, id: string, body?: models.Body, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/projects/${id}/texts`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'token' is not null or undefined
+        if (token === null || token === undefined) {
+            throw new Error('Required parameter token was null or undefined when calling projectsIdTextsPut.');
+        }
+        // verify required parameter 'id' is not null or undefined
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectsIdTextsPut.');
+        }
+        headers.set('token', String(token));
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        headers.set('Content-Type', 'application/json');
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Put,
+            headers: headers,
+            body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
             search: queryParameters
         });
 

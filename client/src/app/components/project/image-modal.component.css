@@ -7,3 +7,9 @@
     margin-left: 0;
     margin-right: 0;
 }
+
+.modal-body > p {
+    margin: 20px;
+    font-size: larger;
+    text-align: center;
+}

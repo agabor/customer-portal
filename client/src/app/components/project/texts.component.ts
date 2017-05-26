@@ -39,7 +39,7 @@ export class TextsComponent {
         for (let locale of this.project.locales) {
             this.localeTabs.push(new Tab(locale.name))
         }
-        this.setLocale(1);
+        this.setLocale(0);
     }
 
     setLocale(i: number) {

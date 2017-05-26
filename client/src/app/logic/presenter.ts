@@ -151,6 +151,8 @@ export class Presenter {
     }
 
     getImageUrl(image: Image) {
+        if (image.fileName != null && image.fileName.length != 0)
+            return image.fileName;
         return  "http://localhost:8000/api/v1/projects/"+this.activeProject.slug+"/images/"+image.imageId + "?token=" + this.jwt;
     }
 

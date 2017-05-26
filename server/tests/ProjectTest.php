@@ -9,12 +9,12 @@ class ProjectTest extends TestCase
         $this->assertEquals(200, $this->response->status());
         $actual = json_decode($this->response->getContent(), true);
         $this->json('GET', '/api/v1/projects', array(), array('token' => $actual['jwt']))
-            ->seeJsonEquals([[
+            ->seeJson([
                 'name' => 'Sample Project',
                 'slug' => 'sample_project',
                 'warnings' => 4,
                 'progress' => 20
-            ]]);
+            ]);
         $this->assertEquals(200, $this->response->status());
         $this->post('/api/v1/logout',array(), array('token' => $actual['jwt']));
         $this->assertEquals(200, $this->response->status());

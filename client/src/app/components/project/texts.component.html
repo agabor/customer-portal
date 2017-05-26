@@ -3,6 +3,7 @@
 </ul>
 <form id="textList">
     <div *ngFor="let text of project.texts">
+        <h2 *ngIf="text.startGroup != null && text.startGroup.length != 0">{{text.startGroup}}</h2>
         <div class="form-group" *ngFor="let lt of text.values" [hidden]="currentLocale.localeId != lt.localeCode">
             <div class="thumbnail">
                 <div class="caption">
@@ -12,7 +13,11 @@
                         <span class="input-group-addon" id="basic-addon1" [innerHTML]="getTextIndicator(text, lt)"></span>
                         <input type="text" class="form-control" name="{{text.textId + lt.localeCode}}" id="{{text.textId + lt.localeCode}}"  aria-describedby="basic-addon1" [(ngModel)]="lt.value"  #textvalue="ngModel">
                     </div>
-                    <div [hidden]="text.minLength <= textvalue.value?.length"
+                    <div [hidden]="textvalue.value?.length > 0"
+                         class="alert alert-warning">
+                        You must fill out this field!
+                    </div>
+                    <div [hidden]="text.minLength <= textvalue.value?.length || textvalue.value?.length == 0"
                          class="alert alert-warning">
                         Text is too short! Minimum required length is: {{text.minLength}}, current length is: {{textvalue.value?.length}}
                     </div>

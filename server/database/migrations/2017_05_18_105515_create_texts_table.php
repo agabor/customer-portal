@@ -17,6 +17,7 @@ class CreateTextsTable extends Migration
             $table->text('name');
             $table->text('description');
             $table->text('textId');
+            $table->text('startGroup');
             $table->integer('minLength');
             $table->integer('maxLength');
             $table->unsignedInteger('project_id')->index();

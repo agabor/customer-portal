@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string textId
  * @property string name
  * @property string description
+ * @property string startGroup
  * @property integer minLength
  * @property integer maxLength
  */

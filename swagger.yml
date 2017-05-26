@@ -221,6 +221,8 @@ definitions:
         example: "Webpage Title"
       description:
         type: string
+      startGroup:
+        type: string
       minLength:
         type: integer
         example: 10

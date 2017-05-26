@@ -61,6 +61,7 @@ class DatabaseSeeder extends Seeder
         $t->name = 'Title';
         $t->description = 'This text will appear in the titlebar of the browser, an on the fron page of your website.';
         $t->textId = 'title';
+        $t->startGroup = 'Store szövegek';
         $t->minLength = 3;
         $t->maxLength = 30;
         $p->texts()->save($t);
@@ -125,7 +126,7 @@ Az automentokereso.hu weboldalon a károsultak autómentők, esetkocsik és gép
         ]);
 
         $data = [
-            ['app_name', 'Autómentő Kereső'],
+            ['app_name', 'Autómentő Kereső', 'App szövegek'],
             ['app_name_part_1', 'Autómentő'],
             ['app_name_part_2', 'Kereső'],
             ['action_sign_in', 'Bejelentkezés'],
@@ -151,6 +152,8 @@ Az automentokereso.hu weboldalon a károsultak autómentők, esetkocsik és gép
             $t = new \App\Text();
             $t->name = ucfirst(str_replace('_', ' ', $item[0]));
             $t->textId = $item[0];
+            if (isset($item[2]))
+                $t->startGroup = $item[2];
             $t->description = '';
             $t->minLength = 2;
             $t->maxLength = 100;

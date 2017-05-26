@@ -19,6 +19,8 @@ export interface Text {
 
     description?: string;
 
+    startGroup?: string;
+
     minLength?: number;
 
     maxLength?: number;

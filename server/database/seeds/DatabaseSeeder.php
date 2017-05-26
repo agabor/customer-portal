@@ -237,7 +237,7 @@ Az automentokereso.hu weboldalon a károsultak autómentők, esetkocsik és gép
                 $t->startGroup = $item[2];
             $t->description = '';
             $t->minLength = 2;
-            $t->maxLength = 100;
+            $t->maxLength = mb_strlen($item[1]) * 1.5;
             $p->texts()->save($t);
             $t->values()->saveMany([new \App\Localtext([
                 'locale_id' => $this->hu_HU->id,
@@ -253,6 +253,26 @@ Az automentokereso.hu weboldalon a károsultak autómentők, esetkocsik és gép
                 ])
             ]);
         }
+
+        $f = new \App\File();
+        $f->fileId = 'design';
+        $f->name = 'Látványterv';
+        $f->description = 'Az alkalmazás látványterve';
+        $f->size = 7890;
+        $f->fileName = 'automento.psd';
+        $f->ext = ['psd'];
+        $f->maxSize = 10000;
+        $p->files()->save($f);
+
+        $f = new \App\File();
+        $f->fileId = 'font';
+        $f->name = 'Font';
+        $f->description = 'Az alkalmazásban használt font';
+        $f->size = 42;
+        $f->fileName = 'Montserrat-Bold.ttf';
+        $f->ext = ['psd'];
+        $f->maxSize = 10000;
+        $p->files()->save($f);
 
         $p->calculateState();
     }

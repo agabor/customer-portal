@@ -6,8 +6,8 @@ import {Modal} from "../../ui/modal";
 
 @Component({
     selector: 'project-files',
-    templateUrl: './files.component.html'
-    //styleUrls: ['./files.component.css']
+    templateUrl: './files.component.html',
+    styleUrls: ['./files.component.css']
 })
 export class FilesComponent {
     project: Project = {

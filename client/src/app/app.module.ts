@@ -21,6 +21,8 @@ import {ImageModalComponent} from "./components/project/image-modal.component";
 
 import {VideosComponent} from "./components/project/videos.component";
 import {LinksComponent} from "./components/project/links.component";
+import {Autosize} from "./ui/autosize.directive";
+
 
 const appRoutes: Routes = [
   { path: '',         redirectTo: 'home', pathMatch: 'full' },
@@ -44,7 +46,8 @@ const appRoutes: Routes = [
     FilesComponent,
     ImageModalComponent,
     VideosComponent,
-    LinksComponent
+    LinksComponent,
+    Autosize
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

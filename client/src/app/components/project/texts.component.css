@@ -4,3 +4,6 @@
 .thumbnail {
     margin-top: 10px;
 }
+textarea {
+    resize: none;
+}

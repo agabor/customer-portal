@@ -35,6 +35,7 @@ class ProjectTest extends TestCase
                     'name' => 'Webpage Title',
                     'description' => 'This text will appear in the titlebar of the browser, an on the fron page of your website.',
                     'textId' => 'webpage_title',
+                    'startGroup' => '',
                     'minLength' => 10,
                     'maxLength' => 20,
                     'values' => [

@@ -30,6 +30,8 @@ export class TextsComponent {
 
     textEntries: TextEntry[] = [];
 
+    saved: boolean = true;
+
     constructor (private presenter: Presenter) {
     }
 
@@ -87,7 +89,18 @@ export class TextsComponent {
     }
 
     save(){
+        this.saved = true;
         this.presenter.saveProject();
+    }
+
+    onKey(event: any) {
+        let s = String(event.key);
+        if (s.length == 1 || s == 'Backspace' || s == 'Enter')
+            this.saved = false;
+    }
+
+    changed() {
+        this.saved = false;
     }
 }
 

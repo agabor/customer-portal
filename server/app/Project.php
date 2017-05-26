@@ -76,7 +76,7 @@ class Project extends Model
     private static function getTextWarnings(Text $text) : int
     {
         $warnings = 0;
-        foreach ($text-> values as $localText){
+        foreach ($text->values as $localText){
             if (self::hasWarning($text, $localText))
                 ++$warnings;
         }
@@ -85,7 +85,7 @@ class Project extends Model
 
     private static function hasWarning(Text $text, Localtext $localText)
     {
-        $len = strlen($localText->value);
+        $len = mb_strlen($localText->value);
         return $len == 0 || $len < $text->minLength || $len > $text->maxLength;
     }
 

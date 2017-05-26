@@ -146,6 +146,7 @@ class DefaultApi extends Controller
                 }
             }
         }
+        $project->calculateState();
     }
 
     protected function getProjectWithSlug(string $id) : Project

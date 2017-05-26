@@ -13,7 +13,7 @@ export class MenuComponent {
     activeItems: MenuItem[] = [];
     constructor (private presenter: Presenter) {
         presenter.setMenuComponent(this);
-        this.add(new MenuItem('Home', 'home', true, 'glyphicon-home'));
+        this.add(new MenuItem('Pricing', 'pricing', true, 'glyphicon glyphicon-shopping-cart'));
         this.add(new MenuItem('Login', 'login', true, 'glyphicon-log-in'));
         this.add(new MenuItem('Projects', 'projects', false, 'glyphicon-tasks'));
         this.add(new MenuItem('Logout', 'logout', false, 'glyphicon-log-out'));

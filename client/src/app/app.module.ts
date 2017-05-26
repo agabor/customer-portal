@@ -30,7 +30,7 @@ import {LinksComponent} from "./components/project/links.component";
 
 const appRoutes: Routes = [
   { path: '',         redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home',     component: HomeComponent },
+  { path: 'pricing',     component: HomeComponent },
   { path: 'login',    component: LoginFormComponent },
   { path: 'logout',   component: LoginFormComponent, canActivate: [LogoutGuard] },
   { path: 'projects', component: ProjectListComponent, canActivate: [AuthGuard]},

@@ -123,6 +123,53 @@ Az automentokereso.hu weboldalon a károsultak autómentők, esetkocsik és gép
                 'value' => ''
             ])
         ]);
+
+        $data = [
+            ['app_name', 'Autómentő Kereső'],
+            ['app_name_part_1', 'Autómentő'],
+            ['app_name_part_2', 'Kereső'],
+            ['action_sign_in', 'Bejelentkezés'],
+            ['error_invalid_username', 'Hibás felhasználó név'],
+            ['error_invalid_password', 'A jelszó túl rövid'],
+            ['error_incorrect_password', 'Hibás jelszó'],
+            ['error_field_required', 'This field is required'],
+            ['settings', 'Jelszó módosítás'],
+            ['logout', 'Kijelentkezés'],
+            ['name', 'Név'],
+            ['password', 'Jelszó'],
+            ['back', 'Vissza'],
+            ['no_message', 'A bajbajutottak segítségkérő üzeneteit és a földrajzi pozíciójukat itt találod majd az első üzenet beérkezését követően.'],
+            ['warning_already_logged_in', 'Ön már bejelentkezett egy másik készülékről.'],
+            ['warning_forced_logout', 'Hiba lépett fel a hálózati kapcsolatban, ezért a szerver kiléptette önt.'],
+            ['no_connection_error', 'A szerver nem elérhető'],
+            ['error_passwords_do_not_match', 'A két jelszó nem egyezik meg.'],
+            ['reconnect', 'A szerver nem elérhető. Újracsatlakozáshoz kattintson az OK gombra.'],
+            ['position_desc', 'A segélykérő pozíciója:\n%s szélességi fok (latitude): %s\n%s hosszúsági fok (longitude): %s'],
+        ];
+
+        foreach ($data as $item) {
+            $t = new \App\Text();
+            $t->name = ucfirst(str_replace('_', ' ', $item[0]));
+            $t->textId = $item[0];
+            $t->description = '';
+            $t->minLength = 2;
+            $t->maxLength = 100;
+            $p->texts()->save($t);
+            $t->values()->saveMany([new \App\Localtext([
+                'locale_id' => $hu_HU->id,
+                'value' => $item[1]
+            ]),
+                new \App\Localtext([
+                    'locale_id' => $en_US->id,
+                    'value' => ''
+                ]),
+                new \App\Localtext([
+                    'locale_id' => $de_DE->id,
+                    'value' => ''
+                ])
+            ]);
+        }
+
         $p->calculateState();
 
     }

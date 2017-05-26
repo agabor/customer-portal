@@ -17,4 +17,8 @@ export interface InlineResponse2001 {
 
     slug?: string;
 
+    warnings?: number;
+
+    progress?: number;
+
 }

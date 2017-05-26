@@ -131,6 +131,12 @@ definitions:
       slug:
         type: string
         example: sample_project
+      warnings:
+        type: number
+        format: integer
+      progress:
+        type: number
+        format: integer
   Project:
     allOf:
       - $ref: '#/definitions/ProjectBase'

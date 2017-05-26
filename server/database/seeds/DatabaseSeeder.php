@@ -80,6 +80,6 @@ class DatabaseSeeder extends Seeder
         $f->ext = ['doc', 'docx', 'pdf'];
         $f->maxSize = 10000;
         $p->files()->save($f);
-
+        $p->calculateState();
     }
 }

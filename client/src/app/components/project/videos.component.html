@@ -5,14 +5,12 @@
                 {{video.name}}
             </a>
         </div>
+        <h2>{{currentVideo.name}}</h2>
+        <p>{{currentVideo.description}}</p>
     </div>
-    <div class="col-sm-12 col-md-8" *ngFor="let video of currentVideo">
-        <div>
-            <vg-player>
-                <video [vgMedia]="media" #media id="singleVideo" preload="auto" controls>
-                    <source [src]="video.link" type="video/mp4">
-                </video>
-            </vg-player>
-        </div>
+    <div class="col-sm-12 col-md-8">
+        <video controls="" preload="metadata" [src]="currentVideo.link">
+            Your browser does not support HTML5 video.
+        </video>
     </div>
 </div>

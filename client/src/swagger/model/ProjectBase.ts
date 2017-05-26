@@ -17,4 +17,8 @@ export interface ProjectBase {
 
     slug?: string;
 
+    warnings?: number;
+
+    progress?: number;
+
 }

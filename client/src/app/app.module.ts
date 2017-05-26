@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 
-
 import { AppComponent } from './components/app.component';
 import { LoginFormComponent } from './components/login-form.component'
 import {Presenter} from "./logic/presenter";
@@ -20,11 +19,6 @@ import {TextsComponent} from "./components/project/texts.component";
 import {FilesComponent} from "./components/project/files.component";
 import {ImageModalComponent} from "./components/project/image-modal.component";
 
-
-import {VgCoreModule} from 'videogular2/core';
-import {VgControlsModule} from 'videogular2/controls';
-import {VgOverlayPlayModule} from 'videogular2/overlay-play';
-import {VgBufferingModule} from 'videogular2/buffering';
 import {VideosComponent} from "./components/project/videos.component";
 import {LinksComponent} from "./components/project/links.component";
 
@@ -56,11 +50,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     BrowserModule,
     FormsModule,
-    HttpModule,
-    VgCoreModule,
-    VgControlsModule,
-    VgOverlayPlayModule,
-    VgBufferingModule
+    HttpModule
   ],
   providers: [Presenter, AuthGuard, LogoutGuard, DefaultApi],
   bootstrap: [AppComponent, MenuComponent]

@@ -16,6 +16,8 @@ class CreateProjectsTable extends Migration
             $table->increments('id');
             $table->text('name');
             $table->text('slug');
+            $table->integer('warnings');
+            $table->integer('progress');
             $table->timestamps();
         });
     }

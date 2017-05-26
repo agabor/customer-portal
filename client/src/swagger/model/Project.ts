@@ -17,6 +17,10 @@ export interface Project {
 
     slug?: string;
 
+    warnings?: number;
+
+    progress?: number;
+
     texts?: Array<models.InlineResponse2002Texts>;
 
     images?: Array<models.InlineResponse2002Images>;

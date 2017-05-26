@@ -31,6 +31,9 @@ export class ProjectComponent {
 
     tabVideos: Tab = new Tab('Videos');
 
+    tabLinks: Tab = new Tab('Links');
+
+    tabs: Tab[] = [this.tabImages,this.tabTexts,this.tabFiles,this.tabVideos,this.tabLinks];
 
     constructor(private route: ActivatedRoute, private presenter: Presenter) {
         presenter.setProjectComponent(this);
@@ -43,31 +46,31 @@ export class ProjectComponent {
     }
 
     showImages(){
-        this.tabVideos.setInactive();
-        this.tabTexts.setInactive();
-        this.tabFiles.setInactive();
-        this.tabImages.setActive();
+        this.showTab(this.tabImages);
     }
 
     showTexts(){
-        this.tabVideos.setInactive();
-        this.tabImages.setInactive();
-        this.tabFiles.setInactive();
-        this.tabTexts.setActive();
+        this.showTab(this.tabTexts);
     }
 
     showFiles() {
-        this.tabVideos.setInactive();
-        this.tabTexts.setInactive();
-        this.tabImages.setInactive();
-        this.tabFiles.setActive();
+        this.showTab(this.tabFiles);
     }
 
     showVideos() {
-        this.tabTexts.setInactive();
-        this.tabImages.setInactive();
-        this.tabFiles.setInactive();
-        this.tabVideos.setActive();
+        this.showTab(this.tabVideos);
+    }
+    showLinks() {
+        this.showTab(this.tabLinks);
+    }
+
+    showTab(tab: Tab){
+        for (let t of this.tabs){
+            if (t == tab)
+                t.setActive();
+            else
+                t.setInactive();
+        }
     }
 
     setProject(project: Project) {

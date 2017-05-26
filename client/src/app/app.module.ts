@@ -26,6 +26,7 @@ import {VgControlsModule} from 'videogular2/controls';
 import {VgOverlayPlayModule} from 'videogular2/overlay-play';
 import {VgBufferingModule} from 'videogular2/buffering';
 import {VideosComponent} from "./components/project/videos.component";
+import {LinksComponent} from "./components/project/links.component";
 
 const appRoutes: Routes = [
   { path: '',         redirectTo: 'home', pathMatch: 'full' },
@@ -48,7 +49,8 @@ const appRoutes: Routes = [
     TextsComponent,
     FilesComponent,
     ImageModalComponent,
-    VideosComponent
+    VideosComponent,
+    LinksComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

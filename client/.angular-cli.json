@@ -21,6 +21,7 @@
       "styles": [
         "../node_modules/videogular2/fonts/videogular.css",
         "styles.css",
+        "font-awesome/css/font-awesome.min.css",
         "bootstrap.css"
       ],
       "scripts": [],

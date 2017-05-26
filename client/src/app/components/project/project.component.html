@@ -17,6 +17,7 @@
         <li role="presentation" [class]="tabTexts.pillClass"><a href="javascript:void(0);" (click)="showTexts()" >{{tabTexts.name}} <span [innerHTML]="getBadgeText()"></span></a></li>
         <li role="presentation" [class]="tabFiles.pillClass"><a href="javascript:void(0);" (click)="showFiles()">{{tabFiles.name}} <span [innerHTML]="getBadgeFile()"></span></a></li>
         <li role="presentation" [class]="tabVideos.pillClass"><a href="javascript:void(0);" (click)="showVideos()">{{tabVideos.name}} </a></li>
+        <li role="presentation" [class]="tabLinks.pillClass"><a href="javascript:void(0);" (click)="showLinks()">{{tabLinks.name}} </a></li>
     </ul>
 
     <div class="tab-content">
@@ -31,6 +32,9 @@
         </div>
         <div id="videos" [class]="tabVideos.paneClass">
             <project-videos></project-videos>
+        </div>
+        <div id="links" [class]="tabLinks.paneClass">
+            <project-links></project-links>
         </div>
     </div>
 </div>

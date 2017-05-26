@@ -11,7 +11,7 @@
                 <p>{{image.description}}</p>
                 <div [hidden]="image.fileName != null && image.fileName.length > 0"
                      class="alert alert-warning">
-                    You must upload this image!
+                    <span class="glyphicon glyphicon-cloud-upload"></span> You must upload this image!
                 </div>
             </div>
         </div>

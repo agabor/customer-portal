@@ -22,7 +22,7 @@ import {ImageModalComponent} from "./components/project/image-modal.component";
 import {VideosComponent} from "./components/project/videos.component";
 import {LinksComponent} from "./components/project/links.component";
 import {Autosize} from "./ui/autosize.directive";
-
+import { FileDropDirective } from './file-drop';
 
 const appRoutes: Routes = [
   { path: '',         redirectTo: 'home', pathMatch: 'full' },
@@ -47,7 +47,8 @@ const appRoutes: Routes = [
     ImageModalComponent,
     VideosComponent,
     LinksComponent,
-    Autosize
+    Autosize,
+    FileDropDirective
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

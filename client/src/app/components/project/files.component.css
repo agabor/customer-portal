@@ -6,3 +6,6 @@
 a > strong {
     font-size: larger;
 }
+.file-is-over {
+    border: medium solid #337ab7;
+}

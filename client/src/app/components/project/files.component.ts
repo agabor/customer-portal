@@ -40,6 +40,17 @@ export class FilesComponent {
     ngOnInit() {
         this.project = this.presenter.activeProject;
     }
+    public fileIsOver: boolean = false;
 
+    private file: File;
+
+    public fileOver(fileIsOver: boolean): void {
+        this.fileIsOver = fileIsOver;
+        console.log('fileIsOver ' + fileIsOver);
+    }
+
+    public onFileDrop(file: File): void {
+        console.log('Got file! ' + file.name);
+    }
 
 }

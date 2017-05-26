@@ -41,4 +41,30 @@ export class ImagesComponent {
     getImageUrl(image: Image) {
         return this.presenter.getImageUrl(image);
     }
+
+    public fileIsOver: Image = null;
+
+    private file: File;
+
+    public fileOver(fileIsOver: boolean, image: Image): void {
+        if (fileIsOver) {
+            this.fileIsOver = image;
+        } else {
+            if (this.fileIsOver == image)
+                this.fileIsOver = null;
+        }
+        console.log('fileIsOver ' + fileIsOver + ' ' + image.imageId);
+    }
+
+    public onFileDrop(file: File, image: Image): void {
+        console.log('Got file! ' + file.name);
+        var reader = new FileReader();
+
+        reader.onload = (event:any) => {
+            image.fileName = event.target.result;
+        };
+
+        reader.readAsDataURL(file);
+    }
+
 }

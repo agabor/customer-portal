@@ -1,22 +1,16 @@
 <div class="row">
     <div class="col-sm-6 col-md-4">
         <div class="list-group">
-            <a href="javascript:void(0)" class="list-group-item">
-                Install App with Testflight
-            </a>
-            <a href="javascript:void(0)" class="list-group-item">
-                Play Store Beta testing
-            </a>
-            <a href="javascript:void(0)" class="list-group-item">
-                Basic usage of the app
+            <a *ngFor="let video of videos" href="javascript:void(0)" class="list-group-item" (click)="select(video)">
+                {{video.name}}
             </a>
         </div>
     </div>
-    <div class="col-sm-12 col-md-8">
+    <div class="col-sm-12 col-md-8" *ngFor="let video of currentVideo">
         <div>
             <vg-player>
                 <video [vgMedia]="media" #media id="singleVideo" preload="auto" controls>
-                    <source src="http://localhost:8000/testflight.mp4" type="video/mp4">
+                    <source [src]="video.link" type="video/mp4">
                 </video>
             </vg-player>
         </div>

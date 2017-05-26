@@ -2,3 +2,7 @@
     height: 6px;
     border-radius: 0;
 }
+
+.badge {
+    background-color: red;
+}

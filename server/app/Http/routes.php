@@ -67,6 +67,6 @@ $app->group(['middleware' => ['auth', 'cors'], 'prefix' => '/api/v1/'], function
      * Output-Formats: [application/json]
      */
     $app->GET('projects/{project_id}/images/{image_id}', DefaultApi::class . '@imageGet');
-
+    $app->PUT('projects/{project_id}/texts', DefaultApi::class . '@projectsIdPutTexts');
 
 });

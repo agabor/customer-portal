@@ -2,6 +2,7 @@
     <li *ngFor="let tab of localeTabs; let i = index"  role="presentation" [class]="tab.pillClass"><a href="javascript:void(0);" (click)="setLocale(i)">{{tab.name}} <span [innerHTML]="getBadgeLocaleText(i)"></span></a></li>
 </ul>
 <form id="textList">
+    <button type="button" class="btn btn-primary save" (click)="save()" >Save</button>
     <div *ngFor="let entry of textEntries">
         <h2 *ngIf="entry.text.startGroup != null && entry.text.startGroup.length != 0">{{entry.text.startGroup}}</h2>
         <div class="form-group">

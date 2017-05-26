@@ -313,7 +313,7 @@ export class DefaultApi {
      * @param body 
      */
     public projectsIdTextsPutWithHttpInfo(token: string, id: string, body?: models.Body, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/projects/${id}/texts`;
+        const path = this.basePath + `/projects/${id}/texts?XDEBUG_SESSION_START=15254`;
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845

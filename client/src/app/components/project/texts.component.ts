@@ -86,6 +86,9 @@ export class TextsComponent {
         return 'glyphicon-ok'
     }
 
+    save(){
+        this.presenter.saveProject();
+    }
 }
 
 class TextEntry {

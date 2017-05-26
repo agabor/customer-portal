@@ -112,6 +112,42 @@ class DefaultApi extends Controller
         return $project;
     }
 
+    /**
+     * Operation projectsIdGet
+     *
+     * .
+     *
+     * @param string $id project identifier (required)
+     *
+     * @param Request $request
+     * @return Http response
+     */
+    public function projectsIdPutTexts(string $id)
+    {
+        $data = Request::all();
+        $dict = [];
+        if (isset($data['sources']) && is_array($data['sources'])){
+            foreach ($data['sources'] as $textdata){
+                foreach ($textdata['values'] as $localdata) {
+                    $localCode = $localdata['localeCode'];
+                    if(!isset($dict[$localCode]))
+                        $dict[$localCode] = [];
+                    $dict[$localCode][$textdata['textId']] = $localdata['value'];
+                }
+            }
+        }
+        $project = $this->getProjectWithSlug($id);
+        foreach ($project->texts as $text) {
+            foreach ($text->values as $localtext){
+                $newValue = $dict[$localtext->locale->localeId][$text->textId];
+                if ($localtext->value != $newValue) {
+                    $localtext->value = $newValue;
+                    $localtext->save();
+                }
+            }
+        }
+    }
+
     protected function getProjectWithSlug(string $id) : Project
     {
         $project = Project::where('slug', $id)->first();

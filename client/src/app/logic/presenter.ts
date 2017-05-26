@@ -12,6 +12,8 @@ import {Project} from "../../swagger/model/Project";
 import {Image} from "../../swagger/model/Image";
 import {ImagesComponent} from "../components/project/images.component";
 import {ImageModalComponent} from "../components/project/image-modal.component";
+import {Body} from "../../swagger/model/Body";
+import {Text} from "../../swagger/model/text";
 
 @Injectable()
 export class Presenter {
@@ -166,5 +168,20 @@ export class Presenter {
 
     setImageModalComponent(imageModalComponent: ImageModalComponent) {
         this.imageModalComponent = imageModalComponent;
+    }
+
+    saveProject() {
+        let res = this.api.projectsIdTextsPut(this.jwt, this.activeProject.slug, new TextsBody(this.activeProject.texts));
+        res.subscribe(data => {
+            console.log(data);
+        }, error => {
+            console.log(error.json());
+        });
+    }
+}
+
+class TextsBody implements Body {
+    constructor(public sources: Text[]){
+
     }
 }

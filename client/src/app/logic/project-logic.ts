@@ -62,6 +62,8 @@ export class ProjectLogic {
         for( let img of this.project.images){
             if (img.fileName == null || img.fileName.length == 0)
                 ++count;
+            else if (img.width != img.preferredWidth || img.height != img.preferredHeight)
+                ++count;
         }
         return count;
     }

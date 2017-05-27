@@ -8,6 +8,8 @@
                 <a href="javascript:void(0);" (click)="showImage(image)">
                     <img alt="{{image.name}}"
                          src="{{getImageUrl(image)}}"
+                         [id]="'img'+image.imageId"
+                         (load)="load(image)"
                          data-holder-rendered="true">
                 </a>
                 <div class="caption">
@@ -16,6 +18,11 @@
                     <div [hidden]="image.fileName != null && image.fileName.length > 0"
                          class="alert alert-warning">
                         <span class="glyphicon glyphicon-cloud-upload"></span> You must upload this image!
+                    </div>
+                    <div [hidden]="image.width == image.preferredWidth && image.height == image.preferredHeight"
+                         class="alert alert-warning">
+                        <span class="glyphicon glyphicon-cloud-upload"></span>
+                        Worng image size! Expected: {{image.preferredWidth}} x {{image.preferredHeight}} actual: {{image.width}} x {{image.height}}
                     </div>
                 </div>
             </div>

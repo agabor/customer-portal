@@ -57,14 +57,18 @@ export class ImagesComponent {
     }
 
     public onFileDrop(file: File, image: Image): void {
-        console.log('Got file! ' + file.name);
-        var reader = new FileReader();
+        let reader = new FileReader();
 
         reader.onload = (event:any) => {
             image.fileName = event.target.result;
         };
-
         reader.readAsDataURL(file);
+    }
+
+    public load(image: Image){
+        let element = <HTMLImageElement>document.getElementById('img'+image.imageId);
+        image.width = element.naturalWidth;
+        image.height = element.naturalHeight;
     }
 
 }

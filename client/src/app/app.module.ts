@@ -23,6 +23,7 @@ import {VideosComponent} from "./components/project/videos.component";
 import {LinksComponent} from "./components/project/links.component";
 import {Autosize} from "./ui/autosize.directive";
 import { FileDropDirective } from './file-drop';
+import {BASE_PATH} from "../swagger/variables";
 
 const appRoutes: Routes = [
   { path: '',         redirectTo: 'home', pathMatch: 'full' },
@@ -56,7 +57,7 @@ const appRoutes: Routes = [
     FormsModule,
     HttpModule
   ],
-  providers: [Presenter, AuthGuard, LogoutGuard, DefaultApi],
+  providers: [Presenter, AuthGuard, LogoutGuard, DefaultApi, {provide: BASE_PATH, useValue: 'http://localhost:8000/api/v1'}],
   bootstrap: [AppComponent, MenuComponent]
 })
 export class AppModule { }

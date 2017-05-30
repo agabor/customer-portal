@@ -27,7 +27,7 @@ import { Configuration }                                     from '../configurat
 
 @Injectable()
 export class DefaultApi {
-    protected basePath = 'http://localhost:8000/api/v1';
+    protected basePath = 'http://cp.agabor.hu/api/v1';
     public defaultHeaders: Headers = new Headers();
     public configuration: Configuration = new Configuration();
 

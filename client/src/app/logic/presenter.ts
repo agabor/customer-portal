@@ -1,5 +1,5 @@
 import {LoginData} from "../login-data";
-import {Injectable} from "@angular/core";
+import {Inject, Injectable} from "@angular/core";
 import { Router} from "@angular/router";
 import {AppComponent} from "../components/app.component";
 import {DefaultApi} from "../../swagger/api/DefaultApi";
@@ -16,6 +16,7 @@ import {Body} from "../../swagger/model/Body";
 import {Text} from "../../swagger/model/text";
 import {Observable} from "rxjs/Observable";
 import {RequestOptions, Headers, URLSearchParams, Http} from "@angular/http";
+import {BASE_PATH} from "swagger";
 
 @Injectable()
 export class Presenter {
@@ -31,7 +32,7 @@ export class Presenter {
     private imagesComponent: ImagesComponent;
     private imageModalComponent: ImageModalComponent;
 
-    constructor (protected http: Http, private api: DefaultApi, private router: Router) {
+    constructor (protected http: Http, private api: DefaultApi, private router: Router, @Inject(BASE_PATH) private basePath: string) {
         this.jwt = localStorage.getItem('jwt');
         if (this.jwt != null) {
             this.loadProjects();
@@ -157,7 +158,7 @@ export class Presenter {
     getImageUrl(image: Image) {
         if (image.fileName != null && image.fileName.length != 0)
             return image.fileName;
-        return  "http://localhost:8000/api/v1/projects/"+this.activeProject.slug+"/images/"+image.imageId + "?token=" + this.jwt;
+        return  this.basePath + "/projects/"+this.activeProject.slug+"/images/"+image.imageId + "?token=" + this.jwt;
     }
 
     setImageComponent(imagesComponent: ImagesComponent) {
@@ -182,20 +183,12 @@ export class Presenter {
     }
 
     uploadImage(file: File, image: Image) {
-        /*let res = this.api.projectsIdImagesImageIdPost(this.jwt, this.activeProject.slug, image.imageId, file);
-        res.subscribe(data => {
-            console.log(data);
-        }, error => {
-            console.log(error.json());
-        });*/
         let formData:FormData = new FormData();
         formData.append('image', file);
         let headers = new Headers();
-        //headers.append('Content-Type', 'multipart/form-data');
-        //headers.append('Accept', 'application/json');
         headers.append('token', this.jwt);
         let options = new RequestOptions({ headers: headers });
-        this.http.post('http://localhost:8000/api/v1/projects/'+this.activeProject.slug+'/images/'+image.imageId+'?XDEBUG_SESSION_START=14175',
+        this.http.post(this.basePath + '/projects/'+this.activeProject.slug+'/images/'+image.imageId+'?XDEBUG_SESSION_START=14175',
             formData, options)
             .map(res => res.json())
             .subscribe(

@@ -158,7 +158,9 @@ export class Presenter {
     getImageUrl(image: Image) {
         if (image.fileName != null && image.fileName.startsWith('data'))
             return image.fileName;
-        return  this.basePath + "/projects/"+this.activeProject.slug+"/images/"+image.imageId + "?token=" + this.jwt;
+        if (image.imageId == null)
+            return '';
+        return  this.getImagePath(image) + "?token=" + this.jwt;
     }
 
     setImageComponent(imagesComponent: ImagesComponent) {
@@ -188,13 +190,17 @@ export class Presenter {
         let headers = new Headers();
         headers.append('token', this.jwt);
         let options = new RequestOptions({ headers: headers });
-        this.http.post(this.basePath + '/projects/'+this.activeProject.slug+'/images/'+image.imageId+'?XDEBUG_SESSION_START=11283',
+        this.http.post(this.getImagePath(image),
             formData, options)
             .map(res => res.json())
             .subscribe(
                 data => console.log('success'),
                 error => console.log(error)
             )
+    }
+
+    private getImagePath(image: Image) {
+        return this.basePath + '/projects/' + this.activeProject.slug + '/images/' + image.imageId;
     }
 
 }

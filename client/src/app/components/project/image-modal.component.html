@@ -9,8 +9,8 @@
             </div>
             <div class="modal-body">
                 <img alt="{{currentImage.name}}"
-                     [width]="currentImage.preferredWidth"
-                     [height]="currentImage.preferredHeight"
+                     [width]="currentImage.width"
+                     [height]="currentImage.height"
                      src="{{getImageUrl(currentImage)}}"
                      data-holder-rendered="true">
                 <p>{{currentImage.description}}</p>

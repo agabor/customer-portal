@@ -19,6 +19,7 @@ use App\Auth;
 use App\Image;
 use App\Project;
 use App\User;
+use Exception;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -158,22 +159,41 @@ class DefaultApi extends Controller
         if ($this == null)
             return response('', 404);
 
-        $image = $this->getPlaceholderImage($img);
-        header("Content-Type: image/png");
-        imagepng($image);
+        if ($img->fileName == null ||$img->fileName == '') {
+            $image = $this->getPlaceholderImage($img);
+            header("Content-Type: image/png");
+            imagepng($image);
+        }
+        return response()->download($img->filePath());
     }
 
 
     public function imagePost(Request $request, string $project_id,string $image_id)
     {
         $img = $this->getImage($project_id, $image_id);
-        if ($this == null)
+        if ($img == null)
             return response('', 404);
         $uploadedFile = $request->file('image');
         $clientOriginalName = $uploadedFile->getClientOriginalName();
-        $uploadedFile->move(base_path('public'), $clientOriginalName);
-        $img->fileName = 'http://localhost:8000/'.$clientOriginalName;
+
+        if ($img->fileName != null && $img->fileName != '')
+            try {
+                unlink($img->filePath());
+            }catch (Exception $e) {
+
+            }
+
+        $directory = $img->dirPath();
+        if (!file_exists($directory)) {
+            mkdir($directory, 0777, true);
+        }
+        $uploadedFile->move($directory, $clientOriginalName);
+        $img->fileName = $clientOriginalName;
+        $size = getimagesize($img->filePath());
+        $img->width = $size[0];
+        $img->height = $size[1];
         $img->save();
+        return response('{}');
     }
 
     private function getImage(string $project_id,string $image_id) : Image

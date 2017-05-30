@@ -47,4 +47,11 @@ class Image extends Model
     protected $hidden = [
         'id', 'project_id'
     ];
+
+    public function dirPath() : string {
+        return storage_path($this->project->slug . '/' . $this->imageId);
+    }
+    public function filePath() : string {
+        return $this->dirPath() . '/' . $this->fileName;
+    }
 }

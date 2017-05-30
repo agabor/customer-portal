@@ -99,6 +99,35 @@ paths:
       responses:
         200:
           description: OK
+  /projects/{id}/images/{imageId}:
+    post:
+      description: update texts
+      consumes:
+        - multipart/form-data
+      parameters:
+        -
+          $ref: '#/parameters/jwtHeaderParam'
+        -
+          name: id
+          in: path
+          description: project identifier
+          required: true
+          type: string
+        -
+          name: imageId
+          in: path
+          description: image identifier
+          required: true
+          type: string
+        -
+         name: image
+         in: formData
+         description: The uploaded image
+         required: true
+         type: file
+      responses:
+        200:
+          description: OK
   
 parameters:
    jwtHeaderParam:

@@ -111,6 +111,25 @@ export class DefaultApi {
      * update texts
      * @param token JSON Web Token
      * @param id project identifier
+     * @param imageId image identifier
+     * @param image The uploaded image
+     */
+    public projectsIdImagesImageIdPost(token: string, id: string, imageId: string, image: any, extraHttpRequestParams?: any): Observable<{}> {
+        return this.projectsIdImagesImageIdPostWithHttpInfo(token, id, imageId, image, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * 
+     * update texts
+     * @param token JSON Web Token
+     * @param id project identifier
      * @param body 
      */
     public projectsIdTextsPut(token: string, id: string, body?: models.Body, extraHttpRequestParams?: any): Observable<{}> {
@@ -294,6 +313,70 @@ export class DefaultApi {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
+            search: queryParameters
+        });
+
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * update texts
+     * @param token JSON Web Token
+     * @param id project identifier
+     * @param imageId image identifier
+     * @param image The uploaded image
+     */
+    public projectsIdImagesImageIdPostWithHttpInfo(token: string, id: string, imageId: string, image: any, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/projects/${id}/images/${imageId}`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        let formParams = new URLSearchParams();
+
+        // verify required parameter 'token' is not null or undefined
+        if (token === null || token === undefined) {
+            throw new Error('Required parameter token was null or undefined when calling projectsIdImagesImageIdPost.');
+        }
+        // verify required parameter 'id' is not null or undefined
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectsIdImagesImageIdPost.');
+        }
+        // verify required parameter 'imageId' is not null or undefined
+        if (imageId === null || imageId === undefined) {
+            throw new Error('Required parameter imageId was null or undefined when calling projectsIdImagesImageIdPost.');
+        }
+        // verify required parameter 'image' is not null or undefined
+        if (image === null || image === undefined) {
+            throw new Error('Required parameter image was null or undefined when calling projectsIdImagesImageIdPost.');
+        }
+        headers.set('token', String(token));
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'multipart/form-data'
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        headers.set('Content-Type', 'application/x-www-form-urlencoded');
+
+        if (image !== undefined) {
+            formParams.set('image', <any>image);
+        }
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
+            body: formParams.toString(),
             search: queryParameters
         });
 

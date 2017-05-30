@@ -83,7 +83,7 @@ export class TextsComponent {
         return '<span class="badge">' +  count +'</span>';
     }
     getTextIndicator(entry: TextEntry){
-        if (this.projectLogic.hasWarning(entry.text, entry.localText))
+        if (ProjectLogic.hasWarning(entry.text, entry.localText))
             return 'glyphicon-remove';
         return 'glyphicon-ok'
     }

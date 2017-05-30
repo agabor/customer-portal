@@ -63,6 +63,7 @@ export class ImagesComponent {
             image.fileName = event.target.result;
         };
         reader.readAsDataURL(file);
+        this.presenter.uploadImage(file, image);
     }
 
     public load(image: Image){

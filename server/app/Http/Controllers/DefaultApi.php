@@ -19,8 +19,8 @@ use App\Auth;
 use App\Image;
 use App\Project;
 use App\User;
-use Illuminate\Support\Facades\Request;
-use \Firebase\JWT\JWT;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class DefaultApi extends Controller
 {
@@ -32,19 +32,9 @@ class DefaultApi extends Controller
     }
 
 
-
-
-    /**
-     * Operation loginPost
-     *
-     * .
-     *
-     *
-     * @return Http response
-     */
-    public function loginPost()
+    public function loginPost(Request $request)
     {
-        $input = Request::all();
+        $input = $request->all();
 
         //not path params validation
         if (!isset($input['user_name'])) {
@@ -112,19 +102,10 @@ class DefaultApi extends Controller
         return $project;
     }
 
-    /**
-     * Operation projectsIdGet
-     *
-     * .
-     *
-     * @param string $id project identifier (required)
-     *
-     * @param Request $request
-     * @return Http response
-     */
-    public function projectsIdPutTexts(string $id)
+
+    public function projectsIdPutTexts(Request $request, string $id)
     {
-        $data = Request::all();
+        $data = $request->all();
         $dict = [];
         if (isset($data['sources']) && is_array($data['sources'])){
             foreach ($data['sources'] as $textdata){
@@ -173,17 +154,41 @@ class DefaultApi extends Controller
 
     public function imageGet(string $project_id,string $image_id)
     {
+        $img = $this->getImage($project_id, $image_id);
+        if ($this == null)
+            return response('', 404);
+
+        $image = $this->getPlaceholderImage($img);
+        header("Content-Type: image/png");
+        imagepng($image);
+    }
+
+
+    public function imagePost(Request $request, string $project_id,string $image_id)
+    {
+        $img = $this->getImage($project_id, $image_id);
+        if ($this == null)
+            return response('', 404);
+        $uploadedFile = $request->file('image');
+        $clientOriginalName = $uploadedFile->getClientOriginalName();
+        $uploadedFile->move(base_path('public'), $clientOriginalName);
+        $img->fileName = 'http://localhost:8000/'.$clientOriginalName;
+        $img->save();
+    }
+
+    private function getImage(string $project_id,string $image_id) : Image
+    {
         $project = $this->getProjectWithSlug($project_id);
         if ($project == null)
-            return response('',404);
+            return null;
         foreach ($project->images as $img) {
-            if ($img->imageId == $image_id){
-                $image = $this->getPlaceholderImage($img);
-                header("Content-Type: image/png");
-                imagepng($image);
+            if ($img->imageId == $image_id) {
+                return $img;
             }
         }
+        return null;
     }
+
 
     /**
      * @param $img

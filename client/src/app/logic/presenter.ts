@@ -14,6 +14,8 @@ import {ImagesComponent} from "../components/project/images.component";
 import {ImageModalComponent} from "../components/project/image-modal.component";
 import {Body} from "../../swagger/model/Body";
 import {Text} from "../../swagger/model/text";
+import {Observable} from "rxjs/Observable";
+import {RequestOptions, Headers, URLSearchParams, Http} from "@angular/http";
 
 @Injectable()
 export class Presenter {
@@ -29,7 +31,7 @@ export class Presenter {
     private imagesComponent: ImagesComponent;
     private imageModalComponent: ImageModalComponent;
 
-    constructor (private api: DefaultApi, private router: Router) {
+    constructor (protected http: Http, private api: DefaultApi, private router: Router) {
         this.jwt = localStorage.getItem('jwt');
         if (this.jwt != null) {
             this.loadProjects();
@@ -178,6 +180,30 @@ export class Presenter {
             console.log(error.json());
         });
     }
+
+    uploadImage(file: File, image: Image) {
+        /*let res = this.api.projectsIdImagesImageIdPost(this.jwt, this.activeProject.slug, image.imageId, file);
+        res.subscribe(data => {
+            console.log(data);
+        }, error => {
+            console.log(error.json());
+        });*/
+        let formData:FormData = new FormData();
+        formData.append('image', file);
+        let headers = new Headers();
+        //headers.append('Content-Type', 'multipart/form-data');
+        //headers.append('Accept', 'application/json');
+        headers.append('token', this.jwt);
+        let options = new RequestOptions({ headers: headers });
+        this.http.post('http://localhost:8000/api/v1/projects/'+this.activeProject.slug+'/images/'+image.imageId+'?XDEBUG_SESSION_START=14175',
+            formData, options)
+            .map(res => res.json())
+            .subscribe(
+                data => console.log('success'),
+                error => console.log(error)
+            )
+    }
+
 }
 
 class TextsBody implements Body {

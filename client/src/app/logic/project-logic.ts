@@ -28,21 +28,20 @@ export class ProjectLogic {
         let count: number = 0;
         for (let text of this.project.texts) {
             for (let lt of text.values) {
-                if (this.hasWarning(text, lt))
+                if (ProjectLogic.hasWarning(text, lt))
                     ++count;
             }
         }
         return count;
     }
 
-    public hasWarning(text: Text, localText: LocalText){
+    public static hasWarning(text: Text, localText: LocalText){
         if (localText.value.length == 0)
             return true;
         if (localText.value.length < text.minLength)
             return true;
-        if (localText.value.length > text.maxLength)
-            return true;
-        return false;
+        return localText.value.length > text.maxLength;
+
     }
 
     getTextCount() : number {

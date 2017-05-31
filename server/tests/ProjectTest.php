@@ -101,4 +101,28 @@ class ProjectTest extends TestCase
         $this->post('/api/v1/logout',array(), array('token' => $actual['jwt']));
         $this->assertEquals(200, $this->response->status());
     }
+
+    public function testAddDeleteImage()
+    {
+        $this->json('POST', '/api/v1/login', ['user_name' => 'gabor', 'password' => 'secret']);
+        $this->assertEquals(200, $this->response->status());
+        $actual = json_decode($this->response->getContent(), true);
+        $result = $this->json('PATCH', '/api/v1/projects/sample_project/images', array('name' => 'Sample Image',
+            'description' => 'description',
+            'preferredWidth' => 100,
+            'preferredHeight' => 100), array('token' => $actual['jwt']));
+        $this->assertEquals(200, $this->response->status());
+        $result ->seeJsonEquals([
+                'name' => 'Sample Image',
+                'imageId' => 'sample_image',
+                'description' => 'description',
+                'preferredWidth' => 100,
+                'preferredHeight' => 100
+            ]);
+        $this->assertEquals(200, $this->response->status());
+        $this->delete('/api/v1/projects/sample_project/images/sample_image',array(), array('token' => $actual['jwt']));
+        $this->assertEquals(200, $this->response->status());
+        $this->post('/api/v1/logout',array(), array('token' => $actual['jwt']));
+        $this->assertEquals(200, $this->response->status());
+    }
 }

@@ -46,7 +46,7 @@ class Image extends Model
      * @var array
      */
     protected $hidden = [
-        'id', 'project_id'
+        'id', 'project_id', 'project'
     ];
 
     public function dirPath() : string {

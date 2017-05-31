@@ -240,17 +240,19 @@ class DefaultApi extends Controller
         $project = $this->getProjectWithSlug($project_id);
         if ($project == null)
             return null;
+        $data = $request->all();
         $img = new Image();
-        $img->name = $request->get('name');
+        $img->name = $data['name'];
         $img_slug = self::slugify($img->name);
         $img->imageId = $img_slug;
         $idx = 1;
         while ($project->hasImageWithId($img->imageId)){
             $img->imageId = $img_slug . (++$idx);
         }
-        $img->description = $request->get('description');
-        $img->preferredWidth = $request->get('preferredWidth');
-        $img->preferredHeight = $request->get('preferredHeight');
+        $img->description = $data['description'];
+        $img->preferredWidth = $data['preferredWidth'];
+        $img->preferredHeight = $data['preferredHeight'];
+
         $project->images()->save($img);
         return response($img);
     }
@@ -260,7 +262,7 @@ class DefaultApi extends Controller
     static public function slugify($text)
     {
         // replace non letter or digits by -
-        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
+        $text = preg_replace('~[^\pL\d]+~u', '_', $text);
 
         // transliterate
         $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);

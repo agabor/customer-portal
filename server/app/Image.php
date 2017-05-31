@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\UploadedFile;
 
 /**
  * @property integer id
@@ -54,4 +55,23 @@ class Image extends Model
     public function filePath() : string {
         return $this->dirPath() . '/' . $this->fileName;
     }
-}
+
+    public function setFile(UploadedFile $uploadedFile)
+    {
+        $clientOriginalName = $uploadedFile->getClientOriginalName();
+
+        if ($this->fileName != null && $this->fileName != '')
+            if (file_exists($this->filePath()))
+                unlink($this->filePath());
+
+        $directory = $this->dirPath();
+        if (!file_exists($directory)) {
+            mkdir($directory, 0777, true);
+        }
+        $uploadedFile->move($directory, $clientOriginalName);
+        $this->fileName = $clientOriginalName;
+        $size = getimagesize($this->filePath());
+        $this->width = $size[0];
+        $this->height = $size[1];
+        $this->save();
+    }}

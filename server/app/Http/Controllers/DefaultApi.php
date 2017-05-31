@@ -174,22 +174,7 @@ class DefaultApi extends Controller
         if ($img == null)
             return response('', 404);
         $uploadedFile = $request->file('image');
-        $clientOriginalName = $uploadedFile->getClientOriginalName();
-
-        if ($img->fileName != null && $img->fileName != '')
-            if (file_exists($img->filePath()))
-                unlink($img->filePath());
-
-        $directory = $img->dirPath();
-        if (!file_exists($directory)) {
-            mkdir($directory, 0777, true);
-        }
-        $uploadedFile->move($directory, $clientOriginalName);
-        $img->fileName = $clientOriginalName;
-        $size = getimagesize($img->filePath());
-        $img->width = $size[0];
-        $img->height = $size[1];
-        $img->save();
+        $img->setFile($uploadedFile);
         return response('{}');
     }
 
@@ -298,4 +283,6 @@ class DefaultApi extends Controller
 
         return $text;
     }
+
+
 }

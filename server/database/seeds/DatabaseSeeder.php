@@ -1,7 +1,10 @@
 <?php
 
+use App\Image;
 use App\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Http\UploadedFile;
+use Symfony\Component\HttpFoundation\File\UploadedFile as SymfonyUploadedFile;
 
 /**
  * @property \App\Locale hu_HU
@@ -123,8 +126,10 @@ class DatabaseSeeder extends Seeder
         $i->height = 512;
         $i->preferredWidth = 512;
         $i->preferredHeight = 512;
-        $i->fileName = 'http://localhost:8000/ikon.png';
+        $i->fileName = 'ikon.png';
         $p->images()->save($i);
+        $this->loadTestImage($i);
+
 
         $i = new \App\Image();
         $i->imageId = 'play_store_banner';
@@ -134,8 +139,9 @@ class DatabaseSeeder extends Seeder
         $i->height = 500;
         $i->preferredWidth = 1024;
         $i->preferredHeight = 500;
-        $i->fileName = 'http://localhost:8000/banner.png';
+        $i->fileName = 'banner.png';
         $p->images()->save($i);
+        $this->loadTestImage($i);
 
         $t = new \App\Text();
 
@@ -275,5 +281,16 @@ Az automentokereso.hu weboldalon a károsultak autómentők, esetkocsik és gép
         $p->files()->save($f);
 
         $p->calculateState();
+    }
+
+    /**
+     * @param $i
+     */
+    protected function loadTestImage(Image $i)
+    {
+        $path = base_path('testdata/temp.png');
+        copy(base_path('testdata/' . $i->fileName), $path);
+        $file = new UploadedFile($path, $i->fileName, filesize($path), 'image/png', null, true);
+        $i->setFile($file);
     }
 }

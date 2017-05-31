@@ -19,7 +19,7 @@
                          class="alert alert-warning">
                         <span class="glyphicon glyphicon-cloud-upload"></span> You must upload this image!
                     </div>
-                    <div [hidden]="image.width == image.preferredWidth && image.height == image.preferredHeight"
+                    <div [hidden]="image.fileName == null || image.fileName.length == 0 || image.width == image.preferredWidth && image.height == image.preferredHeight"
                          class="alert alert-warning">
                         <span class="glyphicon glyphicon-cloud-upload"></span>
                         Worng image size! Expected: {{image.preferredWidth}} x {{image.preferredHeight}} actual: {{image.width}} x {{image.height}}

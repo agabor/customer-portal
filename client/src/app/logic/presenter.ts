@@ -187,18 +187,12 @@ export class Presenter {
     }
 
     uploadImage(file: File, image: Image) {
-        let formData:FormData = new FormData();
-        formData.append('image', file);
-        let headers = new Headers();
-        headers.append('token', this.jwt);
-        let options = new RequestOptions({ headers: headers });
-        this.http.post(this.getImagePath(image),
-            formData, options)
-            .map(res => res.json())
-            .subscribe(
-                data => console.log('success'),
-                error => console.log(error)
-            )
+        let res = this.api.projectsIdImagesImageIdPost(this.jwt, this.activeProject.slug, image.imageId, file);
+        res.subscribe(data => {
+            console.log(data);
+        }, error => {
+            console.log(error.json());
+        });
     }
 
     private getImagePath(image: Image) {

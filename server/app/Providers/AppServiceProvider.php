@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
             app()->options($request->path(), function () {
                 $res = response('OK', 200)
                     ->header('Access-Control-Allow-Origin', '*')
-                    ->header('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, DELETE')
+                    ->header('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, DELETE, PATCH')
                     ->header('Access-Control-Allow-Headers', 'Content-Type, Origin, token');
                 return $res;
             });

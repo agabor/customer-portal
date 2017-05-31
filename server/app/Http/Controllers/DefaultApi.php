@@ -233,7 +233,7 @@ class DefaultApi extends Controller
 
         $font = dirname(__FILE__) . '/HelveticaNeueMed.ttf';
         // Text positioning
-        $fontsize = 20;
+        $fontsize = $img->preferredWidth > 200 ? 20 : 10;
         $bbox = imagettfbbox($fontsize, 0, $font, $text);
         $fontheight = $bbox[5] - $bbox[1];   // height of a character
         $textwidth = $bbox[2] - $bbox[0];         // text width
@@ -242,5 +242,54 @@ class DefaultApi extends Controller
         // Generate text
         imagettftext($image, $fontsize, 0, $xpos, $ypos, $setfg, $font, $text);
         return $image;
+    }
+
+    public function imagePatch(Request $request, string $project_id)
+    {
+        $project = $this->getProjectWithSlug($project_id);
+        if ($project == null)
+            return null;
+        $img = new Image();
+        $img->name = $request->get('name');
+        $img_slug = self::slugify($img->name);
+        $img->imageId = $img_slug;
+        $idx = 0;
+        while ($project->hasImageWithId($img->imageId)){
+            $img->imageId = $img_slug . (++$idx);
+        }
+        $img->description = $request->get('description');
+        $img->preferredWidth = $request->get('preferredWidth');
+        $img->preferredHeight = $request->get('preferredHeight');
+        $project->images()->save($img);
+        return response($img);
+    }
+
+
+
+    static public function slugify($text)
+    {
+        // replace non letter or digits by -
+        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
+
+        // transliterate
+        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+
+        // remove unwanted characters
+        $text = preg_replace('~[^-\w]+~', '', $text);
+
+        // trim
+        $text = trim($text, '-');
+
+        // remove duplicate -
+        $text = preg_replace('~-+~', '-', $text);
+
+        // lowercase
+        $text = strtolower($text);
+
+        if (empty($text)) {
+            return 'n-a';
+        }
+
+        return $text;
     }
 }

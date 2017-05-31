@@ -14,16 +14,17 @@ import {DefaultApi} from "../swagger/api/DefaultApi";
 import {LogoutGuard} from "./guards/logoutguard";
 import {ProjectComponent} from "./components/project/project.component";
 import {MenuComponent} from "./components/menu.component";
-import {ImagesComponent} from "./components/project/images.component";
+import {ImagesComponent} from "./components/project/images/images.component";
 import {TextsComponent} from "./components/project/texts.component";
 import {FilesComponent} from "./components/project/files.component";
-import {ImageModalComponent} from "./components/project/image-modal.component";
+import {ImageModalComponent} from "./components/project/images/image-modal.component";
 
 import {VideosComponent} from "./components/project/videos.component";
 import {LinksComponent} from "./components/project/links.component";
 import {Autosize} from "./ui/autosize.directive";
 import { FileDropDirective } from './file-drop';
 import {BASE_PATH} from "../swagger/variables";
+import {NewImageModalComponent} from "./components/project/images/new-image-modal.component";
 
 const appRoutes: Routes = [
   { path: '',         redirectTo: 'home', pathMatch: 'full' },
@@ -49,7 +50,8 @@ const appRoutes: Routes = [
     VideosComponent,
     LinksComponent,
     Autosize,
-    FileDropDirective
+    FileDropDirective,
+    NewImageModalComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

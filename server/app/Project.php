@@ -98,4 +98,12 @@ class Project extends Model
     {
         return $file->fileName == null || strlen($file->fileName) == 0;
     }
+
+    public function hasImageWithId(string $imageId) : bool {
+        foreach ($this->images as $img){
+            if ($img->imageId == $imageId)
+                return true;
+        }
+        return false;
+    }
 }

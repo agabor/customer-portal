@@ -127,6 +127,27 @@ export class DefaultApi {
 
     /**
      * 
+     * add image
+     * @param token JSON Web Token
+     * @param id project identifier
+     * @param name 
+     * @param description 
+     * @param preferredWidth 
+     * @param preferredHeight 
+     */
+    public projectsIdImagesPatch(token: string, id: string, name?: string, description?: string, preferredWidth?: number, preferredHeight?: number, extraHttpRequestParams?: any): Observable<models.InlineResponse2002Images> {
+        return this.projectsIdImagesPatchWithHttpInfo(token, id, name, description, preferredWidth, preferredHeight, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * 
      * update texts
      * @param token JSON Web Token
      * @param id project identifier
@@ -377,6 +398,86 @@ export class DefaultApi {
             method: RequestMethod.Post,
             headers: headers,
             body: formParams.toString(),
+            search: queryParameters
+        });
+
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * add image
+     * @param token JSON Web Token
+     * @param id project identifier
+     * @param name 
+     * @param description 
+     * @param preferredWidth 
+     * @param preferredHeight 
+     */
+    public projectsIdImagesPatchWithHttpInfo(token: string, id: string, name?: string, description?: string, preferredWidth?: number, preferredHeight?: number, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/projects/${id}/images`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'token' is not null or undefined
+        if (token === null || token === undefined) {
+            throw new Error('Required parameter token was null or undefined when calling projectsIdImagesPatch.');
+        }
+        // verify required parameter 'id' is not null or undefined
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectsIdImagesPatch.');
+        }
+        if (name !== undefined) {
+            /*if(name instanceof Date) {
+                queryParameters.set('name', <any>name.d.toISOString());
+            } else */{
+                queryParameters.set('name', <any>name);
+            }
+        }
+
+        if (description !== undefined) {
+            /*if(description instanceof Date) {
+                queryParameters.set('description', <any>description.d.toISOString());
+            } else */{
+                queryParameters.set('description', <any>description);
+            }
+        }
+
+        if (preferredWidth !== undefined) {
+            /*if(preferredWidth instanceof Date) {
+                queryParameters.set('preferredWidth', <any>preferredWidth.d.toISOString());
+            } else */{
+                queryParameters.set('preferredWidth', <any>preferredWidth);
+            }
+        }
+
+        if (preferredHeight !== undefined) {
+            /*if(preferredHeight instanceof Date) {
+                queryParameters.set('preferredHeight', <any>preferredHeight.d.toISOString());
+            } else */{
+                queryParameters.set('preferredHeight', <any>preferredHeight);
+            }
+        }
+
+        headers.set('token', String(token));
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Patch,
+            headers: headers,
             search: queryParameters
         });
 

@@ -1,4 +1,5 @@
 import {LoginData} from "../login-data";
+import {ImageData} from "../image-data";
 import {Inject, Injectable} from "@angular/core";
 import { Router} from "@angular/router";
 import {AppComponent} from "../components/app.component";
@@ -10,16 +11,17 @@ import {ProjectComponent} from "../components/project/project.component";
 import {MenuComponent} from "../components/menu.component";
 import {Project} from "../../swagger/model/Project";
 import {Image} from "../../swagger/model/Image";
-import {ImagesComponent} from "../components/project/images.component";
-import {ImageModalComponent} from "../components/project/image-modal.component";
+import {ImagesComponent} from "../components/project/images/images.component";
+import {ImageModalComponent} from "../components/project/images/image-modal.component";
 import {Body} from "../../swagger/model/Body";
 import {Text} from "../../swagger/model/text";
-import {Observable} from "rxjs/Observable";
 import {RequestOptions, Headers, URLSearchParams, Http} from "@angular/http";
 import {BASE_PATH} from "swagger";
+import {NewImageModalComponent} from "app/components/project/images/new-image-modal.component";
 
 @Injectable()
 export class Presenter {
+    newImageModalComponent: NewImageModalComponent;
 
     jwt:string = null;
     projects: ProjectBase[] = null;
@@ -203,6 +205,23 @@ export class Presenter {
         return this.basePath + '/projects/' + this.activeProject.slug + '/images/' + image.imageId;
     }
 
+    setNewImageModalComponent(newImageModalComponent: NewImageModalComponent) {
+        this.newImageModalComponent = newImageModalComponent;
+    }
+
+    showNewImageModal(){
+        this.newImageModalComponent.show();
+    }
+
+    newImage(model: ImageData) {
+        let res = this.api.projectsIdImagesPatch(this.jwt, this.activeProject.slug, model.name, model.description, model.width, model.height);
+        res.subscribe(data => {
+            this.activeProject.images.push(data);
+            this.newImageModalComponent.hide();
+        }, error => {
+            console.log(error.json());
+        });
+    }
 }
 
 class TextsBody implements Body {

@@ -68,6 +68,7 @@ $app->group(['middleware' => ['auth', 'cors'], 'prefix' => '/api/v1/'], function
      */
     $app->GET('projects/{project_id}/images/{image_id}', DefaultApi::class . '@imageGet');
     $app->POST('projects/{project_id}/images/{image_id}', DefaultApi::class . '@imagePost');
+    $app->PATCH('projects/{project_id}/images', DefaultApi::class . '@imagePatch');
     $app->PUT('projects/{project_id}/texts', DefaultApi::class . '@projectsIdPutTexts');
 
 });

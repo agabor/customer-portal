@@ -128,6 +128,42 @@ paths:
       responses:
         200:
           description: OK
+  /projects/{id}/images:
+    patch:
+      description: add image
+      parameters:
+        -
+          $ref: '#/parameters/jwtHeaderParam'
+        -
+          name: id
+          in: path
+          description: project identifier
+          required: true
+          type: string
+        -
+          name: name
+          in: query
+          type: string
+        -
+          name: description
+          in: query
+          type: string
+        -
+          name: preferredWidth
+          in: query
+          type: number
+          format: integer
+        -
+          name: preferredHeight
+          in: query
+          type: number
+          format: integer
+          
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Image'
   
 parameters:
    jwtHeaderParam:

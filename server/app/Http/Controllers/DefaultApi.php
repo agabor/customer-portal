@@ -159,12 +159,12 @@ class DefaultApi extends Controller
         if ($this == null)
             return response('', 404);
 
-        if ($img->fileName == null ||$img->fileName == '') {
+        if ($img->fileName == null || $img->fileName == '') {
             $image = $this->getPlaceholderImage($img);
             header("Content-Type: image/png");
             imagepng($image);
-        }
-        return response()->download($img->filePath());
+        } else
+            return response()->download($img->filePath());
     }
 
 
@@ -177,11 +177,8 @@ class DefaultApi extends Controller
         $clientOriginalName = $uploadedFile->getClientOriginalName();
 
         if ($img->fileName != null && $img->fileName != '')
-            try {
+            if (file_exists($img->filePath()))
                 unlink($img->filePath());
-            }catch (Exception $e) {
-
-            }
 
         $directory = $img->dirPath();
         if (!file_exists($directory)) {
@@ -193,6 +190,15 @@ class DefaultApi extends Controller
         $img->width = $size[0];
         $img->height = $size[1];
         $img->save();
+        return response('{}');
+    }
+
+    public function imageDelete(string $project_id,string $image_id)
+    {
+        $img = $this->getImage($project_id, $image_id);
+        if ($img == null)
+            return response('', 404);
+        $img->delete();
         return response('{}');
     }
 
@@ -253,7 +259,7 @@ class DefaultApi extends Controller
         $img->name = $request->get('name');
         $img_slug = self::slugify($img->name);
         $img->imageId = $img_slug;
-        $idx = 0;
+        $idx = 1;
         while ($project->hasImageWithId($img->imageId)){
             $img->imageId = $img_slug . (++$idx);
         }

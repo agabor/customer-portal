@@ -75,4 +75,8 @@ export class ImagesComponent {
     public add(){
         this.presenter.showNewImageModal()
     }
+
+    public delete(image: Image) {
+        this.presenter.deleteImage(image);
+    }
 }

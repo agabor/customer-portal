@@ -108,7 +108,25 @@ export class DefaultApi {
 
     /**
      * 
-     * update texts
+     * delete iamge
+     * @param token JSON Web Token
+     * @param id project identifier
+     * @param imageId image identifier
+     */
+    public projectsIdImagesImageIdDelete(token: string, id: string, imageId: string, extraHttpRequestParams?: any): Observable<{}> {
+        return this.projectsIdImagesImageIdDeleteWithHttpInfo(token, id, imageId, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * 
+     * update image
      * @param token JSON Web Token
      * @param id project identifier
      * @param imageId image identifier
@@ -347,7 +365,56 @@ export class DefaultApi {
 
     /**
      * 
-     * update texts
+     * delete iamge
+     * @param token JSON Web Token
+     * @param id project identifier
+     * @param imageId image identifier
+     */
+    public projectsIdImagesImageIdDeleteWithHttpInfo(token: string, id: string, imageId: string, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/projects/${id}/images/${imageId}`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'token' is not null or undefined
+        if (token === null || token === undefined) {
+            throw new Error('Required parameter token was null or undefined when calling projectsIdImagesImageIdDelete.');
+        }
+        // verify required parameter 'id' is not null or undefined
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectsIdImagesImageIdDelete.');
+        }
+        // verify required parameter 'imageId' is not null or undefined
+        if (imageId === null || imageId === undefined) {
+            throw new Error('Required parameter imageId was null or undefined when calling projectsIdImagesImageIdDelete.');
+        }
+        headers.set('token', String(token));
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Delete,
+            headers: headers,
+            search: queryParameters
+        });
+
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * update image
      * @param token JSON Web Token
      * @param id project identifier
      * @param imageId image identifier

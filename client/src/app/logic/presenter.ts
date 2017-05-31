@@ -222,6 +222,16 @@ export class Presenter {
             console.log(error.json());
         });
     }
+
+    deleteImage(image: Image) {
+        let res = this.api.projectsIdImagesImageIdDelete(this.jwt, this.activeProject.slug, image.imageId);
+        res.subscribe(data => {
+            let idx = this.activeProject.images.indexOf(image);
+            this.activeProject.images.splice(idx);
+        }, error => {
+            console.log(error.json());
+        });
+    }
 }
 
 class TextsBody implements Body {

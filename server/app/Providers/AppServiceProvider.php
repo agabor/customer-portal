@@ -15,6 +15,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $request = app('request');
 
+
         // ALLOW OPTIONS METHOD
         if($request->getMethod() === 'OPTIONS')  {
             app()->options($request->path(), function () {

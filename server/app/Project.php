@@ -107,7 +107,8 @@ class Project extends Model
         return false;
     }
 
-    public function getImageWithId(string $imageId) : Image {
+    public function getImageWithId(string $imageId) // : ?Image
+    {
         foreach ($this->images as $img){
             if ($img->imageId == $imageId)
                 return $img;

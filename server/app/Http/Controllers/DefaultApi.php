@@ -183,7 +183,7 @@ class DefaultApi extends Controller
         $img = $this->getImage($project_id, $image_id);
         if ($img == null)
             return response('', 404);
-        if (file_exists($img->filePath()))
+        if ($img->hasFile() && file_exists($img->filePath()))
             unlink($img->filePath());
         $img->delete();
         return response('{}');
@@ -242,24 +242,23 @@ class DefaultApi extends Controller
         $project = $this->getProjectWithSlug($project_id);
         if ($project == null)
             return null;
-        $data = $request->all();
         $img = new Image();
-        $img->name = $data['name'];
-        $img_slug = self::slugify($img->name);
-        $img->imageId = $img_slug;
-        $idx = 1;
-        while ($project->hasImageWithId($img->imageId)){
-            $img->imageId = $img_slug . (++$idx);
-        }
-        $img->description = $data['description'];
-        $img->preferredWidth = $data['preferredWidth'];
-        $img->preferredHeight = $data['preferredHeight'];
+        $this->updateImage($request, $img, $project);
 
         $project->images()->save($img);
         return response($img);
     }
 
-
+    public function imageModify(Request $request, string $project_id, string $image_id)
+    {
+        $project = $this->getProjectWithSlug($project_id);
+        $img = $project->getImageWithId($image_id);
+        if ($img == null)
+            return response('{}', 404);
+        $this->updateImage($request, $img, $project);
+        $img->save();
+        return response($img);
+    }
 
     static public function slugify($text)
     {
@@ -286,6 +285,33 @@ class DefaultApi extends Controller
         }
 
         return $text;
+    }
+
+    /**
+     * @param Request $request
+     * @param $img
+     * @param $project
+     */
+    protected function updateImage(Request $request, $img, $project)
+    {
+        $data = $request->all();
+        if (isset($data['name'])) {
+
+            $img->name = $data['name'];
+            $img_slug = self::slugify($img->name);
+            $newImageId = $img_slug;
+            $idx = 1;
+            while ($project->hasImageWithId($newImageId)) {
+                $newImageId = $img_slug . (++$idx);
+            }
+            $img->imageId = $newImageId;
+        }
+        if (isset($data['description']))
+            $img->description = $data['description'];
+        if (isset($data['preferredWidth']))
+            $img->preferredWidth = $data['preferredWidth'];
+        if (isset($data['preferredHeight']))
+            $img->preferredHeight = $data['preferredHeight'];
     }
 
 

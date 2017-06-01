@@ -74,4 +74,11 @@ class Image extends Model
         $this->width = $size[0];
         $this->height = $size[1];
         $this->save();
-    }}
+    }
+
+    public function hasFile()
+    {
+        $fileName = $this->fileName;
+        return $fileName != null && strlen($this->fileName) != 0;
+    }
+}

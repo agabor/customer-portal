@@ -6,6 +6,7 @@ use Illuminate\Http\UploadedFile;
 class ProjectTest extends TestCase
 {
     private $jwt;
+    private $imgCount;
 
     public function testProjectList()
     {
@@ -106,15 +107,14 @@ class ProjectTest extends TestCase
 
         $imageId = 'sample_image';
 
-        $imgCount = $this->sampleProjectImageCount();
 
         $this->addImage($imageId, 'Sample Image');
 
-        self::assertEquals($imgCount + 1, $this->sampleProjectImageCount());
+        $this->assertImageCountIncreased();
 
         $this->deleteImage($imageId);
 
-        self::assertEquals($imgCount, $this->sampleProjectImageCount());
+        $this->assertImageCountIsOriginal();
 
         $this->logout();
     }
@@ -124,10 +124,9 @@ class ProjectTest extends TestCase
         $this->login();
 
         $imageId = 'image_to_modify';
-        $imgCount = $this->sampleProjectImageCount();
         $this->addImage($imageId, 'Image To Modify');
 
-        self::assertEquals($imgCount + 1, $this->sampleProjectImageCount());
+        $this->assertImageCountIncreased();
 
         $newName = 'Sample Image Modified';
         $newImageId = 'sample_image_modified';
@@ -144,7 +143,7 @@ class ProjectTest extends TestCase
 
         $this->deleteImage($newImageId);
 
-        self::assertEquals($imgCount, $this->sampleProjectImageCount());
+        $this->assertImageCountIsOriginal();
 
         $this->logout();
     }
@@ -154,10 +153,9 @@ class ProjectTest extends TestCase
         $this->login();
 
         $imageId = 'image_to_upload';
-        $imgCount = $this->sampleProjectImageCount();
         $this->addImage($imageId, 'Image To Upload');
 
-        self::assertEquals($imgCount + 1, $this->sampleProjectImageCount());
+        $this->assertImageCountIncreased();
 
         $path = base_path('testdata/temp.png');
         $fileName = 'ikon.png';
@@ -171,7 +169,7 @@ class ProjectTest extends TestCase
         self::assertTrue(file_exists($image->filePath()));
 
         $this->deleteImage($imageId);
-        self::assertEquals($imgCount, $this->sampleProjectImageCount());
+        $this->assertImageCountIsOriginal();
         self::assertFalse(file_exists($image->filePath()));
 
         $this->logout();
@@ -190,6 +188,7 @@ class ProjectTest extends TestCase
         $this->assertEquals(200, $this->response->status(), 'login');
         $actual = json_decode($this->response->getContent(), true);
         $this->jwt = $actual['jwt'];
+        $this->imgCount = $this->sampleProjectImageCount();
     }
 
     protected function header(): array
@@ -244,5 +243,15 @@ class ProjectTest extends TestCase
     protected function sampleProjectImageCount(): int
     {
         return count(self::sampleProject()->images);
+    }
+
+    protected function assertImageCountIncreased()
+    {
+        self::assertEquals($this->imgCount + 1, $this->sampleProjectImageCount());
+    }
+
+    protected function assertImageCountIsOriginal()
+    {
+        self::assertEquals($this->imgCount, $this->sampleProjectImageCount());
     }
 }

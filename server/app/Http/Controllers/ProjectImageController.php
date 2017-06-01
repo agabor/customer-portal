@@ -8,7 +8,23 @@ use App\Project;
 use function App\slugify;
 use Illuminate\Http\Request;
 
+
 class ProjectImageController extends Controller{
+
+    /**
+     * @var Project
+     */
+    public static $project;
+
+    /**
+     * @var Image
+     */
+    public static $image;
+
+    function __construct()
+    {
+        $this->middleware('model');
+    }
 
     static function hex2rgb($colour)
     {
@@ -26,56 +42,40 @@ class ProjectImageController extends Controller{
         return false;
     }
 
-    public function imageGet(string $project_id,string $image_id)
+    public function imageGet()
     {
-        $img = $this->getImage($project_id, $image_id);
         if ($this == null)
             return response('', 404);
 
-        if ($img->fileName == null || $img->fileName == '') {
-            $image = $this->getPlaceholderImage($img);
+        if (self::$image->fileName == null || self::$image->fileName == '') {
+            $image = self::getPlaceholderImage(self::$image);
             header("Content-Type: image/png");
             imagepng($image);
         } else
-            return response()->download($img->filePath());
+            return response()->download(self::$image->filePath());
     }
 
 
-    public function imagePost(Request $request, string $project_id,string $image_id)
+    public function imagePost(Request $request)
     {
-        $img = $this->getImage($project_id, $image_id);
-        if ($img == null)
+        if (self::$image == null)
             return response('', 404);
         $uploadedFile = $request->file('image');
-        $img->setFile($uploadedFile);
+        self::$image->setFile($uploadedFile);
         return response('{}');
     }
 
-    public function imageDelete(string $project_id,string $image_id)
+    public function imageDelete()
     {
-        $img = $this->getImage($project_id, $image_id);
-        if ($img == null)
+        if (self::$image == null)
             return response('', 404);
-        if ($img->hasFile() && file_exists($img->filePath()))
-            unlink($img->filePath());
-        $img->delete();
+        if (self::$image->hasFile() && file_exists(self::$image->filePath()))
+            unlink(self::$image->filePath());
+        self::$image->delete();
         return response('{}');
     }
 
-    private function getImage(string $project_id,string $image_id) : Image
-    {
-        $project = getProjectWithSlug($project_id);
-        if ($project == null)
-            return null;
-        foreach ($project->images as $img) {
-            if ($img->imageId == $image_id) {
-                return $img;
-            }
-        }
-        return null;
-    }
-
-    protected function getPlaceholderImage(Image $img)
+    private static function getPlaceholderImage(Image $img)
     {
         // Create image
         $image = imagecreate($img->preferredWidth, $img->preferredHeight);
@@ -105,50 +105,47 @@ class ProjectImageController extends Controller{
         return $image;
     }
 
-    public function imagePatch(Request $request, string $project_id)
+    public function imagePatch(Request $request)
     {
-        $project = getProjectWithSlug($project_id);
-        if ($project == null)
+        if (self::$project == null)
             return null;
-        $img = new Image();
-        $this->updateImage($request, $img, $project);
+        self::$image = new Image();
+        $this->updateImage($request);
 
-        $project->images()->save($img);
-        return response($img);
+        self::$project->images()->save(self::$image);
+        return response(self::$image);
     }
 
     public function imageModify(Request $request, string $project_id, string $image_id)
     {
-        $project = getProjectWithSlug($project_id);
-        $img = $project->getImageWithId($image_id);
-        if ($img == null)
+        if (self::$image == null)
             return response('{}', 404);
-        $this->updateImage($request, $img, $project);
-        $img->save();
-        return response($img);
+        $this->updateImage($request);
+        self::$image ->save();
+        return response(self::$image);
     }
 
 
-    protected function updateImage(Request $request, Image $img, Project $project)
+    protected function updateImage(Request $request)
     {
         $data = $request->all();
         if (isset($data['name'])) {
 
-            $img->name = $data['name'];
-            $img_slug = slugify($img->name);
+            self::$image ->name = $data['name'];
+            $img_slug = slugify(self::$image ->name);
             $newImageId = $img_slug;
             $idx = 1;
-            while ($project->hasImageWithId($newImageId)) {
+            while (self::$project->hasImageWithId($newImageId)) {
                 $newImageId = $img_slug . (++$idx);
             }
-            $img->imageId = $newImageId;
+            self::$image ->imageId = $newImageId;
         }
         if (isset($data['description']))
-            $img->description = $data['description'];
+            self::$image ->description = $data['description'];
         if (isset($data['preferredWidth']))
-            $img->preferredWidth = $data['preferredWidth'];
+            self::$image ->preferredWidth = $data['preferredWidth'];
         if (isset($data['preferredHeight']))
-            $img->preferredHeight = $data['preferredHeight'];
+            self::$image ->preferredHeight = $data['preferredHeight'];
     }
 
 }

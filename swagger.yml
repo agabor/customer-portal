@@ -58,6 +58,22 @@ paths:
             type: array
             items:
               $ref: '#/definitions/ProjectBase'
+    patch:
+      description: add new project
+      parameters:
+        -
+          $ref: '#/parameters/jwtHeaderParam'
+        -
+          name: name
+          in: query
+          description: project name
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Project'
   /projects/{id}:
     get:
       description: project data
@@ -75,6 +91,19 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Project'
+    delete:
+      parameters:
+        -
+          $ref: '#/parameters/jwtHeaderParam'
+        -
+          name: id
+          in: path
+          description: project identifier
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
   /projects/{id}/texts:
     put:
       description: update texts
@@ -99,9 +128,45 @@ paths:
       responses:
         200:
           description: OK
+  /projects/{id}/images:
+    patch:
+      description: add image
+      parameters:
+        -
+          $ref: '#/parameters/jwtHeaderParam'
+        -
+          name: id
+          in: path
+          description: project identifier
+          required: true
+          type: string
+        -
+          name: name
+          in: query
+          type: string
+        -
+          name: description
+          in: query
+          type: string
+        -
+          name: preferredWidth
+          in: query
+          type: number
+          format: integer
+        -
+          name: preferredHeight
+          in: query
+          type: number
+          format: integer
+          
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Image'
   /projects/{id}/images/{imageId}:
     post:
-      description: update texts
+      description: update image
       consumes:
         - multipart/form-data
       parameters:
@@ -128,9 +193,8 @@ paths:
       responses:
         200:
           description: OK
-  /projects/{id}/images:
-    patch:
-      description: add image
+    delete:
+      description: delete image
       parameters:
         -
           $ref: '#/parameters/jwtHeaderParam'
@@ -138,6 +202,32 @@ paths:
           name: id
           in: path
           description: project identifier
+          required: true
+          type: string
+        -
+          name: imageId
+          in: path
+          description: image identifier
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+    patch:
+      description: modify image
+      parameters:
+        -
+          $ref: '#/parameters/jwtHeaderParam'
+        -
+          name: id
+          in: path
+          description: project identifier
+          required: true
+          type: string
+        -
+          name: imageId
+          in: path
+          description: image identifier
           required: true
           type: string
         -

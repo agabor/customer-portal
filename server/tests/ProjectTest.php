@@ -116,6 +116,27 @@ class ProjectTest extends TestCase
         $this->logout();
     }
 
+    public function testAddDelete2Projects()
+    {
+        $this->login();
+
+        $data = [
+            'name' => 'New Project',
+            'slug' => 'new_project'
+        ];
+        $data2 = [
+            'name' => 'New Project',
+            'slug' => 'new_project2'
+        ];
+        $this->addProject($data);
+        $this->addProject($data2);
+
+        $this->deleteProject($data);
+        $this->deleteProject($data2);
+
+        $this->logout();
+    }
+
     public function testAddDeleteImage()
     {
         $this->login();
@@ -128,6 +149,26 @@ class ProjectTest extends TestCase
         $this->assertImageCountIncreased();
 
         $this->deleteImage($imageId);
+
+        $this->assertImageCountIsOriginal();
+
+        $this->logout();
+    }
+
+    public function testAddDelete2Images()
+    {
+        $this->login();
+
+        $imageId1 = 'sample_image';
+        $imageId2 = 'sample_image2';
+
+        $imageName = 'Sample Image';
+        $this->addImage($imageId1, $imageName);
+        $this->assertImageCountIncreased();
+        $this->addImage($imageId2, $imageName);
+
+        $this->deleteImage($imageId1);
+        $this->deleteImage($imageId2);
 
         $this->assertImageCountIsOriginal();
 
@@ -233,7 +274,6 @@ class ProjectTest extends TestCase
     {
         $this->delete('/api/v1/projects/sample_project/images/'. $imageId, [], $this->header());
         $this->assertStatus200('delete ' . $imageId);
-        self::assertEquals(2, $this->sampleProjectImageCount());
     }
 
     protected function logout()

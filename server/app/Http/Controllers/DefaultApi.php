@@ -84,9 +84,23 @@ class DefaultApi extends Controller
         $data = $request->all();
         $project = new Project();
         $project->name = $data['name'];
-        $project->slug = self::slugify($project->name);
-        $project->save();
+        $base_slug = self::slugify($project->name);
+        $slug = $base_slug;
+        $idx = 1;
+        while ($this->projectSlugExists($slug)){
+            $slug = $base_slug . (++$idx);
+        }
+        $project->slug = $slug;
+        Auth::user()->projects()->save($project);
         return $project;
+    }
+
+    private function projectSlugExists(string $slug) : bool
+    {
+        foreach (Auth::user()->projects as $project)
+            if ($project->slug == $slug)
+                return true;
+        return false;
     }
 
     public function projectsIdGet(string $id)

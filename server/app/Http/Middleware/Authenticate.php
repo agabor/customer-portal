@@ -6,7 +6,6 @@ use App\Auth;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Http\Controllers\DefaultApi;
 
 class Authenticate
 {

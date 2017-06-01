@@ -13,6 +13,7 @@
  * Do not edit the class manually.
  */
 use App\Http\Controllers\DefaultApi;
+use App\Http\Controllers\ProjectImageController;
 
 /**
  * Customer Portal
@@ -68,12 +69,12 @@ $app->group(['middleware' => ['auth', 'cors'], 'prefix' => '/api/v1/'], function
      * Notes: project data
      * Output-Formats: [application/json]
      */
-    $app->GET('projects/{project_id}/images/{image_id}', DefaultApi::class . '@imageGet');
-    $app->POST('projects/{project_id}/images/{image_id}', DefaultApi::class . '@imagePost');
-    $app->PATCH('projects/{project_id}/images/{image_id}', DefaultApi::class . '@imageModify');
-    $app->DELETE('projects/{project_id}/images/{image_id}', DefaultApi::class . '@imageDelete');
+    $app->GET('projects/{project_id}/images/{image_id}', ProjectImageController::class . '@imageGet');
+    $app->POST('projects/{project_id}/images/{image_id}', ProjectImageController::class . '@imagePost');
+    $app->PATCH('projects/{project_id}/images/{image_id}', ProjectImageController::class . '@imageModify');
+    $app->DELETE('projects/{project_id}/images/{image_id}', ProjectImageController::class . '@imageDelete');
 
-    $app->PATCH('projects/{project_id}/images', DefaultApi::class . '@imagePatch');
+    $app->PATCH('projects/{project_id}/images', ProjectImageController::class . '@imagePatch');
     $app->PUT('projects/{project_id}/texts', DefaultApi::class . '@projectsIdPutTexts');
 
 });

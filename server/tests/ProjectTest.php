@@ -18,7 +18,7 @@ class ProjectTest extends TestCase
                 'warnings' => 4,
                 'progress' => 20
             ]);
-        $this->assertStatus200('project list');
+        $this->assertStatusOk('project list');
         $this->logout();
     }
 
@@ -97,7 +97,7 @@ class ProjectTest extends TestCase
                     ]
                 ]
             ]);
-        $this->assertStatus200('project equals');
+        $this->assertStatusOk('project equals');
         $this->logout();
     }
 
@@ -187,7 +187,7 @@ class ProjectTest extends TestCase
         $newName = 'Sample Image Modified';
         $newImageId = 'sample_image_modified';
         $result = $this->json('PATCH', '/api/v1/projects/sample_project/images/' . $imageId, ['name' => $newName], $this->header());
-        $this->assertStatus200('modify sample_image');
+        $this->assertStatusOk('modify sample_image');
         $result ->seeJson([
             'name' => $newName,
             'imageId' => $newImageId,
@@ -219,7 +219,7 @@ class ProjectTest extends TestCase
         $file = new UploadedFile($path, $fileName, filesize($path), 'image/png', null, true);
 
         $this->call('POST', '/api/v1/projects/sample_project/images/' . $imageId, $this->header(), [], ['image' => $file]);
-        $this->assertStatus200('post image');
+        $this->assertStatusOk('post image');
         $image = self::sampleProject()->getImageWithId($imageId);
         self::assertEquals($fileName, $image->fileName);
         self::assertTrue(file_exists($image->filePath()));
@@ -241,7 +241,7 @@ class ProjectTest extends TestCase
     protected function login()
     {
         $this->json('POST', '/api/v1/login', ['user_name' => 'gabor', 'password' => 'secret']);
-        $this->assertEquals(200, $this->response->status(), 'login');
+        $this->assertStatusOk('login');
         $actual = json_decode($this->response->getContent(), true);
         $this->jwt = $actual['jwt'];
         $this->imgCount = $this->sampleProjectImageCount();
@@ -259,7 +259,7 @@ class ProjectTest extends TestCase
             'description' => 'description',
             'preferredWidth' => 100,
             'preferredHeight' => 100], $this->header());
-        $this->assertEquals(200, $this->response->status(), 'add sample_image');
+        $this->assertStatusOk('add sample_image');
         $result->seeJsonEquals([
             'name' => $imageName,
             'imageId' => $expectedId,
@@ -273,24 +273,15 @@ class ProjectTest extends TestCase
     protected function deleteImage(string $imageId)
     {
         $this->delete('/api/v1/projects/sample_project/images/'. $imageId, [], $this->header());
-        $this->assertStatus200('delete ' . $imageId);
+        $this->assertStatusOk('delete ' . $imageId);
     }
 
     protected function logout()
     {
         $this->post('/api/v1/logout', array(), $this->header());
-        $this->assertStatus200('logout');
+        $this->assertStatusOk('logout');
     }
 
-    /**
-     * @param $message
-     */
-    protected function assertStatus200($message)
-    {
-        if ($this->response->status() == 500)
-            file_put_contents('E:\temp\\'.$message.' err.html', $this->response->content());
-        $this->assertEquals(200, $this->response->status(), $message);
-    }
 
     /**
      * @return int
@@ -316,7 +307,7 @@ class ProjectTest extends TestCase
     protected function addProject($data)
     {
         $result = $this->json('PATCH', '/api/v1/projects', ['name' => $data['name']], $this->header());
-        $this->assertEquals(200, $this->response->status(), 'add new project');
+        $this->assertStatusOk('add new project');
         $result->seeJsonEquals($data);
     }
 
@@ -326,6 +317,14 @@ class ProjectTest extends TestCase
     protected function deleteProject($data)
     {
         $this->json('DELETE', '/api/v1/projects/' . $data['slug'], [], $this->header());
-        $this->assertEquals(200, $this->response->status(), 'delete new project');
+        $this->assertStatusOk('delete new project');
+    }
+
+    protected function assertStatusOk($message)
+    {
+        $status = $this->response->status();
+        if ($status == 500)
+            file_put_contents('E:\temp\\'.$message.' err.html', $this->response->content());
+        $this->assertEquals(200, $status, $message);
     }
 }

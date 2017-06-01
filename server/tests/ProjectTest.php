@@ -105,13 +105,16 @@ class ProjectTest extends TestCase
         $headers = $this->header($jwt);
 
         $imageId = 'sample_image';
+
+        $imgCount = $this->sampleProjectImageCount();
+
         $this->addImage($headers, $imageId, 'Sample Image');
 
-        self::assertEquals(3, count(self::sampleProject()->images));
+        self::assertEquals($imgCount + 1, $this->sampleProjectImageCount());
 
         $this->deleteImage($headers, $imageId);
 
-        self::assertEquals(2, count(self::sampleProject()->images));
+        self::assertEquals($imgCount, $this->sampleProjectImageCount());
 
         $this->logout($jwt);
     }
@@ -122,9 +125,10 @@ class ProjectTest extends TestCase
         $headers = $this->header($jwt);
 
         $imageId = 'image_to_modify';
+        $imgCount = $this->sampleProjectImageCount();
         $this->addImage($headers, $imageId, 'Image To Modify');
 
-        self::assertEquals(3, count(self::sampleProject()->images));
+        self::assertEquals($imgCount + 1, $this->sampleProjectImageCount());
 
         $newName = 'Sample Image Modified';
         $newImageId = 'sample_image_modified';
@@ -141,6 +145,8 @@ class ProjectTest extends TestCase
 
         $this->deleteImage($headers, $newImageId);
 
+        self::assertEquals($imgCount, $this->sampleProjectImageCount());
+
         $this->logout($jwt);
     }
 
@@ -150,9 +156,10 @@ class ProjectTest extends TestCase
         $headers = $this->header($jwt);
 
         $imageId = 'image_to_upload';
+        $imgCount = $this->sampleProjectImageCount();
         $this->addImage($headers, $imageId, 'Image To Upload');
 
-        self::assertEquals(3, count(self::sampleProject()->images));
+        self::assertEquals($imgCount + 1, $this->sampleProjectImageCount());
 
         $path = base_path('testdata/temp.png');
         $fileName = 'ikon.png';
@@ -166,6 +173,7 @@ class ProjectTest extends TestCase
         self::assertTrue(file_exists($image->filePath()));
 
         $this->deleteImage($headers, $imageId);
+        self::assertEquals($imgCount, $this->sampleProjectImageCount());
         self::assertFalse(file_exists($image->filePath()));
 
         $this->logout($jwt);
@@ -231,7 +239,7 @@ class ProjectTest extends TestCase
     {
         $this->delete('/api/v1/projects/sample_project/images/'. $imageId, [], $headers);
         $this->assertStatus200('delete ' . $imageId);
-        self::assertEquals(2, count(self::sampleProject()->images));
+        self::assertEquals(2, $this->sampleProjectImageCount());
     }
 
     /**
@@ -251,5 +259,13 @@ class ProjectTest extends TestCase
         if ($this->response->status() == 500)
             file_put_contents('E:\temp\\'.$message.' err.html', $this->response->content());
         $this->assertEquals(200, $this->response->status(), $message);
+    }
+
+    /**
+     * @return int
+     */
+    protected function sampleProjectImageCount(): int
+    {
+        return count(self::sampleProject()->images);
     }
 }

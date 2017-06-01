@@ -101,6 +101,21 @@ class ProjectTest extends TestCase
         $this->logout();
     }
 
+    public function testAddDeleteProject()
+    {
+        $this->login();
+
+        $data = [
+            'name' => 'New Project',
+            'slug' => 'new_project'
+        ];
+        $this->addProject($data);
+
+        $this->deleteProject($data);
+
+        $this->logout();
+    }
+
     public function testAddDeleteImage()
     {
         $this->login();
@@ -253,5 +268,24 @@ class ProjectTest extends TestCase
     protected function assertImageCountIsOriginal()
     {
         self::assertEquals($this->imgCount, $this->sampleProjectImageCount());
+    }
+
+    /**
+     * @param $data
+     */
+    protected function addProject($data)
+    {
+        $result = $this->json('PATCH', '/api/v1/projects', ['name' => $data['name']], $this->header());
+        $this->assertEquals(200, $this->response->status(), 'add new project');
+        $result->seeJsonEquals($data);
+    }
+
+    /**
+     * @param $data
+     */
+    protected function deleteProject($data)
+    {
+        $this->json('DELETE', '/api/v1/projects/' . $data['slug'], [], $this->header());
+        $this->assertEquals(200, $this->response->status(), 'delete new project');
     }
 }

@@ -73,27 +73,22 @@ class DefaultApi extends Controller
         Auth::logout();
         return response('');
     }
-    /**
-     * Operation projectsGet
-     *
-     * .
-     *
-     *
-     * @return Http response
-     */
+
     public function projectsGet()
     {
         return response(Auth::user()->projects);
     }
-    /**
-     * Operation projectsIdGet
-     *
-     * .
-     *
-     * @param string $id project identifier (required)
-     *
-     * @return Http response
-     */
+
+    public function projectsPatch(Request $request)
+    {
+        $data = $request->all();
+        $project = new Project();
+        $project->name = $data['name'];
+        $project->slug = self::slugify($project->name);
+        $project->save();
+        return $project;
+    }
+
     public function projectsIdGet(string $id)
     {
         $project = $this->getProjectWithSlug($id);
@@ -101,6 +96,15 @@ class DefaultApi extends Controller
             return response('',404);
         $project->load(['texts.values', 'images.conditions', 'files', 'locales']);
         return $project;
+    }
+
+    public function projectsIdDelete(string $id)
+    {
+        $project = $this->getProjectWithSlug($id);
+        if ($project == null)
+            return response('',404);
+        $project->delete();
+        return response('{}');
     }
 
 

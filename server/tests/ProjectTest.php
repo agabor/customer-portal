@@ -1,5 +1,7 @@
 <?php
 
+use App\Project;
+
 class ProjectTest extends TestCase
 {
 
@@ -107,10 +109,14 @@ class ProjectTest extends TestCase
         $this->json('POST', '/api/v1/login', ['user_name' => 'gabor', 'password' => 'secret']);
         $this->assertEquals(200, $this->response->status());
         $actual = json_decode($this->response->getContent(), true);
-        $result = $this->json('PATCH', '/api/v1/projects/sample_project/images', array('name' => 'Sample Image',
+
+        $data = array('name' => 'Sample Image',
             'description' => 'description',
             'preferredWidth' => 100,
-            'preferredHeight' => 100), array('token' => $actual['jwt']));
+            'preferredHeight' => 100);
+        $headers = array('token' => $actual['jwt']);
+
+        $result = $this->json('PATCH', '/api/v1/projects/sample_project/images', $data, $headers);
         $this->assertEquals(200, $this->response->status());
         $result ->seeJsonEquals([
                 'name' => 'Sample Image',
@@ -119,10 +125,38 @@ class ProjectTest extends TestCase
                 'preferredWidth' => 100,
                 'preferredHeight' => 100
             ]);
+
+        self::assertEquals(3, count(self::sampleProject()->images));
+
+        $result = $this->json('PATCH', '/api/v1/projects/sample_project/images', $data, $headers);
         $this->assertEquals(200, $this->response->status());
-        $this->delete('/api/v1/projects/sample_project/images/sample_image',array(), array('token' => $actual['jwt']));
+        $result ->seeJsonEquals([
+            'name' => 'Sample Image',
+            'imageId' => 'sample_image2',
+            'description' => 'description',
+            'preferredWidth' => 100,
+            'preferredHeight' => 100
+        ]);
+
+        self::assertEquals(4, count(self::sampleProject()->images));
+
+        $this->delete('/api/v1/projects/sample_project/images/sample_image',[], $headers);
         $this->assertEquals(200, $this->response->status());
-        $this->post('/api/v1/logout',array(), array('token' => $actual['jwt']));
+        self::assertEquals(3, count(self::sampleProject()->images));
+
+        $this->delete('/api/v1/projects/sample_project/images/sample_image2',[], $headers);
         $this->assertEquals(200, $this->response->status());
+        self::assertEquals(2, count(self::sampleProject()->images));
+
+        $this->post('/api/v1/logout',[], $headers);
+        $this->assertEquals(200, $this->response->status());
+    }
+
+    /**
+     * @return mixed
+     */
+    private static function sampleProject() : Project
+    {
+        return Project::where('slug', 'sample_project')->first();
     }
 }

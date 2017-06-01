@@ -183,6 +183,8 @@ class DefaultApi extends Controller
         $img = $this->getImage($project_id, $image_id);
         if ($img == null)
             return response('', 404);
+        if (file_exists($img->filePath()))
+            unlink($img->filePath());
         $img->delete();
         return response('{}');
     }

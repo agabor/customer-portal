@@ -1,6 +1,7 @@
 <?php
 
 use App\Project;
+use Illuminate\Http\UploadedFile;
 
 class ProjectTest extends TestCase
 {
@@ -107,7 +108,7 @@ class ProjectTest extends TestCase
     public function testAddDeleteImage()
     {
         $this->json('POST', '/api/v1/login', ['user_name' => 'gabor', 'password' => 'secret']);
-        $this->assertEquals(200, $this->response->status());
+        $this->assertEquals(200, $this->response->status(), 'login');
         $actual = json_decode($this->response->getContent(), true);
 
         $data = array('name' => 'Sample Image',
@@ -117,7 +118,7 @@ class ProjectTest extends TestCase
         $headers = array('token' => $actual['jwt']);
 
         $result = $this->json('PATCH', '/api/v1/projects/sample_project/images', $data, $headers);
-        $this->assertEquals(200, $this->response->status());
+        $this->assertEquals(200, $this->response->status(), 'add sample_image');
         $result ->seeJsonEquals([
                 'name' => 'Sample Image',
                 'imageId' => 'sample_image',
@@ -128,8 +129,20 @@ class ProjectTest extends TestCase
 
         self::assertEquals(3, count(self::sampleProject()->images));
 
+
+        $path = base_path('testdata/temp.png');
+        $fileName = 'ikon.png';
+        copy(base_path('testdata/' . $fileName), $path);
+        $file = new UploadedFile($path, $fileName, filesize($path), 'image/png', null, true);
+
+        $this->call('POST', '/api/v1/projects/sample_project/images/sample_image', $headers, [], ['image' => $file]);
+        $this->assertEquals(200, $this->response->status(), 'post image');
+        $image = self::sampleProject()->getImageWithId('sample_image');
+        self::assertEquals($fileName, $image->fileName);
+        self::assertTrue(file_exists($image->filePath()));
+
         $result = $this->json('PATCH', '/api/v1/projects/sample_project/images', $data, $headers);
-        $this->assertEquals(200, $this->response->status());
+        $this->assertEquals(200, $this->response->status(), 'add sample_image2');
         $result ->seeJsonEquals([
             'name' => 'Sample Image',
             'imageId' => 'sample_image2',
@@ -141,11 +154,12 @@ class ProjectTest extends TestCase
         self::assertEquals(4, count(self::sampleProject()->images));
 
         $this->delete('/api/v1/projects/sample_project/images/sample_image',[], $headers);
-        $this->assertEquals(200, $this->response->status());
+        $this->assertEquals(200, $this->response->status(), 'delete sample_image');
         self::assertEquals(3, count(self::sampleProject()->images));
+        self::assertFalse(file_exists($image->filePath()));
 
         $this->delete('/api/v1/projects/sample_project/images/sample_image2',[], $headers);
-        $this->assertEquals(200, $this->response->status());
+        $this->assertEquals(200, $this->response->status(), 'delete sample_image2');
         self::assertEquals(2, count(self::sampleProject()->images));
 
         $this->post('/api/v1/logout',[], $headers);

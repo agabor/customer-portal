@@ -6,8 +6,7 @@ import {Modal} from "../../../ui/modal";
 
 @Component({
     selector: 'project-images',
-    templateUrl: './images.component.html',
-    styleUrls: ['./images.component.css']
+    templateUrl: './images.component.html'
 })
 export class ImagesComponent {
     project: Project = {
@@ -33,30 +32,6 @@ export class ImagesComponent {
 
     setProject(project: Project) {
         this.project = project;
-    }
-
-    public fileIsOver: Image = null;
-
-    private file: File;
-
-    public fileOver(fileIsOver: boolean, image: Image): void {
-        if (fileIsOver) {
-            this.fileIsOver = image;
-        } else {
-            if (this.fileIsOver == image)
-                this.fileIsOver = null;
-        }
-        console.log('fileIsOver ' + fileIsOver + ' ' + image.imageId);
-    }
-
-    public onFileDrop(file: File, image: Image): void {
-        let reader = new FileReader();
-
-        reader.onload = (event:any) => {
-            image.fileName = event.target.result;
-        };
-        reader.readAsDataURL(file);
-        this.presenter.uploadImage(file, image);
     }
 
     public add(){

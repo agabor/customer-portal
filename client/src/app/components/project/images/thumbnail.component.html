@@ -1,12 +1,12 @@
 <div class="col-sm-6 col-md-4">
     <div fileDrop
          [ngClass]="{'file-is-over': fileIsOver == image}"
-         (fileOver)="fileOver($event, image)"
-         (onFileDrop)="onFileDrop($event, image)">
+         (fileOver)="fileOver($event)"
+         (onFileDrop)="onFileDrop($event)">
         <div class="thumbnail">
-            <a href="javascript:void(0);" (click)="showImage(image)">
+            <a href="javascript:void(0);" (click)="showImage()">
                 <img alt="{{image.name}}"
-                     src="{{getImageUrl(image)}}"
+                     src="{{getImageUrl()}}"
                      [id]="'img'+image.imageId"
                      (load)="load(image)"
                      data-holder-rendered="true">
@@ -23,7 +23,7 @@
                     <span class="glyphicon glyphicon-cloud-upload"></span>
                     Worng image size! Expected: {{image.preferredWidth}} x {{image.preferredHeight}} actual: {{image.width}} x {{image.height}}
                 </div>
-                <button type="button" class="btn btn-primary" (click)="deleteImage(image)" >Delete</button>
+                <button type="button" class="btn btn-primary" (click)="deleteImage()" >Delete</button>
             </div>
         </div>
     </div>

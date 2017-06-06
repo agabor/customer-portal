@@ -25,6 +25,7 @@ import {Autosize} from "./ui/autosize.directive";
 import { FileDropDirective } from './file-drop';
 import {BASE_PATH} from "../swagger/variables";
 import {NewImageModalComponent} from "./components/project/images/new-image-modal.component";
+import {ThumbnailComponent} from "./components/project/images/thumbnail.component";
 
 const appRoutes: Routes = [
   { path: '',         redirectTo: 'home', pathMatch: 'full' },
@@ -51,7 +52,8 @@ const appRoutes: Routes = [
     LinksComponent,
     Autosize,
     FileDropDirective,
-    NewImageModalComponent
+    NewImageModalComponent,
+    ThumbnailComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

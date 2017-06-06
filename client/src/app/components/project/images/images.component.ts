@@ -30,16 +30,9 @@ export class ImagesComponent {
         this.project = this.presenter.activeProject;
     }
 
-    showImage(image: Image){
-        this.presenter.showImage(image);
-    }
 
     setProject(project: Project) {
         this.project = project;
-    }
-
-    getImageUrl(image: Image) {
-        return this.presenter.getImageUrl(image);
     }
 
     public fileIsOver: Image = null;
@@ -66,17 +59,7 @@ export class ImagesComponent {
         this.presenter.uploadImage(file, image);
     }
 
-    public load(image: Image){
-        let element = <HTMLImageElement>document.getElementById('img'+image.imageId);
-        image.width = element.naturalWidth;
-        image.height = element.naturalHeight;
-    }
-
     public add(){
         this.presenter.showNewImageModal()
-    }
-
-    public delete(image: Image) {
-        this.presenter.deleteImage(image);
     }
 }

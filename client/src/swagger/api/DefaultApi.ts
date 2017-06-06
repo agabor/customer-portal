@@ -541,33 +541,33 @@ export class DefaultApi {
             throw new Error('Required parameter imageId was null or undefined when calling projectsIdImagesImageIdPatch.');
         }
         if (name !== undefined) {
-            if(name instanceof Date) {
+            /*if(name instanceof Date) {
                 queryParameters.set('name', <any>name.d.toISOString());
-            } else {
+            } else*/ {
                 queryParameters.set('name', <any>name);
             }
         }
 
         if (description !== undefined) {
-            if(description instanceof Date) {
+            /*if(description instanceof Date) {
                 queryParameters.set('description', <any>description.d.toISOString());
-            } else {
+            } else*/ {
                 queryParameters.set('description', <any>description);
             }
         }
 
         if (preferredWidth !== undefined) {
-            if(preferredWidth instanceof Date) {
+            /*if(preferredWidth instanceof Date) {
                 queryParameters.set('preferredWidth', <any>preferredWidth.d.toISOString());
-            } else {
+            } else*/ {
                 queryParameters.set('preferredWidth', <any>preferredWidth);
             }
         }
 
         if (preferredHeight !== undefined) {
-            if(preferredHeight instanceof Date) {
+            /*if(preferredHeight instanceof Date) {
                 queryParameters.set('preferredHeight', <any>preferredHeight.d.toISOString());
-            } else {
+            } else*/ {
                 queryParameters.set('preferredHeight', <any>preferredHeight);
             }
         }
@@ -809,9 +809,9 @@ export class DefaultApi {
             throw new Error('Required parameter name was null or undefined when calling projectsPatch.');
         }
         if (name !== undefined) {
-            if(name instanceof Date) {
+            /*if(name instanceof Date) {
                 queryParameters.set('name', <any>name.d.toISOString());
-            } else {
+            } else*/ {
                 queryParameters.set('name', <any>name);
             }
         }

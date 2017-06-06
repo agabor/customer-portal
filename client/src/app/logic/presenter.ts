@@ -221,7 +221,7 @@ export class Presenter {
         let res = this.api.projectsIdImagesImageIdDelete(this.jwt, this.activeProject.slug, image.imageId);
         res.subscribe(data => {
             let idx = this.activeProject.images.indexOf(image);
-            this.activeProject.images.splice(idx);
+            this.activeProject.images.splice(idx, 1);
         }, error => {
             console.log(error.json());
         });

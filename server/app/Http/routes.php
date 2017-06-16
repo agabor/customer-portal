@@ -14,6 +14,7 @@
  */
 use App\Http\Controllers\DefaultApi;
 use App\Http\Controllers\ProjectImageController;
+use Illuminate\Support\Facades\Artisan;
 
 /**
  * Customer Portal
@@ -24,6 +25,10 @@ $app->get('/', function () use ($app) {
     return $app->version();
 });
 
+$app->get('/init', function () {
+    Artisan::call('migrate:refresh');
+    Artisan::call('db:seed');
+});
 
 $app->group(['middleware' => 'cors', 'prefix' => '/api/v1/'], function () use ($app) {
     /**

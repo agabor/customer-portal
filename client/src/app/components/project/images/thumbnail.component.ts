@@ -11,6 +11,7 @@ export class ThumbnailComponent {
 
     fileIsOver: Image = null;
     file: File;
+    editing = false;
 
     constructor(private presenter: Presenter){
     }
@@ -31,6 +32,10 @@ export class ThumbnailComponent {
 
     public deleteImage() {
         this.presenter.deleteImage(this.image);
+    }
+
+    public edit() {
+        this.editing = !this.editing;
     }
 
     public fileOver(fileIsOver: boolean): void {

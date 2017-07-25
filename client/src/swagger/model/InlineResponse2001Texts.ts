@@ -12,7 +12,19 @@
 
 import * as models from './models';
 
-export interface AuthToken {
-    jwt?: string;
+export interface InlineResponse2001Texts {
+    textId?: string;
+
+    name?: string;
+
+    description?: string;
+
+    startGroup?: string;
+
+    minLength?: number;
+
+    maxLength?: number;
+
+    values?: Array<models.InlineResponse2001Values>;
 
 }

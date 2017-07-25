@@ -21,4 +21,12 @@ export interface InlineResponse2001 {
 
     progress?: number;
 
+    texts?: Array<models.InlineResponse2001Texts>;
+
+    images?: Array<models.InlineResponse2001Images>;
+
+    files?: Array<models.InlineResponse2001Files>;
+
+    locales?: Array<models.InlineResponse2001Locales>;
+
 }

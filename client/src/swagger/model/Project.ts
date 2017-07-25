@@ -21,12 +21,12 @@ export interface Project {
 
     progress?: number;
 
-    texts?: Array<models.InlineResponse2002Texts>;
+    texts?: Array<models.InlineResponse2001Texts>;
 
-    images?: Array<models.InlineResponse2002Images>;
+    images?: Array<models.InlineResponse2001Images>;
 
-    files?: Array<models.InlineResponse2002Files>;
+    files?: Array<models.InlineResponse2001Files>;
 
-    locales?: Array<models.InlineResponse2002Locales>;
+    locales?: Array<models.InlineResponse2001Locales>;
 
 }

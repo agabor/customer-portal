@@ -20,9 +20,10 @@ class AppServiceProvider extends ServiceProvider
         if($request->getMethod() === 'OPTIONS')  {
             app()->options($request->path(), function () {
                 $res = response('OK', 200)
-                    ->header('Access-Control-Allow-Origin', '*')
+                    ->header('Access-Control-Allow-Origin', env('CLIENT_URL'))
                     ->header('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, DELETE, PATCH')
-                    ->header('Access-Control-Allow-Headers', 'Content-Type, Origin, token');
+                    ->header('Access-Control-Allow-Headers', 'Content-Type, Origin, token')
+                    ->header('Access-Control-Allow-Credentials', 'true');
                 return $res;
             });
         }

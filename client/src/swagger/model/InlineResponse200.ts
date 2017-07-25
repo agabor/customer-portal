@@ -13,6 +13,12 @@
 import * as models from './models';
 
 export interface InlineResponse200 {
-    jwt?: string;
+    name?: string;
+
+    slug?: string;
+
+    warnings?: number;
+
+    progress?: number;
 
 }

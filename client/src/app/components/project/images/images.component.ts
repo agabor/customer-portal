@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import {Presenter} from "../../../logic/presenter";
-import {Project} from "../../../../swagger/model/Project";
-import {Image} from "../../../../swagger/model/Image";
-import {Modal} from "../../../ui/modal";
+import {Presenter} from '../../../logic/presenter';
+import {Project} from '../../../../swagger/model/Project';
+import {Image} from '../../../../swagger/model/Image';
+import {Modal} from '../../../ui/modal';
 
 @Component({
     selector: 'project-images',
@@ -11,7 +11,7 @@ import {Modal} from "../../../ui/modal";
 export class ImagesComponent {
     project: Project = {
         name : null,
-        slug:null,
+        slug: null,
         files: [],
         locales: [],
         texts: [],
@@ -19,7 +19,7 @@ export class ImagesComponent {
     };
 
 
-    modal:Modal = new Modal();
+    modal: Modal = new Modal();
 
     constructor (private presenter: Presenter) {
         presenter.setImageComponent(this);
@@ -34,7 +34,7 @@ export class ImagesComponent {
         this.project = project;
     }
 
-    public add(){
-        this.presenter.showNewImageModal()
+    public add() {
+        this.presenter.showNewImageModal();
     }
 }

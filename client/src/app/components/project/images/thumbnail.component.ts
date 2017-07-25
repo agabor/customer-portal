@@ -1,6 +1,6 @@
-import {Component, Input} from "@angular/core";
-import {Image} from "../../../../swagger/model/Image";
-import {Presenter} from "../../../logic/presenter";
+import {Component, Input} from '@angular/core';
+import {Image} from '../../../../swagger/model/Image';
+import {Presenter} from '../../../logic/presenter';
 @Component({
     selector: 'thumbnail',
     templateUrl: './thumbnail.component.html',
@@ -20,12 +20,12 @@ export class ThumbnailComponent {
         return this.presenter.getImageUrl(this.image);
     }
 
-    showImage(){
+    showImage() {
         this.presenter.showImage(this.image);
     }
 
-    public load(){
-        let element = <HTMLImageElement>document.getElementById('img'+this.image.imageId);
+    public load() {
+        const element = <HTMLImageElement>document.getElementById('img' + this.image.imageId);
         this.image.width = element.naturalWidth;
         this.image.height = element.naturalHeight;
     }
@@ -42,16 +42,17 @@ export class ThumbnailComponent {
         if (fileIsOver) {
             this.fileIsOver = this.image;
         } else {
-            if (this.fileIsOver == this.image)
+            if (this.fileIsOver === this.image) {
                 this.fileIsOver = null;
+            }
         }
         console.log('fileIsOver ' + fileIsOver + ' ' + this.image.imageId);
     }
 
-    public onFileDrop(file: File,): void {
-        let reader = new FileReader();
+    public onFileDrop(file: File): void {
+        const reader = new FileReader();
 
-        reader.onload = (event:any) => {
+        reader.onload = (event: any) => {
             this.image.fileName = event.target.result;
         };
         reader.readAsDataURL(file);

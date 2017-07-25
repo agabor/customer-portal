@@ -12,21 +12,9 @@
 
 import * as models from './models';
 
-export interface InlineResponse2002 {
+export interface InlineResponse2001Locales {
+    localeId?: string;
+
     name?: string;
-
-    slug?: string;
-
-    warnings?: number;
-
-    progress?: number;
-
-    texts?: Array<models.InlineResponse2002Texts>;
-
-    images?: Array<models.InlineResponse2002Images>;
-
-    files?: Array<models.InlineResponse2002Files>;
-
-    locales?: Array<models.InlineResponse2002Locales>;
 
 }

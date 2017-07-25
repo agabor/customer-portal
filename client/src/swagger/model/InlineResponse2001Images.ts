@@ -12,28 +12,23 @@
 
 import * as models from './models';
 
-export interface InlineResponse2002Files {
-    fileId?: string;
+export interface InlineResponse2001Images {
+    imageId?: string;
 
     name?: string;
 
     description?: string;
 
+    width?: number;
+
+    height?: number;
+
+    preferredWidth?: number;
+
+    preferredHeight?: number;
+
     fileName?: string;
 
-    /**
-     * allowed file extensions
-     */
-    ext?: Array<string>;
-
-    /**
-     * maximum file size in KB
-     */
-    size?: number;
-
-    /**
-     * maximum file size in KB
-     */
-    maxSize?: number;
+    conditions?: Array<models.InlineResponse2001Conditions>;
 
 }

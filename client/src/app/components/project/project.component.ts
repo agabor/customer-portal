@@ -33,23 +33,23 @@ export class ProjectComponent {
 
     tabLinks: Tab = new Tab('Links');
 
-    tabs: Tab[] = [this.tabImages,this.tabTexts,this.tabFiles,this.tabVideos,this.tabLinks];
+    tabs: Tab[] = [this.tabImages, this.tabTexts, this.tabFiles, this.tabVideos, this.tabLinks];
 
     constructor(private route: ActivatedRoute, private presenter: Presenter) {
         presenter.setProjectComponent(this);
     }
 
     ngOnInit() {
-        let slug: string = this.route.snapshot.params['slug'];
+        const slug: string = this.route.snapshot.params['slug'];
         this.presenter.initProject(slug);
         this.showImages();
     }
 
-    showImages(){
+    showImages() {
         this.showTab(this.tabImages);
     }
 
-    showTexts(){
+    showTexts() {
         this.showTab(this.tabTexts);
     }
 
@@ -64,12 +64,13 @@ export class ProjectComponent {
         this.showTab(this.tabLinks);
     }
 
-    showTab(tab: Tab){
-        for (let t of this.tabs){
-            if (t == tab)
+    showTab(tab: Tab) {
+        for (const t of this.tabs){
+            if (t === tab) {
                 t.setActive();
-            else
+            } else {
                 t.setInactive();
+            }
         }
     }
 
@@ -79,23 +80,26 @@ export class ProjectComponent {
     }
 
 
-    getBadgeText() : string {
-        let count = this.projectLogic.getTextWarningCount();
-        if (count == 0)
+    getBadgeText(): string {
+        const count = this.projectLogic.getTextWarningCount();
+        if (count === 0) {
             return '';
-        return '<span class="badge">' +  count +'</span>';
+        }
+        return '<span class="badge">' +  count + '</span>';
     }
-    getBadgeImage() : string {
-        let count = this.projectLogic.getImageWarningCount();
-        if (count == 0)
+    getBadgeImage(): string {
+        const count = this.projectLogic.getImageWarningCount();
+        if (count === 0) {
             return '';
-        return '<span class="badge">' +  count +'</span>';
+        }
+        return '<span class="badge">' +  count + '</span>';
     }
-    getBadgeFile() : string {
-        let count = this.projectLogic.getFileWarningCount();
-        if (count == 0)
+    getBadgeFile(): string {
+        const count = this.projectLogic.getFileWarningCount();
+        if (count === 0) {
             return '';
-        return '<span class="badge">' +  count +'</span>';
+        }
+        return '<span class="badge">' +  count + '</span>';
     }
 
 

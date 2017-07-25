@@ -12,19 +12,17 @@
 
 import * as models from './models';
 
-export interface InlineResponse2002Texts {
-    textId?: string;
+export interface InlineResponse2001Conditions {
+    name: InlineResponse2001Conditions.NameEnum;
 
-    name?: string;
+    value: number;
 
-    description?: string;
-
-    startGroup?: string;
-
-    minLength?: number;
-
-    maxLength?: number;
-
-    values?: Array<models.InlineResponse2002Values>;
-
+}
+export namespace InlineResponse2001Conditions {
+    export enum NameEnum {
+        MinWidth = <any> 'minWidth',
+        MaxWidth = <any> 'maxWidth',
+        MinHeight = <any> 'minHeight',
+        MaxHeight = <any> 'maxHeight'
+    }
 }

@@ -8,7 +8,8 @@ use App\Project;
 use function App\slugify;
 use App\User;
 use Illuminate\Http\Request;
-
+use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Cookie;
 
 class DefaultApi extends Controller
 {
@@ -37,7 +38,11 @@ class DefaultApi extends Controller
 
         Auth::startSession($u);
 
-        return response(array('jwt' => Auth::JWT()));
+        $response = new Response('{}');
+
+        $response->withCookie(new Cookie('jwt', Auth::JWT()));
+
+        return $response;
     }
 
     public function logoutPost()

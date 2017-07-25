@@ -18,10 +18,10 @@ class Authenticate
      */
     public function handle(Request $request, Closure $next)
     {
-        $token = $request->header('token');
-        if ($token == null)
-            $token = $request->get('token');
-
+        //$token = $request->header('token');
+        //if ($token == null)
+        //    $token = $request->get('token');
+        $token = $request->cookie('jwt');
         if (!Auth::tryLogin($token))
             return self::unauthorized();
 

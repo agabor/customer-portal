@@ -12,17 +12,28 @@
 
 import * as models from './models';
 
-export interface InlineResponse2002Conditions {
-    name: InlineResponse2002Conditions.NameEnum;
+export interface InlineResponse2001Files {
+    fileId?: string;
 
-    value: number;
+    name?: string;
 
-}
-export namespace InlineResponse2002Conditions {
-    export enum NameEnum {
-        MinWidth = <any> 'minWidth',
-        MaxWidth = <any> 'maxWidth',
-        MinHeight = <any> 'minHeight',
-        MaxHeight = <any> 'maxHeight'
-    }
+    description?: string;
+
+    fileName?: string;
+
+    /**
+     * allowed file extensions
+     */
+    ext?: Array<string>;
+
+    /**
+     * maximum file size in KB
+     */
+    size?: number;
+
+    /**
+     * maximum file size in KB
+     */
+    maxSize?: number;
+
 }

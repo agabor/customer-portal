@@ -12,9 +12,9 @@
 
 import * as models from './models';
 
-export interface InlineResponse2002Locales {
-    localeId?: string;
+export interface InlineResponse2001Values {
+    localeCode?: string;
 
-    name?: string;
+    value?: string;
 
 }

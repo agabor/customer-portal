@@ -27,6 +27,7 @@ import {BASE_PATH} from '../swagger/variables';
 import {Configuration} from 'swagger';
 import {NewImageModalComponent} from './components/project/images/new-image-modal.component';
 import {ThumbnailComponent} from './components/project/images/thumbnail.component';
+import {AppConfig} from 'app/app.config';
 
 const appRoutes: Routes = [
   { path: '',         redirectTo: 'home', pathMatch: 'full' },
@@ -62,7 +63,8 @@ const appRoutes: Routes = [
     FormsModule,
     HttpModule
   ],
-  providers: [Presenter, AuthGuard, LogoutGuard, DefaultApi, {provide: BASE_PATH, useValue: 'http://localhost:8000/api/v1'}, Configuration],
+  providers: [Presenter, AuthGuard, LogoutGuard, DefaultApi,
+    {provide: BASE_PATH, useValue: AppConfig.basePath}, {provide: Configuration, useValue: {withCredentials: true}}],
   bootstrap: [AppComponent, MenuComponent]
 })
 export class AppModule { }

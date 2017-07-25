@@ -1,7 +1,7 @@
 import {LoginData} from '../login-data';
 import {ImageData} from '../image-data';
 import {Inject, Injectable} from '@angular/core';
-import { Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {AppComponent} from '../components/app.component';
 import {DefaultApi} from '../../swagger/api/DefaultApi';
 import {ProjectBase} from '../../swagger/model/ProjectBase';
@@ -15,9 +15,8 @@ import {ImagesComponent} from '../components/project/images/images.component';
 import {ImageModalComponent} from '../components/project/images/image-modal.component';
 import {Body} from '../../swagger/model/Body';
 import {Text} from '../../swagger/model/text';
-import {RequestOptions, Headers, URLSearchParams, Http} from '@angular/http';
+import {URLSearchParams, Http} from '@angular/http';
 import {BASE_PATH} from 'swagger';
-import {Configuration} from 'swagger';
 import {NewImageModalComponent} from 'app/components/project/images/new-image-modal.component';
 
 @Injectable()
@@ -35,8 +34,11 @@ export class Presenter {
     private _isLoggedIn = false;
 
     constructor (protected http: Http, private api: DefaultApi, private router: Router,
-                 @Inject(BASE_PATH) private basePath: string, private configuration: Configuration) {
-        configuration.withCredentials = true;
+                 @Inject(BASE_PATH) private basePath: string) {
+        this._isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        if (this._isLoggedIn) {
+            this.loadProjects();
+        }
     }
 
     login(model: LoginData) {
@@ -47,6 +49,7 @@ export class Presenter {
         const res = this.api.loginPost(model.name, model.password);
         res.subscribe(resp => {
             this._isLoggedIn = true;
+            localStorage.setItem('isLoggedIn', 'true');
             this.loadProjects();
             this.router.navigate(['/projects']);
             this.menuComponent.setLoggedIn();
@@ -91,7 +94,7 @@ export class Presenter {
     }
 
     logout() {
-        localStorage.removeItem('jwt');
+        localStorage.removeItem('isLoggedIn');
         this.menuComponent.setLoggedOut();
         this.api.logoutPost();
     }

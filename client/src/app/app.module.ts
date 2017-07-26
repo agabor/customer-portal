@@ -35,7 +35,8 @@ const appRoutes: Routes = [
   { path: 'login',    component: LoginFormComponent },
   { path: 'logout',   component: LoginFormComponent, canActivate: [LogoutGuard] },
   { path: 'projects', component: ProjectListComponent, canActivate: [AuthGuard]},
-  { path: 'projects/:slug', component: ProjectComponent, canActivate: [AuthGuard]}
+  { path: 'projects/:slug', component: ProjectComponent, canActivate: [AuthGuard]},
+  { path: 'projects/:slug/:part', component: ProjectComponent, canActivate: [AuthGuard]}
   ];
 
 @NgModule({

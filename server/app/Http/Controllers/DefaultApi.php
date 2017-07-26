@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Auth;
 use function App\getProjectWithSlug;
+use App\Localtext;
 use App\Project;
 use function App\slugify;
+use App\Text;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -17,16 +19,8 @@ class DefaultApi extends Controller
     {
         $input = $request->all();
 
-        //not path params validation
-        if (!isset($input['user_name'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $user_name when calling loginPost');
-        }
-        $user_name = $input['user_name'];
-
-        if (!isset($input['password'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $password when calling loginPost');
-        }
-        $password = $input['password'];
+        $user_name = self::getString($input, 'user_name');
+        $password = self::getString($input, 'password');
 
         $u = User::where('name', $user_name)->first();
 
@@ -34,7 +28,7 @@ class DefaultApi extends Controller
             return response(array('error' => 'user_not_found'), 401);
 
         if (!password_verify($password, $u->password))
-            return response(array('error' => 'password_error') , 401);
+            return response(array('error' => 'password_error'), 401);
 
         Auth::startSession($u);
 
@@ -58,9 +52,9 @@ class DefaultApi extends Controller
 
     public function projectsPatch(Request $request)
     {
-        $data = $request->all();
+        $input = $request->all();
         $project = new Project();
-        $project->name = $data['name'];
+        $project->name = self::getString($input, 'name');
         $base_slug = slugify($project->name);
         $slug = $base_slug;
         $idx = 1;
@@ -101,29 +95,72 @@ class DefaultApi extends Controller
 
     public function projectsIdPutTexts(Request $request, string $id)
     {
-        $data = $request->all();
-        $dict = [];
-        if (isset($data['sources']) && is_array($data['sources'])){
-            foreach ($data['sources'] as $textdata){
-                foreach ($textdata['values'] as $localdata) {
-                    $localCode = $localdata['localeCode'];
-                    if(!isset($dict[$localCode]))
-                        $dict[$localCode] = [];
-                    $dict[$localCode][$textdata['textId']] = $localdata['value'];
-                }
-            }
-        }
+        $dict = self::getLocaleTextDict($request);
         $project = getProjectWithSlug($id);
         foreach ($project->texts as $text) {
-            foreach ($text->values as $localtext){
-                $newValue = $dict[$localtext->locale->localeId][$text->textId];
-                if ($localtext->value != $newValue) {
-                    $localtext->value = $newValue;
-                    $localtext->save();
-                }
+            foreach ($text->values as $value) {
+                self::updateTextValue($dict, $value, $text);
             }
         }
         $project->calculateState();
+        return response('{}');
     }
 
+    protected static function getArray(array $input, string $paramName) : array
+    {
+        if (!isset($input[$paramName]) || !is_array($input[$paramName])) {
+            throw new \InvalidArgumentException('Missing the required parameter $' . $paramName);
+        }
+
+        return $input[$paramName];
+    }
+
+    protected static function getString(array $input, string $paramName) : string
+    {
+        if (!isset($input[$paramName]) || !is_string($input[$paramName])) {
+            throw new \InvalidArgumentException('Missing the required parameter $' . $paramName);
+        }
+
+        return $input[$paramName];
+    }
+
+    private static function getLocaleTextDict(Request $request): LocaleTextDict
+    {
+        $input = $request->all();
+        $dict = new LocaleTextDict;
+        $sources = self::getArray($input, 'sources');
+        foreach ($sources as $text) {
+            $values = self::getArray($text, 'values');
+            $textId = $text['textId'];
+            foreach ($values as $value) {
+                $dict->set($textId, $value['localeCode'], $value['value']);
+            }
+        }
+        return $dict;
+    }
+
+    private static function updateTextValue(LocaleTextDict $dict, Localtext $value, Text $text)
+    {
+        $newValue = $dict->get($text->textId, $value->locale->localeId);
+        if ($value->value != $newValue) {
+            $value->value = $newValue;
+            $value->save();
+        }
+    }
+}
+
+class LocaleTextDict
+{
+    private $dict = [];
+    public function set(string $textId, string $localCode, string $value)
+    {
+        if (!isset($this->dict[$textId]))
+            $this->dict[$textId] = [];
+        $this->dict[$textId][$localCode] = $value;
+
+    }
+    public function get(string $textId, string $localCode) : string
+    {
+        return $this->dict[$textId][$localCode];
+    }
 }

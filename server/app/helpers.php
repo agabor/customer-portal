@@ -30,6 +30,5 @@ function slugify($text)
 
 function getProjectWithSlug(string $id) : Project
 {
-    $project = Project::where('slug', $id)->first();
-    return $project;
+    return Project::where('slug', $id)->first();
 }

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property integer id
  * @property string value
+ * @property Locale locale
  */
 class Localtext extends Model
 {

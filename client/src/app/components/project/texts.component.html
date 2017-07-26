@@ -1,5 +1,5 @@
 <ul class="nav nav-tabs">
-    <li *ngFor="let tab of localeTabs; let i = index"  role="presentation" [class]="tab.pillClass"><a href="javascript:void(0);" (click)="setLocale(i)">{{tab.name}} <span [innerHTML]="getBadgeLocaleText(i)"></span></a></li>
+    <li *ngFor="let tab of localeTabs; let i = index"  role="presentation" [class]="tab.pillClass"><a href="javascript:void(0);" (click)="navigate(i)">{{tab.name}} <span [innerHTML]="getBadgeLocaleText(i)"></span></a></li>
 </ul>
 <form id="textList">
     <button type="button" class="btn btn-primary save {{saved ? 'disabled' : ''}}" (click)="save()" >Save <span [hidden]="!saving"><span class="glyphicon glyphicon-hourglass"></span></span></button>

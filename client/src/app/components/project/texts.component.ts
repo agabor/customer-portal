@@ -6,6 +6,7 @@ import {Tab} from '../../ui/tab';
 import {ProjectLogic} from '../../logic/project-logic';
 import {LocalText} from '../../../swagger/model/LocalText';
 import {Text} from '../../../swagger/model/Text';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
     selector: 'project-texts',
@@ -27,6 +28,8 @@ export class TextsComponent implements OnInit {
 
     localeTabs: Tab[] = [];
 
+    lang = 0;
+
     currentLocale: Locale;
 
     textEntries: TextEntry[] = [];
@@ -40,7 +43,7 @@ export class TextsComponent implements OnInit {
         return 'glyphicon-ok';
     }
 
-    constructor (private presenter: Presenter) {
+    constructor (private presenter: Presenter, private route: ActivatedRoute, private router: Router) {
     }
 
     ngOnInit() {
@@ -50,7 +53,31 @@ export class TextsComponent implements OnInit {
         for (const locale of this.project.locales) {
             this.localeTabs.push(new Tab(locale.name));
         }
-        this.setLocale(0);
+        const lang = this.route.snapshot.params['lang'];
+        this.lang = lang;
+        if (!lang) {
+            this.lang = 0;
+        } else {
+            this.lang = this.getLocaleIndex(lang);
+        }
+        this.setLocale(this.lang);
+    }
+
+    navigate(i: number) {
+        this.setLocale(i);
+        const slug = this.route.snapshot.params['slug'];
+        this.router.navigate(['/projects/' + slug + '/texts/' + this.currentLocale.localeId]);
+    }
+
+    getLocaleIndex(localeId: string): number {
+        let idx = 0;
+        for (const loc of this.project.locales){
+            if (loc.localeId === localeId) {
+               return idx;
+            }
+            ++idx;
+        }
+        return -1;
     }
 
     setLocale(i: number) {

@@ -1,21 +1,22 @@
-import { Component } from '@angular/core';
-import {Presenter} from "../../logic/presenter";
-import {Project} from "../../../swagger/model/Project";
-import {Locale} from "../../../swagger/model/Locale";
-import {Tab} from "../../ui/tab";
-import {ProjectLogic} from "../../logic/project-logic";
-import {LocalText} from "../../../swagger/model/LocalText";
-import {Text} from "../../../swagger/model/Text";
+import {Component, OnInit} from '@angular/core';
+import {Presenter} from '../../logic/presenter';
+import {Project} from '../../../swagger/model/Project';
+import {Locale} from '../../../swagger/model/Locale';
+import {Tab} from '../../ui/tab';
+import {ProjectLogic} from '../../logic/project-logic';
+import {LocalText} from '../../../swagger/model/LocalText';
+import {Text} from '../../../swagger/model/Text';
 
 @Component({
     selector: 'project-texts',
     templateUrl: './texts.component.html',
     styleUrls: ['./texts.component.css']
 })
-export class TextsComponent {
+export class TextsComponent implements OnInit {
+    saving = false;
     project: Project = {
-        name : null,
-        slug:null,
+        name: null,
+        slug: null,
         files: [],
         locales: [],
         texts: [],
@@ -30,7 +31,14 @@ export class TextsComponent {
 
     textEntries: TextEntry[] = [];
 
-    saved: boolean = true;
+    saved = true;
+
+    getTextIndicator(entry: TextEntry) {
+        if (ProjectLogic.hasWarning(entry.text, entry.localText)) {
+            return 'glyphicon-remove';
+        }
+        return 'glyphicon-ok';
+    }
 
     constructor (private presenter: Presenter) {
     }
@@ -39,64 +47,67 @@ export class TextsComponent {
         this.project = this.presenter.activeProject;
         this.projectLogic = new ProjectLogic(this.project);
         this.localeTabs = [];
-        for (let locale of this.project.locales) {
-            this.localeTabs.push(new Tab(locale.name))
+        for (const locale of this.project.locales) {
+            this.localeTabs.push(new Tab(locale.name));
         }
         this.setLocale(0);
     }
 
     setLocale(i: number) {
         let idx = 0;
-        for (let tab of this.localeTabs) {
-            if (i == idx)
+        for (const tab of this.localeTabs) {
+            if (i === idx) {
                 tab.setActive();
-            else
+            } else {
                 tab.setInactive();
+            }
             ++idx;
         }
         this.currentLocale = this.project.locales[i];
-        let entries = [];
-        for (let text of this.project.texts) {
-            entries.push(new TextEntry(text, this.getLocalText(text) ))
+        const entries = [];
+        for (const text of this.project.texts) {
+            entries.push(new TextEntry(text, this.getLocalText(text) ));
         }
         this.textEntries = entries;
     }
 
-    private getLocalText(text: Text) : LocalText {
-        for (let lt of text.values){
-            if (lt.localeCode == this.currentLocale.localeId)
+    private getLocalText(text: Text): LocalText {
+        for (const lt of text.values){
+            if (lt.localeCode === this.currentLocale.localeId) {
                 return lt;
+            }
         }
     }
     getTextValue(text) {
-        for(let lt of text.values) {
-            if (lt.locale_code == this.currentLocale.localeId)
+        for (const lt of text.values) {
+            if (lt.locale_code === this.currentLocale.localeId) {
                 return lt.value;
+            }
         }
         return '';
     }
 
-    getBadgeLocaleText(localeIdx: number) : string {
-        let count = this.projectLogic.getLocaleTextWarningCount(localeIdx);
-        if (count == 0)
+    getBadgeLocaleText(localeIdx: number): string {
+        const count = this.projectLogic.getLocaleTextWarningCount(localeIdx);
+        if (count === 0) {
             return '';
-        return '<span class="badge">' +  count +'</span>';
-    }
-    getTextIndicator(entry: TextEntry){
-        if (ProjectLogic.hasWarning(entry.text, entry.localText))
-            return 'glyphicon-remove';
-        return 'glyphicon-ok'
+        }
+        return '<span class="badge">' +  count + '</span>';
     }
 
-    save(){
+    save() {
         this.saved = true;
-        this.presenter.saveProject();
+        this.saving = true;
+        this.presenter.saveProjectTexts(() => {
+            this.saving = false;
+        });
     }
 
     onKey(event: any) {
-        let s = String(event.key);
-        if (s.length == 1 || s == 'Backspace' || s == 'Enter')
+        const s = String(event.key);
+        if (s.length === 1 || s === 'Backspace' || s === 'Enter') {
             this.saved = false;
+        }
     }
 
     changed() {
@@ -106,9 +117,9 @@ export class TextsComponent {
 
 class TextEntry {
 
-    id : string;
+    id: string;
 
-    constructor(public text: Text, public localText: LocalText){
+    constructor(public text: Text, public localText: LocalText) {
         this.id = text.textId + localText.localeCode;
     }
 }

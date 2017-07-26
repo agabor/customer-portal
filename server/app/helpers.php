@@ -1,7 +1,7 @@
 <?php
 namespace  App;
 
-function slugify($text)
+function slugify(string $text) : string
 {
     // replace non letter or digits by -
     $text = preg_replace('~[^\pL\d]+~u', '_', $text);

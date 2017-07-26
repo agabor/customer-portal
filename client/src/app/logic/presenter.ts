@@ -180,10 +180,11 @@ export class Presenter {
         this.imageModalComponent = imageModalComponent;
     }
 
-    saveProject() {
+    saveProjectTexts(onDone: () => void) {
         const res = this.api.projectsIdTextsPut(this.activeProject.slug, new TextsBody(this.activeProject.texts));
         res.subscribe(data => {
             console.log(data);
+            onDone();
         }, error => {
             console.log(error.json());
         });

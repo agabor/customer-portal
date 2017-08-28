@@ -71,7 +71,7 @@ class Image extends Model
 
     public function setFile(UploadedFile $uploadedFile)
     {
-        $fileName = uniqid() . $uploadedFile->getClientOriginalExtension();
+        $fileName = uniqid() . '.' . $uploadedFile->getClientOriginalExtension();
 
         if ($this->fileName != null && $this->fileName != '')
             if (file_exists($this->filePath()))

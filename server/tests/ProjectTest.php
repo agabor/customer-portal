@@ -220,7 +220,6 @@ class ProjectTest extends TestCase
         $this->call('POST', '/api/v1/projects/sample_project/images/' . $imageId, [],  $this->cookies(), ['image' => $file]);
         $this->assertStatusOk('post image');
         $image = self::sampleProject()->getImageWithId($imageId);
-        self::assertEquals($fileName, $image->fileName);
         self::assertTrue(file_exists($image->filePath()));
 
         $this->deleteImage($imageId);

@@ -47,12 +47,14 @@ class ProjectImageController extends Controller{
         if ($this == null)
             return response('', 404);
 
-        if (self::$image->fileName == null || self::$image->fileName == '') {
+        if (self::$image->fileName === null || self::$image->fileName === '') {
             $image = self::getPlaceholderImage(self::$image);
             header("Content-Type: image/png");
             imagepng($image);
-        } else
-            return response()->download(self::$image->filePath());
+        } else {
+            $ext = explode('.', self::$image->fileName)[1];
+            return response()->download(self::$image->filePath(), self::$image->imageId . '.' . $ext);
+        }
     }
 
 

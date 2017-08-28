@@ -11,8 +11,8 @@ class ProjectTest extends TestCase
     public function testProjectList()
     {
         $this->login();
-        $this->json('GET', '/api/v1/projects', array(), $this->header())
-            ->seeJson([
+        $this->call('GET', '/api/v1/projects', array(), $this->cookies());
+        $this->seeJson([
                 'name' => 'Sample Project',
                 'slug' => 'sample_project',
                 'warnings' => 4,
@@ -25,8 +25,8 @@ class ProjectTest extends TestCase
     public function testProjectData()
     {
         $this->login();
-        $this->json('GET', '/api/v1/projects/sample_project', array(), $this->header())
-            ->seeJsonEquals([
+        $this->call('GET', '/api/v1/projects/sample_project', array(), $this->cookies());
+        $this->seeJsonEquals([
                 'name' => 'Sample Project',
                 'slug' => 'sample_project',
                 'warnings' => 4,
@@ -59,7 +59,7 @@ class ProjectTest extends TestCase
                         "preferredHeight"=> 500,
                         "preferredWidth"=> 1024,
                         "fileName"=> "",
-                        "conditions"=> []
+                        'conditions' => []
                     ],[
                         'imageId' => 'facebook_icon',
                         'name' => 'Facebook Icon',
@@ -143,7 +143,6 @@ class ProjectTest extends TestCase
 
         $imageId = 'sample_image';
 
-
         $this->addImage($imageId, 'Sample Image');
 
         $this->assertImageCountIncreased();
@@ -186,9 +185,9 @@ class ProjectTest extends TestCase
 
         $newName = 'Sample Image Modified';
         $newImageId = 'sample_image_modified';
-        $result = $this->json('PATCH', '/api/v1/projects/sample_project/images/' . $imageId, ['name' => $newName], $this->header());
+        $this->call('PATCH', '/api/v1/projects/sample_project/images/' . $imageId, ['name' => $newName], $this->cookies());
         $this->assertStatusOk('modify sample_image');
-        $result ->seeJson([
+        $this ->seeJson([
             'name' => $newName,
             'imageId' => $newImageId,
             'description' => 'description',
@@ -218,7 +217,7 @@ class ProjectTest extends TestCase
         copy(base_path('testdata/' . $fileName), $path);
         $file = new UploadedFile($path, $fileName, filesize($path), 'image/png', null, true);
 
-        $this->call('POST', '/api/v1/projects/sample_project/images/' . $imageId, $this->header(), [], ['image' => $file]);
+        $this->call('POST', '/api/v1/projects/sample_project/images/' . $imageId, [],  $this->cookies(), ['image' => $file]);
         $this->assertStatusOk('post image');
         $image = self::sampleProject()->getImageWithId($imageId);
         self::assertEquals($fileName, $image->fileName);
@@ -243,24 +242,24 @@ class ProjectTest extends TestCase
         $this->json('POST', '/api/v1/login', ['user_name' => 'gabor', 'password' => 'secret']);
         $this->assertStatusOk('login');
         $actual = json_decode($this->response->getContent(), true);
-        $this->jwt = $actual['jwt'];
+        $this->jwt = $this->getJWT();
         $this->imgCount = $this->sampleProjectImageCount();
     }
 
-    protected function header(): array
+    protected function cookies(): array
     {
-        return array('token' => $this->jwt);
+        return array('jwt' => $this->jwt);
     }
 
 
     protected function addImage(string $expectedId, string $imageName)
     {
-        $result = $this->json('PATCH', '/api/v1/projects/sample_project/images', ['name' => $imageName,
+        $this->call('PATCH', '/api/v1/projects/sample_project/images', ['name' => $imageName,
             'description' => 'description',
             'preferredWidth' => 100,
-            'preferredHeight' => 100], $this->header());
-        $this->assertStatusOk('add sample_image');
-        $result->seeJsonEquals([
+            'preferredHeight' => 100], $this->cookies());
+        $this->assertStatusOk('add ' . $expectedId);
+        $this->seeJsonEquals([
             'name' => $imageName,
             'imageId' => $expectedId,
             'description' => 'description',
@@ -272,13 +271,13 @@ class ProjectTest extends TestCase
 
     protected function deleteImage(string $imageId)
     {
-        $this->delete('/api/v1/projects/sample_project/images/'. $imageId, [], $this->header());
+        $this->call('DELETE', '/api/v1/projects/sample_project/images/'. $imageId, [], $this->cookies());
         $this->assertStatusOk('delete ' . $imageId);
     }
 
     protected function logout()
     {
-        $this->post('/api/v1/logout', array(), $this->header());
+        $this->call('POST', '/api/v1/logout', array(), $this->cookies());
         $this->assertStatusOk('logout');
     }
 
@@ -306,9 +305,9 @@ class ProjectTest extends TestCase
      */
     protected function addProject($data)
     {
-        $result = $this->json('PATCH', '/api/v1/projects', ['name' => $data['name']], $this->header());
+        $this->call('PATCH', '/api/v1/projects', ['name' => $data['name']], $this->cookies());
         $this->assertStatusOk('add new project');
-        $result->seeJsonEquals($data);
+        $this->seeJsonEquals($data);
     }
 
     /**
@@ -316,7 +315,7 @@ class ProjectTest extends TestCase
      */
     protected function deleteProject($data)
     {
-        $this->json('DELETE', '/api/v1/projects/' . $data['slug'], [], $this->header());
+        $this->call('DELETE', '/api/v1/projects/' . $data['slug'], [], $this->cookies());
         $this->assertStatusOk('delete new project');
     }
 

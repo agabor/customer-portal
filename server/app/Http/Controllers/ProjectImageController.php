@@ -61,6 +61,8 @@ class ProjectImageController extends Controller{
         if (self::$image == null)
             return response('', 404);
         $uploadedFile = $request->file('image');
+        $copy = self::$image->copy();
+        self::$project->versionedImages()->save($copy);
         self::$image->setFile($uploadedFile);
         return response('{}');
     }
@@ -112,7 +114,10 @@ class ProjectImageController extends Controller{
         self::$image = new Image();
         $this->updateImage($request);
 
-        self::$project->images()->save(self::$image);
+        self::$project->versionedImages()->save(self::$image);
+        self::$image->project()->associate(self::$project);
+        self::$image->save();
+
         return response(self::$image);
     }
 

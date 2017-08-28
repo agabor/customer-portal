@@ -21,7 +21,11 @@ class Project extends Model
     }
 
     public function images(){
-        return $this->hasMany(Image::class);
+        return $this->hasMany(Image::class, 'project_id');
+    }
+
+    public function versionedImages(){
+        return $this->hasMany(Image::class, 'owning_project_id');
     }
 
     public function files(){

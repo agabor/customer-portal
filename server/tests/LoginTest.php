@@ -6,10 +6,10 @@ class LoginTest extends TestCase
     {
         $this->json('POST', '/api/v1/login', ['user_name' => 'gabor', 'password' => 'secret']);
         $this->assertEquals(200, $this->response->status());
-        $actual = json_decode($this->response->getContent(), true);
-        $this->post('/api/v1/logout',array(), array('token' => $actual['jwt']));
+        $jwt = $this->getJWT();
+        $this->call('post', '/api/v1/logout',array(), array('jwt' => $jwt));
         $this->assertEquals(200, $this->response->status());
-        $this->post('/api/v1/logout',array(), array('token' => $actual['jwt']));
+        $this->call('post', '/api/v1/logout',array(), array('jwt' => $jwt));
         $this->assertEquals(401, $this->response->status());
     }
     public function testWrongPassword()

@@ -24,11 +24,24 @@ class Image extends Model
     protected $touches = ['project'];
 
     public function project(){
-        return $this->belongsTo(Project::class);
+        return $this->belongsTo(Project::class, 'project_id');
+    }
+    public function owningProject(){
+        return $this->belongsTo(Project::class, 'owning_project_id');
     }
 
     public function conditions(){
         return $this->hasMany(Imagecondition::class);
+    }
+
+    public function copy() : Image {
+        $copy = new Image();
+        $copy->imageId = $this->imageId;
+        $copy->name = $this->name;
+        $copy->width = $this->width;
+        $copy->height = $this->height;
+        $copy->fileName = $this->fileName;
+        return $copy;
     }
 
     /**
@@ -46,7 +59,7 @@ class Image extends Model
      * @var array
      */
     protected $hidden = [
-        'id', 'project_id', 'project'
+        'id', 'project_id', 'project', 'owning_project_id'
     ];
 
     public function dirPath() : string {
@@ -58,7 +71,7 @@ class Image extends Model
 
     public function setFile(UploadedFile $uploadedFile)
     {
-        $clientOriginalName = $uploadedFile->getClientOriginalName();
+        $fileName = uniqid() . $uploadedFile->getClientOriginalExtension();
 
         if ($this->fileName != null && $this->fileName != '')
             if (file_exists($this->filePath()))
@@ -68,8 +81,8 @@ class Image extends Model
         if (!file_exists($directory)) {
             mkdir($directory, 0777, true);
         }
-        $uploadedFile->move($directory, $clientOriginalName);
-        $this->fileName = $clientOriginalName;
+        $uploadedFile->move($directory, $fileName);
+        $this->fileName = $fileName;
         $size = getimagesize($this->filePath());
         $this->width = $size[0];
         $this->height = $size[1];

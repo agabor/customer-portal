@@ -77,7 +77,9 @@ class DatabaseSeeder extends Seeder
         $i->preferredWidth = 512;
         $i->preferredHeight = 512;
         $i->fileName = '';
-        $p->images()->save($i);
+        $p->versionedImages()->save($i);
+        $i->project()->associate($p);
+        $i->save();
 
         $i = new \App\Image();
         $i->imageId = 'play_store_banner';
@@ -88,7 +90,9 @@ class DatabaseSeeder extends Seeder
         $i->preferredWidth = 1024;
         $i->preferredHeight = 500;
         $i->fileName = '';
-        $p->images()->save($i);
+        $p->versionedImages()->save($i);
+        $i->project()->associate($p);
+        $i->save();
 
         $f = new \App\File();
         $f->fileId = 'terms_and_conditions';
@@ -127,7 +131,8 @@ class DatabaseSeeder extends Seeder
         $i->preferredWidth = 512;
         $i->preferredHeight = 512;
         $i->fileName = 'ikon.png';
-        $p->images()->save($i);
+        $p->versionedImages()->save($i);
+        $i->project()->associate($p);
         $this->loadTestImage($i);
 
 
@@ -140,7 +145,8 @@ class DatabaseSeeder extends Seeder
         $i->preferredWidth = 1024;
         $i->preferredHeight = 500;
         $i->fileName = 'banner.png';
-        $p->images()->save($i);
+        $p->versionedImages()->save($i);
+        $i->project()->associate($p);
         $this->loadTestImage($i);
 
         $t = new \App\Text();

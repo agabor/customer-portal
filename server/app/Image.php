@@ -16,6 +16,7 @@ use Illuminate\Http\UploadedFile;
  * @property integer preferredWidth
  * @property integer preferredHeight
  * @property string fileName
+ * @property Project project
  */
 class Image extends Model
 {
@@ -30,6 +31,13 @@ class Image extends Model
         return $this->belongsTo(Project::class, 'owning_project_id');
     }
 
+
+    public function saveTo(Project $project) {
+        $project->versionedImages()->save($this);
+        $this->project()->associate($project);
+        $this->save();
+    }
+
     public function conditions(){
         return $this->hasMany(Imagecondition::class);
     }
@@ -40,6 +48,8 @@ class Image extends Model
         $copy->name = $this->name;
         $copy->width = $this->width;
         $copy->height = $this->height;
+        $copy->preferredWidth = $this->preferredWidth;
+        $copy->preferredHeight = $this->preferredHeight;
         $copy->fileName = $this->fileName;
         return $copy;
     }
@@ -63,7 +73,7 @@ class Image extends Model
     ];
 
     public function dirPath() : string {
-        return storage_path($this->project->slug . '/' . $this->imageId);
+        return $this->project->dirPath() . '/' . $this->imageId;
     }
     public function filePath() : string {
         return $this->dirPath() . '/' . $this->fileName;
@@ -72,10 +82,6 @@ class Image extends Model
     public function setFile(UploadedFile $uploadedFile)
     {
         $fileName = uniqid() . '.' . $uploadedFile->getClientOriginalExtension();
-
-        if ($this->fileName != null && $this->fileName != '')
-            if (file_exists($this->filePath()))
-                unlink($this->filePath());
 
         $directory = $this->dirPath();
         if (!file_exists($directory)) {
@@ -93,5 +99,17 @@ class Image extends Model
     {
         $fileName = $this->fileName;
         return $fileName != null && strlen($this->fileName) != 0;
+    }
+
+    public function delete()
+    {
+        if ($this->hasFile() && file_exists($this->filePath()))
+            try {
+                unlink($this->filePath());
+            } catch (\Exception $e){ }
+        try {
+            rmdir($this->dirPath());
+        } catch (\Exception $e){ }
+        return parent::delete();
     }
 }

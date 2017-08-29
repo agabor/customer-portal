@@ -13,11 +13,17 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon created_at
  * @property \Carbon\Carbon updated_at
  * @property array texts
+ * @property \Traversable versionedImages
+ * @property \Traversable images
  */
 class Project extends Model
 {
     public function texts(){
-        return $this->hasMany(Text::class);
+        return $this->hasMany(Text::class, 'project_id');
+    }
+
+    public function versionedTexts(){
+        return $this->hasMany(Text::class, 'owning_project_id');
     }
 
     public function images(){
@@ -28,6 +34,13 @@ class Project extends Model
         return $this->hasMany(Image::class, 'owning_project_id');
     }
 
+    public function versionedImagesForId(string $id) : \Traversable {
+        /* @var $img Image */
+        foreach ($this->versionedImages as $img){
+            if ($img->imageId === $id)
+                yield $img;
+        }
+    }
     public function files(){
         return $this->hasMany(File::class);
 
@@ -119,5 +132,23 @@ class Project extends Model
                 return $img;
         }
         return null;
+    }
+
+
+    public function dirPath() : string {
+        return storage_path($this->slug);
+    }
+
+    public function delete()
+    {
+        /* @var $img Image */
+        foreach ($this->versionedImages as $img) {
+            $img->delete();
+        }
+        try {
+            rmdir($this->dirPath());
+        } catch (\Exception $e) {
+        }
+        return parent::delete();
     }
 }

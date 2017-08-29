@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-
         $this->hu_HU = new \App\Locale(['localeId' => 'hu_HU', 'name' => 'Hungarian']);
         $this->en_US = new \App\Locale(['localeId' => 'en_US', 'name' => 'English']);
         $this->de_DE = new \App\Locale(['localeId' => 'de_DE', 'name' => 'German']);
@@ -53,7 +52,7 @@ class DatabaseSeeder extends Seeder
         $t->minLength = 10;
         $t->maxLength = 20;
 
-        $p->texts()->save($t);
+        $t->saveTo($p);
 
         $p->locales()->attach($this->en_US);
         $p->locales()->attach($this->hu_HU);
@@ -77,9 +76,7 @@ class DatabaseSeeder extends Seeder
         $i->preferredWidth = 512;
         $i->preferredHeight = 512;
         $i->fileName = '';
-        $p->versionedImages()->save($i);
-        $i->project()->associate($p);
-        $i->save();
+        $i->saveTo($p);
 
         $i = new \App\Image();
         $i->imageId = 'play_store_banner';
@@ -90,9 +87,7 @@ class DatabaseSeeder extends Seeder
         $i->preferredWidth = 1024;
         $i->preferredHeight = 500;
         $i->fileName = '';
-        $p->versionedImages()->save($i);
-        $i->project()->associate($p);
-        $i->save();
+        $i->saveTo($p);
 
         $f = new \App\File();
         $f->fileId = 'terms_and_conditions';
@@ -131,8 +126,7 @@ class DatabaseSeeder extends Seeder
         $i->preferredWidth = 512;
         $i->preferredHeight = 512;
         $i->fileName = 'ikon.png';
-        $p->versionedImages()->save($i);
-        $i->project()->associate($p);
+        $i->saveTo($p);
         $this->loadTestImage($i);
 
 
@@ -145,8 +139,7 @@ class DatabaseSeeder extends Seeder
         $i->preferredWidth = 1024;
         $i->preferredHeight = 500;
         $i->fileName = 'banner.png';
-        $p->versionedImages()->save($i);
-        $i->project()->associate($p);
+        $i->saveTo($p);
         $this->loadTestImage($i);
 
         $t = new \App\Text();
@@ -157,7 +150,7 @@ class DatabaseSeeder extends Seeder
         $t->startGroup = 'Store szövegek';
         $t->minLength = 3;
         $t->maxLength = 30;
-        $p->texts()->save($t);
+        $t->saveTo($p);
         $t->values()->saveMany([new \App\Localtext([
             'locale_id' => $this->hu_HU->id,
             'value' => 'Autómentő Kereső'
@@ -179,7 +172,7 @@ class DatabaseSeeder extends Seeder
         $t->textId = 'short_description';
         $t->minLength = 10;
         $t->maxLength = 80;
-        $p->texts()->save($t);
+        $t->saveTo($p);
         $t->values()->saveMany([new \App\Localtext([
             'locale_id' => $this->hu_HU->id,
             'value' => 'Az Autómentő kereső rendszer hivatalos, sofőröknek készült mobilapplikációja.'
@@ -202,7 +195,7 @@ class DatabaseSeeder extends Seeder
         $t->textId = 'full_description';
         $t->minLength = 100;
         $t->maxLength = 4000;
-        $p->texts()->save($t);
+        $t->saveTo($p);
         $t->values()->saveMany([new \App\Localtext([
             'locale_id' => $this->hu_HU->id,
             'value' => 'Az Autómentő kereső regisztrált céges partnereként minden, a rendszerbe bejegyzett sofőr ingyenesen letöltheti készülékére az applikációt. A sofőrök egy egyszerű bejelentkezés után aktívvá válnak járművükkel (pozíciójukkal) a bajbajutott személyeknek az automentokereso.hu weboldal térképén. A károsultak igény szerint segítséget kérhetnek a közelben tartózkodó autómentő sofőrtől, megtekinthetik annak céges profilját és autóparkját. A segélykérést követően a sofőr pontosan látja a bajbajutott pozícióját, valamint a továbbiakban könnyen felvehetik egymással a kapcsolatot, hogy mielőbb egyeztessék és megoldják a felmerült problémát.
@@ -250,7 +243,7 @@ Az automentokereso.hu weboldalon a károsultak autómentők, esetkocsik és gép
             $t->description = '';
             $t->minLength = 2;
             $t->maxLength = mb_strlen($item[1]) * 1.5;
-            $p->texts()->save($t);
+            $t->saveTo($p);
             $t->values()->saveMany([new \App\Localtext([
                 'locale_id' => $this->hu_HU->id,
                 'value' => $item[1]

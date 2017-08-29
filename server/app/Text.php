@@ -20,11 +20,21 @@ class Text extends Model
     protected $touches = ['project'];
 
     public function project(){
-        return $this->belongsTo(Project::class);
+        return $this->belongsTo(Project::class, 'project_id');
+    }
+
+    public function owningProject(){
+        return $this->belongsTo(Project::class, 'owning_project_id');
     }
 
     public function values(){
         return $this->hasMany(Localtext::class);
+    }
+
+    public function saveTo(Project $project) {
+        $project->versionedTexts()->save($this);
+        $this->project()->associate($project);
+        $this->save();
     }
 
     /**
@@ -33,7 +43,7 @@ class Text extends Model
      * @var array
      */
     protected $fillable = [
-        'minLength', 'maxLength',
+        'minLength', 'maxLength'
     ];
 
     /**
@@ -42,6 +52,6 @@ class Text extends Model
      * @var array
      */
     protected $hidden = [
-        'id', 'project_id'
+        'id', 'project_id', 'owning_project_id'
     ];
 }

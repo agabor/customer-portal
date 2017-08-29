@@ -55,6 +55,7 @@ class ProjectImageController extends Controller{
             $ext = explode('.', self::$image->fileName)[1];
             return response()->download(self::$image->filePath(), self::$image->imageId . '.' . $ext);
         }
+        return response('{}');
     }
 
 
@@ -63,8 +64,10 @@ class ProjectImageController extends Controller{
         if (self::$image == null)
             return response('', 404);
         $uploadedFile = $request->file('image');
-        $copy = self::$image->copy();
-        self::$project->versionedImages()->save($copy);
+        if (self::$image->fileName !== null && self::$image->fileName !== '') {
+            $copy = self::$image->copy();
+            self::$project->versionedImages()->save($copy);
+        }
         self::$image->setFile($uploadedFile);
         return response('{}');
     }
@@ -73,9 +76,8 @@ class ProjectImageController extends Controller{
     {
         if (self::$image == null)
             return response('', 404);
-        if (self::$image->hasFile() && file_exists(self::$image->filePath()))
-            unlink(self::$image->filePath());
-        self::$image->delete();
+        foreach (self::$project->versionedImagesForId(self::$image->imageId) as $img)
+            $img->delete();
         return response('{}');
     }
 

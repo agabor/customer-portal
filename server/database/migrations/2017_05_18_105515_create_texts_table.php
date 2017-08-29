@@ -20,8 +20,10 @@ class CreateTextsTable extends Migration
             $table->text('startGroup');
             $table->integer('minLength');
             $table->integer('maxLength');
-            $table->unsignedInteger('project_id')->index();
+            $table->unsignedInteger('project_id')->nullable()->index();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
+            $table->unsignedInteger('owning_project_id')->index();
+            $table->foreign('owning_project_id')->references('id')->on('projects')->onDelete('cascade');
         });
     }
 

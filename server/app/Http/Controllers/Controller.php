@@ -8,9 +8,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Image;
+use App\Project;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {
-    //
+    /**
+     * @var Project
+     */
+    public static $project;
+
+    /**
+     * @var Image
+     */
+    public static $image;
+
+
+    protected static function getArray(array $input, string $paramName) : array
+    {
+        if (!isset($input[$paramName]) || !is_array($input[$paramName])) {
+            throw new \InvalidArgumentException('Missing the required parameter $' . $paramName);
+        }
+
+        return $input[$paramName];
+    }
+
+    protected static function getString(array $input, string $paramName) : string
+    {
+        if (!isset($input[$paramName]) || !is_string($input[$paramName])) {
+            throw new \InvalidArgumentException('Missing the required parameter $' . $paramName);
+        }
+
+        return $input[$paramName];
+    }
 }

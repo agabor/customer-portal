@@ -22,6 +22,16 @@ class ProjectTest extends TestCase
         $this->logout();
     }
 
+    public function testProjectAddUser()
+    {
+        $this->login();
+        $user_data = ['name' => 'test_user', 'email' => 'test@test.test'];
+        $this->call('POST', '/api/v1/projects/sample_project/add_user', $user_data, $this->cookies());
+        $this->seeJson($user_data);
+        $this->assertStatusOk('add user');
+        $this->logout();
+    }
+
     public function testProjectData()
     {
         $this->login();

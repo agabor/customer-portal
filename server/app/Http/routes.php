@@ -13,6 +13,7 @@
  * Do not edit the class manually.
  */
 use App\Http\Controllers\DefaultApi;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectImageController;
 use Illuminate\Support\Facades\Artisan;
 
@@ -38,6 +39,7 @@ $app->group(['middleware' => 'cors', 'prefix' => '/api/v1/'], function () use ($
      * Output-Formats: [application/json]
      */
     $app->POST('login', DefaultApi::class . '@loginPost');
+    $app->GET('token/{login_token}', DefaultApi::class . '@loginLinkGet');
 });
 
 $app->group(['middleware' => ['auth', 'cors'], 'prefix' => '/api/v1/'], function () use ($app) {
@@ -81,5 +83,7 @@ $app->group(['middleware' => ['auth', 'cors'], 'prefix' => '/api/v1/'], function
 
     $app->PATCH('projects/{project_id}/images', ProjectImageController::class . '@imagePatch');
     $app->PUT('projects/{project_id}/texts', DefaultApi::class . '@projectsIdPutTexts');
+
+    $app->POST('projects/{project_id}/add_user', ProjectController::class . '@addUser');
 
 });

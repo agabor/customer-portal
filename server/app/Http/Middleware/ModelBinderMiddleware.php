@@ -10,6 +10,7 @@ namespace App\Http\Middleware;
 
 
 use App\Auth;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\ProjectImageController;
 use Illuminate\Http\Request;
 
@@ -21,12 +22,12 @@ class ModelBinderMiddleware
             $project_id = $params['project_id'];
             foreach (Auth::user()->projects as $project){
                 if ($project->slug == $project_id){
-                    ProjectImageController::$project = $project;
+                    Controller::$project = $project;
                     if (isset($params['image_id'])) {
                         $image_id = $params['image_id'];
                         foreach ($project->images as $image){
                             if ($image->imageId == $image_id)
-                                ProjectImageController::$image = $image;
+                                Controller::$image = $image;
                         }
                     }
                 }

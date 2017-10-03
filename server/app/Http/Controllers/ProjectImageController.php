@@ -9,17 +9,7 @@ use function App\slugify;
 use Illuminate\Http\Request;
 
 
-class ProjectImageController extends Controller{
-
-    /**
-     * @var Project
-     */
-    public static $project;
-
-    /**
-     * @var Image
-     */
-    public static $image;
+class ProjectImageController extends Controller {
 
     function __construct()
     {

@@ -39,6 +39,28 @@ class DefaultApi extends Controller
         return $response;
     }
 
+    public function loginLinkGet(Request $request)
+    {
+        $input = $request->route()[2];;
+
+        $login_token = self::getString($input, 'login_token');
+        if ($login_token == null || strlen($login_token) == 0)
+            return response(array('error' => 'user_not_found'), 401);
+
+        $u = User::where('login_token', $login_token)->first();
+
+        if ($u == null)
+            return response(array('error' => 'user_not_found'), 401);
+
+        Auth::startSession($u);
+
+        $response = new Response('{}');
+
+        $response->withCookie(new Cookie('jwt', Auth::JWT()));
+
+        return $response;
+    }
+
     public function logoutPost()
     {
         Auth::logout();
@@ -104,24 +126,6 @@ class DefaultApi extends Controller
         }
         $project->calculateState();
         return response('{}');
-    }
-
-    protected static function getArray(array $input, string $paramName) : array
-    {
-        if (!isset($input[$paramName]) || !is_array($input[$paramName])) {
-            throw new \InvalidArgumentException('Missing the required parameter $' . $paramName);
-        }
-
-        return $input[$paramName];
-    }
-
-    protected static function getString(array $input, string $paramName) : string
-    {
-        if (!isset($input[$paramName]) || !is_string($input[$paramName])) {
-            throw new \InvalidArgumentException('Missing the required parameter $' . $paramName);
-        }
-
-        return $input[$paramName];
     }
 
     private static function getLocaleTextDict(Request $request): LocaleTextDict

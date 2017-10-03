@@ -35,6 +35,23 @@ paths:
           description: If username or password is incorrect.
           schema:
              $ref: '#/definitions/LoginError'
+  /token/{login_token}:
+    post:
+      description: |
+       Login with username and password. The response contains a JWT.
+      parameters:
+        -
+          name: login_token
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+        401:
+          description: If username or password is incorrect.
+          schema:
+             $ref: '#/definitions/LoginError'
   /logout:
     post:
       responses:
@@ -85,6 +102,29 @@ paths:
           name: id
           in: path
           description: project identifier
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+  /projects/{id}/add_user:
+    post:
+      description: create new user and add to project
+      parameters:
+        -
+          name: id
+          in: path
+          description: project identifier
+          required: true
+          type: string
+        -
+          name: name
+          in: query
+          required: true
+          type: string
+        -
+          name: email
+          in: query
           required: true
           type: string
       responses:

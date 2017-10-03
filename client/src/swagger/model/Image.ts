@@ -29,6 +29,6 @@ export interface Image {
 
     fileName?: string;
 
-    conditions?: Array<models.InlineResponse2001Conditions>;
+    conditions?: Array<models.ImageCondition>;
 
 }

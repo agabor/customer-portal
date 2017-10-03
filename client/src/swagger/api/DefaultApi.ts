@@ -74,8 +74,25 @@ export class DefaultApi {
     /**
      * list of projects
      */
-    public projectsGet(extraHttpRequestParams?: any): Observable<Array<models.InlineResponse200>> {
+    public projectsGet(extraHttpRequestParams?: any): Observable<Array<models.ProjectBase>> {
         return this.projectsGetWithHttpInfo(extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
+     * create new user and add to project
+     * @param id project identifier
+     * @param name 
+     * @param email 
+     */
+    public projectsIdAddUserPost(id: string, name: string, email: string, extraHttpRequestParams?: any): Observable<{}> {
+        return this.projectsIdAddUserPostWithHttpInfo(id, name, email, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -104,7 +121,7 @@ export class DefaultApi {
      * project data
      * @param id project identifier
      */
-    public projectsIdGet(id: string, extraHttpRequestParams?: any): Observable<models.InlineResponse2001> {
+    public projectsIdGet(id: string, extraHttpRequestParams?: any): Observable<models.Project> {
         return this.projectsIdGetWithHttpInfo(id, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -140,7 +157,7 @@ export class DefaultApi {
      * @param preferredWidth 
      * @param preferredHeight 
      */
-    public projectsIdImagesImageIdPatch(id: string, imageId: string, name?: string, description?: string, preferredWidth?: number, preferredHeight?: number, extraHttpRequestParams?: any): Observable<models.InlineResponse2001Images> {
+    public projectsIdImagesImageIdPatch(id: string, imageId: string, name?: string, description?: string, preferredWidth?: number, preferredHeight?: number, extraHttpRequestParams?: any): Observable<models.Image> {
         return this.projectsIdImagesImageIdPatchWithHttpInfo(id, imageId, name, description, preferredWidth, preferredHeight, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -176,7 +193,7 @@ export class DefaultApi {
      * @param preferredWidth 
      * @param preferredHeight 
      */
-    public projectsIdImagesPatch(id: string, name?: string, description?: string, preferredWidth?: number, preferredHeight?: number, extraHttpRequestParams?: any): Observable<models.InlineResponse2001Images> {
+    public projectsIdImagesPatch(id: string, name?: string, description?: string, preferredWidth?: number, preferredHeight?: number, extraHttpRequestParams?: any): Observable<models.Image> {
         return this.projectsIdImagesPatchWithHttpInfo(id, name, description, preferredWidth, preferredHeight, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -207,8 +224,23 @@ export class DefaultApi {
      * add new project
      * @param name project name
      */
-    public projectsPatch(name: string, extraHttpRequestParams?: any): Observable<models.InlineResponse2001> {
+    public projectsPatch(name: string, extraHttpRequestParams?: any): Observable<models.Project> {
         return this.projectsPatchWithHttpInfo(name, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
+     * Login with username and password. The response contains a JWT. 
+     * @param loginToken 
+     */
+    public tokenLoginTokenPost(loginToken: string, extraHttpRequestParams?: any): Observable<{}> {
+        return this.tokenLoginTokenPostWithHttpInfo(loginToken, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -321,6 +353,62 @@ export class DefaultApi {
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
+            headers: headers,
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * create new user and add to project
+     * @param id project identifier
+     * @param name 
+     * @param email 
+     */
+    public projectsIdAddUserPostWithHttpInfo(id: string, name: string, email: string, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/projects/${id}/add_user'
+                    .replace('${' + 'id' + '}', String(id));
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'id' is not null or undefined
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectsIdAddUserPost.');
+        }
+        // verify required parameter 'name' is not null or undefined
+        if (name === null || name === undefined) {
+            throw new Error('Required parameter name was null or undefined when calling projectsIdAddUserPost.');
+        }
+        // verify required parameter 'email' is not null or undefined
+        if (email === null || email === undefined) {
+            throw new Error('Required parameter email was null or undefined when calling projectsIdAddUserPost.');
+        }
+        if (name !== undefined) {
+            queryParameters.set('name', <any>name);
+        }
+
+        if (email !== undefined) {
+            queryParameters.set('email', <any>email);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
             headers: headers,
             search: queryParameters,
             withCredentials:this.configuration.withCredentials
@@ -531,7 +619,7 @@ export class DefaultApi {
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-        let formParams = new FormData();
+        let formParams = new URLSearchParams();
 
         // verify required parameter 'id' is not null or undefined
         if (id === null || id === undefined) {
@@ -555,16 +643,16 @@ export class DefaultApi {
             'application/json'
         ];
 
-        //headers.set('Content-Type', 'application/x-www-form-urlencoded');
+        headers.set('Content-Type', 'application/x-www-form-urlencoded');
 
         if (image !== undefined) {
-            formParams.append('image', <any>image);
+            formParams.set('image', <any>image);
         }
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
             headers: headers,
-            body: formParams/*.toString()*/,
+            body: formParams.toString(),
             search: queryParameters,
             withCredentials:this.configuration.withCredentials
         });
@@ -705,6 +793,44 @@ export class DefaultApi {
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Patch,
+            headers: headers,
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * Login with username and password. The response contains a JWT. 
+     * @param loginToken 
+     */
+    public tokenLoginTokenPostWithHttpInfo(loginToken: string, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/token/${login_token}'
+                    .replace('${' + 'login_token' + '}', String(loginToken));
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'loginToken' is not null or undefined
+        if (loginToken === null || loginToken === undefined) {
+            throw new Error('Required parameter loginToken was null or undefined when calling tokenLoginTokenPost.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
             headers: headers,
             search: queryParameters,
             withCredentials:this.configuration.withCredentials

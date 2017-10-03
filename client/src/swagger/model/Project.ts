@@ -12,21 +12,13 @@
 
 import * as models from './models';
 
-export interface Project {
-    name?: string;
+export interface Project extends models.ProjectBase {
+    texts?: Array<models.Text>;
 
-    slug?: string;
+    images?: Array<models.Image>;
 
-    warnings?: number;
+    files?: Array<models.File>;
 
-    progress?: number;
-
-    texts?: Array<models.InlineResponse2001Texts>;
-
-    images?: Array<models.InlineResponse2001Images>;
-
-    files?: Array<models.InlineResponse2001Files>;
-
-    locales?: Array<models.InlineResponse2001Locales>;
+    locales?: Array<models.Locale>;
 
 }

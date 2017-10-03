@@ -25,6 +25,6 @@ export interface Text {
 
     maxLength?: number;
 
-    values?: Array<models.InlineResponse2001Values>;
+    values?: Array<models.LocalText>;
 
 }

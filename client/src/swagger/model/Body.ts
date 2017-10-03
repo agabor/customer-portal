@@ -13,6 +13,6 @@
 import * as models from './models';
 
 export interface Body {
-    sources?: Array<models.InlineResponse2001Texts>;
+    sources?: Array<models.Text>;
 
 }

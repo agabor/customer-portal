@@ -239,8 +239,8 @@ export class DefaultApi {
      * Login with username and password. The response contains a JWT. 
      * @param loginToken 
      */
-    public tokenLoginTokenPost(loginToken: string, extraHttpRequestParams?: any): Observable<{}> {
-        return this.tokenLoginTokenPostWithHttpInfo(loginToken, extraHttpRequestParams)
+    public tokenLoginTokenGet(loginToken: string, extraHttpRequestParams?: any): Observable<{}> {
+        return this.tokenLoginTokenGetWithHttpInfo(loginToken, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -810,7 +810,7 @@ export class DefaultApi {
      * Login with username and password. The response contains a JWT. 
      * @param loginToken 
      */
-    public tokenLoginTokenPostWithHttpInfo(loginToken: string, extraHttpRequestParams?: any): Observable<Response> {
+    public tokenLoginTokenGetWithHttpInfo(loginToken: string, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/token/${login_token}'
                     .replace('${' + 'login_token' + '}', String(loginToken));
 
@@ -818,7 +818,7 @@ export class DefaultApi {
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         // verify required parameter 'loginToken' is not null or undefined
         if (loginToken === null || loginToken === undefined) {
-            throw new Error('Required parameter loginToken was null or undefined when calling tokenLoginTokenPost.');
+            throw new Error('Required parameter loginToken was null or undefined when calling tokenLoginTokenGet.');
         }
         // to determine the Content-Type header
         let consumes: string[] = [
@@ -830,7 +830,7 @@ export class DefaultApi {
         ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
-            method: RequestMethod.Post,
+            method: RequestMethod.Get,
             headers: headers,
             search: queryParameters,
             withCredentials:this.configuration.withCredentials

@@ -28,11 +28,13 @@ import {Configuration} from 'swagger';
 import {NewImageModalComponent} from './components/project/images/new-image-modal.component';
 import {ThumbnailComponent} from './components/project/images/thumbnail.component';
 import {AppConfig} from 'app/app.config';
+import {TokenLoginComponent} from './components/token-login.component';
 
 const appRoutes: Routes = [
   { path: '',         redirectTo: 'home', pathMatch: 'full' },
   { path: 'pricing',     component: HomeComponent },
   { path: 'login',    component: LoginFormComponent },
+  { path: 'token/:login_token',    component: TokenLoginComponent },
   { path: 'logout',   component: LoginFormComponent, canActivate: [LogoutGuard] },
   { path: 'projects', component: ProjectListComponent, canActivate: [AuthGuard]},
   { path: 'projects/:slug', component: ProjectComponent, canActivate: [AuthGuard]},
@@ -44,6 +46,7 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     LoginFormComponent,
+    TokenLoginComponent,
     ProjectListComponent,
     ProjectComponent,
     HomeComponent,

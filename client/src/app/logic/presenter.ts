@@ -63,6 +63,18 @@ export class Presenter {
     }
 
 
+    tokenLogin(login_token: string) {
+        const res = this.api.tokenLoginTokenGet(login_token);
+        res.subscribe(resp => {
+            this._isLoggedIn = true;
+            localStorage.setItem('isLoggedIn', 'true');
+            this.loadProjects();
+            this.router.navigate(['/projects']);
+            this.menuComponent.setLoggedIn();
+        }, error => {
+            console.log(error.json());
+        });
+    }
 
     loadProjects() {
         const res = this.api.projectsGet();

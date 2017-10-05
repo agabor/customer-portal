@@ -27,6 +27,7 @@ import {NewImageModalComponent} from './components/project/images/new-image-moda
 import {ThumbnailComponent} from './components/project/images/thumbnail.component';
 import {AppConfig} from 'app/app.config';
 import {TokenLoginComponent} from './components/token-login.component';
+import {NewTextModalComponent} from './components/project/texts/new-text-modal.component';
 
 const appRoutes: Routes = [
   { path: '',         redirectTo: 'home', pathMatch: 'full' },
@@ -55,6 +56,7 @@ const appRoutes: Routes = [
     Autosize,
     FileDropDirective,
     NewImageModalComponent,
+    NewTextModalComponent,
     ThumbnailComponent
   ],
   imports: [

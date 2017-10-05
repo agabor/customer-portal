@@ -140,6 +140,10 @@ export class TextsComponent implements OnInit {
     changed() {
         this.saved = false;
     }
+
+    public add() {
+        this.presenter.showNewTextModal();
+    }
 }
 
 class TextEntry {

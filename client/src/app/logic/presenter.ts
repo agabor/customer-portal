@@ -19,6 +19,7 @@ import {URLSearchParams, Http} from '@angular/http';
 import {BASE_PATH} from 'swagger';
 import {NewImageModalComponent} from 'app/components/project/images/new-image-modal.component';
 import {User} from '../../swagger/model/User';
+import {NewTextModalComponent} from '../components/project/texts/new-text-modal.component';
 
 @Injectable()
 export class Presenter {
@@ -34,6 +35,7 @@ export class Presenter {
     private imageModalComponent: ImageModalComponent;
     private _isLoggedIn = false;
     private user: User;
+    private newTextModalComponent: NewTextModalComponent;
 
     constructor (protected http: Http, private api: DefaultApi, private router: Router,
                  @Inject(BASE_PATH) private basePath: string) {
@@ -230,7 +232,7 @@ export class Presenter {
         this.newImageModalComponent = newImageModalComponent;
     }
 
-    showNewImageModal(){
+    showNewImageModal() {
         this.newImageModalComponent.show();
     }
 
@@ -256,6 +258,19 @@ export class Presenter {
 
     getUser() {
         return this.user;
+    }
+
+    setNewTextModalComponent(newTextModalComponent: NewTextModalComponent) {
+        this.newTextModalComponent = newTextModalComponent;
+    }
+
+    newText(text: Text) {
+        this.activeProject.texts.push(text);
+        this.newTextModalComponent.hide();
+    }
+
+    showNewTextModal() {
+        this.newTextModalComponent.show();
     }
 }
 

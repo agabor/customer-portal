@@ -1,15 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {Presenter} from '../../logic/presenter';
-import {Project} from '../../../swagger/model/Project';
-import {Locale} from '../../../swagger/model/Locale';
-import {Tab} from '../../ui/tab';
-import {ProjectLogic} from '../../logic/project-logic';
-import {LocalText} from '../../../swagger/model/LocalText';
-import {Text} from '../../../swagger/model/Text';
+import {Presenter} from '../../../logic/presenter';
+import {Project} from '../../../../swagger/model/Project';
+import {Locale} from '../../../../swagger/model/Locale';
+import {Tab} from '../../../ui/tab';
+import {ProjectLogic} from '../../../logic/project-logic';
+import {LocalText} from '../../../../swagger/model/LocalText';
+import {Text} from '../../../../swagger/model/Text';
 import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
-    selector: 'project-texts',
+    selector: 'app-project-texts',
     templateUrl: './texts.component.html',
     styleUrls: ['./texts.component.css']
 })

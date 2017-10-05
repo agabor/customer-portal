@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import {Presenter} from "../../../logic/presenter";
-import {Project} from "../../../../swagger/model/Project";
-import {Image} from "../../../../swagger/model/Image";
-import {Modal} from "../../../ui/modal";
+import {Presenter} from '../../../logic/presenter';
+import {Image} from '../../../../swagger/model/Image';
+import {Modal} from '../../../ui/modal';
 
 @Component({
-    selector: 'project-image-modal',
+    selector: 'app-project-image-modal',
     templateUrl: './image-modal.component.html',
     styleUrls: ['./image-modal.component.css']
 })
@@ -23,13 +22,13 @@ export class ImageModalComponent {
     };
 
 
-    modal:Modal = new Modal();
+    modal = new Modal();
 
     constructor (private presenter: Presenter) {
         presenter.setImageModalComponent(this);
     }
 
-    showImage(image: Image){
+    showImage(image: Image) {
         this.currentImage = image;
         this.modal.show();
     }
@@ -38,7 +37,7 @@ export class ImageModalComponent {
         return this.presenter.getImageUrl(image);
     }
 
-    getModalLeft() : number {
-        return (window.innerWidth-this.currentImage.width-2)/2;
+    getModalLeft(): number {
+        return (window.innerWidth - this.currentImage.width - 2) / 2;
     }
 }

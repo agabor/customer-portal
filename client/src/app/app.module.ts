@@ -14,7 +14,7 @@ import {LogoutGuard} from './guards/logoutguard';
 import {ProjectComponent} from './components/project/project.component';
 import {MenuComponent} from './components/menu.component';
 import {ImagesComponent} from './components/project/images/images.component';
-import {TextsComponent} from './components/project/texts.component';
+import {TextsComponent} from './components/project/texts/texts.component';
 import {FilesComponent} from './components/project/files.component';
 import {ImageModalComponent} from './components/project/images/image-modal.component';
 

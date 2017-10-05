@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Presenter} from "../../logic/presenter";
 import {Project} from "../../../swagger/model/Project";
 import {Image} from "../../../swagger/model/Image";
@@ -9,10 +9,10 @@ import {Modal} from "../../ui/modal";
     templateUrl: './files.component.html',
     styleUrls: ['./files.component.css']
 })
-export class FilesComponent {
+export class FilesComponent implements OnInit{
     project: Project = {
-        name : null,
-        slug:null,
+        name: null,
+        slug: null,
         files: [],
         locales: [],
         texts: [],
@@ -31,18 +31,16 @@ export class FilesComponent {
     };
 
 
-    modal:Modal = new Modal();
+    modal = new Modal();
+    public fileIsOver = false;
+    private file: File;
 
     constructor (private presenter: Presenter) {
-        //presenter.setImageComponent(this);
     }
 
     ngOnInit() {
         this.project = this.presenter.activeProject;
     }
-    public fileIsOver: boolean = false;
-
-    private file: File;
 
     public fileOver(fileIsOver: boolean): void {
         this.fileIsOver = fileIsOver;

@@ -8,7 +8,6 @@ import { AppComponent } from './components/app.component';
 import { LoginFormComponent } from './components/login-form.component';
 import {Presenter} from './logic/presenter';
 import {ProjectListComponent} from './components/project-list.component';
-import {HomeComponent} from './components/home.component';
 import {AuthGuard} from './guards/authguard';
 import {DefaultApi} from '../swagger/api/DefaultApi';
 import {LogoutGuard} from './guards/logoutguard';
@@ -19,7 +18,6 @@ import {TextsComponent} from './components/project/texts.component';
 import {FilesComponent} from './components/project/files.component';
 import {ImageModalComponent} from './components/project/images/image-modal.component';
 
-import {VideosComponent} from './components/project/videos.component';
 import {LinksComponent} from './components/project/links.component';
 import {Autosize} from './ui/autosize.directive';
 import {FileDropDirective} from './file-drop';
@@ -32,7 +30,6 @@ import {TokenLoginComponent} from './components/token-login.component';
 
 const appRoutes: Routes = [
   { path: '',         redirectTo: 'home', pathMatch: 'full' },
-  { path: 'pricing',     component: HomeComponent },
   { path: 'login',    component: LoginFormComponent },
   { path: 'token/:login_token',    component: TokenLoginComponent },
   { path: 'logout',   component: LoginFormComponent, canActivate: [LogoutGuard] },
@@ -49,13 +46,11 @@ const appRoutes: Routes = [
     TokenLoginComponent,
     ProjectListComponent,
     ProjectComponent,
-    HomeComponent,
     MenuComponent,
     ImagesComponent,
     TextsComponent,
     FilesComponent,
     ImageModalComponent,
-    VideosComponent,
     LinksComponent,
     Autosize,
     FileDropDirective,

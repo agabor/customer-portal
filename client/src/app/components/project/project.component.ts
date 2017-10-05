@@ -32,11 +32,9 @@ export class ProjectComponent implements OnInit {
 
     tabFiles: Tab = new Tab('Files');
 
-    tabVideos: Tab = new Tab('Videos');
-
     tabLinks: Tab = new Tab('Links');
 
-    tabs: Tab[] = [this.tabImages, this.tabTexts, this.tabFiles, this.tabVideos, this.tabLinks];
+    tabs: Tab[] = [this.tabImages, this.tabTexts, this.tabFiles, this.tabLinks];
 
     constructor(private route: ActivatedRoute, private router: Router, private presenter: Presenter) {
         presenter.setProjectComponent(this);
@@ -55,9 +53,6 @@ export class ProjectComponent implements OnInit {
                 break;
             case 'files':
                 this.showTab(this.tabFiles);
-                break;
-            case 'videos':
-                this.showTab(this.tabVideos);
                 break;
             case 'links':
                 this.showTab(this.tabLinks);
@@ -85,11 +80,6 @@ export class ProjectComponent implements OnInit {
     showFiles() {
         this.navigate('/files');
         this.showTab(this.tabFiles);
-    }
-
-    showVideos() {
-        this.navigate('/videos');
-        this.showTab(this.tabVideos);
     }
 
     showLinks() {

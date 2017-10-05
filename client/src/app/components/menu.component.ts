@@ -17,7 +17,6 @@ export class MenuComponent {
 
     constructor (private presenter: Presenter) {
         presenter.setMenuComponent(this);
-        this.add(new MenuItem('Pricing', 'pricing', true, 'glyphicon glyphicon-shopping-cart'));
         this.add(new MenuItem('Login', 'login', true, 'glyphicon-log-in'));
         this.add(new MenuItem('Projects', 'projects', false, 'glyphicon-tasks'));
         if (presenter.isLoggedIn()) {

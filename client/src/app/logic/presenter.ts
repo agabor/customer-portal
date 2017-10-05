@@ -18,6 +18,7 @@ import {Text} from '../../swagger/model/text';
 import {URLSearchParams, Http} from '@angular/http';
 import {BASE_PATH} from 'swagger';
 import {NewImageModalComponent} from 'app/components/project/images/new-image-modal.component';
+import {User} from '../../swagger/model/User';
 
 @Injectable()
 export class Presenter {
@@ -32,11 +33,16 @@ export class Presenter {
     private imagesComponent: ImagesComponent;
     private imageModalComponent: ImageModalComponent;
     private _isLoggedIn = false;
+    private user: User;
 
     constructor (protected http: Http, private api: DefaultApi, private router: Router,
                  @Inject(BASE_PATH) private basePath: string) {
         this._isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
         if (this._isLoggedIn) {
+            this.user = {
+                name: localStorage.getItem('user_name'),
+                email: localStorage.getItem('user_email')
+            };
             this.loadProjects();
         }
     }
@@ -47,12 +53,8 @@ export class Presenter {
         data.append('password', model.password);
 
         const res = this.api.loginPost(model.name, model.password);
-        res.subscribe(resp => {
-            this._isLoggedIn = true;
-            localStorage.setItem('isLoggedIn', 'true');
-            this.loadProjects();
-            this.router.navigate(['/projects']);
-            this.menuComponent.setLoggedIn();
+        res.subscribe(user => {
+            this.setLoggedIn(user);
         }, error => {
             if (error.json().error === 'user_not_found') {
                 this.loginFormComponent.showUserError();
@@ -63,14 +65,21 @@ export class Presenter {
     }
 
 
+    private setLoggedIn(user) {
+        this.user = user;
+        this._isLoggedIn = true;
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('user_name', this.user.name);
+        localStorage.setItem('user_email', this.user.email);
+        this.loadProjects();
+        this.menuComponent.setLoggedIn();
+        this.router.navigate(['/projects']);
+    }
+
     tokenLogin(login_token: string) {
         const res = this.api.tokenLoginTokenGet(login_token);
-        res.subscribe(resp => {
-            this._isLoggedIn = true;
-            localStorage.setItem('isLoggedIn', 'true');
-            this.loadProjects();
-            this.router.navigate(['/projects']);
-            this.menuComponent.setLoggedIn();
+        res.subscribe(user => {
+            this.setLoggedIn(user);
         }, error => {
             console.log(error.json());
         });
@@ -107,6 +116,8 @@ export class Presenter {
 
     logout() {
         localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('user_name');
+        localStorage.removeItem('user_email');
         this.menuComponent.setLoggedOut();
         this.api.logoutPost();
     }
@@ -241,6 +252,10 @@ export class Presenter {
         }, error => {
             console.log(error.json());
         });
+    }
+
+    getUser() {
+        return this.user;
     }
 }
 

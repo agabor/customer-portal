@@ -46,7 +46,7 @@ export class DefaultApi {
      * @param userName 
      * @param password 
      */
-    public loginPost(userName: string, password: string, extraHttpRequestParams?: any): Observable<{}> {
+    public loginPost(userName: string, password: string, extraHttpRequestParams?: any): Observable<models.User> {
         return this.loginPostWithHttpInfo(userName, password, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -239,7 +239,7 @@ export class DefaultApi {
      * Login with username and password. The response contains a JWT. 
      * @param loginToken 
      */
-    public tokenLoginTokenGet(loginToken: string, extraHttpRequestParams?: any): Observable<{}> {
+    public tokenLoginTokenGet(loginToken: string, extraHttpRequestParams?: any): Observable<models.User> {
         return this.tokenLoginTokenGetWithHttpInfo(loginToken, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {

@@ -30,13 +30,7 @@ class DefaultApi extends Controller
         if (!password_verify($password, $u->password))
             return response(array('error' => 'password_error'), 401);
 
-        Auth::startSession($u);
-
-        $response = new Response('{}');
-
-        $response->withCookie(new Cookie('jwt', Auth::JWT()));
-
-        return $response;
+        return $this->startSession($u);
     }
 
     public function loginLinkGet(Request $request)
@@ -52,13 +46,7 @@ class DefaultApi extends Controller
         if ($u == null)
             return response(array('error' => 'user_not_found'), 401);
 
-        Auth::startSession($u);
-
-        $response = new Response('{}');
-
-        $response->withCookie(new Cookie('jwt', Auth::JWT()));
-
-        return $response;
+        return $this->startSession($u);
     }
 
     public function logoutPost()
@@ -150,6 +138,21 @@ class DefaultApi extends Controller
             $value->value = $newValue;
             $value->save();
         }
+    }
+
+    /**
+     * @param $u
+     * @return Response
+     */
+    private function startSession($u): Response
+    {
+        Auth::startSession($u);
+
+        $response = new Response($u);
+
+        $response->withCookie(new Cookie('jwt', Auth::JWT()));
+
+        return $response;
     }
 }
 

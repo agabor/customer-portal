@@ -8,3 +8,4 @@ export * from './LoginError';
 export * from './Project';
 export * from './ProjectBase';
 export * from './Text';
+export * from './User';

@@ -12,15 +12,9 @@
 
 import * as models from './models';
 
-export interface ProjectBase {
+export interface User {
     name?: string;
 
-    slug?: string;
-
-    warnings?: number;
-
-    progress?: number;
-
-    admin?: boolean;
+    email?: string;
 
 }

@@ -158,7 +158,11 @@ class DefaultApi extends Controller
     {
         $newValue = $dict->get($text->textId, $value->locale->localeId);
         if ($value->value != $newValue) {
-            $value->value = $newValue;
+            $newVersion = new Localtext();
+            $newVersion->locale_id = $value->locale_id;
+            $newVersion->value = $newValue;
+            $text->saveLocale($newVersion);
+            $value->text()->dissociate();
             $value->save();
         }
     }

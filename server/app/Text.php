@@ -53,9 +53,14 @@ class Text extends Model
     {
         /* @var \App\Localtext $localText */
         foreach ($localTexts as $localText) {
-            $this->versionedValues()->save($localText);
-            $localText->text()->associate($this);
-            $localText->save();
+            $this->saveLocale($localText);
         }
+    }
+
+    public function saveLocale(Localtext $localText)
+    {
+        $this->versionedValues()->save($localText);
+        $localText->text()->associate($this);
+        $localText->save();
     }
 }

@@ -86,4 +86,5 @@ $app->group(['middleware' => ['auth', 'cors'], 'prefix' => '/api/v1/'], function
 
     $app->POST('projects/{project_id}/add_user', ProjectController::class . '@addUser');
 
+    $app->GET('projects/{project_id}/text_versions',ProjectController::class . '@textVersions');
 });

@@ -240,6 +240,25 @@ class ProjectTest extends TestCase
     }
 
 
+    public function testVersionedTexts()
+    {
+        $this->login();
+        $this->call('GET', '/api/v1/projects/sample_project', array(), $this->cookies());
+
+        $response = json_decode($this->response->getContent(), true);
+        $texts = $response['texts'];
+        $texts[0]['values'][0]['value'] = 'changed';
+        $content = json_encode($texts);
+        //dd($content);
+        $this->call('PUT', '/api/v1/projects/sample_project/texts', array(), $this->cookies(), array(),array(), $content);
+        $this->assertStatusOk('put texts');
+        $this->call('GET', '/api/v1/projects/sample_project/text_versions', ['text_id' => 'webpage_title', 'locale_id' => 'en_US'], $this->cookies());
+        $this->assertStatusOk('text versions');
+        $response = json_decode($this->response->getContent(), true);
+        self::assertEquals(2, count($response));
+        $this->logout();
+    }
+
     private static function sampleProject() : Project
     {
         return Project::where('slug', 'sample_project')->first();
@@ -250,7 +269,6 @@ class ProjectTest extends TestCase
     {
         $this->json('POST', '/api/v1/login', ['user_name' => 'gabor', 'password' => 'secret']);
         $this->assertStatusOk('login');
-        $actual = json_decode($this->response->getContent(), true);
         $this->jwt = $this->getJWT();
         $this->imgCount = $this->sampleProjectImageCount();
     }
@@ -335,4 +353,6 @@ class ProjectTest extends TestCase
             file_put_contents('E:\temp\\'.$message.' err.html', $this->response->content());
         $this->assertEquals(200, $status, $message);
     }
+
+
 }

@@ -147,21 +147,26 @@ export class Presenter {
         if (this.activeProject != null) {
             this.setProject();
         } else {
-            const res = this.api.projectsIdGet(slug);
-            res.subscribe(data => {
-                this.activeProject = data;
-                this.setProject();
-            }, error => {
-                console.log(error.json());
-            });
+            this.loadProject(slug);
         }
+    }
+
+    loadProject(slug: string, callback?: () => void) {
+        const res = this.api.projectsIdGet(slug);
+        res.subscribe(data => {
+            this.activeProject = data;
+            this.setProject();
+            if (callback) {
+                callback();
+            }
+        }, error => {
+            console.log(error.json());
+        });
     }
 
     private setProject() {
         this.projectComponent.setProject(this.activeProject);
     }
-
-
 
     setMenuComponent(menuComponent: MenuComponent) {
         this.menuComponent = menuComponent;

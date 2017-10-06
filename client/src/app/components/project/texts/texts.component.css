@@ -8,6 +8,7 @@ textarea {
     resize: none;
 }
 
-button.save{
+button.right {
     float: right;
+    margin-left: 5px;
 }

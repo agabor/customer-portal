@@ -30,6 +30,8 @@ export class TextsComponent implements OnInit {
     localeTabs: Tab[] = [];
 
     lang = 0;
+    newTextDialog = false;
+    editedText: Text;
 
     currentLocale: Locale;
 
@@ -149,21 +151,60 @@ export class TextsComponent implements OnInit {
     }
 
     public add() {
-        this.showNewTextModal();
+        this.newTextDialog = true;
+        this.textModalComponent.setEmptyText();
+        this.textModalComponent.show();
+    }
+
+    public reset() {
+        const self = this;
+        this.presenter.loadProject(this.presenter.activeProject.slug, function () {
+            self.project = self.presenter.activeProject;
+            self.saved = true;
+            self.setEntries();
+        });
+    }
+
+    public edit(text: Text) {
+        this.editedText = text;
+        this.textModalComponent.model =  {
+            name: text.name,
+            description: text.description,
+            minLength: text.minLength,
+            maxLength: text.maxLength,
+            values: []
+        };
+        this.textModalComponent.show();
+    }
+
+    public deleteText(text: Text) {
+        const texts = this.presenter.activeProject.texts;
+        const index = texts.indexOf(text, 0);
+        if (index > -1) {
+            texts.splice(index, 1);
+        }
+        this.setEntries();
     }
 
     setTextModalComponent(newTextModalComponent: TextModalComponent) {
         this.textModalComponent = newTextModalComponent;
     }
 
-    newText(text: Text) {
-        this.presenter.activeProject.texts.push(text);
+    saveText() {
+        this.saved = false;
+        const text = this.textModalComponent.model;
+        if (this.newTextDialog) {
+            this.newTextDialog = false;
+            text.textId = TextModalComponent.slugify(text.name);
+            this.presenter.activeProject.texts.push(text);
+            this.setEntries();
+        } else {
+            this.editedText.name = text.name;
+            this.editedText.description = text.description;
+            this.editedText.minLength = text.minLength;
+            this.editedText.maxLength = text.maxLength;
+        }
         this.textModalComponent.hide();
-        this.setEntries();
-    }
-
-    showNewTextModal() {
-        this.textModalComponent.show();
     }
 }
 

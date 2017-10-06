@@ -12,13 +12,7 @@ import {TextsComponent} from './texts.component';
 export class TextModalComponent {
 
     modal = new Modal();
-    model: Text = {
-        name: '',
-        description: '',
-        minLength: 10,
-        maxLength: 1000,
-        values: []
-    };
+    model: Text;
     textsComponent: TextsComponent;
 
     static slugify(text: string): string {
@@ -32,12 +26,7 @@ export class TextModalComponent {
 
     constructor (private presenter: Presenter) {
         presenter.setTextModalComponent(this);
-        for (const locale of this.presenter.activeProject.locales) {
-            this.model.values.push({
-                localeCode: locale.localeId,
-                value: ''
-            });
-        }
+        this.setEmptyText();
     }
 
     show() {
@@ -45,8 +34,7 @@ export class TextModalComponent {
     }
 
     save() {
-        this.model.textId = TextModalComponent.slugify(this.model.name);
-        this.textsComponent.newText(this.model);
+        this.textsComponent.saveText();
     }
 
     hide() {
@@ -55,6 +43,22 @@ export class TextModalComponent {
 
     setTextsComponent(textsComponent: TextsComponent) {
         this.textsComponent = textsComponent;
+    }
+
+    setEmptyText() {
+        this.model = {
+            name: '',
+            description: '',
+            minLength: 10,
+            maxLength: 1000,
+            values: []
+        };
+        for (const locale of this.presenter.activeProject.locales) {
+            this.model.values.push({
+                localeCode: locale.localeId,
+                value: ''
+            });
+        }
     }
 }
 

@@ -23,18 +23,8 @@ class Text extends Model
         return $this->belongsTo(Project::class, 'project_id');
     }
 
-    public function owningProject(){
-        return $this->belongsTo(Project::class, 'owning_project_id');
-    }
-
     public function values(){
         return $this->hasMany(Localtext::class);
-    }
-
-    public function saveTo(Project $project) {
-        $project->versionedTexts()->save($this);
-        $this->project()->associate($project);
-        $this->save();
     }
 
     /**

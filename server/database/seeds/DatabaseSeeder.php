@@ -51,8 +51,8 @@ class DatabaseSeeder extends Seeder
         $t->textId = 'webpage_title';
         $t->minLength = 10;
         $t->maxLength = 20;
-
-        $t->saveTo($p);
+        
+        $p->texts()->save($t);
 
         $p->locales()->attach($this->en_US);
         $p->locales()->attach($this->hu_HU);
@@ -150,7 +150,7 @@ class DatabaseSeeder extends Seeder
         $t->startGroup = 'Store szövegek';
         $t->minLength = 3;
         $t->maxLength = 30;
-        $t->saveTo($p);
+        $p->texts()->save($t);
         $t->values()->saveMany([new \App\Localtext([
             'locale_id' => $this->hu_HU->id,
             'value' => 'Autómentő Kereső'
@@ -172,7 +172,7 @@ class DatabaseSeeder extends Seeder
         $t->textId = 'short_description';
         $t->minLength = 10;
         $t->maxLength = 80;
-        $t->saveTo($p);
+        $p->texts()->save($t);
         $t->values()->saveMany([new \App\Localtext([
             'locale_id' => $this->hu_HU->id,
             'value' => 'Az Autómentő kereső rendszer hivatalos, sofőröknek készült mobilapplikációja.'
@@ -195,7 +195,7 @@ class DatabaseSeeder extends Seeder
         $t->textId = 'full_description';
         $t->minLength = 100;
         $t->maxLength = 4000;
-        $t->saveTo($p);
+        $p->texts()->save($t);
         $t->values()->saveMany([new \App\Localtext([
             'locale_id' => $this->hu_HU->id,
             'value' => 'Az Autómentő kereső regisztrált céges partnereként minden, a rendszerbe bejegyzett sofőr ingyenesen letöltheti készülékére az applikációt. A sofőrök egy egyszerű bejelentkezés után aktívvá válnak járművükkel (pozíciójukkal) a bajbajutott személyeknek az automentokereso.hu weboldal térképén. A károsultak igény szerint segítséget kérhetnek a közelben tartózkodó autómentő sofőrtől, megtekinthetik annak céges profilját és autóparkját. A segélykérést követően a sofőr pontosan látja a bajbajutott pozícióját, valamint a továbbiakban könnyen felvehetik egymással a kapcsolatot, hogy mielőbb egyeztessék és megoldják a felmerült problémát.
@@ -243,7 +243,7 @@ Az automentokereso.hu weboldalon a károsultak autómentők, esetkocsik és gép
             $t->description = '';
             $t->minLength = 2;
             $t->maxLength = mb_strlen($item[1]) * 1.5;
-            $t->saveTo($p);
+            $p->texts()->save($t);
             $t->values()->saveMany([new \App\Localtext([
                 'locale_id' => $this->hu_HU->id,
                 'value' => $item[1]

@@ -14,16 +14,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon updated_at
  * @property array texts
  * @property \Traversable versionedImages
- * @property \Traversable images
+ * @property \Traversable|\Countable images
+ * @property \Traversable|\Countable files
  */
 class Project extends Model
 {
     public function texts(){
         return $this->hasMany(Text::class, 'project_id');
-    }
-
-    public function versionedTexts(){
-        return $this->hasMany(Text::class, 'owning_project_id');
     }
 
     public function images(){

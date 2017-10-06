@@ -19,6 +19,10 @@ class Localtext extends Model
         return $this->belongsTo(Text::class);
     }
 
+    public function owningText(){
+        return $this->belongsTo(Text::class, 'owning_text_id');
+    }
+
     public function locale(){
         return $this->belongsTo(Locale::class);
     }
@@ -38,7 +42,7 @@ class Localtext extends Model
      * @var array
      */
     protected $hidden = [
-        'id', 'text_id', 'locale_id', 'locale'
+        'id', 'text_id', 'owning_text_id', 'locale_id', 'locale'
     ];
 
     public function getLocaleCodeAttribute()

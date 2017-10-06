@@ -27,6 +27,10 @@ class Text extends Model
         return $this->hasMany(Localtext::class);
     }
 
+    public function versionedValues(){
+        return $this->hasMany(Localtext::class, 'owning_text_id');
+    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -42,6 +46,16 @@ class Text extends Model
      * @var array
      */
     protected $hidden = [
-        'id', 'project_id', 'owning_project_id'
+        'id', 'project_id'
     ];
+
+    public function saveLocales(array $localTexts)
+    {
+        /* @var \App\Localtext $localText */
+        foreach ($localTexts as $localText) {
+            $this->versionedValues()->save($localText);
+            $localText->text()->associate($this);
+            $localText->save();
+        }
+    }
 }

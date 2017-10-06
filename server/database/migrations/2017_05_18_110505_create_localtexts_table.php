@@ -17,8 +17,10 @@ class CreateLocaltextsTable extends Migration
             $table->unsignedInteger('locale_id')->index();
             $table->foreign('locale_id')->references('id')->on('locales')->onDelete('cascade');
             $table->text('value');
-            $table->unsignedInteger('text_id')->index();
+            $table->unsignedInteger('text_id')->nullable()->index();
             $table->foreign('text_id')->references('id')->on('texts')->onDelete('cascade');
+            $table->unsignedInteger('owning_text_id')->index();
+            $table->foreign('owning_text_id')->references('id')->on('texts')->onDelete('cascade');
         });
     }
 

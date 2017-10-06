@@ -51,13 +51,13 @@ class DatabaseSeeder extends Seeder
         $t->textId = 'webpage_title';
         $t->minLength = 10;
         $t->maxLength = 20;
-        
+
         $p->texts()->save($t);
 
         $p->locales()->attach($this->en_US);
         $p->locales()->attach($this->hu_HU);
 
-        $t->values()->saveMany([
+        $t->saveLocales([
             new \App\Localtext([
                 'locale_id' => $this->en_US->id,
                 'value' => 'Sample Project Webpage'
@@ -65,7 +65,8 @@ class DatabaseSeeder extends Seeder
             new \App\Localtext([
                 'locale_id' => $this->hu_HU->id,
                 'value' => 'Pelda Projekt Weboldal'
-            ])]);
+            ])
+        ]);
 
         $i = new \App\Image();
         $i->imageId = 'facebook_icon';
@@ -151,10 +152,11 @@ class DatabaseSeeder extends Seeder
         $t->minLength = 3;
         $t->maxLength = 30;
         $p->texts()->save($t);
-        $t->values()->saveMany([new \App\Localtext([
-            'locale_id' => $this->hu_HU->id,
-            'value' => 'Autómentő Kereső'
-        ]),
+        $t->saveLocales([
+            new \App\Localtext([
+                'locale_id' => $this->hu_HU->id,
+                'value' => 'Autómentő Kereső'
+            ]),
             new \App\Localtext([
                 'locale_id' => $this->en_US->id,
                 'value' => ''
@@ -173,10 +175,11 @@ class DatabaseSeeder extends Seeder
         $t->minLength = 10;
         $t->maxLength = 80;
         $p->texts()->save($t);
-        $t->values()->saveMany([new \App\Localtext([
-            'locale_id' => $this->hu_HU->id,
-            'value' => 'Az Autómentő kereső rendszer hivatalos, sofőröknek készült mobilapplikációja.'
-        ]),
+        $t->saveLocales([
+            new \App\Localtext([
+                'locale_id' => $this->hu_HU->id,
+                'value' => 'Az Autómentő kereső rendszer hivatalos, sofőröknek készült mobilapplikációja.'
+            ]),
             new \App\Localtext([
                 'locale_id' => $this->en_US->id,
                 'value' => ''
@@ -196,11 +199,12 @@ class DatabaseSeeder extends Seeder
         $t->minLength = 100;
         $t->maxLength = 4000;
         $p->texts()->save($t);
-        $t->values()->saveMany([new \App\Localtext([
-            'locale_id' => $this->hu_HU->id,
-            'value' => 'Az Autómentő kereső regisztrált céges partnereként minden, a rendszerbe bejegyzett sofőr ingyenesen letöltheti készülékére az applikációt. A sofőrök egy egyszerű bejelentkezés után aktívvá válnak járművükkel (pozíciójukkal) a bajbajutott személyeknek az automentokereso.hu weboldal térképén. A károsultak igény szerint segítséget kérhetnek a közelben tartózkodó autómentő sofőrtől, megtekinthetik annak céges profilját és autóparkját. A segélykérést követően a sofőr pontosan látja a bajbajutott pozícióját, valamint a továbbiakban könnyen felvehetik egymással a kapcsolatot, hogy mielőbb egyeztessék és megoldják a felmerült problémát.
+        $t->saveLocales([
+            new \App\Localtext([
+                'locale_id' => $this->hu_HU->id,
+                'value' => 'Az Autómentő kereső regisztrált céges partnereként minden, a rendszerbe bejegyzett sofőr ingyenesen letöltheti készülékére az applikációt. A sofőrök egy egyszerű bejelentkezés után aktívvá válnak járművükkel (pozíciójukkal) a bajbajutott személyeknek az automentokereso.hu weboldal térképén. A károsultak igény szerint segítséget kérhetnek a közelben tartózkodó autómentő sofőrtől, megtekinthetik annak céges profilját és autóparkját. A segélykérést követően a sofőr pontosan látja a bajbajutott pozícióját, valamint a továbbiakban könnyen felvehetik egymással a kapcsolatot, hogy mielőbb egyeztessék és megoldják a felmerült problémát.
 Az automentokereso.hu weboldalon a károsultak autómentők, esetkocsik és gépszállítók közül választhatnak a felmerült problémájuk szerint. A rendszer használata és a kiválasztott szolgáltatóval való kapcsolatfelvétel számukra ingyenes.'
-        ]),
+            ]),
             new \App\Localtext([
                 'locale_id' => $this->en_US->id,
                 'value' => ''
@@ -244,10 +248,11 @@ Az automentokereso.hu weboldalon a károsultak autómentők, esetkocsik és gép
             $t->minLength = 2;
             $t->maxLength = mb_strlen($item[1]) * 1.5;
             $p->texts()->save($t);
-            $t->values()->saveMany([new \App\Localtext([
-                'locale_id' => $this->hu_HU->id,
-                'value' => $item[1]
-            ]),
+            $t->saveLocales([
+                new \App\Localtext([
+                    'locale_id' => $this->hu_HU->id,
+                    'value' => $item[1]
+                ]),
                 new \App\Localtext([
                     'locale_id' => $this->en_US->id,
                     'value' => ''

@@ -3,12 +3,13 @@ import {ImageData} from '../../../image-data';
 import {Presenter} from '../../../logic/presenter';
 import {Modal} from '../../../ui/modal';
 import {Text} from '../../../../swagger/model/Text';
+import {TextsComponent} from './texts.component';
 
 @Component({
     selector: 'app-new-text-modal',
-    templateUrl: './new-text-modal.component.html'
+    templateUrl: './text-modal.component.html'
 })
-export class NewTextModalComponent {
+export class TextModalComponent {
 
     modal = new Modal();
     model: Text = {
@@ -18,6 +19,7 @@ export class NewTextModalComponent {
         maxLength: 1000,
         values: []
     };
+    textsComponent: TextsComponent;
 
     static slugify(text: string): string {
         return text.toString().toLowerCase()
@@ -29,7 +31,7 @@ export class NewTextModalComponent {
     }
 
     constructor (private presenter: Presenter) {
-        presenter.setNewTextModalComponent(this);
+        presenter.setTextModalComponent(this);
         for (const locale of this.presenter.activeProject.locales) {
             this.model.values.push({
                 localeCode: locale.localeId,
@@ -43,12 +45,16 @@ export class NewTextModalComponent {
     }
 
     save() {
-        this.model.textId = NewTextModalComponent.slugify(this.model.name);
-        this.presenter.newText(this.model);
+        this.model.textId = TextModalComponent.slugify(this.model.name);
+        this.textsComponent.newText(this.model);
     }
 
     hide() {
         this.modal.hide();
+    }
+
+    setTextsComponent(textsComponent: TextsComponent) {
+        this.textsComponent = textsComponent;
     }
 }
 

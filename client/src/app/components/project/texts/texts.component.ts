@@ -7,6 +7,7 @@ import {ProjectLogic} from '../../../logic/project-logic';
 import {LocalText} from '../../../../swagger/model/LocalText';
 import {Text} from '../../../../swagger/model/Text';
 import {ActivatedRoute, Router} from '@angular/router';
+import {TextModalComponent} from "./text-modal.component";
 
 @Component({
     selector: 'app-project-texts',
@@ -35,6 +36,7 @@ export class TextsComponent implements OnInit {
     textEntries: TextEntry[] = [];
 
     saved = true;
+    textModalComponent: TextModalComponent;
 
     getTextIndicator(entry: TextEntry) {
         if (ProjectLogic.hasWarning(entry.text, entry.localText)) {
@@ -44,7 +46,7 @@ export class TextsComponent implements OnInit {
     }
 
     constructor (private presenter: Presenter, private route: ActivatedRoute, private router: Router) {
-        presenter.setTextsComponent(this);
+        presenter.setTextComponent(this);
     }
 
     ngOnInit() {
@@ -147,7 +149,21 @@ export class TextsComponent implements OnInit {
     }
 
     public add() {
-        this.presenter.showNewTextModal();
+        this.showNewTextModal();
+    }
+
+    setTextModalComponent(newTextModalComponent: TextModalComponent) {
+        this.textModalComponent = newTextModalComponent;
+    }
+
+    newText(text: Text) {
+        this.presenter.activeProject.texts.push(text);
+        this.textModalComponent.hide();
+        this.setEntries();
+    }
+
+    showNewTextModal() {
+        this.textModalComponent.show();
     }
 }
 

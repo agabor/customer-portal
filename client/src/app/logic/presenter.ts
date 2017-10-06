@@ -19,11 +19,13 @@ import {URLSearchParams, Http} from '@angular/http';
 import {BASE_PATH} from 'swagger';
 import {NewImageModalComponent} from 'app/components/project/images/new-image-modal.component';
 import {User} from '../../swagger/model/User';
-import {NewTextModalComponent} from '../components/project/texts/new-text-modal.component';
-import {TextsComponent} from "../components/project/texts/texts.component";
+import {TextModalComponent} from '../components/project/texts/text-modal.component';
+import {TextsComponent} from '../components/project/texts/texts.component';
 
 @Injectable()
 export class Presenter {
+    textsComponent: TextsComponent;
+    textModalComponent: TextModalComponent;
     newImageModalComponent: NewImageModalComponent;
     projects: ProjectBase[] = null;
     appComponent: AppComponent = null;
@@ -36,8 +38,6 @@ export class Presenter {
     private imageModalComponent: ImageModalComponent;
     private _isLoggedIn = false;
     private user: User;
-    private newTextModalComponent: NewTextModalComponent;
-    private textsComponent: TextsComponent;
 
     constructor (protected http: Http, private api: DefaultApi, private router: Router,
                  @Inject(BASE_PATH) private basePath: string) {
@@ -262,22 +262,20 @@ export class Presenter {
         return this.user;
     }
 
-    setNewTextModalComponent(newTextModalComponent: NewTextModalComponent) {
-        this.newTextModalComponent = newTextModalComponent;
+    setTextModalComponent(textModalComponent: TextModalComponent) {
+        this.textModalComponent = textModalComponent;
+        if (this.textsComponent != null) {
+            this.textsComponent.setTextModalComponent(this.textModalComponent);
+            this.textModalComponent.setTextsComponent(this.textsComponent);
+        }
     }
 
-    newText(text: Text) {
-        this.activeProject.texts.push(text);
-        this.newTextModalComponent.hide();
-        this.textsComponent.setEntries();
-    }
-
-    showNewTextModal() {
-        this.newTextModalComponent.show();
-    }
-
-    setTextsComponent(textsComponent: TextsComponent) {
+    setTextComponent(textsComponent: TextsComponent) {
         this.textsComponent = textsComponent;
+        if (this.textModalComponent != null) {
+            this.textsComponent.setTextModalComponent(this.textModalComponent);
+            this.textModalComponent.setTextsComponent(this.textsComponent);
+        }
     }
 }
 

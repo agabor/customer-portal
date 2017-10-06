@@ -151,4 +151,13 @@ class Project extends Model
         }
         return parent::delete();
     }
+
+    public function getText(string $textId) //: Text?
+    {
+        /* @var \App\Text $text */
+        foreach ($this->texts as $text)
+            if ($text->textId === $textId)
+                return $text;
+        return null;
+    }
 }

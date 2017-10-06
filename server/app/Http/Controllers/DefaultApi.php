@@ -106,7 +106,9 @@ class DefaultApi extends Controller
 
     public function projectsIdPutTexts(Request $request, string $id)
     {
-        $dict = self::getLocaleTextDict($request);
+        $input = $request->all();
+        $sources = self::getArray($input, 'sources');
+        $dict = self::getLocaleTextDict($sources);
         $project = getProjectWithSlug($id);
         foreach ($project->texts as $text) {
             foreach ($text->values as $value) {
@@ -117,16 +119,21 @@ class DefaultApi extends Controller
         foreach(Locale::all() as $locale) {
             $locale_ids[$locale->localeId] = $locale->id;
         }
-        foreach ($dict->dict as $text_id => $values) {
-            $t = new Text();
-            $t->id = $text_id;
-            $t->name = $text_id;
-            $t->description = $text_id;
-            $t->minLength = 10;
-            $t->maxLength = 1000;
-            $t->saveTo($project);
-            foreach ($values as $locale => $value) {
-                $t->values()->save(new Localtext(['locale_id' => $locale_ids[$locale], 'value' => $value]));
+        foreach ($sources as $text) {
+            $t = $project->getText($text['textId']);
+            if ($t != null) {
+                $t->name = $text['name'];
+                $t->description = $text['description'];
+                $t->minLength = $text['minLength'];
+                $t->maxLength = $text['maxLength'];
+                $t->save();
+            } else {
+                $t = new Text($text);
+                $t->saveTo($project);
+                $values = self::getArray($text, 'values');
+                foreach ($values as $locale => $value) {
+                    $t->values()->save(new Localtext(['locale_id' => $locale_ids[$value['localeCode']], 'value' => $value['value']]));
+                }
             }
         }
 
@@ -134,11 +141,9 @@ class DefaultApi extends Controller
         return response('{}');
     }
 
-    private static function getLocaleTextDict(Request $request): LocaleTextDict
+    private static function getLocaleTextDict(array $sources): LocaleTextDict
     {
-        $input = $request->all();
         $dict = new LocaleTextDict;
-        $sources = self::getArray($input, 'sources');
         foreach ($sources as $text) {
             $values = self::getArray($text, 'values');
             $textId = $text['textId'];

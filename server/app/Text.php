@@ -43,7 +43,7 @@ class Text extends Model
      * @var array
      */
     protected $fillable = [
-        'minLength', 'maxLength'
+        'textId', 'name', 'description', 'startGroup', 'minLength', 'maxLength'
     ];
 
     /**

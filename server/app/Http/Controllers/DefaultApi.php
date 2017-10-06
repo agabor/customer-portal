@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Auth;
 use function App\getProjectWithSlug;
+use App\Locale;
 use App\Localtext;
 use App\Project;
 use function App\slugify;
@@ -112,6 +113,23 @@ class DefaultApi extends Controller
                 self::updateTextValue($dict, $value, $text);
             }
         }
+        $locale_ids = [];
+        foreach(Locale::all() as $locale) {
+            $locale_ids[$locale->localeId] = $locale->id;
+        }
+        foreach ($dict->dict as $text_id => $values) {
+            $t = new Text();
+            $t->id = $text_id;
+            $t->name = $text_id;
+            $t->description = $text_id;
+            $t->minLength = 10;
+            $t->maxLength = 1000;
+            $t->saveTo($project);
+            foreach ($values as $locale => $value) {
+                $t->values()->save(new Localtext(['locale_id' => $locale_ids[$locale], 'value' => $value]));
+            }
+        }
+
         $project->calculateState();
         return response('{}');
     }
@@ -158,7 +176,7 @@ class DefaultApi extends Controller
 
 class LocaleTextDict
 {
-    private $dict = [];
+    public $dict = [];
     public function set(string $textId, string $localCode, string $value)
     {
         if (!isset($this->dict[$textId]))
@@ -168,6 +186,10 @@ class LocaleTextDict
     }
     public function get(string $textId, string $localCode) : string
     {
-        return $this->dict[$textId][$localCode];
+        $result = $this->dict[$textId][$localCode];
+        unset($this->dict[$textId][$localCode]);
+        if (count($this->dict[$textId]) == 0)
+            unset($this->dict[$textId]);
+        return $result;
     }
 }

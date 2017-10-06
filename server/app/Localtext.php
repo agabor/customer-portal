@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property integer id
+ * @property integer locale_id
  * @property string value
  * @property Locale locale
  */

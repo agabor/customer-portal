@@ -44,6 +44,7 @@ export class TextsComponent implements OnInit {
     }
 
     constructor (private presenter: Presenter, private route: ActivatedRoute, private router: Router) {
+        presenter.setTextsComponent(this);
     }
 
     ngOnInit() {
@@ -91,9 +92,13 @@ export class TextsComponent implements OnInit {
             ++idx;
         }
         this.currentLocale = this.project.locales[i];
+        this.setEntries();
+    }
+
+    setEntries() {
         const entries = [];
         for (const text of this.project.texts) {
-            entries.push(new TextEntry(text, this.getLocalText(text) ));
+            entries.push(new TextEntry(text, this.getLocalText(text)));
         }
         this.textEntries = entries;
     }

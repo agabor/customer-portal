@@ -20,6 +20,7 @@ import {BASE_PATH} from 'swagger';
 import {NewImageModalComponent} from 'app/components/project/images/new-image-modal.component';
 import {User} from '../../swagger/model/User';
 import {NewTextModalComponent} from '../components/project/texts/new-text-modal.component';
+import {TextsComponent} from "../components/project/texts/texts.component";
 
 @Injectable()
 export class Presenter {
@@ -36,6 +37,7 @@ export class Presenter {
     private _isLoggedIn = false;
     private user: User;
     private newTextModalComponent: NewTextModalComponent;
+    private textsComponent: TextsComponent;
 
     constructor (protected http: Http, private api: DefaultApi, private router: Router,
                  @Inject(BASE_PATH) private basePath: string) {
@@ -267,10 +269,15 @@ export class Presenter {
     newText(text: Text) {
         this.activeProject.texts.push(text);
         this.newTextModalComponent.hide();
+        this.textsComponent.setEntries();
     }
 
     showNewTextModal() {
         this.newTextModalComponent.show();
+    }
+
+    setTextsComponent(textsComponent: TextsComponent) {
+        this.textsComponent = textsComponent;
     }
 }
 

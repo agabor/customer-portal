@@ -12,7 +12,13 @@
 
 import * as models from './models';
 
-export interface Body {
-    sources?: Array<models.Text>;
+export interface Link {
+    icon?: string;
+
+    name?: string;
+
+    description?: string;
+
+    url?: string;
 
 }

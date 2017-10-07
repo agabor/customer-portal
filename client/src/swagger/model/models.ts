@@ -2,6 +2,7 @@ export * from './Body';
 export * from './File';
 export * from './Image';
 export * from './ImageCondition';
+export * from './Link';
 export * from './LocalText';
 export * from './Locale';
 export * from './LoginError';

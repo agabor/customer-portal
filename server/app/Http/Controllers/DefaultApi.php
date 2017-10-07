@@ -90,7 +90,7 @@ class DefaultApi extends Controller
         $project = getProjectWithSlug($id);
         if ($project == null)
             return response('{}',404);
-        $project->load(['texts.values', 'images', 'files', 'links', 'locales']);
+        $project->load(['texts.values', 'images', 'files', 'users', 'links', 'locales']);
         return $project;
     }
 

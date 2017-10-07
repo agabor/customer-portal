@@ -22,16 +22,6 @@ class ProjectTest extends TestCase
         $this->logout();
     }
 
-    public function testProjectAddUser()
-    {
-        $this->login();
-        $user_data = ['name' => 'test_user', 'email' => 'test@test.test'];
-        $this->call('POST', '/api/v1/projects/sample_project/add_user', $user_data, $this->cookies());
-        $this->seeJson($user_data);
-        $this->assertStatusOk('add user');
-        $this->logout();
-    }
-
     public function testProjectData()
     {
         $this->login();
@@ -96,6 +86,7 @@ class ProjectTest extends TestCase
                     ]
                 ],
                 'links' => [],
+                'users' => [['email' => 'angyalgbr@gmail.com','name' => 'gabor']],
                 'locales' => [
                     [
                         'localeId' => 'en_US',
@@ -107,6 +98,20 @@ class ProjectTest extends TestCase
                     ]
                 ]
             ]);
+        $this->assertStatusOk('project equals');
+        $this->logout();
+    }
+
+    public function testProjectAddUser()
+    {
+        $this->login();
+        $user_data = ['name' => 'test_user', 'email' => 'test@test.test'];
+        $this->call('POST', '/api/v1/projects/sample_project/add_user', $user_data, $this->cookies());
+        $this->seeJson($user_data);
+        $this->assertStatusOk('add user');
+        $this->call('GET', '/api/v1/projects/sample_project', array(), $this->cookies());
+        $this->assertStatusOk('get project');
+        $this->seeJson($user_data);
         $this->assertStatusOk('project equals');
         $this->logout();
     }

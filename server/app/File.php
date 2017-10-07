@@ -27,10 +27,6 @@ class File extends Model
         return $this->belongsTo(Project::class);
     }
 
-    public function conditions(){
-        return $this->hasMany(Imagecondition::class);
-    }
-
     /**
      * The attributes that are mass assignable.
      *

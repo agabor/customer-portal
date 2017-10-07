@@ -6,24 +6,26 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property integer id
+ * @property string icon
  * @property string name
- * @property integer value
+ * @property string description
+ * @property string url
  */
-class Imagecondition extends Model
-{
+class Link extends Model {
     public $timestamps = false;
 
-    public function image(){
-        return $this->belongsTo(Image::class);
-    }
+    protected $touches = ['project'];
 
+    public function project(){
+        return $this->belongsTo(Project::class);
+    }
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'value',
+        'icon', 'name', 'description', 'url'
     ];
 
     /**
@@ -32,6 +34,6 @@ class Imagecondition extends Model
      * @var array
      */
     protected $hidden = [
-        'id', 'image_id'
+        'id'
     ];
 }

@@ -38,10 +38,6 @@ class Image extends Model
         $this->save();
     }
 
-    public function conditions(){
-        return $this->hasMany(Imagecondition::class);
-    }
-
     public function copy() : Image {
         $copy = new Image();
         $copy->imageId = $this->imageId;

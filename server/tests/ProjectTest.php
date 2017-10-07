@@ -36,6 +36,7 @@ class ProjectTest extends TestCase
     {
         $this->login();
         $this->call('GET', '/api/v1/projects/sample_project', array(), $this->cookies());
+        $this->assertStatusOk('get project');
         $this->seeJsonEquals([
                 'name' => 'Sample Project',
                 'slug' => 'sample_project',
@@ -68,8 +69,7 @@ class ProjectTest extends TestCase
                         "height"=> 500,
                         "preferredHeight"=> 500,
                         "preferredWidth"=> 1024,
-                        "fileName"=> "",
-                        'conditions' => []
+                        "fileName"=> ""
                     ],[
                         'imageId' => 'facebook_icon',
                         'name' => 'Facebook Icon',
@@ -78,8 +78,7 @@ class ProjectTest extends TestCase
                         'height' => 512,
                         'preferredWidth' => 512,
                         'preferredHeight' => 512,
-                        'fileName' => '',
-                        'conditions' => []
+                        'fileName' => ''
                     ]],
                 'files' => [
                     [
@@ -96,6 +95,7 @@ class ProjectTest extends TestCase
                         ],
                     ]
                 ],
+                'links' => [],
                 'locales' => [
                     [
                         'localeId' => 'en_US',

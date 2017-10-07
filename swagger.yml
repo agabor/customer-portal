@@ -31,12 +31,14 @@ paths:
       responses:
         200:
           description: OK
+          schema:
+             $ref: '#/definitions/User'
         401:
           description: If username or password is incorrect.
           schema:
              $ref: '#/definitions/LoginError'
   /token/{login_token}:
-    post:
+    get:
       description: |
        Login with username and password. The response contains a JWT.
       parameters:
@@ -48,8 +50,10 @@ paths:
       responses:
         200:
           description: OK
+          schema:
+             $ref: '#/definitions/User'
         401:
-          description: If username or password is incorrect.
+          description: If token is invalid.
           schema:
              $ref: '#/definitions/LoginError'
   /logout:
@@ -272,6 +276,13 @@ paths:
             $ref: '#/definitions/Image'
       
 definitions:
+  User:
+    type: object
+    properties:
+      name:
+        type: string
+      email:
+        type: string
   LoginError:
     type: object
     properties:
@@ -294,6 +305,8 @@ definitions:
       progress:
         type: number
         format: integer
+      admin:
+        type: boolean
   Project:
     allOf:
       - $ref: '#/definitions/ProjectBase'
@@ -310,6 +323,10 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/File'
+          links:
+            type: array
+            items:
+              $ref: '#/definitions/Link'
           locales:
             type: array
             items:
@@ -430,4 +447,14 @@ definitions:
         format: integer
         description: maximum file size in KB
         example: 10000
-      
+  Link:
+    type: object
+    properties:
+      icon:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      url:
+        type: string

@@ -38,8 +38,14 @@ class Project extends Model
                 yield $img;
         }
     }
+
     public function files(){
         return $this->hasMany(File::class);
+
+    }
+
+    public function links(){
+        return $this->hasMany(Link::class);
 
     }
 

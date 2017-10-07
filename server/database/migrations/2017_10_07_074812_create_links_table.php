@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateImageconditionsTable extends Migration
+class CreateLinksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,14 @@ class CreateImageconditionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('imageconditions', function (Blueprint $table) {
+        Schema::create('links', function (Blueprint $table) {
             $table->increments('id');
+            $table->text('icon');
             $table->text('name');
-            $table->integer('value');
-            $table->unsignedInteger('image_id')->index();
-            $table->foreign('image_id')->references('id')->on('images')->onDelete('cascade');
+            $table->text('description');
+            $table->text('url');
+            $table->unsignedInteger('project_id')->index();
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
         });
     }
 
@@ -28,6 +30,6 @@ class CreateImageconditionsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('imageconditions');
+        Schema::drop('links');
     }
 }

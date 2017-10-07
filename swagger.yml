@@ -327,6 +327,10 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/Link'
+          users:
+            type: array
+            items:
+              $ref: '#/definitions/User'
           locales:
             type: array
             items:

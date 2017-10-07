@@ -34,7 +34,9 @@ export class ProjectComponent implements OnInit {
 
     tabLinks: Tab = new Tab('Links');
 
-    tabs: Tab[] = [this.tabImages, this.tabTexts, this.tabFiles, this.tabLinks];
+    tabUsers: Tab = new Tab('Users');
+
+    tabs: Tab[] = [this.tabImages, this.tabTexts, this.tabFiles, this.tabLinks, this.tabUsers];
 
     constructor(private route: ActivatedRoute, private router: Router, private presenter: Presenter) {
         presenter.setProjectComponent(this);
@@ -56,6 +58,9 @@ export class ProjectComponent implements OnInit {
                 break;
             case 'links':
                 this.showTab(this.tabLinks);
+                break;
+            case 'users':
+                this.showTab(this.tabUsers);
                 break;
             default:
                 this.showTab(this.tabImages);
@@ -85,6 +90,10 @@ export class ProjectComponent implements OnInit {
     showLinks() {
         this.navigate('/links');
         this.showTab(this.tabLinks);
+    }
+    showUsers() {
+        this.navigate('/users');
+        this.showTab(this.tabUsers);
     }
 
     showTab(tab: Tab) {

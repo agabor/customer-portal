@@ -28,6 +28,7 @@ import {ThumbnailComponent} from './components/project/images/thumbnail.componen
 import {AppConfig} from 'app/app.config';
 import {TokenLoginComponent} from './components/token-login.component';
 import {TextModalComponent} from './components/project/texts/text-modal.component';
+import {UsersComponent} from './components/project/users.component';
 
 const appRoutes: Routes = [
   { path: '',         redirectTo: 'home', pathMatch: 'full' },
@@ -51,6 +52,7 @@ const appRoutes: Routes = [
     ImagesComponent,
     TextsComponent,
     FilesComponent,
+    UsersComponent,
     ImageModalComponent,
     LinksComponent,
     Autosize,

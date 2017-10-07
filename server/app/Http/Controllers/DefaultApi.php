@@ -106,9 +106,8 @@ class DefaultApi extends Controller
 
     public function projectsIdPutTexts(Request $request, string $id)
     {
-        //$input = $request->all();
-        //dd($request);
-        $sources = json_decode($request->getContent());//self::getArray($input, 'sources');
+        $input = $request->all();
+        $sources = self::getArray($input, 'sources');
         $dict = self::getLocaleTextDict($sources);
         $project = getProjectWithSlug($id);
         foreach ($project->texts as $text) {
@@ -121,12 +120,12 @@ class DefaultApi extends Controller
             $locale_ids[$locale->localeId] = $locale->id;
         }
         foreach ($sources as $text) {
-            $t = $project->getText($text->textId);
+            $t = $project->getText($text['textId']);
             if ($t != null) {
-                $t->name = $text->name;
-                $t->description = $text->description;
-                $t->minLength = $text->minLength;
-                $t->maxLength = $text->maxLength;
+                $t->name = $text['name'];
+                $t->description = $text['description'];
+                $t->minLength = $text['minLength'];
+                $t->maxLength = $text['maxLength'];
                 $t->save();
             } else {
                 $t = new Text($text);
@@ -146,10 +145,10 @@ class DefaultApi extends Controller
     {
         $dict = new LocaleTextDict;
         foreach ($sources as $text) {
-            $values = $text->values;
-            $textId = $text->textId;
+            $values = $text['values'];
+            $textId = $text['textId'];
             foreach ($values as $value) {
-                $dict->set($textId, $value->localeCode, $value->value);
+                $dict->set($textId, $value['localeCode'], $value['value']);
             }
         }
         return $dict;

@@ -729,7 +729,7 @@ export class DefaultApi {
      * @param body 
      */
     public projectsIdTextsPutWithHttpInfo(id: string, body?: models.Body, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + '/projects/${id}/texts?XDEBUG_SESSION_START=11944'
+        const path = this.basePath + '/projects/${id}/texts?XDEBUG_SESSION_START=12468'
                     .replace('${' + 'id' + '}', String(id));
 
         let queryParameters = new URLSearchParams();

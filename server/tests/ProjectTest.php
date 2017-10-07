@@ -250,7 +250,7 @@ class ProjectTest extends TestCase
         $texts[0]['values'][0]['value'] = 'changed';
         $content = json_encode($texts);
         //dd($content);
-        $this->call('PUT', '/api/v1/projects/sample_project/texts', array(), $this->cookies(), array(),array(), $content);
+        $this->call('PUT', '/api/v1/projects/sample_project/texts', ['sources' => $texts], $this->cookies());
         $this->assertStatusOk('put texts');
         $this->call('GET', '/api/v1/projects/sample_project/text_versions', ['text_id' => 'webpage_title', 'locale_id' => 'en_US'], $this->cookies());
         $this->assertStatusOk('text versions');

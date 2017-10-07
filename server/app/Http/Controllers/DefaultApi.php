@@ -132,7 +132,7 @@ class DefaultApi extends Controller
                 $project->texts()->save($t);
                 $values = self::getArray($text, 'values');
                 foreach ($values as $locale => $value) {
-                    $t->values()->save(new Localtext(['locale_id' => $locale_ids[$value['localeCode']], 'value' => $value['value']]));
+                    $t->saveLocale(new Localtext(['locale_id' => $locale_ids[$value['localeCode']], 'value' => $value['value']]));
                 }
             }
         }

@@ -96,6 +96,7 @@ export class Presenter {
             this.setProjects();
         }, error => {
             console.log(error.json());
+            this.router.navigate(['/logout']);
         });
     }
 
@@ -281,6 +282,16 @@ export class Presenter {
             this.textsComponent.setTextModalComponent(this.textModalComponent);
             this.textModalComponent.setTextsComponent(this.textsComponent);
         }
+    }
+
+    addUser(newUser: User) {
+        this.activeProject.users.push(newUser);
+        const res = this.api.projectsIdAddUserPost(this.activeProject.slug, newUser.name, newUser.email);
+        res.subscribe(data => {
+            console.log(data);
+        }, error => {
+            console.log(error.json());
+        });
     }
 }
 

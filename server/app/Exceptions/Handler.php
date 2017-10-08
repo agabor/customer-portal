@@ -34,8 +34,10 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $e)
     {
-        $client = new Raven_Client('https://'.env('SENTRY_KEY').'@sentry.io/195959');
-        $client->captureException($e, $_POST);
+        if (!str_contains(env('APP_URL'), 'localhost')) {
+            $client = new Raven_Client('https://' . env('SENTRY_KEY') . '@sentry.io/195959');
+            $client->captureException($e, $_POST);
+        }
         parent::report($e);
     }
 

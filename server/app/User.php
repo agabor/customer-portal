@@ -19,7 +19,7 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
  * @property string name
  * @property string email
  * @property string password
- * @property string login_token
+ * @property string loginToken
  * @property \Carbon\Carbon created_at
  * @property \Carbon\Carbon updated_at
  */
@@ -45,7 +45,7 @@ class User extends Model implements
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'login_token'
+        'name', 'email', 'loginToken'
     ];
 
     /**
@@ -54,6 +54,6 @@ class User extends Model implements
      * @var array
      */
     protected $hidden = [
-        'id', 'password', 'login_token', 'created_at', 'updated_at', 'pivot'
+        'id', 'password', 'created_at', 'updated_at', 'pivot'
     ];
 }

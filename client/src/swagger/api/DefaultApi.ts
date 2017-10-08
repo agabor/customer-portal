@@ -28,7 +28,7 @@ import { Configuration }                                     from '../configurat
 @Injectable()
 export class DefaultApi {
 
-    protected basePath = 'http://cp.agabor.hu/api/v1';
+    protected basePath = 'http://customerpoint.net/api/v1';
     public defaultHeaders: Headers = new Headers();
     public configuration: Configuration = new Configuration();
 

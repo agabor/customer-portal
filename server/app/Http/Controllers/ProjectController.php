@@ -24,7 +24,7 @@ class ProjectController extends Controller
         $name = self::getString($input, 'name');
         $email = self::getString($input, 'email');
 
-        $u = new User(['name' => $name, 'email' => $email, 'login_token' => uniqid()]);
+        $u = new User(['name' => $name, 'email' => $email, 'loginToken' => uniqid()]);
         self::$project->users()->save($u);
         return $u;
     }

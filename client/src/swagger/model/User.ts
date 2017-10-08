@@ -17,4 +17,6 @@ export interface User {
 
     email?: string;
 
+    loginToken?: string;
+
 }

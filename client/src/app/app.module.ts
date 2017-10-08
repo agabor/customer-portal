@@ -29,6 +29,7 @@ import {AppConfig} from 'app/app.config';
 import {TokenLoginComponent} from './components/token-login.component';
 import {TextModalComponent} from './components/project/texts/text-modal.component';
 import {UsersComponent} from './components/project/users.component';
+import {APP_BASE_HREF} from "@angular/common";
 
 const appRoutes: Routes = [
   { path: '',         redirectTo: 'home', pathMatch: 'full' },
@@ -68,7 +69,9 @@ const appRoutes: Routes = [
     HttpModule
   ],
   providers: [Presenter, AuthGuard, LogoutGuard, DefaultApi,
-    {provide: BASE_PATH, useValue: AppConfig.basePath}, {provide: Configuration, useValue: {withCredentials: true}}],
+    {provide: BASE_PATH, useValue: AppConfig.basePath},
+    {provide: Configuration, useValue: {withCredentials: true}},
+    {provide: APP_BASE_HREF, useValue : AppConfig.appBasePath }],
   bootstrap: [AppComponent, MenuComponent]
 })
 export class AppModule { }

@@ -42,7 +42,7 @@ class DefaultApi extends Controller
         if ($login_token == null || strlen($login_token) == 0)
             return response(array('error' => 'user_not_found'), 401);
 
-        $u = User::where('login_token', $login_token)->first();
+        $u = User::where('loginToken', $login_token)->first();
 
         if ($u == null)
             return response(array('error' => 'user_not_found'), 401);

@@ -86,7 +86,7 @@ class ProjectTest extends TestCase
                     ]
                 ],
                 'links' => [],
-                'users' => [['email' => 'angyalgbr@gmail.com','name' => 'gabor', 'loginToken' => null]],
+                'users' => [['id' => 1,'email' => 'angyalgbr@gmail.com','name' => 'gabor', 'loginToken' => null]],
                 'locales' => [
                     [
                         'localeId' => 'en_US',
@@ -275,7 +275,7 @@ class ProjectTest extends TestCase
         $this->logout();
     }
 
-    public function testAddText()
+    public function testAddDeleteText()
     {
         $this->login();
         $this->call('GET', '/api/v1/projects/sample_project', array(), $this->cookies());
@@ -286,8 +286,8 @@ class ProjectTest extends TestCase
             'name' => 'sample',
             'description' => 'abc',
             'textId' => 'sample',
-            'minLength' => 10,
-            'maxLength' => 100,
+            'minLength' => 9,
+            'maxLength' => 99,
             'values' => [
                 ['localeCode' => 'en_US', 'value' => 'a'],
                 ['localeCode' => 'hu_HU', 'value' => 'b']
@@ -299,6 +299,15 @@ class ProjectTest extends TestCase
         $this->call('GET', '/api/v1/projects/sample_project', [], $this->cookies());
         $this->assertStatusOk('get project');
         $this->seeJson($newTextData);
+
+
+        array_pop($texts);
+        $this->call('PUT', '/api/v1/projects/sample_project/texts', ['sources' => $texts], $this->cookies());
+        $this->assertStatusOk('put texts');
+        $this->call('GET', '/api/v1/projects/sample_project', [], $this->cookies());
+        $this->assertStatusOk('get project');
+        $this->dontSeeJson($newTextData);
+
         $this->logout();
     }
 

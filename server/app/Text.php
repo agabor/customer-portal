@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string startGroup
  * @property integer minLength
  * @property integer maxLength
+ * @property \Traversable|\Countable values
  */
 class Text extends Model
 {

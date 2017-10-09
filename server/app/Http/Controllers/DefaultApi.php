@@ -110,9 +110,13 @@ class DefaultApi extends Controller
         $sources = self::getArray($input, 'sources');
         $dict = self::getLocaleTextDict($sources);
         $project = getProjectWithSlug($id);
+        /* @var Text $text */
         foreach ($project->texts as $text) {
             foreach ($text->values as $value) {
-                self::updateTextValue($dict, $value, $text);
+                if(!self::updateTextValue($dict, $value, $text)) {
+                    $text->delete();
+                    break;
+                }
             }
         }
         $locale_ids = [];
@@ -154,9 +158,12 @@ class DefaultApi extends Controller
         return $dict;
     }
 
-    private static function updateTextValue(LocaleTextDict $dict, Localtext $value, Text $text)
+    private static function updateTextValue(LocaleTextDict $dict, Localtext $value, Text $text) : bool
     {
         $newValue = $dict->get($text->textId, $value->locale->localeId);
+        if ($newValue == null){
+            return false;
+        }
         if ($value->value != $newValue) {
             $newVersion = new Localtext();
             $newVersion->locale_id = $value->locale_id;
@@ -165,6 +172,7 @@ class DefaultApi extends Controller
             $value->text()->dissociate();
             $value->save();
         }
+        return true;
     }
 
     /**
@@ -193,8 +201,10 @@ class LocaleTextDict
         $this->dict[$textId][$localCode] = $value;
 
     }
-    public function get(string $textId, string $localCode) : string
+    public function get(string $textId, string $localCode) //: string
     {
+        if (!array_key_exists($textId, $this->dict))
+            return null;
         $result = $this->dict[$textId][$localCode];
         unset($this->dict[$textId][$localCode]);
         if (count($this->dict[$textId]) == 0)

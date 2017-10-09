@@ -28,8 +28,9 @@ import {ThumbnailComponent} from './components/project/images/thumbnail.componen
 import {AppConfig} from 'app/app.config';
 import {TokenLoginComponent} from './components/token-login.component';
 import {TextModalComponent} from './components/project/texts/text-modal.component';
-import {UsersComponent} from './components/project/users.component';
-import {APP_BASE_HREF} from "@angular/common";
+import {UsersComponent} from './components/project/users/users.component';
+import {APP_BASE_HREF} from '@angular/common';
+import {UserModalComponent} from './components/project/users/user-modal.component';
 
 const appRoutes: Routes = [
   { path: '',         redirectTo: 'home', pathMatch: 'full' },
@@ -60,6 +61,7 @@ const appRoutes: Routes = [
     FileDropDirective,
     NewImageModalComponent,
     TextModalComponent,
+    UserModalComponent,
     ThumbnailComponent
   ],
   imports: [

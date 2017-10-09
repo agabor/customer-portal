@@ -19,8 +19,8 @@ import {URLSearchParams, Http} from '@angular/http';
 import {BASE_PATH} from 'swagger';
 import {NewImageModalComponent} from 'app/components/project/images/new-image-modal.component';
 import {User} from '../../swagger/model/User';
-import {TextModalComponent} from '../components/project/texts/text-modal.component';
 import {TextsComponent} from '../components/project/texts/texts.component';
+import {TextModalComponent} from '../components/project/texts/text-modal.component';
 
 @Injectable()
 export class Presenter {
@@ -285,10 +285,9 @@ export class Presenter {
     }
 
     addUser(newUser: User) {
-        this.activeProject.users.push(newUser);
         const res = this.api.projectsIdAddUserPost(this.activeProject.slug, newUser.name, newUser.email);
-        res.subscribe(data => {
-            console.log(data);
+        res.subscribe(user => {
+            this.activeProject.users.push(user);
         }, error => {
             console.log(error.json());
         });

@@ -29,6 +29,22 @@ class ProjectController extends Controller
         return $u;
     }
 
+    public function modifyUser(Request $request) {
+        $input = $request->all();
+
+        self::$user->name = self::getString($input, 'name');
+        self::$user->email = self::getString($input, 'email');
+        self::$user->save();
+
+        return self::$user;
+    }
+
+    public function deleteUser(Request $request) {
+        self::$user->delete();
+
+        return response('{}');
+    }
+
     public function textVersions(Request $request) {
         if (self::$project == null)
             return null;

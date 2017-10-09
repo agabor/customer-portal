@@ -10,7 +10,9 @@ namespace App\Http\Controllers;
 
 use App\Image;
 use App\Project;
+use App\User;
 use Laravel\Lumen\Routing\Controller as BaseController;
+
 
 class Controller extends BaseController
 {
@@ -23,6 +25,11 @@ class Controller extends BaseController
      * @var Image
      */
     public static $image;
+
+    /**
+     * @var User
+     */
+    public static $user;
 
 
     protected static function getArray(array $input, string $paramName) : array
@@ -37,6 +44,15 @@ class Controller extends BaseController
     protected static function getString(array $input, string $paramName) : string
     {
         if (!isset($input[$paramName]) || !is_string($input[$paramName])) {
+            throw new \InvalidArgumentException('Missing the required parameter $' . $paramName);
+        }
+
+        return $input[$paramName];
+    }
+
+    protected static function getInt(array $input, string $paramName) : string
+    {
+        if (!isset($input[$paramName]) || !is_numeric($input[$paramName])) {
             throw new \InvalidArgumentException('Missing the required parameter $' . $paramName);
         }
 

@@ -12,6 +12,7 @@ namespace App\Http\Middleware;
 use App\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ProjectImageController;
+use App\User;
 use Illuminate\Http\Request;
 
 class ModelBinderMiddleware
@@ -29,6 +30,9 @@ class ModelBinderMiddleware
                             if ($image->imageId == $image_id)
                                 Controller::$image = $image;
                         }
+                    }if (isset($params['user_id'])) {
+                        $user_id = $params['user_id'];
+                        Controller::$user = User::find($user_id);
                     }
                 }
             }

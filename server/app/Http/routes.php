@@ -84,7 +84,9 @@ $app->group(['middleware' => ['auth', 'cors'], 'prefix' => '/api/v1/'], function
     $app->PATCH('projects/{project_id}/images', ProjectImageController::class . '@imagePatch');
     $app->PUT('projects/{project_id}/texts', DefaultApi::class . '@projectsIdPutTexts');
 
-    $app->POST('projects/{project_id}/add_user', ProjectController::class . '@addUser');
+    $app->POST('projects/{project_id}/users', ProjectController::class . '@addUser');
+    $app->POST('projects/{project_id}/users/{user_id}', ProjectController::class . '@modifyUser');
+    $app->DELETE('projects/{project_id}/users/{user_id}', ProjectController::class . '@deleteUser');
 
     $app->GET('projects/{project_id}/text_versions',ProjectController::class . '@textVersions');
 });

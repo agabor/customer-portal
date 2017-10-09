@@ -44,6 +44,7 @@ export class Presenter {
         this._isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
         if (this._isLoggedIn) {
             this.user = {
+                id: parseInt(localStorage.getItem('user_id'), 10),
                 name: localStorage.getItem('user_name'),
                 email: localStorage.getItem('user_email')
             };
@@ -73,6 +74,7 @@ export class Presenter {
         this.user = user;
         this._isLoggedIn = true;
         localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('user_id', this.user.id.toString());
         localStorage.setItem('user_name', this.user.name);
         localStorage.setItem('user_email', this.user.email);
         this.loadProjects();
@@ -285,9 +287,29 @@ export class Presenter {
     }
 
     addUser(newUser: User) {
-        const res = this.api.projectsIdAddUserPost(this.activeProject.slug, newUser.name, newUser.email);
+        const res = this.api.projectsIdUsersPost(this.activeProject.slug, newUser.name, newUser.email);
         res.subscribe(user => {
             this.activeProject.users.push(user);
+        }, error => {
+            console.log(error.json());
+        });
+    }
+
+    modifyUser(user: User) {
+        const res = this.api.projectsIdUsersUserIdPost(this.activeProject.slug, user.id, user.name, user.email);
+        res.subscribe(data => {
+        }, error => {
+            console.log(error.json());
+        });
+    }
+
+    deleteUser(user: User) {
+        const res = this.api.projectsIdUsersUserIdDelete(this.activeProject.slug, user.id);
+        res.subscribe(data => {
+            const index = this.activeProject.users.indexOf(user);
+            if (index > -1) {
+                this.activeProject.users.splice(index, 1);
+            }
         }, error => {
             console.log(error.json());
         });

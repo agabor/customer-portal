@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Auth;
 use function App\getProjectWithSlug;
 use App\Image;
 use App\Project;
@@ -39,8 +40,10 @@ class ProjectController extends Controller
         return self::$user;
     }
 
-    public function deleteUser(Request $request) {
-        self::$user->delete();
+    public function deleteUser()
+    {
+        if (self::$user->id != Auth::user()->id)
+            self::$user->delete();
 
         return response('{}');
     }

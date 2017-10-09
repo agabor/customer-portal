@@ -15,11 +15,11 @@ export class UserModalComponent {
     @ViewChild('newUserForm') newUserForm: NgForm;
 
     modal = new Modal();
-    newUser: User;
+    user: User;
     usersComponent: UsersComponent; // = this.injector.get(UsersComponent);
 
     constructor (private injector: Injector) {
-        this.newUser = {};
+        this.user = {};
     }
 
     show() {
@@ -27,10 +27,10 @@ export class UserModalComponent {
     }
 
     save() {
-        this.usersComponent.saveUser();
-        this.newUser = {};
-        this.newUserForm.form.markAsPristine();
         this.hide();
+        this.usersComponent.saveUser();
+        this.user = {};
+        this.newUserForm.form.markAsPristine();
     }
 
     hide() {

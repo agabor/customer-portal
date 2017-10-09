@@ -24,7 +24,11 @@ export class UsersComponent {
 
     saveUser() {
         if (this.editedUser == null) {
-            this.presenter.addUser(this.userModalComponent.newUser);
+            this.presenter.addUser(this.userModalComponent.user);
+        } else {
+            this.editedUser.name = this.userModalComponent.user.name;
+            this.editedUser.email = this.userModalComponent.user.email;
+            this.presenter.modifyUser(this.editedUser);
         }
     }
 
@@ -37,10 +41,13 @@ export class UsersComponent {
     edit(user: User) {
         this.editedUser = user;
         this.userModalComponent.usersComponent = this;
-        this.userModalComponent.newUser = user;
+        this.userModalComponent.user = {name: user.name, email: user.email};
         this.userModalComponent.show();
     }
 
     deleteUser(user: User) {
+        if (confirm('Are you sure that you want to delete the user named ' + user.name + '?')) {
+            this.presenter.deleteUser(user);
+        }
     }
 }

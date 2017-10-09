@@ -86,23 +86,6 @@ export class DefaultApi {
     }
 
     /**
-     * create new user and add to project
-     * @param id project identifier
-     * @param name 
-     * @param email 
-     */
-    public projectsIdAddUserPost(id: string, name: string, email: string, extraHttpRequestParams?: any): Observable<{}> {
-        return this.projectsIdAddUserPostWithHttpInfo(id, name, email, extraHttpRequestParams)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json() || {};
-                }
-            });
-    }
-
-    /**
      * 
      * @param id project identifier
      */
@@ -211,6 +194,57 @@ export class DefaultApi {
      */
     public projectsIdTextsPut(id: string, body?: models.Body, extraHttpRequestParams?: any): Observable<{}> {
         return this.projectsIdTextsPutWithHttpInfo(id, body, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
+     * create new user and add to project
+     * @param id project identifier
+     * @param name 
+     * @param email 
+     */
+    public projectsIdUsersPost(id: string, name: string, email: string, extraHttpRequestParams?: any): Observable<{}> {
+        return this.projectsIdUsersPostWithHttpInfo(id, name, email, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
+     * delete user
+     * @param id project identifier
+     * @param userId project identifier
+     */
+    public projectsIdUsersUserIdDelete(id: string, userId: number, extraHttpRequestParams?: any): Observable<{}> {
+        return this.projectsIdUsersUserIdDeleteWithHttpInfo(id, userId, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
+     * modify user
+     * @param id project identifier
+     * @param userId project identifier
+     * @param name 
+     * @param email 
+     */
+    public projectsIdUsersUserIdPost(id: string, userId: number, name: string, email: string, extraHttpRequestParams?: any): Observable<{}> {
+        return this.projectsIdUsersUserIdPostWithHttpInfo(id, userId, name, email, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -353,62 +387,6 @@ export class DefaultApi {
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
-            headers: headers,
-            search: queryParameters,
-            withCredentials:this.configuration.withCredentials
-        });
-        // https://github.com/swagger-api/swagger-codegen/issues/4037
-        if (extraHttpRequestParams) {
-            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
-        }
-
-        return this.http.request(path, requestOptions);
-    }
-
-    /**
-     * 
-     * create new user and add to project
-     * @param id project identifier
-     * @param name 
-     * @param email 
-     */
-    public projectsIdAddUserPostWithHttpInfo(id: string, name: string, email: string, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + '/projects/${id}/add_user'
-                    .replace('${' + 'id' + '}', String(id));
-
-        let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-        // verify required parameter 'id' is not null or undefined
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling projectsIdAddUserPost.');
-        }
-        // verify required parameter 'name' is not null or undefined
-        if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling projectsIdAddUserPost.');
-        }
-        // verify required parameter 'email' is not null or undefined
-        if (email === null || email === undefined) {
-            throw new Error('Required parameter email was null or undefined when calling projectsIdAddUserPost.');
-        }
-        if (name !== undefined) {
-            queryParameters.set('name', <any>name);
-        }
-
-        if (email !== undefined) {
-            queryParameters.set('email', <any>email);
-        }
-
-        // to determine the Content-Type header
-        let consumes: string[] = [
-        ];
-
-        // to determine the Accept header
-        let produces: string[] = [
-            'application/json'
-        ];
-
-        let requestOptions: RequestOptionsArgs = new RequestOptions({
-            method: RequestMethod.Post,
             headers: headers,
             search: queryParameters,
             withCredentials:this.configuration.withCredentials
@@ -753,6 +731,168 @@ export class DefaultApi {
             method: RequestMethod.Put,
             headers: headers,
             body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * create new user and add to project
+     * @param id project identifier
+     * @param name 
+     * @param email 
+     */
+    public projectsIdUsersPostWithHttpInfo(id: string, name: string, email: string, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/projects/${id}/users'
+                    .replace('${' + 'id' + '}', String(id));
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'id' is not null or undefined
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectsIdUsersPost.');
+        }
+        // verify required parameter 'name' is not null or undefined
+        if (name === null || name === undefined) {
+            throw new Error('Required parameter name was null or undefined when calling projectsIdUsersPost.');
+        }
+        // verify required parameter 'email' is not null or undefined
+        if (email === null || email === undefined) {
+            throw new Error('Required parameter email was null or undefined when calling projectsIdUsersPost.');
+        }
+        if (name !== undefined) {
+            queryParameters.set('name', <any>name);
+        }
+
+        if (email !== undefined) {
+            queryParameters.set('email', <any>email);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * delete user
+     * @param id project identifier
+     * @param userId project identifier
+     */
+    public projectsIdUsersUserIdDeleteWithHttpInfo(id: string, userId: number, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/projects/${id}/users/${user_id}'
+                    .replace('${' + 'id' + '}', String(id))
+                    .replace('${' + 'user_id' + '}', String(userId));
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'id' is not null or undefined
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectsIdUsersUserIdDelete.');
+        }
+        // verify required parameter 'userId' is not null or undefined
+        if (userId === null || userId === undefined) {
+            throw new Error('Required parameter userId was null or undefined when calling projectsIdUsersUserIdDelete.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Delete,
+            headers: headers,
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * modify user
+     * @param id project identifier
+     * @param userId project identifier
+     * @param name 
+     * @param email 
+     */
+    public projectsIdUsersUserIdPostWithHttpInfo(id: string, userId: number, name: string, email: string, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/projects/${id}/users/${user_id}'
+                    .replace('${' + 'id' + '}', String(id))
+                    .replace('${' + 'user_id' + '}', String(userId));
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'id' is not null or undefined
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectsIdUsersUserIdPost.');
+        }
+        // verify required parameter 'userId' is not null or undefined
+        if (userId === null || userId === undefined) {
+            throw new Error('Required parameter userId was null or undefined when calling projectsIdUsersUserIdPost.');
+        }
+        // verify required parameter 'name' is not null or undefined
+        if (name === null || name === undefined) {
+            throw new Error('Required parameter name was null or undefined when calling projectsIdUsersUserIdPost.');
+        }
+        // verify required parameter 'email' is not null or undefined
+        if (email === null || email === undefined) {
+            throw new Error('Required parameter email was null or undefined when calling projectsIdUsersUserIdPost.');
+        }
+        if (name !== undefined) {
+            queryParameters.set('name', <any>name);
+        }
+
+        if (email !== undefined) {
+            queryParameters.set('email', <any>email);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
             search: queryParameters,
             withCredentials:this.configuration.withCredentials
         });

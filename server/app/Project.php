@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Traversable versionedImages
  * @property \Traversable|\Countable images
  * @property \Traversable|\Countable files
+ * @property \Traversable|\Countable locales
  */
 class Project extends Model
 {

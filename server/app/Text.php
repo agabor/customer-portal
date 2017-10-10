@@ -50,6 +50,15 @@ class Text extends Model
         'id', 'project_id'
     ];
 
+    public function getValue(Locale $locale) {
+        /* @var Localtext $lt */
+        foreach ($this->values as $lt) {
+            if ($lt->locale_id === $locale->id)
+                return $lt;
+        }
+        return null;
+    }
+
     public function saveLocales(array $localTexts)
     {
         /* @var \App\Localtext $localText */

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Presenter} from '../../../logic/presenter';
 import {Project} from '../../../../swagger/model/Project';
 import {Locale} from '../../../../swagger/model/Locale';
@@ -7,7 +7,7 @@ import {ProjectLogic} from '../../../logic/project-logic';
 import {LocalText} from '../../../../swagger/model/LocalText';
 import {Text} from '../../../../swagger/model/Text';
 import {ActivatedRoute, Router} from '@angular/router';
-import {TextModalComponent} from "./text-modal.component";
+import {TextModalComponent} from './text-modal.component';
 
 @Component({
     selector: 'app-project-texts',
@@ -30,7 +30,6 @@ export class TextsComponent implements OnInit {
     localeTabs: Tab[] = [];
 
     lang = 0;
-    newTextDialog = false;
     editedText: Text;
 
     currentLocale: Locale;
@@ -38,9 +37,18 @@ export class TextsComponent implements OnInit {
     textEntries: TextEntry[] = [];
 
     saved = true;
-    textModalComponent: TextModalComponent;
+    @ViewChild(TextModalComponent) textModalComponent: TextModalComponent;
 
-    getTextIndicator(entry: TextEntry) {
+    static slugify(text: string): string {
+      return text.toString().toLowerCase()
+        .replace(/\s+/g, '_')           // Replace spaces with -
+        .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+        .replace(/\-\-+/g, '_')         // Replace multiple - with single -
+        .replace(/^-+/, '')             // Trim - from start of text
+        .replace(/-+$/, '');            // Trim - from end of text
+    }
+
+  getTextIndicator(entry: TextEntry) {
         if (ProjectLogic.hasWarning(entry.text, entry.localText)) {
             return 'glyphicon-remove';
         }
@@ -48,7 +56,6 @@ export class TextsComponent implements OnInit {
     }
 
     constructor (private presenter: Presenter, private route: ActivatedRoute, private router: Router) {
-        presenter.setTextComponent(this);
     }
 
     ngOnInit() {
@@ -113,7 +120,9 @@ export class TextsComponent implements OnInit {
                 return lt;
             }
         }
+        return { localeCode: this.currentLocale.localeId, value: '' };
     }
+
     getTextValue(text) {
         for (const lt of text.values) {
             if (lt.locale_code === this.currentLocale.localeId) {
@@ -151,9 +160,9 @@ export class TextsComponent implements OnInit {
     }
 
     public add() {
-        this.newTextDialog = true;
+        this.editedText = null;
         this.textModalComponent.setEmptyText();
-        this.textModalComponent.show();
+        this.textModalComponent.show(this);
     }
 
     public reset() {
@@ -174,7 +183,7 @@ export class TextsComponent implements OnInit {
             maxLength: text.maxLength,
             values: []
         };
-        this.textModalComponent.show();
+        this.textModalComponent.show(this);
     }
 
     public deleteText(text: Text) {
@@ -183,19 +192,30 @@ export class TextsComponent implements OnInit {
         if (index > -1) {
             texts.splice(index, 1);
         }
+        this.saved = false;
         this.setEntries();
     }
 
-    setTextModalComponent(newTextModalComponent: TextModalComponent) {
-        this.textModalComponent = newTextModalComponent;
+    isIdInUse(textId: string): boolean {
+      for (const text of this.presenter.activeProject.texts) {
+        if (text.textId === textId) {
+          return true;
+        }
+      }
+      return false;
     }
 
     saveText() {
         this.saved = false;
         const text = this.textModalComponent.model;
-        if (this.newTextDialog) {
-            this.newTextDialog = false;
-            text.textId = TextModalComponent.slugify(text.name);
+        if (this.editedText == null) {
+            const baseID = TextsComponent.slugify(text.name);
+            text.textId = baseID;
+            let idx = 2;
+            while (this.isIdInUse(text.textId)) {
+              text.textId = baseID + idx;
+              idx += 1;
+            }
             this.presenter.activeProject.texts.push(text);
             this.setEntries();
         } else {

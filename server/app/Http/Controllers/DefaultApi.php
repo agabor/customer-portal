@@ -108,19 +108,88 @@ class DefaultApi extends Controller
     {
         $input = $request->all();
         $sources = self::getArray($input, 'sources');
-        $dict = self::getLocaleTextDict($sources);
         $project = getProjectWithSlug($id);
-        /* @var Text $text */
-        foreach ($project->texts as $text) {
-            foreach ($text->values as $value) {
-                if(!self::updateTextValue($dict, $value, $text)) {
-                    $text->delete();
-                    break;
-                }
+
+        $this->updateTextValues($sources, $project);
+
+        $this->updateTexts($sources, $project);
+
+        $project->calculateState();
+        return response('{}');
+    }
+
+    private static function getLocaleTextDict(array $sources): LocaleTextDict
+    {
+        $dict = new LocaleTextDict;
+        foreach ($sources as $text) {
+            $values = $text['values'];
+            $textId = $text['textId'];
+            foreach ($values as $value) {
+                $dict->set($textId, $value['localeCode'], $value['value']);
             }
         }
+        return $dict;
+    }
+
+    private static function updateTextValue(LocaleTextDict $dict, Localtext $value, Text $text)
+    {
+        $newValue = $dict->get($text->textId, $value->locale->localeId);
+        if ($value->value != $newValue) {
+            $newVersion = new Localtext();
+            $newVersion->locale_id = $value->locale_id;
+            $newVersion->value = $newValue;
+            $text->saveLocale($newVersion);
+            $value->text()->dissociate();
+            $value->save();
+        }
+    }
+
+    /**
+     * @param $u
+     * @return Response
+     */
+    private function startSession($u): Response
+    {
+        Auth::startSession($u);
+
+        $response = new Response($u);
+
+        $response->withCookie(new Cookie('jwt', Auth::JWT()));
+
+        return $response;
+    }
+
+    private function updateTextValues(array $sources, Project $project)
+    {
+        $locales = iterator_to_array($project->locales);
+
+        $dict = self::getLocaleTextDict($sources);
+
+        /* @var Text $text */
+        foreach ($project->texts as $text) {
+            if (!$dict->hasText($text->textId)){
+                $text->delete();
+                continue;
+            }
+            foreach ($locales as $locale) {
+                /* @var Localtext value */
+                $value = $text->getValue($locale);
+                if ($value == null) {
+                    $value = new Localtext(['locale_id' => $locale->id, 'value' => '']);
+                    $text->saveLocale($value);
+                }
+
+                self::updateTextValue($dict, $value, $text);
+
+            }
+        }
+    }
+
+    private function updateTexts(array $sources, Project $project)
+    {
+        $locales = Locale::all();
         $locale_ids = [];
-        foreach(Locale::all() as $locale) {
+        foreach ($locales as $locale) {
             $locale_ids[$locale->localeId] = $locale->id;
         }
         foreach ($sources as $text) {
@@ -140,54 +209,6 @@ class DefaultApi extends Controller
                 }
             }
         }
-
-        $project->calculateState();
-        return response('{}');
-    }
-
-    private static function getLocaleTextDict(array $sources): LocaleTextDict
-    {
-        $dict = new LocaleTextDict;
-        foreach ($sources as $text) {
-            $values = $text['values'];
-            $textId = $text['textId'];
-            foreach ($values as $value) {
-                $dict->set($textId, $value['localeCode'], $value['value']);
-            }
-        }
-        return $dict;
-    }
-
-    private static function updateTextValue(LocaleTextDict $dict, Localtext $value, Text $text) : bool
-    {
-        $newValue = $dict->get($text->textId, $value->locale->localeId);
-        if ($newValue == null){
-            return false;
-        }
-        if ($value->value != $newValue) {
-            $newVersion = new Localtext();
-            $newVersion->locale_id = $value->locale_id;
-            $newVersion->value = $newValue;
-            $text->saveLocale($newVersion);
-            $value->text()->dissociate();
-            $value->save();
-        }
-        return true;
-    }
-
-    /**
-     * @param $u
-     * @return Response
-     */
-    private function startSession($u): Response
-    {
-        Auth::startSession($u);
-
-        $response = new Response($u);
-
-        $response->withCookie(new Cookie('jwt', Auth::JWT()));
-
-        return $response;
     }
 }
 
@@ -201,10 +222,14 @@ class LocaleTextDict
         $this->dict[$textId][$localCode] = $value;
 
     }
+
+    public function hasText(string $textId)
+    {
+        return array_key_exists($textId, $this->dict);
+    }
+
     public function get(string $textId, string $localCode) //: string
     {
-        if (!array_key_exists($textId, $this->dict))
-            return null;
         $result = $this->dict[$textId][$localCode];
         unset($this->dict[$textId][$localCode]);
         if (count($this->dict[$textId]) == 0)

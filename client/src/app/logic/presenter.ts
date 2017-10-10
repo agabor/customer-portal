@@ -270,22 +270,6 @@ export class Presenter {
         return this.user;
     }
 
-    setTextModalComponent(textModalComponent: TextModalComponent) {
-        this.textModalComponent = textModalComponent;
-        if (this.textsComponent != null) {
-            this.textsComponent.setTextModalComponent(this.textModalComponent);
-            this.textModalComponent.setTextsComponent(this.textsComponent);
-        }
-    }
-
-    setTextComponent(textsComponent: TextsComponent) {
-        this.textsComponent = textsComponent;
-        if (this.textModalComponent != null) {
-            this.textsComponent.setTextModalComponent(this.textModalComponent);
-            this.textModalComponent.setTextsComponent(this.textsComponent);
-        }
-    }
-
     addUser(newUser: User) {
         const res = this.api.projectsIdUsersPost(this.activeProject.slug, newUser.name, newUser.email);
         res.subscribe(user => {

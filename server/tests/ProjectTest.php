@@ -4,7 +4,6 @@ use Illuminate\Http\UploadedFile;
 
 class ProjectTest extends TestCase
 {
-
     public function testProjectList()
     {
         $this->login();
@@ -100,7 +99,7 @@ class ProjectTest extends TestCase
     }
 
 
-    public function testAddDeleteProject()
+    public function testAddModifyDeleteProject()
     {
         $this->login();
 
@@ -109,6 +108,13 @@ class ProjectTest extends TestCase
             'slug' => 'new_project'
         ];
         $this->addProject($data);
+
+
+        $data['name'] = 'Other Name';
+        $this->call('POST', '/api/v1/projects/'.$data['slug'], ['name' => $data['name']], $this->cookies());
+        $this->assertStatusOk('modify project');
+        $this->seeJson(['name' => $data['name']]);
+        $this->dontSeeJson(['slug' => $data['slug']]);
 
         $this->deleteProject($data);
 
@@ -266,9 +272,6 @@ class ProjectTest extends TestCase
         self::assertEquals($this->imgCount, $this->sampleProjectImageCount());
     }
 
-    /**
-     * @param $data
-     */
     protected function addProject($data)
     {
         $this->call('PATCH', '/api/v1/projects', ['name' => $data['name']], $this->cookies());
@@ -276,9 +279,6 @@ class ProjectTest extends TestCase
         $this->seeJsonEquals($data);
     }
 
-    /**
-     * @param $data
-     */
     protected function deleteProject($data)
     {
         $this->call('DELETE', '/api/v1/projects/' . $data['slug'], [], $this->cookies());

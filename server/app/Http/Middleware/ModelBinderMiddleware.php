@@ -21,16 +21,16 @@ class ModelBinderMiddleware
 {
     public function handle(Request $request, \Closure $next){
         $params = $request->route()[2];
-        if (array_key_exists('project_id', $params)){
+        if (array_key_exists('project_id', $params) && is_string($params['project_id'])){
             $project_id = $params['project_id'];
-
             /* @var Project $project */
             foreach (Auth::user()->projects as $project){
-                if ($project->slug == $project_id) {
+                if ($project->slug === $project_id) {
                     Controller::$project = $project;
                     $this->bindImage($params, $project);
                     $this->bindUser($params, $project);
                     $this->bindLink($params, $project);
+                    break;
                 }
             }
         }

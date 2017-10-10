@@ -60,6 +60,8 @@ $app->group(['middleware' => ['auth', 'cors'], 'prefix' => '/api/v1/'], function
      */
     $app->GET('projects', DefaultApi::class . '@projectsGet');
     $app->PATCH('projects', DefaultApi::class . '@projectsPatch');
+    $app->POST('projects/{project_id}', ProjectController::class . '@projectsModify');
+    $app->DELETE('projects/{project_id}', ProjectController::class . '@projectsDelete');
 
     /**
      * GET projectsIdGet
@@ -68,7 +70,7 @@ $app->group(['middleware' => ['auth', 'cors'], 'prefix' => '/api/v1/'], function
      * Output-Formats: [application/json]
      */
     $app->GET('projects/{id}', DefaultApi::class . '@projectsIdGet');
-    $app->DELETE('projects/{id}', DefaultApi::class . '@projectsIdDelete');
+    //$app->DELETE('projects/{id}', DefaultApi::class . '@projectsIdDelete');
 
     /**
      * GET projectsIdGet

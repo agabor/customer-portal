@@ -5,7 +5,7 @@ import {Router} from '@angular/router';
 import {AppComponent} from '../components/app.component';
 import {DefaultApi} from '../../swagger/api/DefaultApi';
 import {ProjectBase} from '../../swagger/model/ProjectBase';
-import {ProjectListComponent} from '../components/project-list.component';
+import {ProjectListComponent} from '../components/project-list/project-list.component';
 import {LoginFormComponent} from '../components/login-form.component';
 import {ProjectComponent} from '../components/project/project.component';
 import {MenuComponent} from '../components/menu.component';

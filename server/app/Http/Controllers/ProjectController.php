@@ -95,4 +95,19 @@ class ProjectController extends Controller
         }
         return $versions;
     }
+
+
+    public function projectsModify(Request $request){
+        $input = $request->all();
+        self::$project->name = self::getString($input, 'name');
+        self::$project->setSlug();
+        self::$project->save();
+        return self::$project;
+    }
+
+    public function projectsDelete(){
+        self::$project->delete();
+        return \response('{}');
+    }
+
 }

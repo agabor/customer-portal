@@ -166,4 +166,23 @@ class Project extends Model
                 return $text;
         return null;
     }
+
+    public function setSlug()
+    {
+        $base_slug = slugify($this->name);
+        $slug = $base_slug;
+        $idx = 1;
+        while ($this->projectSlugExists($slug)){
+            $slug = $base_slug . (++$idx);
+        }
+        $this->slug = $slug;
+    }
+
+    private function projectSlugExists(string $slug) : bool
+    {
+        foreach (Auth::user()->projects as $project)
+            if ($project->slug == $slug)
+                return true;
+        return false;
+    }
 }

@@ -1,0 +1,13 @@
+<h1>Projects</h1>
+<div class="list-group">
+    <div class="list-group-item" *ngFor="let project of projects">
+      <a href="javascript:void(0)" (click)="showProject(project.slug)">{{project.name}}</a><span class="badge">{{project.warnings}}</span>
+        <div class="progress">
+            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" [attr.aria-valuenow]="project.progress" aria-valuemin="0" aria-valuemax="100" [style.width]="project.progress+'%'">
+                <span class="sr-only">{{project.progress}}% Complete</span>
+            </div>
+        </div>
+      <button type="button" class="btn btn-primary" (click)="edit(project)" ><span class="glyphicon glyphicon-edit"></span></button>
+      <button type="button" class="btn btn-primary" (click)="deleteProject(project)" ><span class="glyphicon glyphicon-trash"></span></button>
+    </div>
+</div>

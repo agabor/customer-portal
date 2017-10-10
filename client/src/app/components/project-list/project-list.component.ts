@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { Presenter } from "../logic/presenter";
-import {ProjectBase} from "../../swagger/model/ProjectBase";
+import { Presenter } from '../../logic/presenter';
+import {ProjectBase} from '../../../swagger/model/ProjectBase';
 
 @Component({
     templateUrl: './project-list.component.html',
-    styleUrls: ['./project-list.component.css']
+    styleUrls: ['../project-list.component.css']
 })
 export class ProjectListComponent {
 
@@ -18,4 +18,6 @@ export class ProjectListComponent {
         this.presenter.showProject(slug);
     }
 
+  edit(project) {}
+  eleteProject(project) {}
 }

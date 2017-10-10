@@ -11,8 +11,6 @@ import {ProjectComponent} from '../components/project/project.component';
 import {MenuComponent} from '../components/menu.component';
 import {Project} from '../../swagger/model/Project';
 import {Image} from '../../swagger/model/Image';
-import {ImagesComponent} from '../components/project/images/images.component';
-import {ImageModalComponent} from '../components/project/images/image-modal.component';
 import {Body} from '../../swagger/model/Body';
 import {Text} from '../../swagger/model/text';
 import {URLSearchParams, Http} from '@angular/http';
@@ -34,8 +32,6 @@ export class Presenter {
     private projectComponent: ProjectComponent;
     activeProject: Project = null;
     private menuComponent: MenuComponent;
-    private imagesComponent: ImagesComponent;
-    private imageModalComponent: ImageModalComponent;
     private _isLoggedIn = false;
     private user: User;
 
@@ -201,18 +197,6 @@ export class Presenter {
             return '';
         }
         return  this.getImagePath(image);
-    }
-
-    setImageComponent(imagesComponent: ImagesComponent) {
-        this.imagesComponent = imagesComponent;
-    }
-
-    showImage(image: Image) {
-        this.imageModalComponent.showImage(image);
-    }
-
-    setImageModalComponent(imageModalComponent: ImageModalComponent) {
-        this.imageModalComponent = imageModalComponent;
     }
 
     saveProjectTexts(onDone: () => void) {

@@ -25,7 +25,6 @@ export class ImageModalComponent {
     modal = new Modal();
 
     constructor (private presenter: Presenter) {
-        presenter.setImageModalComponent(this);
     }
 
     showImage(image: Image) {

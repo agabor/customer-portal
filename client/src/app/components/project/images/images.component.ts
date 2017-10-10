@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Presenter} from '../../../logic/presenter';
 import {Project} from '../../../../swagger/model/Project';
 import {Image} from '../../../../swagger/model/Image';
 import {Modal} from '../../../ui/modal';
+import {ImageModalComponent} from "./image-modal.component";
 
 @Component({
     selector: 'app-project-images',
@@ -18,17 +19,16 @@ export class ImagesComponent implements OnInit {
         images: []
     };
 
+    @ViewChild(ImageModalComponent) imageModalComponent: ImageModalComponent;
 
     modal: Modal = new Modal();
 
     constructor (private presenter: Presenter) {
-        presenter.setImageComponent(this);
     }
 
     ngOnInit() {
         this.project = this.presenter.activeProject;
     }
-
 
     setProject(project: Project) {
         this.project = project;

@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {Image} from '../../../../swagger/model/Image';
 import {Presenter} from '../../../logic/presenter';
+import {ImageModalComponent} from "./image-modal.component";
 @Component({
     selector: 'thumbnail',
     templateUrl: './thumbnail.component.html',
@@ -8,6 +9,7 @@ import {Presenter} from '../../../logic/presenter';
 })
 export class ThumbnailComponent {
     @Input() image: Image;
+    @Input() imageModalComponent: ImageModalComponent;
 
     fileIsOver: Image = null;
     file: File;
@@ -21,7 +23,7 @@ export class ThumbnailComponent {
     }
 
     showImage() {
-        this.presenter.showImage(this.image);
+        this.imageModalComponent.showImage(this.image);
     }
 
     public load() {

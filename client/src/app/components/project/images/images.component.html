@@ -1,5 +1,5 @@
 <div class="row">
-    <thumbnail *ngFor="let image of project.images" [image]="image"></thumbnail>
+    <thumbnail *ngFor="let image of project.images" [image]="image" [imageModalComponent]="imageModalComponent"></thumbnail>
 </div>
 <div class="row">
     <button type="button" class="btn btn-primary" (click)="add()" >Add image</button>

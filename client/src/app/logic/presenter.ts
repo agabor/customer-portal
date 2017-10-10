@@ -16,7 +16,7 @@ import {Text} from '../../swagger/model/text';
 import {URLSearchParams, Http} from '@angular/http';
 import {BASE_PATH} from 'swagger';
 import {User} from '../../swagger/model/User';
-import {Link} from "../../swagger/model/Link";
+import {Link} from '../../swagger/model/Link';
 
 @Injectable()
 export class Presenter {
@@ -294,6 +294,15 @@ export class Presenter {
       if (index > -1) {
         this.activeProject.links.splice(index, 1);
       }
+    }, error => {
+      console.log(error.json());
+    });
+  }
+
+  addProject(project: ProjectBase) {
+    const res = this.api.projectsPatch(project.name);
+    res.subscribe(newProject => {
+      this.projects.push(newProject);
     }, error => {
       console.log(error.json());
     });

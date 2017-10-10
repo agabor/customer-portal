@@ -31,9 +31,5 @@ export class LinkModalComponent {
     hide() {
         this.modal.hide();
     }
-
-    setUsersComponent(linksComponent: LinksComponent) {
-        this.linksComponent = linksComponent;
-    }
 }
 

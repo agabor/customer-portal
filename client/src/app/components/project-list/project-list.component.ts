@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import { Presenter } from '../../logic/presenter';
 import {ProjectBase} from '../../../swagger/model/ProjectBase';
+import {ProjectModalComponent} from './project-modal.component';
 
 @Component({
     templateUrl: './project-list.component.html',
@@ -9,6 +10,7 @@ import {ProjectBase} from '../../../swagger/model/ProjectBase';
 export class ProjectListComponent {
 
     projects: ProjectBase[] = null;
+    @ViewChild(ProjectModalComponent) projectModalComponent: ProjectModalComponent;
 
     constructor (private presenter: Presenter) {
         presenter.setProjectListComponent(this);
@@ -19,5 +21,13 @@ export class ProjectListComponent {
     }
 
   edit(project) {}
-  eleteProject(project) {}
+  deleteProject(project) {}
+
+  saveProject() {
+    this.presenter.addProject(this.projectModalComponent.project);
+  }
+
+  add() {
+    this.projectModalComponent.show(this);
+  }
 }

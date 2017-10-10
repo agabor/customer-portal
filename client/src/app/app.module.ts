@@ -31,7 +31,8 @@ import {TextModalComponent} from './components/project/texts/text-modal.componen
 import {UsersComponent} from './components/project/users/users.component';
 import {APP_BASE_HREF} from '@angular/common';
 import {UserModalComponent} from './components/project/users/user-modal.component';
-import {LinkModalComponent} from "./components/project/links/link-modal.component";
+import {LinkModalComponent} from './components/project/links/link-modal.component';
+import {ProjectModalComponent} from './components/project-list/project-modal.component';
 
 const appRoutes: Routes = [
   { path: '',         redirectTo: 'login', pathMatch: 'full' },
@@ -63,6 +64,7 @@ const appRoutes: Routes = [
     NewImageModalComponent,
     TextModalComponent,
     UserModalComponent,
+    ProjectModalComponent,
     LinkModalComponent,
     ThumbnailComponent
   ],

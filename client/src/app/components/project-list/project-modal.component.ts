@@ -1,39 +1,35 @@
 import {Component, ViewChild} from '@angular/core';
-import {Modal} from '../../../ui/modal';
-import {LinksComponent} from './links.component';
 import {NgForm} from '@angular/forms';
-import {Link} from '../../../../swagger/model/Link';
+import {ProjectBase} from '../../../swagger/model/ProjectBase';
+import {Modal} from '../../ui/modal';
+import {ProjectListComponent} from './project-list.component';
 
 @Component({
-    selector: 'app-link-modal',
+    selector: 'app-project-modal',
     templateUrl: './project-modal.component.html'
 })
-export class LinkModalComponent {
+export class ProjectModalComponent {
 
-    @ViewChild('newLinkForm') newLinkForm: NgForm;
+    @ViewChild('projectForm') projectForm: NgForm;
 
     modal = new Modal();
-    link: Link = {};
-    linksComponent: LinksComponent;
+    project: ProjectBase = {};
+    projectlistComponent: ProjectListComponent;
 
-    show(linksComponent: LinksComponent) {
-      this.linksComponent = linksComponent;
+    show(projectlistComponent: ProjectListComponent) {
+      this.projectlistComponent = projectlistComponent;
         this.modal.show();
     }
 
     save() {
         this.hide();
-        this.linksComponent.saveLink();
-        this.link = {};
-        this.newLinkForm.form.markAsPristine();
+        this.projectlistComponent.saveProject();
+        this.project = {};
+        this.projectForm.form.markAsPristine();
     }
 
     hide() {
         this.modal.hide();
-    }
-
-    setUsersComponent(linksComponent: LinksComponent) {
-        this.linksComponent = linksComponent;
     }
 }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Auth;
 use function App\getProjectWithSlug;
 use App\Image;
+use App\Link;
 use App\Project;
 use function App\slugify;
 use App\User;
@@ -48,6 +49,35 @@ class ProjectController extends Controller
         return response('{}');
     }
 
+    public function addLink(Request $request) {
+        $input = $request->all();
+
+        $link = new Link();
+        $link->name = self::getString($input, 'name');
+        $link->icon = self::getString($input, 'icon');
+        $link->url = self::getString($input, 'url');
+
+        self::$project->links()->save($link);
+        return $link;
+    }
+
+    public function modifyLink(Request $request) {
+        $input = $request->all();
+
+        self::$link->name = self::getString($input, 'name');
+        self::$link->icon = self::getString($input, 'icon');
+        self::$link->url = self::getString($input, 'url');
+        self::$link->save();
+
+        return self::$link;
+    }
+
+    public function deleteLink()
+    {
+        self::$link->delete();
+        return response('{}');
+    }
+
     public function textVersions(Request $request) {
         if (self::$project == null)
             return null;
@@ -57,6 +87,7 @@ class ProjectController extends Controller
         $locale_id = self::getString($input, 'locale_id');
         $text = self::$project->getText($text_id);
         $versions = [];
+
         /* @var \App\Localtext $localeText */
         foreach ($text->versionedValues as $localeText) {
             if ($localeText->locale->localeId === $locale_id)

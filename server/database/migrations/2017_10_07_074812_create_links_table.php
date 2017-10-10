@@ -16,7 +16,6 @@ class CreateLinksTable extends Migration
             $table->increments('id');
             $table->text('icon');
             $table->text('name');
-            $table->text('description');
             $table->text('url');
             $table->unsignedInteger('project_id')->index();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');

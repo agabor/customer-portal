@@ -4,6 +4,7 @@ import {Project} from '../../../../swagger/model/Project';
 import {Image} from '../../../../swagger/model/Image';
 import {Modal} from '../../../ui/modal';
 import {ImageModalComponent} from "./image-modal.component";
+import {NewImageModalComponent} from "./new-image-modal.component";
 
 @Component({
     selector: 'app-project-images',
@@ -20,6 +21,7 @@ export class ImagesComponent implements OnInit {
     };
 
     @ViewChild(ImageModalComponent) imageModalComponent: ImageModalComponent;
+    @ViewChild(NewImageModalComponent) newImageModalComponent: NewImageModalComponent;
 
     modal: Modal = new Modal();
 
@@ -35,6 +37,6 @@ export class ImagesComponent implements OnInit {
     }
 
     public add() {
-        this.presenter.showNewImageModal();
+        this.newImageModalComponent.show();
     }
 }

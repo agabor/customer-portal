@@ -1,12 +1,9 @@
 <?php
 
-use App\Project;
 use Illuminate\Http\UploadedFile;
 
 class ProjectTest extends TestCase
 {
-    private $jwt;
-    private $imgCount;
 
     public function testProjectList()
     {
@@ -102,32 +99,6 @@ class ProjectTest extends TestCase
         $this->logout();
     }
 
-    public function testProjectAddUser()
-    {
-        $this->login();
-        $user_data = ['name' => 'test_user', 'email' => 'test@test.test'];
-        $this->call('POST', '/api/v1/projects/sample_project/users', $user_data, $this->cookies());
-        $this->seeJson($user_data);
-        $this->call('GET', '/api/v1/projects/sample_project', array(), $this->cookies());
-        $this->assertStatusOk('get project');
-        $this->seeJson($user_data);
-
-        $user_data['name'] = 'test_user2';
-        $user_data['email'] = 'test@test.test2';
-        $this->call('POST', '/api/v1/projects/sample_project/users/2', $user_data, $this->cookies());
-        $this->assertStatusOk('modify user');
-        $this->call('GET', '/api/v1/projects/sample_project', array(), $this->cookies());
-        $this->assertStatusOk('get project');
-        $this->seeJson($user_data);
-
-        $this->call('DELETE', '/api/v1/projects/sample_project/users/2', array(), $this->cookies());
-        $this->assertStatusOk('delete user');
-        $this->call('GET', '/api/v1/projects/sample_project', array(), $this->cookies());
-        $this->assertStatusOk('get project');
-        $this->dontSeeJson($user_data);
-
-        $this->logout();
-    }
 
     public function testAddDeleteProject()
     {
@@ -258,116 +229,7 @@ class ProjectTest extends TestCase
     }
 
 
-    public function testVersionedTexts()
-    {
-        $this->login();
-        $this->call('GET', '/api/v1/projects/sample_project', array(), $this->cookies());
 
-        $response = json_decode($this->response->getContent(), true);
-        $texts = $response['texts'];
-        $texts[0]['values'][0]['value'] = 'changed';
-        $this->call('PUT', '/api/v1/projects/sample_project/texts', ['sources' => $texts], $this->cookies());
-        $this->assertStatusOk('put texts');
-        $this->call('GET', '/api/v1/projects/sample_project/text_versions', ['text_id' => 'webpage_title', 'locale_id' => 'en_US'], $this->cookies());
-        $this->assertStatusOk('text versions');
-        $response = json_decode($this->response->getContent(), true);
-        self::assertEquals(2, count($response));
-        $this->logout();
-    }
-
-    public function testAddDeleteText()
-    {
-        $this->login();
-        $this->call('GET', '/api/v1/projects/sample_project', array(), $this->cookies());
-
-        $response = json_decode($this->response->getContent(), true);
-        $texts = $response['texts'];
-        $newTextData = [
-            'name' => 'sample',
-            'description' => 'abc',
-            'textId' => 'sample',
-            'minLength' => 9,
-            'maxLength' => 99,
-            'values' => [
-                ['localeCode' => 'en_US', 'value' => 'a'],
-                ['localeCode' => 'hu_HU', 'value' => 'b']
-            ]
-        ];
-        $texts[] = $newTextData;
-        $this->call('PUT', '/api/v1/projects/sample_project/texts', ['sources' => $texts], $this->cookies());
-        $this->assertStatusOk('put texts');
-        $this->call('GET', '/api/v1/projects/sample_project', [], $this->cookies());
-        $this->assertStatusOk('get project');
-        $this->seeJson($newTextData);
-
-
-        array_pop($texts);
-        $this->call('PUT', '/api/v1/projects/sample_project/texts', ['sources' => $texts], $this->cookies());
-        $this->assertStatusOk('put texts');
-        $this->call('GET', '/api/v1/projects/sample_project', [], $this->cookies());
-        $this->assertStatusOk('get project');
-        $this->dontSeeJson($newTextData);
-
-        $this->logout();
-    }
-
-
-    public function testAddUpdateText()
-    {
-        $this->login();
-        $this->call('GET', '/api/v1/projects/sample_project', array(), $this->cookies());
-
-        $response = json_decode($this->response->getContent(), true);
-        $texts = $response['texts'];
-        $newTextData = [
-            'name' => 'sample',
-            'description' => 'abc',
-            'textId' => 'sample',
-            'minLength' => 9,
-            'maxLength' => 99,
-            'values' => []
-        ];
-        $texts[] = $newTextData;
-        $this->call('PUT', '/api/v1/projects/sample_project/texts', ['sources' => $texts], $this->cookies());
-        $this->assertStatusOk('put texts');
-        $this->call('GET', '/api/v1/projects/sample_project', [], $this->cookies());
-        $this->assertStatusOk('get project');
-        $this->seeJson($newTextData);
-
-        array_pop($texts);
-        $newTextData['values'] = [
-            ['localeCode' => 'en_US', 'value' => 'a'],
-            ['localeCode' => 'hu_HU', 'value' => 'b']
-        ];
-
-        $texts[] = $newTextData;
-        $this->call('PUT', '/api/v1/projects/sample_project/texts', ['sources' => $texts], $this->cookies());
-        $this->assertStatusOk('put texts');
-        $this->call('GET', '/api/v1/projects/sample_project', [], $this->cookies());
-        $this->assertStatusOk('get project');
-        $this->seeJson($newTextData);
-
-        $this->logout();
-    }
-
-    private static function sampleProject() : Project
-    {
-        return Project::where('slug', 'sample_project')->first();
-    }
-
-
-    protected function login()
-    {
-        $this->json('POST', '/api/v1/login', ['user_name' => 'gabor', 'password' => 'secret']);
-        $this->assertStatusOk('login');
-        $this->jwt = $this->getJWT();
-        $this->imgCount = $this->sampleProjectImageCount();
-    }
-
-    protected function cookies(): array
-    {
-        return array('jwt' => $this->jwt);
-    }
 
 
     protected function addImage(string $expectedId, string $imageName)
@@ -393,20 +255,6 @@ class ProjectTest extends TestCase
         $this->assertStatusOk('delete ' . $imageId);
     }
 
-    protected function logout()
-    {
-        $this->call('POST', '/api/v1/logout', array(), $this->cookies());
-        $this->assertStatusOk('logout');
-    }
-
-
-    /**
-     * @return int
-     */
-    protected function sampleProjectImageCount(): int
-    {
-        return count(self::sampleProject()->images);
-    }
 
     protected function assertImageCountIncreased()
     {
@@ -437,13 +285,6 @@ class ProjectTest extends TestCase
         $this->assertStatusOk('delete new project');
     }
 
-    protected function assertStatusOk($message)
-    {
-        $status = $this->response->status();
-        if ($status == 500)
-            file_put_contents('E:\temp\\'.$message.' err.html', $this->response->content());
-        $this->assertEquals(200, $status, $message);
-    }
 
 
 }

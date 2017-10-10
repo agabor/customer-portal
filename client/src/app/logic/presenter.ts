@@ -15,7 +15,6 @@ import {Body} from '../../swagger/model/Body';
 import {Text} from '../../swagger/model/text';
 import {URLSearchParams, Http} from '@angular/http';
 import {BASE_PATH} from 'swagger';
-import {NewImageModalComponent} from 'app/components/project/images/new-image-modal.component';
 import {User} from '../../swagger/model/User';
 import {TextsComponent} from '../components/project/texts/texts.component';
 import {TextModalComponent} from '../components/project/texts/text-modal.component';
@@ -24,7 +23,6 @@ import {TextModalComponent} from '../components/project/texts/text-modal.compone
 export class Presenter {
     textsComponent: TextsComponent;
     textModalComponent: TextModalComponent;
-    newImageModalComponent: NewImageModalComponent;
     projects: ProjectBase[] = null;
     appComponent: AppComponent = null;
     private projectListComponent: ProjectListComponent;
@@ -222,19 +220,10 @@ export class Presenter {
         return this.basePath + '/projects/' + this.activeProject.slug + '/images/' + image.imageId;
     }
 
-    setNewImageModalComponent(newImageModalComponent: NewImageModalComponent) {
-        this.newImageModalComponent = newImageModalComponent;
-    }
-
-    showNewImageModal() {
-        this.newImageModalComponent.show();
-    }
-
     newImage(model: ImageData) {
         const res = this.api.projectsIdImagesPatch(this.activeProject.slug, model.name, model.description, model.width, model.height);
         res.subscribe(data => {
             this.activeProject.images.push(data);
-            this.newImageModalComponent.hide();
         }, error => {
             console.log(error.json());
         });

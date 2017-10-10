@@ -183,6 +183,90 @@ paths:
       responses:
         200:
           description: OK
+  /projects/{id}/links:
+    post:
+      description: create new user and add to project
+      parameters:
+        -
+          name: id
+          in: path
+          description: project identifier
+          required: true
+          type: string
+        -
+          name: name
+          in: query
+          required: true
+          type: string
+        -
+          name: icon
+          in: query
+          required: true
+          type: string
+        -
+          name: url
+          in: query
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Link'
+  /projects/{id}/links/{link_id}:
+    post:
+      description: modify user
+      parameters:
+        -
+          name: id
+          in: path
+          description: project identifier
+          required: true
+          type: string
+        -
+          name: link_id
+          in: path
+          description: project identifier
+          required: true
+          type: number
+          format: integer
+        -
+          name: name
+          in: query
+          required: true
+          type: string
+        -
+          name: icon
+          in: query
+          required: true
+          type: string
+        -
+          name: url
+          in: query
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+    delete:
+      description: delete link
+      parameters:
+        -
+          name: id
+          in: path
+          description: project identifier
+          required: true
+          type: string
+        -
+          name: link_id
+          in: path
+          description: project identifier
+          required: true
+          type: number
+          format: integer
+      responses:
+        200:
+          description: OK
   /projects/{id}/texts:
     put:
       description: update texts
@@ -507,11 +591,11 @@ definitions:
   Link:
     type: object
     properties:
+      id:
+        type: number
       icon:
         type: string
       name:
-        type: string
-      description:
         type: string
       url:
         type: string

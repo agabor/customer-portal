@@ -287,28 +287,24 @@ Az automentokereso.hu weboldalon a károsultak autómentők, esetkocsik és gép
         $l = new \App\Link();
         $l->name = 'Google Play Store';
         $l->icon = 'fa-google';
-        $l->description = '';
         $l->url = 'https://play.google.com/store/apps/details?id=hu.markcon.automento';
         $p->links()->save($l);
 
         $l = new \App\Link();
         $l->name = 'App Store';
         $l->icon = 'fa-apple';
-        $l->description = '';
         $l->url = 'https://itunes.apple.com/us/app/aut%C3%B3ment%C5%91/id1212371710?ls=1&mt=8';
         $p->links()->save($l);
 
         $l = new \App\Link();
         $l->name = 'Web Page';
         $l->icon = 'fa-globe';
-        $l->description = '';
         $l->url = 'https://automentokereso.hu/';
         $p->links()->save($l);
 
         $l = new \App\Link();
         $l->name = 'Facebook';
         $l->icon = 'fa-facebook';
-        $l->description = '';
         $l->url = 'https://www.facebook.com/automentokereso/';
         $p->links()->save($l);
 

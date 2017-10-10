@@ -13,7 +13,6 @@ export class NewImageModalComponent {
     model = new ImageData('', '', 100, 100);
 
     constructor (private presenter: Presenter) {
-        presenter.setNewImageModalComponent(this);
     }
 
     show() {
@@ -21,6 +20,7 @@ export class NewImageModalComponent {
     }
     save() {
         this.presenter.newImage(this.model);
+        this.hide();
     }
 
     hide() {

@@ -22,6 +22,7 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
  * @property string loginToken
  * @property \Carbon\Carbon created_at
  * @property \Carbon\Carbon updated_at
+ * @property \Traversable|\Countable projects
  */
 class User extends Model implements
     AuthenticatableContract,

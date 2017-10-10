@@ -88,5 +88,9 @@ $app->group(['middleware' => ['auth', 'cors'], 'prefix' => '/api/v1/'], function
     $app->POST('projects/{project_id}/users/{user_id}', ProjectController::class . '@modifyUser');
     $app->DELETE('projects/{project_id}/users/{user_id}', ProjectController::class . '@deleteUser');
 
+    $app->POST('projects/{project_id}/links', ProjectController::class . '@addLink');
+    $app->POST('projects/{project_id}/links/{link_id}', ProjectController::class . '@modifyLink');
+    $app->DELETE('projects/{project_id}/links/{link_id}', ProjectController::class . '@deleteLink');
+
     $app->GET('projects/{project_id}/text_versions',ProjectController::class . '@textVersions');
 });

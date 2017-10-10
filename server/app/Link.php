@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer id
  * @property string icon
  * @property string name
- * @property string description
  * @property string url
  */
 class Link extends Model {
@@ -25,7 +24,7 @@ class Link extends Model {
      * @var array
      */
     protected $fillable = [
-        'icon', 'name', 'description', 'url'
+        'icon', 'name', 'url'
     ];
 
     /**
@@ -34,6 +33,6 @@ class Link extends Model {
      * @var array
      */
     protected $hidden = [
-        'id'
+
     ];
 }

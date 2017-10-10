@@ -13,11 +13,11 @@
 import * as models from './models';
 
 export interface Link {
+    id?: number;
+
     icon?: string;
 
     name?: string;
-
-    description?: string;
 
     url?: string;
 

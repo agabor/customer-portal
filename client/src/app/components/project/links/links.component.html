@@ -1,0 +1,11 @@
+<div class="list-group">
+  <div *ngFor="let link of project.links" class="list-group-item">
+    <span class="fa {{link.icon}}"></span>
+    <button type="button" class="btn btn-primary" (click)="edit(link)" ><span class="glyphicon glyphicon-edit"></span></button>
+    <button type="button" class="btn btn-primary" (click)="deleteLink(link)" ><span class="glyphicon glyphicon-trash"></span></button>
+    <strong>{{link.name}}</strong><br>
+    <a href="{{link.url}}" target="_blank">{{link.url}}</a>
+  </div>
+</div>
+<button type="button" class="btn btn-primary" (click)="add()" >Add link</button>
+<app-link-modal></app-link-modal>

@@ -5,7 +5,7 @@ info:
   version: "0.1"
   title: Customer Point
   
-host: customerpoint.net.hu
+host: customerpoint.net
 schemes:
   - http
 basePath: /api/v1

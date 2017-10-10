@@ -188,6 +188,59 @@ export class DefaultApi {
     }
 
     /**
+     * delete link
+     * @param id project identifier
+     * @param linkId project identifier
+     */
+    public projectsIdLinksLinkIdDelete(id: string, linkId: number, extraHttpRequestParams?: any): Observable<{}> {
+        return this.projectsIdLinksLinkIdDeleteWithHttpInfo(id, linkId, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
+     * modify user
+     * @param id project identifier
+     * @param linkId project identifier
+     * @param name 
+     * @param icon 
+     * @param url 
+     */
+    public projectsIdLinksLinkIdPost(id: string, linkId: number, name: string, icon: string, url: string, extraHttpRequestParams?: any): Observable<{}> {
+        return this.projectsIdLinksLinkIdPostWithHttpInfo(id, linkId, name, icon, url, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
+     * create new user and add to project
+     * @param id project identifier
+     * @param name 
+     * @param icon 
+     * @param url 
+     */
+    public projectsIdLinksPost(id: string, name: string, icon: string, url: string, extraHttpRequestParams?: any): Observable<models.Link> {
+        return this.projectsIdLinksPostWithHttpInfo(id, name, icon, url, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
      * update texts
      * @param id project identifier
      * @param body 
@@ -688,6 +741,186 @@ export class DefaultApi {
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Patch,
+            headers: headers,
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * delete link
+     * @param id project identifier
+     * @param linkId project identifier
+     */
+    public projectsIdLinksLinkIdDeleteWithHttpInfo(id: string, linkId: number, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/projects/${id}/links/${link_id}'
+                    .replace('${' + 'id' + '}', String(id))
+                    .replace('${' + 'link_id' + '}', String(linkId));
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'id' is not null or undefined
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectsIdLinksLinkIdDelete.');
+        }
+        // verify required parameter 'linkId' is not null or undefined
+        if (linkId === null || linkId === undefined) {
+            throw new Error('Required parameter linkId was null or undefined when calling projectsIdLinksLinkIdDelete.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Delete,
+            headers: headers,
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * modify user
+     * @param id project identifier
+     * @param linkId project identifier
+     * @param name 
+     * @param icon 
+     * @param url 
+     */
+    public projectsIdLinksLinkIdPostWithHttpInfo(id: string, linkId: number, name: string, icon: string, url: string, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/projects/${id}/links/${link_id}'
+                    .replace('${' + 'id' + '}', String(id))
+                    .replace('${' + 'link_id' + '}', String(linkId));
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'id' is not null or undefined
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectsIdLinksLinkIdPost.');
+        }
+        // verify required parameter 'linkId' is not null or undefined
+        if (linkId === null || linkId === undefined) {
+            throw new Error('Required parameter linkId was null or undefined when calling projectsIdLinksLinkIdPost.');
+        }
+        // verify required parameter 'name' is not null or undefined
+        if (name === null || name === undefined) {
+            throw new Error('Required parameter name was null or undefined when calling projectsIdLinksLinkIdPost.');
+        }
+        // verify required parameter 'icon' is not null or undefined
+        if (icon === null || icon === undefined) {
+            throw new Error('Required parameter icon was null or undefined when calling projectsIdLinksLinkIdPost.');
+        }
+        // verify required parameter 'url' is not null or undefined
+        if (url === null || url === undefined) {
+            throw new Error('Required parameter url was null or undefined when calling projectsIdLinksLinkIdPost.');
+        }
+        if (name !== undefined) {
+            queryParameters.set('name', <any>name);
+        }
+
+        if (icon !== undefined) {
+            queryParameters.set('icon', <any>icon);
+        }
+
+        if (url !== undefined) {
+            queryParameters.set('url', <any>url);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * create new user and add to project
+     * @param id project identifier
+     * @param name 
+     * @param icon 
+     * @param url 
+     */
+    public projectsIdLinksPostWithHttpInfo(id: string, name: string, icon: string, url: string, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/projects/${id}/links'
+                    .replace('${' + 'id' + '}', String(id));
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'id' is not null or undefined
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectsIdLinksPost.');
+        }
+        // verify required parameter 'name' is not null or undefined
+        if (name === null || name === undefined) {
+            throw new Error('Required parameter name was null or undefined when calling projectsIdLinksPost.');
+        }
+        // verify required parameter 'icon' is not null or undefined
+        if (icon === null || icon === undefined) {
+            throw new Error('Required parameter icon was null or undefined when calling projectsIdLinksPost.');
+        }
+        // verify required parameter 'url' is not null or undefined
+        if (url === null || url === undefined) {
+            throw new Error('Required parameter url was null or undefined when calling projectsIdLinksPost.');
+        }
+        if (name !== undefined) {
+            queryParameters.set('name', <any>name);
+        }
+
+        if (icon !== undefined) {
+            queryParameters.set('icon', <any>icon);
+        }
+
+        if (url !== undefined) {
+            queryParameters.set('url', <any>url);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
             headers: headers,
             search: queryParameters,
             withCredentials:this.configuration.withCredentials

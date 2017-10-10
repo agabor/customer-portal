@@ -16,13 +16,10 @@ import {Text} from '../../swagger/model/text';
 import {URLSearchParams, Http} from '@angular/http';
 import {BASE_PATH} from 'swagger';
 import {User} from '../../swagger/model/User';
-import {TextsComponent} from '../components/project/texts/texts.component';
-import {TextModalComponent} from '../components/project/texts/text-modal.component';
+import {Link} from "../../swagger/model/Link";
 
 @Injectable()
 export class Presenter {
-    textsComponent: TextsComponent;
-    textModalComponent: TextModalComponent;
     projects: ProjectBase[] = null;
     appComponent: AppComponent = null;
     private projectListComponent: ProjectListComponent;
@@ -271,6 +268,36 @@ export class Presenter {
             console.log(error.json());
         });
     }
+
+  addLink(link: Link) {
+    const res = this.api.projectsIdLinksPost(this.activeProject.slug, link.name, link.icon, link.url);
+    res.subscribe(newLink => {
+      this.activeProject.links.push(newLink);
+    }, error => {
+      console.log(error.json());
+    });
+  }
+
+  updateLink(link: Link) {
+    const res = this.api.projectsIdLinksLinkIdPost(this.activeProject.slug, link.id, link.name, link.icon, link.url);
+    res.subscribe(data => {
+
+    }, error => {
+      console.log(error.json());
+    });
+  }
+
+  deleteLink(link: Link) {
+    const res = this.api.projectsIdLinksLinkIdDelete(this.activeProject.slug, link.id);
+    res.subscribe(data => {
+      const index = this.activeProject.links.indexOf(link);
+      if (index > -1) {
+        this.activeProject.links.splice(index, 1);
+      }
+    }, error => {
+      console.log(error.json());
+    });
+  }
 }
 
 class TextsBody implements Body {

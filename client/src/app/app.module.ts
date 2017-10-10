@@ -18,7 +18,7 @@ import {TextsComponent} from './components/project/texts/texts.component';
 import {FilesComponent} from './components/project/files.component';
 import {ImageModalComponent} from './components/project/images/image-modal.component';
 
-import {LinksComponent} from './components/project/links.component';
+import {LinksComponent} from './components/project/links/links.component';
 import {Autosize} from './ui/autosize.directive';
 import {FileDropDirective} from './file-drop';
 import {BASE_PATH} from '../swagger/variables';
@@ -31,9 +31,10 @@ import {TextModalComponent} from './components/project/texts/text-modal.componen
 import {UsersComponent} from './components/project/users/users.component';
 import {APP_BASE_HREF} from '@angular/common';
 import {UserModalComponent} from './components/project/users/user-modal.component';
+import {LinkModalComponent} from "./components/project/links/link-modal.component";
 
 const appRoutes: Routes = [
-  { path: '',         redirectTo: 'home', pathMatch: 'full' },
+  { path: '',         redirectTo: 'login', pathMatch: 'full' },
   { path: 'login',    component: LoginFormComponent },
   { path: 'token/:login_token',    component: TokenLoginComponent },
   { path: 'logout',   component: LoginFormComponent, canActivate: [LogoutGuard] },
@@ -62,6 +63,7 @@ const appRoutes: Routes = [
     NewImageModalComponent,
     TextModalComponent,
     UserModalComponent,
+    LinkModalComponent,
     ThumbnailComponent
   ],
   imports: [

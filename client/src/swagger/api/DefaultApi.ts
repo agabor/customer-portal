@@ -241,6 +241,22 @@ export class DefaultApi {
     }
 
     /**
+     * modify project
+     * @param id project identifier
+     * @param name project name
+     */
+    public projectsIdPost(id: string, name: string, extraHttpRequestParams?: any): Observable<models.ProjectBase> {
+        return this.projectsIdPostWithHttpInfo(id, name, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
      * update texts
      * @param id project identifier
      * @param body 
@@ -908,6 +924,53 @@ export class DefaultApi {
 
         if (url !== undefined) {
             queryParameters.set('url', <any>url);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * modify project
+     * @param id project identifier
+     * @param name project name
+     */
+    public projectsIdPostWithHttpInfo(id: string, name: string, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/projects/${id}'
+                    .replace('${' + 'id' + '}', String(id));
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'id' is not null or undefined
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectsIdPost.');
+        }
+        // verify required parameter 'name' is not null or undefined
+        if (name === null || name === undefined) {
+            throw new Error('Required parameter name was null or undefined when calling projectsIdPost.');
+        }
+        if (name !== undefined) {
+            queryParameters.set('name', <any>name);
         }
 
         // to determine the Content-Type header

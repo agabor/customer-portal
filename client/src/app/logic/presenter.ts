@@ -307,6 +307,27 @@ export class Presenter {
       console.log(error.json());
     });
   }
+
+  deleteProject(project: Project) {
+    const res = this.api.projectsIdDelete(project.slug);
+    res.subscribe(data => {
+      const index = this.projects.indexOf(project);
+      if (index > -1) {
+        this.projects.splice(index, 1);
+      }
+    }, error => {
+      console.log(error.json());
+    });
+  }
+
+  updateProject(project: Project) {
+    const res = this.api.projectsIdPost(project.slug, project.name);
+    res.subscribe(newProject => {
+      project.slug = newProject.slug;
+    }, error => {
+      console.log(error.json());
+    });
+  }
 }
 
 class TextsBody implements Body {

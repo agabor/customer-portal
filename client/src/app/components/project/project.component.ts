@@ -15,7 +15,7 @@ export class ProjectComponent implements OnInit {
         name: null,
         slug: null,
         files: [],
-        locales: [],
+        languages: [],
         texts: [],
         images: []
     };

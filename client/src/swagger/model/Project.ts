@@ -23,6 +23,6 @@ export interface Project extends models.ProjectBase {
 
     users?: Array<models.User>;
 
-    locales?: Array<models.Locale>;
+    languages?: Array<models.Language>;
 
 }

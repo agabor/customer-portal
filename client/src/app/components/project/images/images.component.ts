@@ -15,7 +15,7 @@ export class ImagesComponent implements OnInit {
         name : null,
         slug: null,
         files: [],
-        locales: [],
+        languages: [],
         texts: [],
         images: []
     };

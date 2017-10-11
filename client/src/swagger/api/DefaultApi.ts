@@ -188,6 +188,38 @@ export class DefaultApi {
     }
 
     /**
+     * remove language from project
+     * @param id project identifier
+     * @param code 
+     */
+    public projectsIdLanguagesDelete(id: string, code?: string, extraHttpRequestParams?: any): Observable<{}> {
+        return this.projectsIdLanguagesDeleteWithHttpInfo(id, code, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
+     * add language to project
+     * @param id project identifier
+     * @param code 
+     */
+    public projectsIdLanguagesPost(id: string, code?: string, extraHttpRequestParams?: any): Observable<models.Language> {
+        return this.projectsIdLanguagesPostWithHttpInfo(id, code, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
      * delete link
      * @param id project identifier
      * @param linkId project identifier
@@ -666,7 +698,7 @@ export class DefaultApi {
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-        let formParams = new FormData();
+        let formParams = new URLSearchParams();
 
         // verify required parameter 'id' is not null or undefined
         if (id === null || id === undefined) {
@@ -690,16 +722,16 @@ export class DefaultApi {
             'application/json'
         ];
 
-        //headers.set('Content-Type', 'application/x-www-form-urlencoded');
+        headers.set('Content-Type', 'application/x-www-form-urlencoded');
 
         if (image !== undefined) {
-            formParams.append('image', <any>image);
+            formParams.set('image', <any>image);
         }
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
             headers: headers,
-            body: formParams/*.toString()*/,
+            body: formParams.toString(),
             search: queryParameters,
             withCredentials:this.configuration.withCredentials
         });
@@ -757,6 +789,92 @@ export class DefaultApi {
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Patch,
+            headers: headers,
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * remove language from project
+     * @param id project identifier
+     * @param code 
+     */
+    public projectsIdLanguagesDeleteWithHttpInfo(id: string, code?: string, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/projects/${id}/languages'
+                    .replace('${' + 'id' + '}', String(id));
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'id' is not null or undefined
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectsIdLanguagesDelete.');
+        }
+        if (code !== undefined) {
+            queryParameters.set('code', <any>code);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Delete,
+            headers: headers,
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * add language to project
+     * @param id project identifier
+     * @param code 
+     */
+    public projectsIdLanguagesPostWithHttpInfo(id: string, code?: string, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/projects/${id}/languages'
+                    .replace('${' + 'id' + '}', String(id));
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'id' is not null or undefined
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectsIdLanguagesPost.');
+        }
+        if (code !== undefined) {
+            queryParameters.set('code', <any>code);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
             headers: headers,
             search: queryParameters,
             withCredentials:this.configuration.withCredentials

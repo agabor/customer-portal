@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Presenter} from '../../../logic/presenter';
 import {Project} from '../../../../swagger/model/Project';
-import {Locale} from '../../../../swagger/model/Locale';
+import {Language} from '../../../../swagger/model/Language';
 import {Tab} from '../../../ui/tab';
 import {ProjectLogic} from '../../../logic/project-logic';
 import {LocalText} from '../../../../swagger/model/LocalText';
@@ -20,7 +20,7 @@ export class TextsComponent implements OnInit {
         name: null,
         slug: null,
         files: [],
-        locales: [],
+        languages: [],
         texts: [],
         images: []
     };
@@ -32,7 +32,7 @@ export class TextsComponent implements OnInit {
     lang = 0;
     editedText: Text;
 
-    currentLocale: Locale;
+    currentLanguage: Language;
 
     textEntries: TextEntry[] = [];
 
@@ -62,7 +62,7 @@ export class TextsComponent implements OnInit {
         this.project = this.presenter.activeProject;
         this.projectLogic = new ProjectLogic(this.project);
         this.localeTabs = [];
-        for (const locale of this.project.locales) {
+        for (const locale of this.project.languages) {
             this.localeTabs.push(new Tab(locale.name));
         }
         const lang = this.route.snapshot.params['lang'];
@@ -70,7 +70,7 @@ export class TextsComponent implements OnInit {
         if (!lang) {
             this.lang = 0;
         } else {
-            this.lang = this.getLocaleIndex(lang);
+            this.lang = this.getLanguageIndex(lang);
         }
         this.setLocale(this.lang);
     }
@@ -78,13 +78,13 @@ export class TextsComponent implements OnInit {
     navigate(i: number) {
         this.setLocale(i);
         const slug = this.route.snapshot.params['slug'];
-        this.router.navigate(['/projects/' + slug + '/texts/' + this.currentLocale.localeId]);
+        this.router.navigate(['/projects/' + slug + '/texts/' + this.currentLanguage.code]);
     }
 
-    getLocaleIndex(localeId: string): number {
+    getLanguageIndex(localeId: string): number {
         let idx = 0;
-        for (const loc of this.project.locales){
-            if (loc.localeId === localeId) {
+        for (const loc of this.project.languages){
+            if (loc.code === localeId) {
                return idx;
             }
             ++idx;
@@ -102,7 +102,7 @@ export class TextsComponent implements OnInit {
             }
             ++idx;
         }
-        this.currentLocale = this.project.locales[i];
+        this.currentLanguage = this.project.languages[i];
         this.setEntries();
     }
 
@@ -116,16 +116,16 @@ export class TextsComponent implements OnInit {
 
     private getLocalText(text: Text): LocalText {
         for (const lt of text.values){
-            if (lt.localeCode === this.currentLocale.localeId) {
+            if (lt.languageCode === this.currentLanguage.code) {
                 return lt;
             }
         }
-        return { localeCode: this.currentLocale.localeId, value: '' };
+        return { languageCode: this.currentLanguage.code, value: '' };
     }
 
     getTextValue(text) {
         for (const lt of text.values) {
-            if (lt.locale_code === this.currentLocale.localeId) {
+            if (lt.locale_code === this.currentLanguage.code) {
                 return lt.value;
             }
         }
@@ -233,6 +233,6 @@ class TextEntry {
     id: string;
 
     constructor(public text: Text, public localText: LocalText) {
-        this.id = text.textId + localText.localeCode;
+        this.id = text.textId + localText.languageCode;
     }
 }

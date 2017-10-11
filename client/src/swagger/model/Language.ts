@@ -12,8 +12,8 @@
 
 import * as models from './models';
 
-export interface Locale {
-    localeId?: string;
+export interface Language {
+    code?: string;
 
     name?: string;
 

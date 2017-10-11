@@ -13,7 +13,7 @@
 import * as models from './models';
 
 export interface LocalText {
-    localeCode?: string;
+    languageCode?: string;
 
     value?: string;
 

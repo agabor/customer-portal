@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer minLength
  * @property integer maxLength
  * @property \Traversable|\Countable values
+ * @property \Traversable|\Countable versionedValues
  */
 class Text extends Model
 {
@@ -50,10 +51,10 @@ class Text extends Model
         'id', 'project_id'
     ];
 
-    public function getValue(Language $locale) {
+    public function getValue(Language $localelanguage) {
         /* @var Localtext $lt */
         foreach ($this->values as $lt) {
-            if ($lt->locale_id === $locale->id)
+            if ($lt->language_id === $localelanguage->id)
                 return $lt;
         }
         return null;

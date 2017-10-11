@@ -71,26 +71,26 @@ export class TextsComponent implements OnInit {
     } else {
       this.lang = this.getLanguageIndex(lang);
     }
-    this.setLocale(this.lang);
+    this.setLanguage(this.lang);
   }
 
   private setLanguageTabs() {
     this.languageTabs = [];
-    for (const locale of this.project.languages) {
-      this.languageTabs.push(new Tab(locale.name));
+    for (const language of this.project.languages) {
+      this.languageTabs.push(new Tab(language.name));
     }
   }
 
   navigate(i: number) {
-    this.setLocale(i);
+    this.setLanguage(i);
     const slug = this.route.snapshot.params['slug'];
     this.router.navigate(['/projects/' + slug + '/texts/' + this.currentLanguage.code]);
   }
 
-  getLanguageIndex(localeId: string): number {
+  getLanguageIndex(languageId: string): number {
     let idx = 0;
     for (const loc of this.project.languages) {
-      if (loc.code === localeId) {
+      if (loc.code === languageId) {
         return idx;
       }
       ++idx;
@@ -98,7 +98,7 @@ export class TextsComponent implements OnInit {
     return -1;
   }
 
-  setLocale(i: number) {
+  setLanguage(i: number) {
     let idx = 0;
     for (const tab of this.languageTabs) {
       if (i === idx) {
@@ -133,15 +133,15 @@ export class TextsComponent implements OnInit {
 
   getTextValue(text) {
     for (const lt of text.values) {
-      if (lt.locale_code === this.currentLanguage.code) {
+      if (lt.languageCode === this.currentLanguage.code) {
         return lt.value;
       }
     }
     return '';
   }
 
-  getBadgeLocaleText(localeIdx: number): string {
-    const count = this.projectLogic.getLocaleTextWarningCount(localeIdx);
+  getBadgeLocaleText(languageIdx: number): string {
+    const count = this.projectLogic.getLocaleTextWarningCount(languageIdx);
     if (count === 0) {
       return '';
     }
@@ -242,7 +242,7 @@ export class TextsComponent implements OnInit {
   addLanguage(language: Language) {
     this.presenter.addLanguage(language, () => {
       this.setLanguageTabs();
-      this.setLocale(this.languageTabs.length - 1);
+      this.setLanguage(this.languageTabs.length - 1);
       this.languageModalComponent.language = {};
       this.languageModalComponent.recognized = true;
       this.languageModalComponent.languageForm.form.markAsPristine();

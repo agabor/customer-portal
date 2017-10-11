@@ -19,8 +19,8 @@ export class ProjectLogic {
 
   }
 
-    getLocaleTextWarningCount(localeIdx: number): number {
-      const language: Language = this.project.languages[localeIdx];
+    getLocaleTextWarningCount(languageIdx: number): number {
+      const language: Language = this.project.languages[languageIdx];
       let count = 0;
       for (const text of this.project.texts) {
         for (const lt of text.values) {

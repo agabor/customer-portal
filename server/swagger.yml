@@ -427,9 +427,9 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Image'
-  /projects/{id}/locales:
+  /projects/{id}/languages:
     post:
-      description: add locale to project
+      description: add language to project
       parameters:
         -
           name: id
@@ -438,17 +438,17 @@ paths:
           required: true
           type: string
         -
-          name: localeId
+          name: code
           in: query
           type: string
-          example: en_US
+          example: en
       responses:
         200:
           description: OK
           schema:
-            $ref: '#/definitions/Locale'
+            $ref: '#/definitions/Language'
     delete:
-      description: remove locale to project
+      description: remove language from project
       parameters:
         -
           name: id
@@ -457,10 +457,10 @@ paths:
           required: true
           type: string
         -
-          name: localeId
+          name: code
           in: query
           type: string
-          example: en_US
+          example: en
       responses:
         200:
           description: OK
@@ -525,17 +525,17 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/User'
-          locales:
+          languages:
             type: array
             items:
-              $ref: '#/definitions/Locale'
-            example: [{"localeId": "en_US",  "name": "English"},{"localeId": "hu_HU",  "name": "Hungarian"}]
-  Locale:
+              $ref: '#/definitions/Language'
+            example: [{"code": "en",  "name": "English"},{"code": "hu",  "name": "Hungarian"}]
+  Language:
     type: object
     properties:
-      localeId:
+      code:
         type: string
-        example: en_US
+        example: en
       name:
         type: string
         example: English
@@ -605,13 +605,13 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/LocalText'
-        example: [{"localeId": "en_US",  "value": "Sample Project Webpage"},{"localeId": "hu_HU",  "value": "Pelda Projekt Weboldal"}]
+        example: [{"code": "en",  "value": "Sample Project Webpage"},{"code": "hu",  "value": "Pelda Projekt Weboldal"}]
   LocalText:
     type: object
     properties:
-      localeCode:
+      languageCode:
         type: string
-        example: en_US
+        example: en
       value:
         type: string
         example: Sample Project Webpage

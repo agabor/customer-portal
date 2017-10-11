@@ -47,6 +47,6 @@ class Localtext extends Model
 
     public function getLocaleCodeAttribute()
     {
-        return $this->language->localeId;
+        return $this->language->code;
     }
 }

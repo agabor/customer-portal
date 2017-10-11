@@ -119,7 +119,7 @@ class DefaultApi extends Controller
 
     private static function updateTextValue(LocaleTextDict $dict, Localtext $value, Text $text)
     {
-        $newValue = $dict->get($text->textId, $value->language->localeId);
+        $newValue = $dict->get($text->textId, $value->language->code);
         if ($value->value != $newValue) {
             $newVersion = new Localtext();
             $newVersion->language_id = $value->language_id;
@@ -175,8 +175,9 @@ class DefaultApi extends Controller
     {
         $languages = Language::all();
         $language_ids = [];
-        foreach ($languages as $locale) {
-            $language_ids[$locale->localeId] = $locale->id;
+        /* @var Language $language */
+        foreach ($languages as $language) {
+            $language_ids[$language->code] = $language->id;
         }
         foreach ($sources as $text) {
             $t = $project->getText($text['textId']);
@@ -190,7 +191,7 @@ class DefaultApi extends Controller
                 $t = new Text($text);
                 $project->texts()->save($t);
                 $values = self::getArray($text, 'values');
-                foreach ($values as $locale => $value) {
+                foreach ($values as $language => $value) {
                     $t->saveLocale(new Localtext(['language_id' => $language_ids[$value['localeCode']], 'value' => $value['value']]));
                 }
             }

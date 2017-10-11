@@ -8,7 +8,7 @@ use Matriphe\ISO639\ISO639;
 
 /**
  * @property integer id
- * @property string localeId
+ * @property string code
  * @property string name
  */
 class Language extends Model
@@ -20,14 +20,14 @@ class Language extends Model
     }
 
     static public function forCode(string $code) {
-        $locale = Language::where('localeId', $code)->first();
+        $locale = Language::where('code', $code)->first();
         if ($locale != null)
             return $locale;
         $iso = new ISO639();
         $langName = $iso->languageByCode1($code);
         if (strlen($langName) === 0)
             return null;
-        $locale = new Language(['localeId' => $code, 'name' => $langName]);
+        $locale = new Language(['code' => $code, 'name' => $langName]);
         $locale->save();
         return $locale;
     }
@@ -38,7 +38,7 @@ class Language extends Model
      * @var array
      */
     protected $fillable = [
-        'localeId', 'name'
+        'code', 'name'
     ];
 
     /**

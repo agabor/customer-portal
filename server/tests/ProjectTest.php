@@ -85,11 +85,11 @@ class ProjectTest extends TestCase
                 'users' => [['id' => 1,'email' => 'angyalgbr@gmail.com','name' => 'gabor', 'loginToken' => null]],
                 'languages' => [
                     [
-                        'localeId' => 'en',
+                        'code' => 'en',
                         'name' => 'English'
                     ],
                     [
-                        'localeId' => 'hu',
+                        'code' => 'hu',
                         'name' => 'Hungarian'
                     ]
                 ]

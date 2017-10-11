@@ -2,21 +2,21 @@
 
 use Matriphe\ISO639\ISO639;
 
-class LocaleTest extends TestCase
+class LanguageTest extends TestCase
 {
     function testAddLanguage()
     {
         $this->login();
-        $this->call('POST', '/api/v1/projects/sample_project/locales', array('localeId' => 'fr'), $this->cookies());
+        $this->call('POST', '/api/v1/projects/sample_project/languages', array('localeId' => 'fr'), $this->cookies());
         $this->assertStatusOk('add locale');
         $this->seeJsonEquals([
-            'localeId' => 'fr',
+            'code' => 'fr',
             'name' => 'French'
         ]);
-        $this->call('DELETE', '/api/v1/projects/sample_project/locales', array('localeId' => 'fr'), $this->cookies());
+        $this->call('DELETE', '/api/v1/projects/sample_project/languages', array('localeId' => 'fr'), $this->cookies());
         $this->assertStatusOk('remove locale');
         $this->dontSeeJson([
-            'localeId' => 'fr',
+            'code' => 'fr',
             'name' => 'French'
         ]);
         $this->logout();

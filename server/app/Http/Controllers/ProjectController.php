@@ -85,13 +85,13 @@ class ProjectController extends Controller
 
         $input = $request->all();
         $text_id = self::getString($input, 'text_id');
-        $language_id = self::getString($input, 'language_id');
+        $languageCode = self::getString($input, 'languageCode');
         $text = self::$project->getText($text_id);
         $versions = [];
 
         /* @var \App\Localtext $localeText */
         foreach ($text->versionedValues as $localeText) {
-            if ($localeText->language->localeId === $language_id)
+            if ($localeText->language->code === $languageCode)
                 $versions[] = $localeText->value;
         }
         return $versions;
@@ -130,10 +130,10 @@ class ProjectController extends Controller
         $input = $request->all();
         $code = self::getString($input, 'localeId');
 
-        /* @var Language $locale */
-        foreach (self::$project->languages as $locale) {
-            if ($locale->localeId == $code)
-                self::$project->languages()->detach($locale);
+        /* @var Language $language */
+        foreach (self::$project->languages as $language) {
+            if ($language->code == $code)
+                self::$project->languages()->detach($language);
         }
         return response('{}');
     }

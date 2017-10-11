@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer id
  * @property integer locale_id
  * @property string value
- * @property Locale locale
+ * @property Language locale
  */
 class Localtext extends Model
 {
@@ -23,8 +23,8 @@ class Localtext extends Model
         return $this->belongsTo(Text::class, 'owning_text_id');
     }
 
-    public function locale(){
-        return $this->belongsTo(Locale::class);
+    public function language(){
+        return $this->belongsTo(Language::class);
     }
 
     /**

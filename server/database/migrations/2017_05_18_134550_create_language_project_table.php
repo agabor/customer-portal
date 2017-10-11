@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLocaleProjectTable extends Migration
+class CreateLanguageProjectTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,10 @@ class CreateLocaleProjectTable extends Migration
      */
     public function up()
     {
-        Schema::create('locale_project', function (Blueprint $table) {
+        Schema::create('language_project', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('locale_id')->index();
-            $table->foreign('locale_id')->references('id')->on('locales')->onDelete('cascade');
+            $table->unsignedInteger('language_id')->index();
+            $table->foreign('language_id')->references('id')->on('languages')->onDelete('cascade');
             $table->unsignedInteger('project_id')->index();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
         });
@@ -28,6 +28,6 @@ class CreateLocaleProjectTable extends Migration
      */
     public function down()
     {
-        Schema::drop('locale_project');
+        Schema::drop('language_project');
     }
 }

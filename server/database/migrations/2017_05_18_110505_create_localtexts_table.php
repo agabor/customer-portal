@@ -14,8 +14,8 @@ class CreateLocaltextsTable extends Migration
     {
         Schema::create('localtexts', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('locale_id')->index();
-            $table->foreign('locale_id')->references('id')->on('locales')->onDelete('cascade');
+            $table->unsignedInteger('language_id')->index();
+            $table->foreign('language_id')->references('id')->on('languages')->onDelete('cascade');
             $table->text('value');
             $table->unsignedInteger('text_id')->nullable()->index();
             $table->foreign('text_id')->references('id')->on('texts')->onDelete('cascade');

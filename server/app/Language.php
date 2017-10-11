@@ -11,7 +11,7 @@ use Matriphe\ISO639\ISO639;
  * @property string localeId
  * @property string name
  */
-class Locale extends Model
+class Language extends Model
 {
     public $timestamps = false;
 
@@ -20,14 +20,14 @@ class Locale extends Model
     }
 
     static public function forCode(string $code) {
-        $locale = Locale::where('localeId', $code)->first();
+        $locale = Language::where('localeId', $code)->first();
         if ($locale != null)
             return $locale;
         $iso = new ISO639();
         $langName = $iso->languageByCode1($code);
         if (strlen($langName) === 0)
             return null;
-        $locale = new Locale(['localeId' => $code, 'name' => $langName]);
+        $locale = new Language(['localeId' => $code, 'name' => $langName]);
         $locale->save();
         return $locale;
     }

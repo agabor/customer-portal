@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLocalesTable extends Migration
+class CreateLanguagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CreateLocalesTable extends Migration
      */
     public function up()
     {
-        Schema::create('locales', function (Blueprint $table) {
+        Schema::create('languages', function (Blueprint $table) {
             $table->increments('id');
             $table->text('localeId');
             $table->text('name');
@@ -26,6 +26,6 @@ class CreateLocalesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('locales');
+        Schema::drop('languages');
     }
 }

@@ -50,7 +50,7 @@ class Text extends Model
         'id', 'project_id'
     ];
 
-    public function getValue(Locale $locale) {
+    public function getValue(Language $locale) {
         /* @var Localtext $lt */
         foreach ($this->values as $lt) {
             if ($lt->locale_id === $locale->id)
@@ -59,7 +59,7 @@ class Text extends Model
         return null;
     }
 
-    public function saveLocales(array $localTexts)
+    public function saveLanguages(array $localTexts)
     {
         /* @var \App\Localtext $localText */
         foreach ($localTexts as $localText) {

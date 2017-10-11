@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Traversable versionedImages
  * @property \Traversable|\Countable images
  * @property \Traversable|\Countable files
- * @property \Traversable|\Countable locales
+ * @property \Traversable|\Countable languages
  * @property \Traversable|\Countable users
  * @property \Traversable|\Countable links
  */
@@ -52,8 +52,8 @@ class Project extends Model
 
     }
 
-    public function locales(){
-        return $this->belongsToMany(Locale::class);
+    public function languages(){
+        return $this->belongsToMany(Language::class);
     }
 
     public function users(){

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Auth;
 use function App\getProjectWithSlug;
-use App\Locale;
+use App\Language;
 use App\Localtext;
 use App\Project;
 use function App\slugify;
@@ -173,7 +173,7 @@ class DefaultApi extends Controller
 
     private function updateTexts(array $sources, Project $project)
     {
-        $locales = Locale::all();
+        $locales = Language::all();
         $locale_ids = [];
         foreach ($locales as $locale) {
             $locale_ids[$locale->localeId] = $locale->id;

@@ -27,7 +27,9 @@ class Locale extends Model
         $langName = $iso->languageByCode1($code);
         if (strlen($langName) === 0)
             return null;
-        return new Locale(['localeId' => $code, 'name' => $langName]);
+        $locale = new Locale(['localeId' => $code, 'name' => $langName]);
+        $locale->save();
+        return $locale;
     }
 
     /**

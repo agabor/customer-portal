@@ -216,6 +216,10 @@ class LocaleTextDict
 
     public function get(string $textId, string $localCode) //: string
     {
+        if (!array_key_exists($textId, $this->dict))
+            return null;
+        if (!array_key_exists($localCode, $this->dict[$textId]))
+            return null;
         $result = $this->dict[$textId][$localCode];
         unset($this->dict[$textId][$localCode]);
         if (count($this->dict[$textId]) == 0)

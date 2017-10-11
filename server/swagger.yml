@@ -439,6 +439,7 @@ paths:
           type: string
         -
           name: localeId
+          in: query
           type: string
           example: en_US
       responses:
@@ -446,6 +447,23 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Locale'
+    delete:
+      description: remove locale to project
+      parameters:
+        -
+          name: id
+          in: path
+          description: project identifier
+          required: true
+          type: string
+        -
+          name: localeId
+          in: query
+          type: string
+          example: en_US
+      responses:
+        200:
+          description: OK
       
 definitions:
   User:

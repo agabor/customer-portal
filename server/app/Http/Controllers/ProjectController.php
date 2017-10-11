@@ -6,6 +6,7 @@ use App\Auth;
 use function App\getProjectWithSlug;
 use App\Image;
 use App\Link;
+use App\Locale;
 use App\Project;
 use function App\slugify;
 use App\User;
@@ -110,4 +111,30 @@ class ProjectController extends Controller
         return \response('{}');
     }
 
+    public function addLocale(Request $request) {
+        $input = $request->all();
+        $code = self::getString($input, 'localeId');
+
+        /* @var Locale $locale */
+        foreach (self::$project->locales as $locale) {
+            if ($locale->localeId == $code)
+                return $locale;
+        }
+
+        $locale = Locale::forCode($code);
+        self::$project->locales()->attach($locale);
+        return $locale;
+    }
+
+    public function removeLocale(Request $request) {
+        $input = $request->all();
+        $code = self::getString($input, 'localeId');
+
+        /* @var Locale $locale */
+        foreach (self::$project->locales as $locale) {
+            if ($locale->localeId == $code)
+                self::$project->locales()->detach($locale);
+        }
+        return response('{}');
+    }
 }

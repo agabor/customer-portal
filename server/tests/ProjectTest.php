@@ -37,11 +37,11 @@ class ProjectTest extends TestCase
                     'maxLength' => 20,
                     'values' => [
                         [
-                            'localeCode' => 'en',
+                            'languageCode' => 'en',
                             'value' => 'Sample Project Webpage'
                         ],
                         [
-                            'localeCode' => 'hu',
+                            'languageCode' => 'hu',
                             'value' => 'Pelda Projekt Weboldal'
                         ]
                     ],

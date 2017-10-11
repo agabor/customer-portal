@@ -111,7 +111,7 @@ class DefaultApi extends Controller
             $values = $text['values'];
             $textId = $text['textId'];
             foreach ($values as $value) {
-                $dict->set($textId, $value['localeCode'], $value['value']);
+                $dict->set($textId, $value['languageCode'], $value['value']);
             }
         }
         return $dict;
@@ -192,7 +192,7 @@ class DefaultApi extends Controller
                 $project->texts()->save($t);
                 $values = self::getArray($text, 'values');
                 foreach ($values as $language => $value) {
-                    $t->saveLocale(new Localtext(['language_id' => $language_ids[$value['localeCode']], 'value' => $value['value']]));
+                    $t->saveLocale(new Localtext(['language_id' => $language_ids[$value['languageCode']], 'value' => $value['value']]));
                 }
             }
         }

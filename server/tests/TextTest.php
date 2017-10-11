@@ -40,8 +40,8 @@ class TextTest extends TestCase {
             'minLength' => 9,
             'maxLength' => 99,
             'values' => [
-                ['localeCode' => 'en', 'value' => 'a'],
-                ['localeCode' => 'hu', 'value' => 'b']
+                ['languageCode' => 'en', 'value' => 'a'],
+                ['languageCode' => 'hu', 'value' => 'b']
             ]
         ];
         $texts[] = $newTextData;
@@ -87,8 +87,8 @@ class TextTest extends TestCase {
 
         array_pop($texts);
         $newTextData['values'] = [
-            ['localeCode' => 'en', 'value' => 'a'],
-            ['localeCode' => 'hu', 'value' => 'b']
+            ['languageCode' => 'en', 'value' => 'a'],
+            ['languageCode' => 'hu', 'value' => 'b']
         ];
 
         $texts[] = $newTextData;

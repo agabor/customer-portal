@@ -7,9 +7,9 @@ use Illuminate\Http\UploadedFile;
 use Symfony\Component\HttpFoundation\File\UploadedFile as SymfonyUploadedFile;
 
 /**
- * @property \App\Locale hu_HU
- * @property \App\Locale en_US
- * @property \App\Locale de_DE
+ * @property \App\Locale $hu
+ * @property \App\Locale $en
+ * @property \App\Locale $de
  */
 class DatabaseSeeder extends Seeder
 {
@@ -20,9 +20,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->hu_HU = new \App\Locale(['localeId' => 'hu_HU', 'name' => 'Hungarian']);
-        $this->en_US = new \App\Locale(['localeId' => 'en_US', 'name' => 'English']);
-        $this->de_DE = new \App\Locale(['localeId' => 'de_DE', 'name' => 'German']);
+        $this->hu = App\Locale::forCode('hu');
+        $this->en = App\Locale::forCode('en');
+        $this->de = App\Locale::forCode('de');
 
         $u = new User();
         $u->name = 'gabor';
@@ -54,16 +54,16 @@ class DatabaseSeeder extends Seeder
 
         $p->texts()->save($t);
 
-        $p->locales()->attach($this->en_US);
-        $p->locales()->attach($this->hu_HU);
+        $p->locales()->attach($this->en);
+        $p->locales()->attach($this->hu);
 
         $t->saveLocales([
             new \App\Localtext([
-                'locale_id' => $this->en_US->id,
+                'locale_id' => $this->en->id,
                 'value' => 'Sample Project Webpage'
             ]),
             new \App\Localtext([
-                'locale_id' => $this->hu_HU->id,
+                'locale_id' => $this->hu->id,
                 'value' => 'Pelda Projekt Weboldal'
             ])
         ]);
@@ -113,9 +113,9 @@ class DatabaseSeeder extends Seeder
         $u->projects()->save($p);
 
         $p->locales()->saveMany([
-            $this->hu_HU,
-            $this->en_US,
-            $this->de_DE
+            $this->hu,
+            $this->en,
+            $this->de
         ]);
 
         $i = new \App\Image();
@@ -154,15 +154,15 @@ class DatabaseSeeder extends Seeder
         $p->texts()->save($t);
         $t->saveLocales([
             new \App\Localtext([
-                'locale_id' => $this->hu_HU->id,
+                'locale_id' => $this->hu->id,
                 'value' => 'Autómentő Kereső'
             ]),
             new \App\Localtext([
-                'locale_id' => $this->en_US->id,
+                'locale_id' => $this->en->id,
                 'value' => ''
             ]),
             new \App\Localtext([
-                'locale_id' => $this->de_DE->id,
+                'locale_id' => $this->de->id,
                 'value' => ''
             ])
         ]);
@@ -177,15 +177,15 @@ class DatabaseSeeder extends Seeder
         $p->texts()->save($t);
         $t->saveLocales([
             new \App\Localtext([
-                'locale_id' => $this->hu_HU->id,
+                'locale_id' => $this->hu->id,
                 'value' => 'Az Autómentő kereső rendszer hivatalos, sofőröknek készült mobilapplikációja.'
             ]),
             new \App\Localtext([
-                'locale_id' => $this->en_US->id,
+                'locale_id' => $this->en->id,
                 'value' => ''
             ]),
             new \App\Localtext([
-                'locale_id' => $this->de_DE->id,
+                'locale_id' => $this->de->id,
                 'value' => ''
             ])
         ]);
@@ -201,16 +201,16 @@ class DatabaseSeeder extends Seeder
         $p->texts()->save($t);
         $t->saveLocales([
             new \App\Localtext([
-                'locale_id' => $this->hu_HU->id,
+                'locale_id' => $this->hu->id,
                 'value' => 'Az Autómentő kereső regisztrált céges partnereként minden, a rendszerbe bejegyzett sofőr ingyenesen letöltheti készülékére az applikációt. A sofőrök egy egyszerű bejelentkezés után aktívvá válnak járművükkel (pozíciójukkal) a bajbajutott személyeknek az automentokereso.hu weboldal térképén. A károsultak igény szerint segítséget kérhetnek a közelben tartózkodó autómentő sofőrtől, megtekinthetik annak céges profilját és autóparkját. A segélykérést követően a sofőr pontosan látja a bajbajutott pozícióját, valamint a továbbiakban könnyen felvehetik egymással a kapcsolatot, hogy mielőbb egyeztessék és megoldják a felmerült problémát.
 Az automentokereso.hu weboldalon a károsultak autómentők, esetkocsik és gépszállítók közül választhatnak a felmerült problémájuk szerint. A rendszer használata és a kiválasztott szolgáltatóval való kapcsolatfelvétel számukra ingyenes.'
             ]),
             new \App\Localtext([
-                'locale_id' => $this->en_US->id,
+                'locale_id' => $this->en->id,
                 'value' => ''
             ]),
             new \App\Localtext([
-                'locale_id' => $this->de_DE->id,
+                'locale_id' => $this->de->id,
                 'value' => ''
             ])
         ]);
@@ -250,15 +250,15 @@ Az automentokereso.hu weboldalon a károsultak autómentők, esetkocsik és gép
             $p->texts()->save($t);
             $t->saveLocales([
                 new \App\Localtext([
-                    'locale_id' => $this->hu_HU->id,
+                    'locale_id' => $this->hu->id,
                     'value' => $item[1]
                 ]),
                 new \App\Localtext([
-                    'locale_id' => $this->en_US->id,
+                    'locale_id' => $this->en->id,
                     'value' => ''
                 ]),
                 new \App\Localtext([
-                    'locale_id' => $this->de_DE->id,
+                    'locale_id' => $this->de->id,
                     'value' => ''
                 ])
             ]);

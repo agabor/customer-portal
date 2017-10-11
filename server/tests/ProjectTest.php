@@ -37,11 +37,11 @@ class ProjectTest extends TestCase
                     'maxLength' => 20,
                     'values' => [
                         [
-                            'localeCode' => 'en_US',
+                            'localeCode' => 'en',
                             'value' => 'Sample Project Webpage'
                         ],
                         [
-                            'localeCode' => 'hu_HU',
+                            'localeCode' => 'hu',
                             'value' => 'Pelda Projekt Weboldal'
                         ]
                     ],
@@ -85,11 +85,11 @@ class ProjectTest extends TestCase
                 'users' => [['id' => 1,'email' => 'angyalgbr@gmail.com','name' => 'gabor', 'loginToken' => null]],
                 'locales' => [
                     [
-                        'localeId' => 'en_US',
+                        'localeId' => 'en',
                         'name' => 'English'
                     ],
                     [
-                        'localeId' => 'hu_HU',
+                        'localeId' => 'hu',
                         'name' => 'Hungarian'
                     ]
                 ]

@@ -100,6 +100,26 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Project'
+    post:
+      description: modify project
+      parameters:
+        -
+          name: id
+          in: path
+          description: project identifier
+          required: true
+          type: string
+        -
+          name: name
+          in: query
+          description: project name
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/ProjectBase'
     delete:
       parameters:
         -
@@ -407,6 +427,25 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Image'
+  /projects/{id}/locales:
+    post:
+      description: add locale to project
+      parameters:
+        -
+          name: id
+          in: path
+          description: project identifier
+          required: true
+          type: string
+        -
+          name: localeId
+          type: string
+          example: en_US
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Locale'
       
 definitions:
   User:

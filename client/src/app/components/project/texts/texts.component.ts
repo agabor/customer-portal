@@ -8,6 +8,7 @@ import {LocalText} from '../../../../swagger/model/LocalText';
 import {Text} from '../../../../swagger/model/Text';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TextModalComponent} from './text-modal.component';
+import {LanguageModalComponent} from './language-modal.component';
 
 @Component({
     selector: 'app-project-texts',
@@ -15,217 +16,241 @@ import {TextModalComponent} from './text-modal.component';
     styleUrls: ['./texts.component.css']
 })
 export class TextsComponent implements OnInit {
-    saving = false;
-    project: Project = {
-        name: null,
-        slug: null,
-        files: [],
-        languages: [],
-        texts: [],
-        images: []
-    };
+  saving = false;
+  project: Project = {
+    name: null,
+    slug: null,
+    files: [],
+    languages: [],
+    texts: [],
+    images: []
+  };
 
-    projectLogic: ProjectLogic = new ProjectLogic(this.project);
+  projectLogic: ProjectLogic = new ProjectLogic(this.project);
 
-    localeTabs: Tab[] = [];
+  languageTabs: Tab[] = [];
 
-    lang = 0;
-    editedText: Text;
+  lang = 0;
+  editedText: Text;
 
-    currentLanguage: Language;
+  currentLanguage: Language;
 
-    textEntries: TextEntry[] = [];
+  textEntries: TextEntry[] = [];
 
-    saved = true;
-    @ViewChild(TextModalComponent) textModalComponent: TextModalComponent;
+  saved = true;
+  @ViewChild(TextModalComponent) textModalComponent: TextModalComponent;
+  @ViewChild(LanguageModalComponent) languageModalComponent: LanguageModalComponent;
 
-    static slugify(text: string): string {
-      return text.toString().toLowerCase()
-        .replace(/\s+/g, '_')           // Replace spaces with -
-        .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
-        .replace(/\-\-+/g, '_')         // Replace multiple - with single -
-        .replace(/^-+/, '')             // Trim - from start of text
-        .replace(/-+$/, '');            // Trim - from end of text
-    }
+  static slugify(text: string): string {
+    return text.toString().toLowerCase()
+      .replace(/\s+/g, '_')           // Replace spaces with -
+      .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+      .replace(/\-\-+/g, '_')         // Replace multiple - with single -
+      .replace(/^-+/, '')             // Trim - from start of text
+      .replace(/-+$/, '');            // Trim - from end of text
+  }
 
   getTextIndicator(entry: TextEntry) {
-        if (ProjectLogic.hasWarning(entry.text, entry.localText)) {
-            return 'glyphicon-remove';
-        }
-        return 'glyphicon-ok';
+    if (ProjectLogic.hasWarning(entry.text, entry.localText)) {
+      return 'glyphicon-remove';
     }
+    return 'glyphicon-ok';
+  }
 
-    constructor (private presenter: Presenter, private route: ActivatedRoute, private router: Router) {
+  constructor(private presenter: Presenter, private route: ActivatedRoute, private router: Router) {
+  }
+
+  ngOnInit() {
+    this.project = this.presenter.activeProject;
+    this.projectLogic = new ProjectLogic(this.project);
+    this.setLanguageTabs();
+    const lang = this.route.snapshot.params['lang'];
+    this.lang = lang;
+    if (!lang) {
+      this.lang = 0;
+    } else {
+      this.lang = this.getLanguageIndex(lang);
     }
+    this.setLocale(this.lang);
+  }
 
-    ngOnInit() {
-        this.project = this.presenter.activeProject;
-        this.projectLogic = new ProjectLogic(this.project);
-        this.localeTabs = [];
-        for (const locale of this.project.languages) {
-            this.localeTabs.push(new Tab(locale.name));
-        }
-        const lang = this.route.snapshot.params['lang'];
-        this.lang = lang;
-        if (!lang) {
-            this.lang = 0;
-        } else {
-            this.lang = this.getLanguageIndex(lang);
-        }
-        this.setLocale(this.lang);
+  private setLanguageTabs() {
+    this.languageTabs = [];
+    for (const locale of this.project.languages) {
+      this.languageTabs.push(new Tab(locale.name));
     }
+  }
 
-    navigate(i: number) {
-        this.setLocale(i);
-        const slug = this.route.snapshot.params['slug'];
-        this.router.navigate(['/projects/' + slug + '/texts/' + this.currentLanguage.code]);
-    }
+  navigate(i: number) {
+    this.setLocale(i);
+    const slug = this.route.snapshot.params['slug'];
+    this.router.navigate(['/projects/' + slug + '/texts/' + this.currentLanguage.code]);
+  }
 
-    getLanguageIndex(localeId: string): number {
-        let idx = 0;
-        for (const loc of this.project.languages){
-            if (loc.code === localeId) {
-               return idx;
-            }
-            ++idx;
-        }
-        return -1;
-    }
-
-    setLocale(i: number) {
-        let idx = 0;
-        for (const tab of this.localeTabs) {
-            if (i === idx) {
-                tab.setActive();
-            } else {
-                tab.setInactive();
-            }
-            ++idx;
-        }
-        this.currentLanguage = this.project.languages[i];
-        this.setEntries();
-    }
-
-    setEntries() {
-        const entries = [];
-        for (const text of this.project.texts) {
-            entries.push(new TextEntry(text, this.getLocalText(text)));
-        }
-        this.textEntries = entries;
-    }
-
-    private getLocalText(text: Text): LocalText {
-        for (const lt of text.values){
-            if (lt.languageCode === this.currentLanguage.code) {
-                return lt;
-            }
-        }
-        return { languageCode: this.currentLanguage.code, value: '' };
-    }
-
-    getTextValue(text) {
-        for (const lt of text.values) {
-            if (lt.locale_code === this.currentLanguage.code) {
-                return lt.value;
-            }
-        }
-        return '';
-    }
-
-    getBadgeLocaleText(localeIdx: number): string {
-        const count = this.projectLogic.getLocaleTextWarningCount(localeIdx);
-        if (count === 0) {
-            return '';
-        }
-        return '<span class="badge">' +  count + '</span>';
-    }
-
-    save() {
-        this.saved = true;
-        this.saving = true;
-        this.presenter.saveProjectTexts(() => {
-            this.saving = false;
-        });
-    }
-
-    onKey(event: any) {
-        const s = String(event.key);
-        if (s.length === 1 || s === 'Backspace' || s === 'Enter') {
-            this.saved = false;
-        }
-    }
-
-    changed() {
-        this.saved = false;
-    }
-
-    public add() {
-        this.editedText = null;
-        this.textModalComponent.setEmptyText();
-        this.textModalComponent.show(this);
-    }
-
-    public reset() {
-        const self = this;
-        this.presenter.loadProject(this.presenter.activeProject.slug, function () {
-            self.project = self.presenter.activeProject;
-            self.saved = true;
-            self.setEntries();
-        });
-    }
-
-    public edit(text: Text) {
-        this.editedText = text;
-        this.textModalComponent.model =  {
-            name: text.name,
-            description: text.description,
-            minLength: text.minLength,
-            maxLength: text.maxLength,
-            values: []
-        };
-        this.textModalComponent.show(this);
-    }
-
-    public deleteText(text: Text) {
-        const texts = this.presenter.activeProject.texts;
-        const index = texts.indexOf(text, 0);
-        if (index > -1) {
-            texts.splice(index, 1);
-        }
-        this.saved = false;
-        this.setEntries();
-    }
-
-    isIdInUse(textId: string): boolean {
-      for (const text of this.presenter.activeProject.texts) {
-        if (text.textId === textId) {
-          return true;
-        }
+  getLanguageIndex(localeId: string): number {
+    let idx = 0;
+    for (const loc of this.project.languages) {
+      if (loc.code === localeId) {
+        return idx;
       }
-      return false;
+      ++idx;
     }
+    return -1;
+  }
 
-    saveText() {
-        this.saved = false;
-        const text = this.textModalComponent.model;
-        if (this.editedText == null) {
-            const baseID = TextsComponent.slugify(text.name);
-            text.textId = baseID;
-            let idx = 2;
-            while (this.isIdInUse(text.textId)) {
-              text.textId = baseID + idx;
-              idx += 1;
-            }
-            this.presenter.activeProject.texts.push(text);
-            this.setEntries();
-        } else {
-            this.editedText.name = text.name;
-            this.editedText.description = text.description;
-            this.editedText.minLength = text.minLength;
-            this.editedText.maxLength = text.maxLength;
-        }
-        this.textModalComponent.hide();
+  setLocale(i: number) {
+    let idx = 0;
+    for (const tab of this.languageTabs) {
+      if (i === idx) {
+        tab.setActive();
+      } else {
+        tab.setInactive();
+      }
+      ++idx;
     }
+    this.currentLanguage = this.project.languages[i];
+    this.setEntries();
+  }
+
+  setEntries() {
+    const entries = [];
+    for (const text of this.project.texts) {
+      entries.push(new TextEntry(text, this.getLocalText(text)));
+    }
+    this.textEntries = entries;
+  }
+
+  private getLocalText(text: Text): LocalText {
+    for (const lt of text.values) {
+      if (lt.languageCode === this.currentLanguage.code) {
+        return lt;
+      }
+    }
+    const lt = {languageCode: this.currentLanguage.code, value: ''};
+    text.values.push(lt);
+    return lt;
+  }
+
+  getTextValue(text) {
+    for (const lt of text.values) {
+      if (lt.locale_code === this.currentLanguage.code) {
+        return lt.value;
+      }
+    }
+    return '';
+  }
+
+  getBadgeLocaleText(localeIdx: number): string {
+    const count = this.projectLogic.getLocaleTextWarningCount(localeIdx);
+    if (count === 0) {
+      return '';
+    }
+    return '<span class="badge">' + count + '</span>';
+  }
+
+  save() {
+    this.saved = true;
+    this.saving = true;
+    this.presenter.saveProjectTexts(() => {
+      this.saving = false;
+    });
+  }
+
+  onKey(event: any) {
+    const s = String(event.key);
+    if (s.length === 1 || s === 'Backspace' || s === 'Enter') {
+      this.saved = false;
+    }
+  }
+
+  changed() {
+    this.saved = false;
+  }
+
+  public add() {
+    this.editedText = null;
+    this.textModalComponent.setEmptyText();
+    this.textModalComponent.show(this);
+  }
+
+  public reset() {
+    const self = this;
+    this.presenter.loadProject(this.presenter.activeProject.slug, function () {
+      self.project = self.presenter.activeProject;
+      self.saved = true;
+      self.setEntries();
+    });
+  }
+
+  public edit(text: Text) {
+    this.editedText = text;
+    this.textModalComponent.model = {
+      name: text.name,
+      description: text.description,
+      minLength: text.minLength,
+      maxLength: text.maxLength,
+      values: []
+    };
+    this.textModalComponent.show(this);
+  }
+
+  public deleteText(text: Text) {
+    const texts = this.presenter.activeProject.texts;
+    const index = texts.indexOf(text, 0);
+    if (index > -1) {
+      texts.splice(index, 1);
+    }
+    this.saved = false;
+    this.setEntries();
+  }
+
+  isIdInUse(textId: string): boolean {
+    for (const text of this.presenter.activeProject.texts) {
+      if (text.textId === textId) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  saveText() {
+    this.saved = false;
+    const text = this.textModalComponent.model;
+    if (this.editedText == null) {
+      const baseID = TextsComponent.slugify(text.name);
+      text.textId = baseID;
+      let idx = 2;
+      while (this.isIdInUse(text.textId)) {
+        text.textId = baseID + idx;
+        idx += 1;
+      }
+      this.presenter.activeProject.texts.push(text);
+      this.setEntries();
+    } else {
+      this.editedText.name = text.name;
+      this.editedText.description = text.description;
+      this.editedText.minLength = text.minLength;
+      this.editedText.maxLength = text.maxLength;
+    }
+    this.textModalComponent.hide();
+  }
+
+  addNewLanguage() {
+    this.languageModalComponent.show(this);
+  }
+
+  addLanguage(language: Language) {
+    this.presenter.addLanguage(language, () => {
+      this.setLanguageTabs();
+      this.setLocale(this.languageTabs.length - 1);
+      this.languageModalComponent.language = {};
+      this.languageModalComponent.recognized = true;
+      this.languageModalComponent.languageForm.form.markAsPristine();
+      this.languageModalComponent.hide();
+    }, () => {
+      this.languageModalComponent.recognized = false;
+    });
+  }
 }
 
 class TextEntry {

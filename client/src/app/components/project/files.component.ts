@@ -14,7 +14,7 @@ export class FilesComponent implements OnInit{
         name: null,
         slug: null,
         files: [],
-        locales: [],
+        languages: [],
         texts: [],
         images: []
     };

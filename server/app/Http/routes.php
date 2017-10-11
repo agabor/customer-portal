@@ -63,8 +63,8 @@ $app->group(['middleware' => ['auth', 'cors'], 'prefix' => '/api/v1/'], function
     $app->POST('projects/{project_id}', ProjectController::class . '@projectsModify');
     $app->DELETE('projects/{project_id}', ProjectController::class . '@projectsDelete');
 
-    $app->POST('projects/{project_id}/languages', ProjectController::class . '@addLocale');
-    $app->DELETE('projects/{project_id}/languages', ProjectController::class . '@removeLocale');
+    $app->POST('projects/{project_id}/languages', ProjectController::class . '@addLanguage');
+    $app->DELETE('projects/{project_id}/languages', ProjectController::class . '@removeLanguage');
 
     /**
      * GET projectsIdGet

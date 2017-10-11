@@ -698,7 +698,7 @@ export class DefaultApi {
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-        let formParams = new URLSearchParams();
+        let formParams = new FormData();
 
         // verify required parameter 'id' is not null or undefined
         if (id === null || id === undefined) {
@@ -722,16 +722,16 @@ export class DefaultApi {
             'application/json'
         ];
 
-        headers.set('Content-Type', 'application/x-www-form-urlencoded');
+        //headers.set('Content-Type', 'application/x-www-form-urlencoded');
 
         if (image !== undefined) {
-            formParams.set('image', <any>image);
+            formParams.append('image', <any>image);
         }
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
             headers: headers,
-            body: formParams.toString(),
+            body: formParams/*.toString()*/,
             search: queryParameters,
             withCredentials:this.configuration.withCredentials
         });

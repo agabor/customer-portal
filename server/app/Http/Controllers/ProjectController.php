@@ -111,24 +111,24 @@ class ProjectController extends Controller
         return \response('{}');
     }
 
-    public function addLocale(Request $request) {
+    public function addLanguage(Request $request) {
         $input = $request->all();
-        $code = self::getString($input, 'localeId');
+        $code = self::getString($input, 'code');
 
-        /* @var Language $locale */
-        foreach (self::$project->languages as $locale) {
-            if ($locale->localeId == $code)
-                return $locale;
+        /* @var Language $language */
+        foreach (self::$project->languages as $language) {
+            if ($language->code == $code)
+                return $language;
         }
 
-        $locale = Language::forCode($code);
-        self::$project->languages()->attach($locale);
-        return $locale;
+        $language = Language::forCode($code);
+        self::$project->languages()->attach($language);
+        return $language;
     }
 
-    public function removeLocale(Request $request) {
+    public function removeLanguage(Request $request) {
         $input = $request->all();
-        $code = self::getString($input, 'localeId');
+        $code = self::getString($input, 'code');
 
         /* @var Language $language */
         foreach (self::$project->languages as $language) {

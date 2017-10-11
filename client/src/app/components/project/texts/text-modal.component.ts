@@ -41,9 +41,9 @@ export class TextModalComponent {
             maxLength: 1000,
             values: []
         };
-        for (const locale of this.presenter.activeProject.locales) {
+        for (const language of this.presenter.activeProject.languages) {
             this.model.values.push({
-                localeCode: locale.localeId,
+                languageCode: language.code,
                 value: ''
             });
         }

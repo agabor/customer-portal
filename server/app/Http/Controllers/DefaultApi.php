@@ -76,7 +76,7 @@ class DefaultApi extends Controller
         $project = getProjectWithSlug($id);
         if ($project == null)
             return response('{}',404);
-        $project->load(['texts.values', 'images', 'files', 'users', 'links', 'locales']);
+        $project->load(['texts.values', 'images', 'files', 'users', 'links', 'languages']);
         return $project;
     }
 
@@ -119,10 +119,10 @@ class DefaultApi extends Controller
 
     private static function updateTextValue(LocaleTextDict $dict, Localtext $value, Text $text)
     {
-        $newValue = $dict->get($text->textId, $value->locale->localeId);
+        $newValue = $dict->get($text->textId, $value->language->localeId);
         if ($value->value != $newValue) {
             $newVersion = new Localtext();
-            $newVersion->locale_id = $value->locale_id;
+            $newVersion->language_id = $value->language_id;
             $newVersion->value = $newValue;
             $text->saveLocale($newVersion);
             $value->text()->dissociate();
@@ -147,7 +147,7 @@ class DefaultApi extends Controller
 
     private function updateTextValues(array $sources, Project $project)
     {
-        $locales = iterator_to_array($project->locales);
+        $languages = iterator_to_array($project->languages);
 
         $dict = self::getLocaleTextDict($sources);
 
@@ -157,11 +157,11 @@ class DefaultApi extends Controller
                 $text->delete();
                 continue;
             }
-            foreach ($locales as $locale) {
+            foreach ($languages as $language) {
                 /* @var Localtext value */
-                $value = $text->getValue($locale);
+                $value = $text->getValue($language);
                 if ($value == null) {
-                    $value = new Localtext(['locale_id' => $locale->id, 'value' => '']);
+                    $value = new Localtext(['language_id' => $language->id, 'value' => '']);
                     $text->saveLocale($value);
                 }
 
@@ -173,10 +173,10 @@ class DefaultApi extends Controller
 
     private function updateTexts(array $sources, Project $project)
     {
-        $locales = Language::all();
-        $locale_ids = [];
-        foreach ($locales as $locale) {
-            $locale_ids[$locale->localeId] = $locale->id;
+        $languages = Language::all();
+        $language_ids = [];
+        foreach ($languages as $locale) {
+            $language_ids[$locale->localeId] = $locale->id;
         }
         foreach ($sources as $text) {
             $t = $project->getText($text['textId']);
@@ -191,7 +191,7 @@ class DefaultApi extends Controller
                 $project->texts()->save($t);
                 $values = self::getArray($text, 'values');
                 foreach ($values as $locale => $value) {
-                    $t->saveLocale(new Localtext(['locale_id' => $locale_ids[$value['localeCode']], 'value' => $value['value']]));
+                    $t->saveLocale(new Localtext(['language_id' => $language_ids[$value['localeCode']], 'value' => $value['value']]));
                 }
             }
         }

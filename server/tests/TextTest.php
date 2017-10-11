@@ -12,7 +12,7 @@ class TextTest extends TestCase {
         $texts[0]['values'][0]['value'] = 'changed';
         $this->call('PUT', '/api/v1/projects/sample_project/texts', ['sources' => $texts], $this->cookies());
         $this->assertStatusOk('put texts');
-        $this->call('GET', '/api/v1/projects/sample_project/text_versions', ['text_id' => 'webpage_title', 'locale_id' => 'en'], $this->cookies());
+        $this->call('GET', '/api/v1/projects/sample_project/text_versions', ['text_id' => 'webpage_title', 'language_id' => 'en'], $this->cookies());
         $this->assertStatusOk('text versions');
         $response = json_decode($this->response->getContent(), true);
         self::assertEquals(2, count($response));

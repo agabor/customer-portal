@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property integer id
- * @property integer locale_id
+ * @property integer language_id
  * @property string value
- * @property Language locale
+ * @property Language language
  */
 class Localtext extends Model
 {
@@ -33,7 +33,7 @@ class Localtext extends Model
      * @var array
      */
     protected $fillable = [
-        'locale_id', 'value',
+        'language_id', 'value',
     ];
 
     /**
@@ -42,11 +42,11 @@ class Localtext extends Model
      * @var array
      */
     protected $hidden = [
-        'id', 'text_id', 'owning_text_id', 'locale_id', 'locale'
+        'id', 'text_id', 'owning_text_id', 'language_id', 'language'
     ];
 
     public function getLocaleCodeAttribute()
     {
-        return $this->locale->localeId;
+        return $this->language->localeId;
     }
 }

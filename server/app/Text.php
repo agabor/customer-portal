@@ -59,7 +59,7 @@ class Text extends Model
         return null;
     }
 
-    public function saveLanguages(array $localTexts)
+    public function saveLocales(array $localTexts)
     {
         /* @var \App\Localtext $localText */
         foreach ($localTexts as $localText) {

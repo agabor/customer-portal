@@ -83,7 +83,7 @@ class ProjectTest extends TestCase
                 ],
                 'links' => [],
                 'users' => [['id' => 1,'email' => 'angyalgbr@gmail.com','name' => 'gabor', 'loginToken' => null]],
-                'locales' => [
+                'languages' => [
                     [
                         'localeId' => 'en',
                         'name' => 'English'

@@ -57,7 +57,7 @@ class DatabaseSeeder extends Seeder
         $p->languages()->attach($this->en);
         $p->languages()->attach($this->hu);
 
-        $t->saveLanguages([
+        $t->saveLocales([
             new \App\Localtext([
                 'language_id' => $this->en->id,
                 'value' => 'Sample Project Webpage'
@@ -152,7 +152,7 @@ class DatabaseSeeder extends Seeder
         $t->minLength = 3;
         $t->maxLength = 30;
         $p->texts()->save($t);
-        $t->saveLanguages([
+        $t->saveLocales([
             new \App\Localtext([
                 'language_id' => $this->hu->id,
                 'value' => 'Autómentő Kereső'
@@ -175,7 +175,7 @@ class DatabaseSeeder extends Seeder
         $t->minLength = 10;
         $t->maxLength = 80;
         $p->texts()->save($t);
-        $t->saveLanguages([
+        $t->saveLocales([
             new \App\Localtext([
                 'language_id' => $this->hu->id,
                 'value' => 'Az Autómentő kereső rendszer hivatalos, sofőröknek készült mobilapplikációja.'
@@ -199,7 +199,7 @@ class DatabaseSeeder extends Seeder
         $t->minLength = 100;
         $t->maxLength = 4000;
         $p->texts()->save($t);
-        $t->saveLanguages([
+        $t->saveLocales([
             new \App\Localtext([
                 'language_id' => $this->hu->id,
                 'value' => 'Az Autómentő kereső regisztrált céges partnereként minden, a rendszerbe bejegyzett sofőr ingyenesen letöltheti készülékére az applikációt. A sofőrök egy egyszerű bejelentkezés után aktívvá válnak járművükkel (pozíciójukkal) a bajbajutott személyeknek az automentokereso.hu weboldal térképén. A károsultak igény szerint segítséget kérhetnek a közelben tartózkodó autómentő sofőrtől, megtekinthetik annak céges profilját és autóparkját. A segélykérést követően a sofőr pontosan látja a bajbajutott pozícióját, valamint a továbbiakban könnyen felvehetik egymással a kapcsolatot, hogy mielőbb egyeztessék és megoldják a felmerült problémát.
@@ -248,7 +248,7 @@ Az automentokereso.hu weboldalon a károsultak autómentők, esetkocsik és gép
             $t->minLength = 2;
             $t->maxLength = mb_strlen($item[1]) * 1.5;
             $p->texts()->save($t);
-            $t->saveLanguages([
+            $t->saveLocales([
                 new \App\Localtext([
                     'language_id' => $this->hu->id,
                     'value' => $item[1]

@@ -92,7 +92,7 @@ class Project extends Model
                 ++$warnings;
         }
         $this->warnings = $warnings;
-        $fields = count($this->images) + count($this->files) + count($this->texts) * count($this->locales);
+        $fields = count($this->images) + count($this->files) + count($this->texts) * count($this->languages);
         $this->progress = ($fields - $warnings) * 100 / $fields;
         $this->save();
     }

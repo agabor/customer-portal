@@ -85,13 +85,13 @@ class ProjectController extends Controller
 
         $input = $request->all();
         $text_id = self::getString($input, 'text_id');
-        $locale_id = self::getString($input, 'locale_id');
+        $language_id = self::getString($input, 'language_id');
         $text = self::$project->getText($text_id);
         $versions = [];
 
         /* @var \App\Localtext $localeText */
         foreach ($text->versionedValues as $localeText) {
-            if ($localeText->locale->localeId === $locale_id)
+            if ($localeText->language->localeId === $language_id)
                 $versions[] = $localeText->value;
         }
         return $versions;
@@ -116,13 +116,13 @@ class ProjectController extends Controller
         $code = self::getString($input, 'localeId');
 
         /* @var Language $locale */
-        foreach (self::$project->locales as $locale) {
+        foreach (self::$project->languages as $locale) {
             if ($locale->localeId == $code)
                 return $locale;
         }
 
         $locale = Language::forCode($code);
-        self::$project->locales()->attach($locale);
+        self::$project->languages()->attach($locale);
         return $locale;
     }
 
@@ -131,9 +131,9 @@ class ProjectController extends Controller
         $code = self::getString($input, 'localeId');
 
         /* @var Language $locale */
-        foreach (self::$project->locales as $locale) {
+        foreach (self::$project->languages as $locale) {
             if ($locale->localeId == $code)
-                self::$project->locales()->detach($locale);
+                self::$project->languages()->detach($locale);
         }
         return response('{}');
     }

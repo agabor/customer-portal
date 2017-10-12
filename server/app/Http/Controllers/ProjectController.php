@@ -7,8 +7,10 @@ use function App\getProjectWithSlug;
 use App\Image;
 use App\Link;
 use App\Language;
+use App\Localtext;
 use App\Project;
 use function App\slugify;
+use App\Text;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -123,6 +125,15 @@ class ProjectController extends Controller
 
         $language = Language::forCode($code);
         self::$project->languages()->attach($language);
+
+        /* @var Text $text */
+        foreach (self::$project->texts as $text){
+            $lt = new Localtext();
+            $lt->language_id = $language->id;
+            $lt->value = '';
+            $text->saveLocale($lt);
+        }
+
         return $language;
     }
 
@@ -130,11 +141,28 @@ class ProjectController extends Controller
         $input = $request->all();
         $code = self::getString($input, 'code');
 
+        /* @var Language $deletedLanguage */
+        $deletedLanguage = null;
         /* @var Language $language */
         foreach (self::$project->languages as $language) {
-            if ($language->code == $code)
+            if ($language->code == $code) {
                 self::$project->languages()->detach($language);
+                $deletedLanguage = $language;
+            }
         }
+
+        if ($deletedLanguage != null) {
+            /* @var Text $text */
+            foreach (self::$project->texts as $text) {
+                /* @var Localtext $lt */
+                foreach ($text->values as $lt) {
+                    if ($lt->language_id == $deletedLanguage->id) {
+                        $lt->delete();
+                    }
+                }
+            }
+        }
+
         return response('{}');
     }
 }

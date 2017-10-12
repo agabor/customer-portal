@@ -201,7 +201,7 @@ export class Presenter {
             console.log(data);
             onDone();
         }, error => {
-            console.log(error.json());
+            console.log(error);
         });
     }
 

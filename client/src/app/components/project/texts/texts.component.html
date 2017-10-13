@@ -1,48 +1,52 @@
 <ul class="nav nav-tabs">
-    <li *ngFor="let tab of languageTabs; let i = index" role="presentation" [class]="tab.pillClass"><a href="javascript:void(0);" (click)="navigate(i)">{{tab.name}} <span [innerHTML]="getBadgeLocaleText(i)"></span></a></li>
+  <li *ngFor="let tab of languageTabs; let i = index" role="presentation" [class]="tab.pillClass"><a href="javascript:void(0);" (click)="navigate(i)">{{tab.name}} <span [innerHTML]="getBadgeLocaleText(i)"></span></a></li>
 </ul>
 <form id="textList">
-    <div *ngFor="let entry of textEntries">
-        <h2 *ngIf="entry.text.startGroup != null && entry.text.startGroup.length != 0">{{entry.text.startGroup}}</h2>
-        <div class="form-group">
-            <div class="thumbnail">
-                <div class="caption">
-                    <label for="{{'i'+entry.id}}">{{entry.text.name}}</label>
-                    <p>{{entry.text.description}}</p>
-                    <div class="input-group">
-                        <span class="input-group-addon" id="{{'l'+entry.id}}"><span class="glyphicon {{getTextIndicator(entry)}}"></span></span>
-                        <textarea class="form-control" autosize rows="1"
-                                  name="{{'i'+entry.id}}" id="{{'i'+entry.id}}"
-                                  [attr.aria-describedby]="'l'+entry.id"
-                                  [(ngModel)]="entry.localText.value"  #textvalue="ngModel" (keyup)="onKey($event)" (changed)="changed()">
+  <div *ngFor="let entry of textEntries">
+    <h2 *ngIf="entry.text.startGroup != null && entry.text.startGroup.length != 0">{{entry.text.startGroup}}</h2>
+    <div class="form-group">
+      <div class="thumbnail">
+        <div class="caption">
+          <label for="{{'i'+entry.id}}">{{entry.text.name}}</label>
+          <p>{{entry.text.description}}</p>
+          <div class="input-group">
+            <span class="input-group-addon" id="{{'l'+entry.id}}"><span class="glyphicon {{getTextIndicator(entry)}}"></span></span>
+            <textarea class="form-control" autosize rows="1"
+                      name="{{'i'+entry.id}}" id="{{'i'+entry.id}}"
+                      [attr.aria-describedby]="'l'+entry.id"
+                      [(ngModel)]="entry.localText.value"  #textvalue="ngModel" (keyup)="onKey($event)" (changed)="changed()">
 
                         </textarea>
-                    </div>
-                    <div [hidden]="textvalue.value?.length > 0"
-                         class="alert alert-warning">
-                        You must fill out this field!
-                    </div>
-                    <div [hidden]="entry.text.minLength <= textvalue.value?.length || textvalue.value?.length == 0"
-                         class="alert alert-warning">
-                        Text is too short! Minimum required length is: {{entry.text.minLength}}, current length is: {{textvalue.value?.length}}
-                    </div>
-                    <div [hidden]="entry.text.maxLength >= textvalue.value?.length"
-                         class="alert alert-warning">
-                        Text is too long! Maximum required length is: {{entry.text.maxLength}}, current length is: {{textvalue.value?.length}}
-                    </div>
-                </div>
-                <button type="button" class="btn btn-primary" (click)="edit(entry.text)" ><span class="glyphicon glyphicon-edit"></span></button>
-                <button type="button" class="btn btn-primary" (click)="deleteText(entry.text)" ><span class="glyphicon glyphicon-trash"></span></button>
-            </div>
+          </div>
+          <div [hidden]="textvalue.value?.length > 0"
+               class="alert alert-warning">
+            You must fill out this field!
+          </div>
+          <div [hidden]="entry.text.minLength <= textvalue.value?.length || textvalue.value?.length == 0"
+               class="alert alert-warning">
+            Text is too short! Minimum required length is: {{entry.text.minLength}}, current length is: {{textvalue.value?.length}}
+          </div>
+          <div [hidden]="entry.text.maxLength >= textvalue.value?.length"
+               class="alert alert-warning">
+            Text is too long! Maximum required length is: {{entry.text.maxLength}}, current length is: {{textvalue.value?.length}}
+          </div>
         </div>
+        <div [hidden]="!project.admin">
+        <button type="button" class="btn btn-primary" (click)="edit(entry.text)" ><span class="glyphicon glyphicon-edit"></span></button>
+        <button type="button" class="btn btn-primary" (click)="deleteText(entry.text)" ><span class="glyphicon glyphicon-trash"></span></button>
+        </div>
+      </div>
     </div>
+  </div>
 </form>
 <div class="row">
-    <button type="button" class="btn btn-primary" (click)="add()" >Add text</button>
-  <button type="button" class="btn btn-primary" (click)="addNewLanguage()" >Add language</button>
-  <button type="button" class="btn btn-primary" (click)="removeLanguage()" >Remove language</button>
-    <button type="button" class="btn btn-primary right {{saved ? 'disabled' : ''}}" (click)="save()" >Save <span [hidden]="!saving"><span class="glyphicon glyphicon-hourglass"></span></span></button>
-    <button type="button" class="btn btn-primary right {{saved ? 'disabled' : ''}}" (click)="reset()" >Reset</button>
+    <span [hidden]="!project.admin">
+      <button type="button" class="btn btn-primary" (click)="add()" >Add text</button>
+      <button type="button" class="btn btn-primary" (click)="addNewLanguage()" >Add language</button>
+      <button type="button" class="btn btn-primary" (click)="removeLanguage()" >Remove language</button>
+    </span>
+  <button type="button" class="btn btn-primary right {{saved ? 'disabled' : ''}}" (click)="save()" >Save <span [hidden]="!saving"><span class="glyphicon glyphicon-hourglass"></span></span></button>
+  <button type="button" class="btn btn-primary right {{saved ? 'disabled' : ''}}" (click)="reset()" >Reset</button>
 </div>
 <app-new-text-modal></app-new-text-modal>
 <app-language-modal></app-language-modal>

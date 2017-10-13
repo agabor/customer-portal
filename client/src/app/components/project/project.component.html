@@ -17,7 +17,7 @@
         <li role="presentation" [class]="tabTexts.pillClass"><a href="javascript:void(0);" (click)="showTexts()" >{{tabTexts.name}} <span [innerHTML]="getBadgeText()"></span></a></li>
         <!--<li role="presentation" [class]="tabFiles.pillClass"><a href="javascript:void(0);" (click)="showFiles()">{{tabFiles.name}} <span [innerHTML]="getBadgeFile()"></span></a></li>-->
         <li role="presentation" [class]="tabLinks.pillClass"><a href="javascript:void(0);" (click)="showLinks()">{{tabLinks.name}} </a></li>
-        <li role="presentation" [class]="tabUsers.pillClass"><a href="javascript:void(0);" (click)="showUsers()">{{tabUsers.name}} </a></li>
+        <li *ngIf="project.admin" role="presentation" [class]="tabUsers.pillClass"><a href="javascript:void(0);" (click)="showUsers()">{{tabUsers.name}} </a></li>
     </ul>
 
     <div class="tab-content">

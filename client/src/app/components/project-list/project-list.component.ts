@@ -6,7 +6,7 @@ import {Project} from '../../../swagger/model/Project';
 
 @Component({
     templateUrl: './project-list.component.html',
-    styleUrls: ['../project-list.component.css']
+    styleUrls: ['./project-list.component.css']
 })
 export class ProjectListComponent {
   editedProject: Project;

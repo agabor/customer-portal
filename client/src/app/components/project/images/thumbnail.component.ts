@@ -2,13 +2,15 @@ import {Component, Input} from '@angular/core';
 import {Image} from '../../../../swagger/model/Image';
 import {Presenter} from '../../../logic/presenter';
 import {ImageModalComponent} from "./image-modal.component";
+import {Project} from "../../../../swagger/model/Project";
 @Component({
-    selector: 'thumbnail',
+    selector: 'app-thumbnail',
     templateUrl: './thumbnail.component.html',
     styleUrls: ['./thumbnail.component.css']
 })
 export class ThumbnailComponent {
     @Input() image: Image;
+    @Input() project: Project;
     @Input() imageModalComponent: ImageModalComponent;
 
     fileIsOver: Image = null;

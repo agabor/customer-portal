@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Project} from '../../../swagger/model/Project';
 import { Tab } from '../../ui/tab';
 import {ProjectLogic} from '../../logic/project-logic';
+import {User} from "../../../swagger/model/User";
 
 @Component({
     templateUrl: './project.component.html',
@@ -37,6 +38,7 @@ export class ProjectComponent implements OnInit {
     tabUsers: Tab = new Tab('Users');
 
     tabs: Tab[] = [this.tabImages, this.tabTexts, this.tabFiles, this.tabLinks, this.tabUsers];
+
 
     constructor(private route: ActivatedRoute, private router: Router, private presenter: Presenter) {
         presenter.setProjectComponent(this);

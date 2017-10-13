@@ -34,16 +34,21 @@ import {UserModalComponent} from './components/project/users/user-modal.componen
 import {LinkModalComponent} from './components/project/links/link-modal.component';
 import {ProjectModalComponent} from './components/project-list/project-modal.component';
 import {LanguageModalComponent} from './components/project/texts/language-modal.component';
+import {HomeGuard} from './guards/homeguard';
+import {NewPasswordComponent} from './components/new-password.component';
+import {PasswordSetGuard} from './guards/PasswordSetGuard';
+import {TokenGuard} from './guards/TokenGuard';
 
 const appRoutes: Routes = [
-  { path: '',         redirectTo: 'login', pathMatch: 'full' },
+  { path: '',         component: LoginFormComponent, canActivate: [HomeGuard] },
   { path: 'login',    component: LoginFormComponent },
   { path: 'token/:login_token',    component: TokenLoginComponent },
+  { path: 'password',    component: NewPasswordComponent, canActivate: [TokenGuard] },
   { path: 'logout',   component: LoginFormComponent, canActivate: [LogoutGuard] },
-  { path: 'projects', component: ProjectListComponent, canActivate: [AuthGuard]},
-  { path: 'projects/:slug', component: ProjectComponent, canActivate: [AuthGuard]},
-  { path: 'projects/:slug/:part', component: ProjectComponent, canActivate: [AuthGuard]},
-  { path: 'projects/:slug/:part/:lang', component: ProjectComponent, canActivate: [AuthGuard]}
+  { path: 'projects', component: ProjectListComponent, canActivate: [AuthGuard, PasswordSetGuard]},
+  { path: 'projects/:slug', component: ProjectComponent, canActivate: [AuthGuard, PasswordSetGuard]},
+  { path: 'projects/:slug/:part', component: ProjectComponent, canActivate: [AuthGuard, PasswordSetGuard]},
+  { path: 'projects/:slug/:part/:lang', component: ProjectComponent, canActivate: [AuthGuard, PasswordSetGuard]}
   ];
 
 @NgModule({
@@ -68,7 +73,8 @@ const appRoutes: Routes = [
     ProjectModalComponent,
     LanguageModalComponent,
     LinkModalComponent,
-    ThumbnailComponent
+    ThumbnailComponent,
+    NewPasswordComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -76,7 +82,7 @@ const appRoutes: Routes = [
     FormsModule,
     HttpModule
   ],
-  providers: [Presenter, AuthGuard, LogoutGuard, DefaultApi,
+  providers: [Presenter, AuthGuard, LogoutGuard, DefaultApi, HomeGuard, PasswordSetGuard, TokenGuard,
     {provide: BASE_PATH, useValue: AppConfig.basePath},
     {provide: Configuration, useValue: {withCredentials: true}},
     {provide: APP_BASE_HREF, useValue : AppConfig.appBasePath }],

@@ -56,6 +56,19 @@ class DefaultApi extends Controller
         return response('{}');
     }
 
+
+    public function setPassword(Request $request)
+    {
+        if (strlen(Auth::user()->loginToken) === 0)
+            return response('{}', 401);
+        $input = $request->all();
+        $password = self::getString($input, 'password');
+        Auth::user()->password = password_hash($password, PASSWORD_DEFAULT);
+        Auth::user()->loginToken = '';
+        Auth::user()->save();
+        return response('{}');
+    }
+
     public function projectsGet()
     {
         return response(Auth::user()->projects);

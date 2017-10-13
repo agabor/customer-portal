@@ -62,6 +62,6 @@ class Controller extends BaseController
             throw new \InvalidArgumentException('Missing the required parameter $' . $paramName);
         }
 
-        return $input[$paramName];
+        return intval($input[$paramName]);
     }
 }

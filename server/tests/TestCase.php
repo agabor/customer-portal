@@ -5,7 +5,7 @@ use Symfony\Component\HttpFoundation\Cookie;
 
 abstract class TestCase extends Laravel\Lumen\Testing\TestCase
 {
-    private $jwt;
+    protected $jwt;
     protected $imgCount;
 
     /**
@@ -30,9 +30,11 @@ abstract class TestCase extends Laravel\Lumen\Testing\TestCase
     }
 
 
-    protected function login()
+    protected function login(array $data = null)
     {
-        $this->json('POST', '/api/v1/login', ['user_name' => 'gabor', 'password' => 'secret']);
+        if ($data == null)
+            $data = ['user_name' => 'gabor', 'password' => 'secret'];
+        $this->json('POST', '/api/v1/login', $data);
         $this->assertStatusOk('login');
         $this->jwt = $this->getJWT();
         $this->imgCount = $this->sampleProjectImageCount();

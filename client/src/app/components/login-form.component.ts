@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { LoginData }    from '../login-data';
-import {Presenter} from "../logic/presenter";
+import { LoginData } from '../login-data';
+import {Presenter} from '../logic/presenter';
 
 @Component({
-    selector: 'login-form',
     templateUrl: './login-form.component.html',
     styleUrls: ['./login-form.component.css']
 })

@@ -371,6 +371,21 @@ export class DefaultApi {
     }
 
     /**
+     * sets the initial password for a user logged in with a token. 
+     * @param password 
+     */
+    public setPasswordPost(password: string, extraHttpRequestParams?: any): Observable<{}> {
+        return this.setPasswordPostWithHttpInfo(password, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
      * Login with username and password. The response contains a JWT. 
      * @param loginToken 
      */
@@ -1347,6 +1362,47 @@ export class DefaultApi {
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Patch,
+            headers: headers,
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * sets the initial password for a user logged in with a token. 
+     * @param password 
+     */
+    public setPasswordPostWithHttpInfo(password: string, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/setPassword';
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'password' is not null or undefined
+        if (password === null || password === undefined) {
+            throw new Error('Required parameter password was null or undefined when calling setPasswordPost.');
+        }
+        if (password !== undefined) {
+            queryParameters.set('password', <any>password);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
             headers: headers,
             search: queryParameters,
             withCredentials:this.configuration.withCredentials

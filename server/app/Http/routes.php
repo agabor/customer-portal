@@ -32,32 +32,17 @@ $app->get('/init', function () {
 });
 
 $app->group(['middleware' => 'cors', 'prefix' => '/api/v1/'], function () use ($app) {
-    /**
-     * POST loginPost
-     * Summary:
-     * Notes: Login with username and password. The response contains a JWT.
-     * Output-Formats: [application/json]
-     */
     $app->POST('login', DefaultApi::class . '@loginPost');
     $app->GET('token/{login_token}', DefaultApi::class . '@loginLinkGet');
 });
 
 $app->group(['middleware' => ['auth', 'cors'], 'prefix' => '/api/v1/'], function () use ($app) {
 
-    /**
-     * POST logoutPost
-     * Summary:
-     * Notes:
-     * Output-Formats: [application/json]
-     */
-    $app->POST('logout', DefaultApi::class . '@logoutPost');
 
-    /**
-     * GET projectsGet
-     * Summary:
-     * Notes: list of projects
-     * Output-Formats: [application/json]
-     */
+    $app->POST('logout', DefaultApi::class . '@logoutPost');
+    $app->POST('setPassword', DefaultApi::class . '@setPassword');
+
+
     $app->GET('projects', DefaultApi::class . '@projectsGet');
     $app->PATCH('projects', DefaultApi::class . '@projectsPatch');
     $app->POST('projects/{project_id}', ProjectController::class . '@projectsModify');
@@ -66,21 +51,9 @@ $app->group(['middleware' => ['auth', 'cors'], 'prefix' => '/api/v1/'], function
     $app->POST('projects/{project_id}/languages', ProjectController::class . '@addLanguage');
     $app->DELETE('projects/{project_id}/languages', ProjectController::class . '@removeLanguage');
 
-    /**
-     * GET projectsIdGet
-     * Summary:
-     * Notes: project data
-     * Output-Formats: [application/json]
-     */
-    $app->GET('projects/{id}', DefaultApi::class . '@projectsIdGet');
-    //$app->DELETE('projects/{id}', DefaultApi::class . '@projectsIdDelete');
 
-    /**
-     * GET projectsIdGet
-     * Summary:
-     * Notes: project data
-     * Output-Formats: [application/json]
-     */
+    $app->GET('projects/{id}', DefaultApi::class . '@projectsIdGet');
+
     $app->GET('projects/{project_id}/images/{image_id}', ProjectImageController::class . '@imageGet');
     $app->POST('projects/{project_id}/images/{image_id}', ProjectImageController::class . '@imagePost');
     $app->PATCH('projects/{project_id}/images/{image_id}', ProjectImageController::class . '@imageModify');

@@ -30,10 +30,12 @@ export class Presenter {
     private menuComponent: MenuComponent;
     private _isLoggedIn = false;
     private user: User;
+    private loggedInWithToken = false;
 
     constructor (protected http: Http, private api: DefaultApi, private router: Router,
                  @Inject(BASE_PATH) private basePath: string) {
         this._isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        this.loggedInWithToken = localStorage.getItem('loggedInWithToken') === 'true';
         if (this._isLoggedIn) {
             this.user = {
                 id: parseInt(localStorage.getItem('user_id'), 10),
@@ -75,12 +77,14 @@ export class Presenter {
     }
 
     tokenLogin(login_token: string) {
-        const res = this.api.tokenLoginTokenGet(login_token);
-        res.subscribe(user => {
-            this.setLoggedIn(user);
-        }, error => {
-            console.log(error.json());
-        });
+      const res = this.api.tokenLoginTokenGet(login_token);
+      res.subscribe(user => {
+        this.setLoggedIn(user);
+        this.loggedInWithToken = true;
+        localStorage.setItem('loggedInWithToken', 'true');
+      }, error => {
+        console.log(error.json());
+      });
     }
 
     loadProjects() {
@@ -346,6 +350,22 @@ export class Presenter {
     }, error => {
       console.log(error);
     });
+  }
+
+  setPassword(password: string) {
+      const res = this.api.setPasswordPost(password);
+    res.subscribe(data => {
+      console.log(data);
+      this.loggedInWithToken = false;
+      localStorage.removeItem('loggedInWithToken');
+      this.router.navigate(['/projects']);
+    }, error => {
+      console.log(error);
+    });
+  }
+
+  isLoggedInWithToken() {
+    return this.loggedInWithToken;
   }
 }
 

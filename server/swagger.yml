@@ -56,6 +56,21 @@ paths:
           description: If token is invalid.
           schema:
              $ref: '#/definitions/LoginError'
+  /setPassword:
+    post:
+      description: |
+        sets the initial password for a user logged in with a token.
+      parameters:
+        -
+          name: password
+          in: query
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+        401:
+          description: if the user is not logged in with a token
   /logout:
     post:
       responses:
@@ -441,7 +456,6 @@ paths:
           name: code
           in: query
           type: string
-          example: en
       responses:
         200:
           description: OK
@@ -460,7 +474,6 @@ paths:
           name: code
           in: query
           type: string
-          example: en
       responses:
         200:
           description: OK

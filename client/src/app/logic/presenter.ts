@@ -17,7 +17,7 @@ import {URLSearchParams, Http} from '@angular/http';
 import {BASE_PATH} from 'swagger';
 import {User} from '../../swagger/model/User';
 import {Link} from '../../swagger/model/Link';
-import {Language} from "../../swagger/model/Language";
+import {Language} from '../../swagger/model/Language';
 
 @Injectable()
 export class Presenter {
@@ -335,8 +335,16 @@ export class Presenter {
     res.subscribe(newLang => {
       this.activeProject.languages.push(newLang);
       callback();
-    }, _ => {
+    }, () => {
       error();
+    });
+  }
+
+  removeLanguage(language: Language) {
+    const res = this.api.projectsIdLanguagesDelete(this.activeProject.slug, language.code);
+    res.subscribe(() => {
+    }, error => {
+      console.log(error);
     });
   }
 }

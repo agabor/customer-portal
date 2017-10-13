@@ -39,7 +39,8 @@
 </form>
 <div class="row">
     <button type="button" class="btn btn-primary" (click)="add()" >Add text</button>
-    <button type="button" class="btn btn-primary" (click)="addNewLanguage()" >Add language</button>
+  <button type="button" class="btn btn-primary" (click)="addNewLanguage()" >Add language</button>
+  <button type="button" class="btn btn-primary" (click)="removeLanguage()" >Remove language</button>
     <button type="button" class="btn btn-primary right {{saved ? 'disabled' : ''}}" (click)="save()" >Save <span [hidden]="!saving"><span class="glyphicon glyphicon-hourglass"></span></span></button>
     <button type="button" class="btn btn-primary right {{saved ? 'disabled' : ''}}" (click)="reset()" >Reset</button>
 </div>

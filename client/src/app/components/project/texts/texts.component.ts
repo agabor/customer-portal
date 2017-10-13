@@ -65,11 +65,12 @@ export class TextsComponent implements OnInit {
     this.projectLogic = new ProjectLogic(this.project);
     this.setLanguageTabs();
     const lang = this.route.snapshot.params['lang'];
-    this.lang = lang;
-    if (!lang) {
-      this.lang = 0;
-    } else {
+    this.lang = -1;
+    if (lang) {
       this.lang = this.getLanguageIndex(lang);
+    }
+    if (this.lang === -1) {
+      this.lang = 0;
     }
     this.setLanguage(this.lang);
   }
@@ -237,6 +238,28 @@ export class TextsComponent implements OnInit {
 
   addNewLanguage() {
     this.languageModalComponent.show(this);
+  }
+
+  removeLanguage() {
+    let language = this.currentLanguage;
+    if (confirm('Are you sure that you want to remove the ' + language.name + ' language?')) {
+      for (const text of this.project.texts) {
+        const newValues = [];
+        for (const lt of text.values) {
+          if (lt.languageCode !== language.code) {
+            newValues.push(lt);
+          }
+        }
+        text.values = newValues;
+      }
+      this.project.languages.splice(this.project.languages.indexOf(language), 1);
+      this.setLanguageTabs();
+      if (this.lang === this.project.languages.length) {
+        this.lang -= 1;
+      }
+      this.setLanguage(this.lang);
+    this.presenter.removeLanguage(language);
+    }
   }
 
   addLanguage(language: Language) {

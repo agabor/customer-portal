@@ -42,7 +42,7 @@ class DatabaseSeeder extends Seeder
         $p = new \App\Project();
         $p->name = 'Sample Project';
         $p->slug = 'sample_project';
-        $u->projects()->save($p);
+        $u->projects()->save($p, ['admin' => true]);
 
         $t = new \App\Text();
 
@@ -110,7 +110,7 @@ class DatabaseSeeder extends Seeder
         $p = new \App\Project();
         $p->name = 'Autómentő';
         $p->slug = 'automento';
-        $u->projects()->save($p);
+        $u->projects()->save($p, ['admin' => true]);
 
         $p->languages()->saveMany([
             $this->hu,

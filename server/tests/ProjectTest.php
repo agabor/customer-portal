@@ -92,7 +92,8 @@ class ProjectTest extends TestCase
                         'code' => 'hu',
                         'name' => 'Hungarian'
                     ]
-                ]
+                ],
+            'admin' => true
             ]);
         $this->assertStatusOk('project equals');
         $this->logout();
@@ -276,7 +277,8 @@ class ProjectTest extends TestCase
     {
         $this->call('PATCH', '/api/v1/projects', ['name' => $data['name']], $this->cookies());
         $this->assertStatusOk('add new project');
-        $this->seeJsonEquals($data);
+        $data['admin'] = true;
+        $this->seeJson($data);
     }
 
     protected function deleteProject($data)

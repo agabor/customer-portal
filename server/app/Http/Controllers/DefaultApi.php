@@ -80,7 +80,7 @@ class DefaultApi extends Controller
         $project = new Project();
         $project->name = self::getString($input, 'name');
         $project->setSlug();
-        Auth::user()->projects()->save($project);
+        Auth::user()->projects()->save($project, ['admin' => true]);
         return $project;
     }
 

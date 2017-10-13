@@ -22,6 +22,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Project extends Model
 {
+    protected $appends = ['admin'];
+
     public function texts(){
         return $this->hasMany(Text::class, 'project_id');
     }
@@ -57,7 +59,7 @@ class Project extends Model
     }
 
     public function users(){
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)->withPivot('admin');;
     }
 
     /**
@@ -183,6 +185,19 @@ class Project extends Model
         foreach (Auth::user()->projects as $project)
             if ($project->slug == $slug)
                 return true;
+        return false;
+    }
+
+
+    public function getAdminAttribute()
+    {
+        $id = Auth::user()->id;
+        /* @var User $user */
+        foreach ($this->users as $user) {
+            if ($user->id === $id) {
+                 return $user->pivot->admin != 0;
+            }
+        }
         return false;
     }
 }

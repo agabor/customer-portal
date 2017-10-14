@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use function App\getProjectWithSlug;
 use App\Image;
 use App\Project;
 use function App\slugify;

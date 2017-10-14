@@ -27,8 +27,3 @@ function slugify(string $text) : string
 
     return $text;
 }
-
-function getProjectWithSlug(string $id) : Project
-{
-    return Project::where('slug', $id)->first();
-}

@@ -183,7 +183,8 @@ class Project extends Model
 
     private function projectSlugExists(string $slug) : bool
     {
-        foreach (Auth::user()->projects as $project)
+        /* @var Project $project*/
+        foreach (Project::all() as $project)
             if ($project->slug == $slug)
                 return true;
         return false;

@@ -45,13 +45,13 @@ $app->group(['middleware' => ['auth', 'cors'], 'prefix' => '/api/v1/'], function
 
     $app->GET('projects', DefaultApi::class . '@projectsGet');
     $app->PATCH('projects', DefaultApi::class . '@projectsPatch');
-    $app->PUT('projects/{project_id}/texts', DefaultApi::class . '@projectsIdPutTexts');
 
 });
 
 $app->group(['middleware' => ['auth', 'cors', 'model'], 'prefix' => '/api/v1/'], function () use ($app) {
 
-    $app->GET('projects/{id}', DefaultApi::class . '@projectsIdGet');
+    $app->GET('projects/{project_id}', ProjectController::class . '@projectsIdGet');
+    $app->PUT('projects/{project_id}/texts', ProjectController::class . '@projectsIdPutTexts');
 
     $app->GET('projects/{project_id}/images/{image_id}', ProjectImageController::class . '@imageGet');
     $app->POST('projects/{project_id}/images/{image_id}', ProjectImageController::class . '@imagePost');
@@ -63,7 +63,6 @@ $app->group(['middleware' => ['auth', 'cors', 'model', 'admin'], 'prefix' => '/a
 
     $app->POST('projects/{project_id}/languages', ProjectController::class . '@addLanguage');
     $app->DELETE('projects/{project_id}/languages', ProjectController::class . '@removeLanguage');
-
     $app->POST('projects/{project_id}', ProjectController::class . '@projectsModify');
     $app->DELETE('projects/{project_id}', ProjectController::class . '@projectsDelete');
     $app->PATCH('projects/{project_id}/images', ProjectImageController::class . '@imagePatch');

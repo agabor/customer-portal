@@ -11,11 +11,6 @@ use Illuminate\Http\Request;
 
 class ProjectImageController extends Controller {
 
-    function __construct()
-    {
-        $this->middleware('model');
-    }
-
     static function hex2rgb($colour)
     {
         $colour = preg_replace("/[^abcdef0-9]/i", "", $colour);

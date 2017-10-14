@@ -49,11 +49,9 @@ abstract class TestCase extends Laravel\Lumen\Testing\TestCase
 
     protected function assertStatusOk($message)
     {
-        $status = $this->response->status();
-        if ($status == 500)
-            file_put_contents('E:\temp\\'.$message.' err.html', $this->response->content());
-        $this->assertEquals(200, $status, $message);
+        $this->assertStatus($message, 200);
     }
+
 
     protected function cookies(): array
     {
@@ -70,5 +68,17 @@ abstract class TestCase extends Laravel\Lumen\Testing\TestCase
     protected static function sampleProject() : Project
     {
         return Project::where('slug', 'sample_project')->first();
+    }
+
+    /**
+     * @param $message
+     * @param $expectedStatus
+     */
+    protected function assertStatus($message, $expectedStatus)
+    {
+        $status = $this->response->status();
+        if ($status == 500)
+            file_put_contents('E:\temp\\' . $message . ' err.html', $this->response->content());
+        $this->assertEquals($expectedStatus, $status, $message);
     }
 }

@@ -72,7 +72,8 @@ $app->singleton(
  $app->routeMiddleware([
      'auth' => App\Http\Middleware\Authenticate::class,
      'cors' => App\Http\Middleware\CorsMiddleware::class,
-     'model' => App\Http\Middleware\ModelBinderMiddleware::class
+     'model' => App\Http\Middleware\ModelBinderMiddleware::class,
+     'admin' => App\Http\Middleware\Admin::class
  ]);
 
 /*

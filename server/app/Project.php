@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Traversable|\Countable languages
  * @property \Traversable|\Countable users
  * @property \Traversable|\Countable links
+ * @property boolean admin
  */
 class Project extends Model
 {

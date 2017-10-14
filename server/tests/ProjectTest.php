@@ -134,6 +134,7 @@ class ProjectTest extends TestCase
             'name' => 'New Project',
             'slug' => 'new_project2'
         ];
+
         $this->addProject($data);
         $this->addProject($data2);
 
@@ -281,7 +282,7 @@ class ProjectTest extends TestCase
         $this->seeJson($data);
     }
 
-    protected function deleteProject($data)
+    protected function deleteProject(array $data)
     {
         $this->call('DELETE', '/api/v1/projects/' . $data['slug'], [], $this->cookies());
         $this->assertStatusOk('delete new project');

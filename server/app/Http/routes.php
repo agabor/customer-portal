@@ -45,30 +45,34 @@ $app->group(['middleware' => ['auth', 'cors'], 'prefix' => '/api/v1/'], function
 
     $app->GET('projects', DefaultApi::class . '@projectsGet');
     $app->PATCH('projects', DefaultApi::class . '@projectsPatch');
-    $app->POST('projects/{project_id}', ProjectController::class . '@projectsModify');
-    $app->DELETE('projects/{project_id}', ProjectController::class . '@projectsDelete');
+    $app->PUT('projects/{project_id}/texts', DefaultApi::class . '@projectsIdPutTexts');
 
-    $app->POST('projects/{project_id}/languages', ProjectController::class . '@addLanguage');
-    $app->DELETE('projects/{project_id}/languages', ProjectController::class . '@removeLanguage');
+});
 
+$app->group(['middleware' => ['auth', 'cors', 'model'], 'prefix' => '/api/v1/'], function () use ($app) {
 
     $app->GET('projects/{id}', DefaultApi::class . '@projectsIdGet');
 
     $app->GET('projects/{project_id}/images/{image_id}', ProjectImageController::class . '@imageGet');
     $app->POST('projects/{project_id}/images/{image_id}', ProjectImageController::class . '@imagePost');
+
+    $app->GET('projects/{project_id}/text_versions',ProjectController::class . '@textVersions');
+});
+
+$app->group(['middleware' => ['auth', 'cors', 'model', 'admin'], 'prefix' => '/api/v1/'], function () use ($app) {
+
+    $app->POST('projects/{project_id}/languages', ProjectController::class . '@addLanguage');
+    $app->DELETE('projects/{project_id}/languages', ProjectController::class . '@removeLanguage');
+
+    $app->POST('projects/{project_id}', ProjectController::class . '@projectsModify');
+    $app->DELETE('projects/{project_id}', ProjectController::class . '@projectsDelete');
+    $app->PATCH('projects/{project_id}/images', ProjectImageController::class . '@imagePatch');
     $app->PATCH('projects/{project_id}/images/{image_id}', ProjectImageController::class . '@imageModify');
     $app->DELETE('projects/{project_id}/images/{image_id}', ProjectImageController::class . '@imageDelete');
-
-    $app->PATCH('projects/{project_id}/images', ProjectImageController::class . '@imagePatch');
-    $app->PUT('projects/{project_id}/texts', DefaultApi::class . '@projectsIdPutTexts');
-
     $app->POST('projects/{project_id}/users', ProjectController::class . '@addUser');
     $app->POST('projects/{project_id}/users/{user_id}', ProjectController::class . '@modifyUser');
     $app->DELETE('projects/{project_id}/users/{user_id}', ProjectController::class . '@deleteUser');
-
     $app->POST('projects/{project_id}/links', ProjectController::class . '@addLink');
     $app->POST('projects/{project_id}/links/{link_id}', ProjectController::class . '@modifyLink');
     $app->DELETE('projects/{project_id}/links/{link_id}', ProjectController::class . '@deleteLink');
-
-    $app->GET('projects/{project_id}/text_versions',ProjectController::class . '@textVersions');
 });

@@ -23,8 +23,7 @@ class UserTest extends TestCase {
         $this->assertStatusOk('get project');
         $this->seeJson($user_data);
 
-        $this->call('DELETE', '/api/v1/projects/sample_project/users/'.$user_id, array(), $this->cookies());
-        $this->assertStatusOk('delete user');
+        $this->deleteUser($user_id);
         $this->call('GET', '/api/v1/projects/sample_project', array(), $this->cookies());
         $this->assertStatusOk('get project');
         $this->dontSeeJson($user_data);
@@ -49,7 +48,32 @@ class UserTest extends TestCase {
 
         $this->login(['user_name' => 'test_user', 'password' => 'newPassword']);
         $this->logout();
+
+        $this->login();
+        $this->deleteUser($user->id);
+        $this->logout();
     }
+    public function testAuthorization()
+    {
+        $this->login();
+        $user_data = ['name' => 'test_user', 'email' => 'test@test.test'];
+        $user = $this->addUser($user_data);
+        $this->logout();
+
+        $this->call('GET', '/api/v1/token/'.$user->loginToken, array());
+        $this->jwt = $this->getJWT();
+
+        $this->call('POST', '/api/v1/projects/sample_project', ['name' =>'Something Else'], $this->cookies());
+        $this->assertStatus('modify project', 401);
+
+        $this->logout();
+
+        $this->login();
+        $this->deleteUser($user->id);
+        $this->logout();
+    }
+
+
     /**
      * @param $user_data
      * @return mixed
@@ -60,5 +84,14 @@ class UserTest extends TestCase {
         $this->assertStatusOk('add user');
         $this->seeJson($user_data);
         return new User(json_decode($this->response->getContent(), true));
+    }
+
+    /**
+     * @param $user_id
+     */
+    private function deleteUser($user_id)
+    {
+        $this->call('DELETE', '/api/v1/projects/sample_project/users/' . $user_id, array(), $this->cookies());
+        $this->assertStatusOk('delete user');
     }
 }

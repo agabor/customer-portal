@@ -18,11 +18,6 @@ use Illuminate\Http\Request;
 class ProjectController extends Controller
 {
 
-    function __construct()
-    {
-        $this->middleware('model');
-    }
-
     public function addUser(Request $request) {
         $input = $request->all();
 

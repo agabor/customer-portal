@@ -16,10 +16,10 @@ paths:
   /login:
     post:
       description: |
-       Login with username and password. The response contains a JWT.
+       Login with email and password. The response contains a JWT.
       parameters:
         -
-          name: user_name
+          name: email
           in: query
           required: true
           type: string

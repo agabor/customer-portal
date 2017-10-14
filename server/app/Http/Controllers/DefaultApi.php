@@ -20,10 +20,10 @@ class DefaultApi extends Controller
     {
         $input = $request->all();
 
-        $user_name = self::getString($input, 'user_name');
+        $email = self::getString($input, 'email');
         $password = self::getString($input, 'password');
 
-        $u = User::where('name', $user_name)->first();
+        $u = User::where('email', $email)->first();
 
         if ($u == null)
             return response(array('error' => 'user_not_found'), 401);

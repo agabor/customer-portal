@@ -46,7 +46,7 @@ class UserTest extends TestCase {
 
         $this->logout();
 
-        $this->login(['user_name' => 'test_user', 'password' => 'newPassword']);
+        $this->login(['email' => 'test@test.test', 'password' => 'newPassword']);
         $this->logout();
 
         $this->login();

@@ -33,7 +33,7 @@ abstract class TestCase extends Laravel\Lumen\Testing\TestCase
     protected function login(array $data = null)
     {
         if ($data == null)
-            $data = ['user_name' => 'gabor', 'password' => 'secret'];
+            $data = ['email' => 'angyalgabor@outlook.com', 'password' => 'secret'];
         $this->json('POST', '/api/v1/login', $data);
         $this->assertStatusOk('login');
         $this->jwt = $this->getJWT();

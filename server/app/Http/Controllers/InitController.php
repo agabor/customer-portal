@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Artisan;
+
 class InitController extends Controller {
     function init() {
         Artisan::call('droptables');

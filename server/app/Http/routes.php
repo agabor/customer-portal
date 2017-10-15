@@ -23,11 +23,14 @@ use Illuminate\Support\Facades\Artisan;
  * @version 0.1
  */
 
-$app->get('/', function () use ($app) {
-    return $app->version();
-});
 
-$app->get('/init', InitController::class . '@init');
+
+$app->group([], function () use ($app) {
+    $app->GET('/', function () use ($app) {
+        return $app->version();
+    });
+    $app->GET('/init',  InitController::class.'@init');
+});
 
 $app->group(['middleware' => 'cors', 'prefix' => '/api/v1/'], function () use ($app) {
     $app->POST('login', DefaultApi::class . '@loginPost');

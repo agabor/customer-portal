@@ -13,6 +13,7 @@
  * Do not edit the class manually.
  */
 use App\Http\Controllers\DefaultApi;
+use App\Http\Controllers\InitController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectImageController;
 use Illuminate\Support\Facades\Artisan;
@@ -26,10 +27,7 @@ $app->get('/', function () use ($app) {
     return $app->version();
 });
 
-$app->get('/init', function () {
-    Artisan::call('migrate:refresh');
-    Artisan::call('db:seed');
-});
+$app->get('/init', InitController::class . '@init');
 
 $app->group(['middleware' => 'cors', 'prefix' => '/api/v1/'], function () use ($app) {
     $app->POST('login', DefaultApi::class . '@loginPost');

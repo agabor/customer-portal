@@ -128,6 +128,19 @@ class ProjectController extends Controller
         $name = self::getString($input, 'name');
         $email = self::getString($input, 'email');
 
+        /* @var User $u */
+        $u = User::where('email', $email)->first();
+        if ($u != null){
+            /* @var User $user */
+            foreach (self::$project->users as $user){
+                if ($user->id === $u->id) {
+                    return $u;
+                }
+            }
+            self::$project->users()->attach($u);
+            return $u;
+        }
+
         $u = new User(['name' => $name, 'email' => $email, 'loginToken' => uniqid()]);
         self::$project->users()->save($u);
         return $u;

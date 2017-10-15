@@ -42,12 +42,12 @@ export class DefaultApi {
     }
 
     /**
-     * Login with username and password. The response contains a JWT. 
-     * @param userName 
+     * Login with email and password. The response contains a JWT. 
+     * @param email 
      * @param password 
      */
-    public loginPost(userName: string, password: string, extraHttpRequestParams?: any): Observable<models.User> {
-        return this.loginPostWithHttpInfo(userName, password, extraHttpRequestParams)
+    public loginPost(email: string, password: string, extraHttpRequestParams?: any): Observable<models.User> {
+        return this.loginPostWithHttpInfo(email, password, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -403,25 +403,25 @@ export class DefaultApi {
 
     /**
      * 
-     * Login with username and password. The response contains a JWT. 
-     * @param userName 
+     * Login with email and password. The response contains a JWT. 
+     * @param email 
      * @param password 
      */
-    public loginPostWithHttpInfo(userName: string, password: string, extraHttpRequestParams?: any): Observable<Response> {
+    public loginPostWithHttpInfo(email: string, password: string, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/login';
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-        // verify required parameter 'userName' is not null or undefined
-        if (userName === null || userName === undefined) {
-            throw new Error('Required parameter userName was null or undefined when calling loginPost.');
+        // verify required parameter 'email' is not null or undefined
+        if (email === null || email === undefined) {
+            throw new Error('Required parameter email was null or undefined when calling loginPost.');
         }
         // verify required parameter 'password' is not null or undefined
         if (password === null || password === undefined) {
             throw new Error('Required parameter password was null or undefined when calling loginPost.');
         }
-        if (userName !== undefined) {
-            queryParameters.set('user_name', <any>userName);
+        if (email !== undefined) {
+            queryParameters.set('email', <any>email);
         }
 
         if (password !== undefined) {

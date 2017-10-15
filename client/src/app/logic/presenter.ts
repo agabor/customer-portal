@@ -47,11 +47,7 @@ export class Presenter {
     }
 
     login(model: LoginData) {
-        const data = new URLSearchParams();
-        data.append('user_name', model.name);
-        data.append('password', model.password);
-
-        const res = this.api.loginPost(model.name, model.password);
+        const res = this.api.loginPost(model.email, model.password);
         res.subscribe(user => {
             this.setLoggedIn(user);
         }, error => {

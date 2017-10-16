@@ -56,11 +56,12 @@ class UserTest extends TestCase {
     public function testAuthorization()
     {
         $this->login();
-        $user_data = ['name' => 'test_user', 'email' => 'test@test.test'];
+        $user_data = ['name' => 'test_user2', 'email' => 'test2@test.test'];
         $user = $this->addUser($user_data);
         $this->logout();
 
         $this->call('GET', '/api/v1/token/'.$user->loginToken, array());
+        $this->assertStatusOk('token login');
         $this->jwt = $this->getJWT();
 
         $this->call('POST', '/api/v1/projects/sample_project', ['name' =>'Something Else'], $this->cookies());

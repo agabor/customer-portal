@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property integer id
@@ -25,15 +27,15 @@ class Project extends Model
 {
     protected $appends = ['admin'];
 
-    public function texts(){
+    public function texts() : HasMany {
         return $this->hasMany(Text::class, 'project_id');
     }
 
-    public function images(){
+    public function images() : HasMany {
         return $this->hasMany(Image::class, 'project_id');
     }
 
-    public function versionedImages(){
+    public function versionedImages() : HasMany {
         return $this->hasMany(Image::class, 'owning_project_id');
     }
 
@@ -45,22 +47,22 @@ class Project extends Model
         }
     }
 
-    public function files(){
+    public function files() : HasMany {
         return $this->hasMany(File::class);
 
     }
 
-    public function links(){
+    public function links() : HasMany {
         return $this->hasMany(Link::class);
 
     }
 
-    public function languages(){
+    public function languages() : BelongsToMany {
         return $this->belongsToMany(Language::class);
     }
 
-    public function users(){
-        return $this->belongsToMany(User::class)->withPivot('admin');;
+    public function users() : BelongsToMany {
+        return $this->belongsToMany(User::class)->withPivot('admin');
     }
 
     /**
@@ -81,22 +83,26 @@ class Project extends Model
         'created_at', 'updated_at', 'id', 'pivot'
     ];
 
-    public function calculateState(){
+    public function calculateState()
+    {
         $warnings = 0;
-        foreach ($this->texts as $text){
+        foreach ($this->texts as $text) {
             $warnings += self::getTextWarnings($text);
         }
-        foreach ($this->images as $image){
+        foreach ($this->images as $image) {
             if (self::imageHasWarning($image))
                 ++$warnings;
         }
-        foreach ($this->files as $file){
+        foreach ($this->files as $file) {
             if (self::fileHasWarning($file))
                 ++$warnings;
         }
         $this->warnings = $warnings;
         $fields = count($this->images) + count($this->files) + count($this->texts) * count($this->languages);
-        $this->progress = ($fields - $warnings) * 100 / $fields;
+        if ($fields === 0)
+            $this->progress = 0;
+        else
+            $this->progress = ($fields - $warnings) * 100 / $fields;
         $this->save();
     }
 

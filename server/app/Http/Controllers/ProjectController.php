@@ -156,10 +156,11 @@ class ProjectController extends Controller
         return self::$user;
     }
 
-    public function deleteUser()
+    public function removeUser()
     {
-        if (self::$user->id != Auth::user()->id)
-            self::$user->delete();
+        if (self::$user->id != Auth::user()->id) {
+            self::$project->users()->detach(self::$user);
+        }
 
         return response('{}');
     }

@@ -38,8 +38,6 @@ $app->group(['middleware' => 'cors', 'prefix' => '/api/v1/'], function () use ($
 });
 
 $app->group(['middleware' => ['auth', 'cors'], 'prefix' => '/api/v1/'], function () use ($app) {
-
-
     $app->POST('logout', DefaultApi::class . '@logoutPost');
     $app->POST('setPassword', DefaultApi::class . '@setPassword');
 
@@ -66,13 +64,14 @@ $app->group(['middleware' => ['auth', 'cors', 'model', 'admin'], 'prefix' => '/a
     $app->DELETE('projects/{project_id}/languages', ProjectController::class . '@removeLanguage');
     $app->POST('projects/{project_id}', ProjectController::class . '@projectsModify');
     $app->DELETE('projects/{project_id}', ProjectController::class . '@projectsDelete');
-    $app->PATCH('projects/{project_id}/images', ProjectImageController::class . '@imagePatch');
-    $app->PATCH('projects/{project_id}/images/{image_id}', ProjectImageController::class . '@imageModify');
-    $app->DELETE('projects/{project_id}/images/{image_id}', ProjectImageController::class . '@imageDelete');
     $app->POST('projects/{project_id}/users', ProjectController::class . '@addUser');
     $app->POST('projects/{project_id}/users/{user_id}', ProjectController::class . '@modifyUser');
-    $app->DELETE('projects/{project_id}/users/{user_id}', ProjectController::class . '@deleteUser');
+    $app->DELETE('projects/{project_id}/users/{user_id}', ProjectController::class . '@removeUser');
     $app->POST('projects/{project_id}/links', ProjectController::class . '@addLink');
     $app->POST('projects/{project_id}/links/{link_id}', ProjectController::class . '@modifyLink');
     $app->DELETE('projects/{project_id}/links/{link_id}', ProjectController::class . '@deleteLink');
+
+    $app->PATCH('projects/{project_id}/images', ProjectImageController::class . '@imagePatch');
+    $app->PATCH('projects/{project_id}/images/{image_id}', ProjectImageController::class . '@imageModify');
+    $app->DELETE('projects/{project_id}/images/{image_id}', ProjectImageController::class . '@imageDelete');
 });

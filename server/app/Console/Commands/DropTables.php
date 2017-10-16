@@ -36,14 +36,12 @@ class DropTables extends Command
      */
     public function handle()
     {
-        $colname = 'Tables_in_' . env('DB_DATABASE');
+        $colname = 'Tables_in_' . RDS_DB_NAME;
 
         $tables = DB::select('SHOW TABLES');
         $droplist = [];
         foreach($tables as $table) {
-
             $droplist[] = $table->$colname;
-
         }
         $droplist = implode(',', $droplist);
 

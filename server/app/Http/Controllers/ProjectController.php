@@ -15,16 +15,10 @@ use Illuminate\Http\Request;
 class ProjectController extends Controller
 {
 
-    public function projectsIdGet()
+    public function projectsIdGet(Project $project)
     {
-        self::$project->load(['texts.values', 'images', 'files', 'users', 'links', 'languages']);
-        return self::$project;
-    }
-
-    public function projectsIdDelete()
-    {
-        self::$project->delete();
-        return response('{}');
+        $project->load(['texts.values', 'images', 'files', 'users', 'links', 'languages']);
+        return $project;
     }
 
 
@@ -54,17 +48,17 @@ class ProjectController extends Controller
         }
     }
 
-    public function projectsIdPutTexts(Request $request)
+    public function projectsIdPutTexts(Request $request, Project $project)
     {
         $input = $request->all();
         $sources = self::getArray($input, 'sources');
 
-        $this->updateTextValues($sources, self::$project);
+        $this->updateTextValues($sources, $project);
 
-        if (self::$project->admin) {
-            $this->updateTexts($sources, self::$project);
+        if ($project->admin) {
+            $this->updateTexts($sources, $project);
         }
-        self::$project->calculateState();
+        $project->calculateState();
         return response('{}');
     }
 
@@ -122,7 +116,7 @@ class ProjectController extends Controller
         }
     }
 
-    public function addUser(Request $request) {
+    public function addUser(Request $request, Project $project) {
         $input = $request->all();
 
         $name = self::getString($input, 'name');
@@ -132,40 +126,40 @@ class ProjectController extends Controller
         $u = User::where('email', $email)->first();
         if ($u != null){
             /* @var User $user */
-            foreach (self::$project->users as $user){
+            foreach ($project->users as $user){
                 if ($user->id === $u->id) {
                     return $u;
                 }
             }
-            self::$project->users()->attach($u);
+            $project->users()->attach($u);
             return $u;
         }
 
         $u = new User(['name' => $name, 'email' => $email, 'loginToken' => uniqid()]);
-        self::$project->users()->save($u);
+        $project->users()->save($u);
         return $u;
     }
 
-    public function modifyUser(Request $request) {
+    public function modifyUser(Request $request, User $user) {
         $input = $request->all();
 
-        self::$user->name = self::getString($input, 'name');
-        self::$user->email = self::getString($input, 'email');
-        self::$user->save();
+        $user->name = self::getString($input, 'name');
+        $user->email = self::getString($input, 'email');
+        $user->save();
 
-        return self::$user;
+        return $user;
     }
 
-    public function removeUser()
+    public function removeUser(Project $project, User $user)
     {
-        if (self::$user->id != Auth::user()->id) {
-            self::$project->users()->detach(self::$user);
+        if ($user->id != Auth::user()->id) {
+            $project->users()->detach($user);
         }
 
         return response('{}');
     }
 
-    public function addLink(Request $request) {
+    public function addLink(Request $request, Project $project) {
         $input = $request->all();
 
         $link = new Link();
@@ -173,7 +167,7 @@ class ProjectController extends Controller
         $link->icon = self::getString($input, 'icon');
         $link->url = self::getString($input, 'url');
 
-        self::$project->links()->save($link);
+        $project->links()->save($link);
         return $link;
     }
 
@@ -194,14 +188,14 @@ class ProjectController extends Controller
         return response('{}');
     }
 
-    public function textVersions(Request $request) {
-        if (self::$project == null)
+    public function textVersions(Request $request, Project $project) {
+        if ($project == null)
             return null;
 
         $input = $request->all();
         $text_id = self::getString($input, 'text_id');
         $languageCode = self::getString($input, 'languageCode');
-        $text = self::$project->getText($text_id);
+        $text = $project->getText($text_id);
         $versions = [];
 
         /* @var \App\Localtext $localeText */
@@ -213,34 +207,34 @@ class ProjectController extends Controller
     }
 
 
-    public function projectsModify(Request $request){
+    public function projectsModify(Request $request, Project $project){
         $input = $request->all();
-        self::$project->name = self::getString($input, 'name');
-        self::$project->setSlug();
-        self::$project->save();
-        return self::$project;
+        $project->name = self::getString($input, 'name');
+        $project->setSlug();
+        $project->save();
+        return $project;
     }
 
-    public function projectsDelete(){
-        self::$project->delete();
+    public function projectsDelete(Project $project){
+        $project->delete();
         return \response('{}');
     }
 
-    public function addLanguage(Request $request) {
+    public function addLanguage(Request $request, Project $project) {
         $input = $request->all();
         $code = self::getString($input, 'code');
 
         /* @var Language $language */
-        foreach (self::$project->languages as $language) {
+        foreach ($project->languages as $language) {
             if ($language->code == $code)
                 return $language;
         }
 
         $language = Language::forCode($code);
-        self::$project->languages()->attach($language);
+        $project->languages()->attach($language);
 
         /* @var Text $text */
-        foreach (self::$project->texts as $text){
+        foreach ($project->texts as $text){
             $lt = new Localtext();
             $lt->language_id = $language->id;
             $lt->value = '';
@@ -250,23 +244,23 @@ class ProjectController extends Controller
         return $language;
     }
 
-    public function removeLanguage(Request $request) {
+    public function removeLanguage(Request $request, Project $project) {
         $input = $request->all();
         $code = self::getString($input, 'code');
 
         /* @var Language $deletedLanguage */
         $deletedLanguage = null;
         /* @var Language $language */
-        foreach (self::$project->languages as $language) {
+        foreach ($project->languages as $language) {
             if ($language->code == $code) {
-                self::$project->languages()->detach($language);
+                $project->languages()->detach($language);
                 $deletedLanguage = $language;
             }
         }
 
         if ($deletedLanguage != null) {
             /* @var Text $text */
-            foreach (self::$project->texts as $text) {
+            foreach ($project->texts as $text) {
                 /* @var Localtext $lt */
                 foreach ($text->values as $lt) {
                     if ($lt->language_id == $deletedLanguage->id) {

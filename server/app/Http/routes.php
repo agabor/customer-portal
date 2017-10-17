@@ -44,7 +44,6 @@ $app->group(['middleware' => ['auth', 'cors'], 'prefix' => '/api/v1/'], function
 
     $app->GET('projects', DefaultApi::class . '@projectsGet');
     $app->PATCH('projects', DefaultApi::class . '@projectsPatch');
-
 });
 
 $app->group(['middleware' => ['auth', 'cors', 'model'], 'prefix' => '/api/v1/'], function () use ($app) {

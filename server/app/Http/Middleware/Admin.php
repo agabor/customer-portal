@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Auth;
 use App\Http\Controllers\Controller;
+use App\Project;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,14 +20,15 @@ class Admin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!Controller::$project->admin) {
-            return self::unauthorized();
+        $project = app(Project::class);
+        if (!$project->admin) {
+            return self::unauthorized($project);
         }
 
         return $next($request);
     }
 
-    private static function unauthorized() : Response {
-        return response(Controller::$project, 401);
+    private static function unauthorized(Project $project) : Response {
+        return response($project, 401);
     }
 }

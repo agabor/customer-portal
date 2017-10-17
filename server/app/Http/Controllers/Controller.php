@@ -10,27 +10,17 @@ namespace App\Http\Controllers;
 
 use App\Image;
 use App\Link;
-use App\Project;
-use App\User;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
 
 class Controller extends BaseController
 {
-    /**
-     * @var Project
-     */
-    public static $project;
 
     /**
      * @var Image
      */
     public static $image;
 
-    /**
-     * @var User
-     */
-    public static $user;
 
     /**
      * @var Link

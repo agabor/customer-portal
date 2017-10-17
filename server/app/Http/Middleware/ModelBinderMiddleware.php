@@ -12,13 +12,25 @@ namespace App\Http\Middleware;
 use App\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ProjectImageController;
+use App\Image;
 use App\Link;
 use App\Project;
 use App\User;
+use Illuminate\Container\Container;
 use Illuminate\Http\Request;
 
 class ModelBinderMiddleware
 {
+    /*
+     * @var \Illuminate\Contracts\Container\Container $app
+     */
+    var $app;
+
+    public function __construct()
+    {
+        $this->app = Container::getInstance();
+    }
+
     public function handle(Request $request, \Closure $next){
         $params = $request->route()[2];
         if (array_key_exists('project_id', $params) && is_string($params['project_id'])){
@@ -26,7 +38,7 @@ class ModelBinderMiddleware
             /* @var Project $project */
             foreach (Auth::user()->projects as $project){
                 if ($project->slug === $project_id) {
-                    Controller::$project = $project;
+                    $this->app->instance(Project::class, $project);
                     $this->bindImage($params, $project);
                     $this->bindUser($params, $project);
                     $this->bindLink($params, $project);
@@ -46,7 +58,7 @@ class ModelBinderMiddleware
             /* @var User $user */
             foreach ($project->users as $user) {
                 if ($user->id == $user_id) {
-                    Controller::$user = $user;
+                    $this->app->instance(User::class, $user);
                     break;
                 }
             }
@@ -78,7 +90,7 @@ class ModelBinderMiddleware
 
             foreach ($project->images as $image) {
                 if ($image->imageId == $image_id) {
-                    Controller::$image = $image;
+                    $this->app->instance(Image::class, $image);
                     break;
                 }
             }

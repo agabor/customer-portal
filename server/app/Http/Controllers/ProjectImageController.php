@@ -26,41 +26,42 @@ class ProjectImageController extends Controller {
         return false;
     }
 
-    public function imageGet()
+    public function imageGet(Image $image)
     {
         if ($this == null)
             return response('', 404);
 
-        if (self::$image->fileName === null || self::$image->fileName === '') {
-            $image = self::getPlaceholderImage(self::$image);
+        if ($image->fileName === null || $image->fileName === '') {
+            $image = self::getPlaceholderImage($image);
             header("Content-Type: image/png");
             imagepng($image);
         } else {
-            $ext = explode('.', self::$image->fileName)[1];
-            return response()->download(self::$image->filePath(), self::$image->imageId . '.' . $ext);
+            $ext = explode('.', $image->fileName)[1];
+            return response()->download($image->filePath(), $image->imageId . '.' . $ext);
         }
         return response('{}');
     }
 
 
-    public function imagePost(Request $request)
+    public function imagePost(Request $request, Project $project, Image $image)
     {
-        if (self::$image == null)
+        if ($image == null)
             return response('', 404);
         $uploadedFile = $request->file('image');
-        if (self::$image->fileName !== null && self::$image->fileName !== '') {
-            $copy = self::$image->copy();
-            self::$project->versionedImages()->save($copy);
+        if ($image->fileName !== null && $image->fileName !== '') {
+            $copy = $image->copy();
+            $project->versionedImages()->save($copy);
         }
-        self::$image->setFile($uploadedFile);
+        $image->setFile($uploadedFile);
         return response('{}');
     }
 
-    public function imageDelete()
+    public function imageDelete(Project $project, Image $image)
     {
-        if (self::$image == null)
+        if ($image == null)
             return response('', 404);
-        foreach (self::$project->versionedImagesForId(self::$image->imageId) as $img)
+        /* @var Image $img */
+        foreach ($project->versionedImagesForId($image->imageId) as $img)
             $img->delete();
         return response('{}');
     }
@@ -95,50 +96,48 @@ class ProjectImageController extends Controller {
         return $image;
     }
 
-    public function imagePatch(Request $request)
+    public function imagePatch(Request $request, Project $project)
     {
-        if (self::$project == null)
-            return null;
-        self::$image = new Image();
-        $this->updateImage($request);
+        $image = new Image();
+        $this->updateImage($request, $project, $image);
 
-        self::$project->versionedImages()->save(self::$image);
-        self::$image->project()->associate(self::$project);
-        self::$image->save();
+        $project->versionedImages()->save($image);
+        $image->project()->associate($project);
+        $image->save();
 
-        return response(self::$image);
+        return response($image);
     }
 
-    public function imageModify(Request $request, string $project_id, string $image_id)
+    public function imageModify(Request $request, Project $project, Image $image)
     {
-        if (self::$image == null)
+        if ($image == null)
             return response('{}', 404);
-        $this->updateImage($request);
-        self::$image ->save();
-        return response(self::$image);
+        $this->updateImage($request, $project, $image);
+        $image ->save();
+        return response($image);
     }
 
 
-    protected function updateImage(Request $request)
+    protected function updateImage(Request $request, Project $project, Image $image)
     {
         $data = $request->all();
         if (isset($data['name'])) {
 
-            self::$image ->name = $data['name'];
-            $img_slug = slugify(self::$image ->name);
+            $image ->name = $data['name'];
+            $img_slug = slugify($image ->name);
             $newImageId = $img_slug;
             $idx = 1;
-            while (self::$project->hasImageWithId($newImageId)) {
+            while ($project->hasImageWithId($newImageId)) {
                 $newImageId = $img_slug . (++$idx);
             }
-            self::$image ->imageId = $newImageId;
+            $image ->imageId = $newImageId;
         }
         if (isset($data['description']))
-            self::$image ->description = $data['description'];
+            $image ->description = $data['description'];
         if (isset($data['preferredWidth']))
-            self::$image ->preferredWidth = $data['preferredWidth'];
+            $image ->preferredWidth = $data['preferredWidth'];
         if (isset($data['preferredHeight']))
-            self::$image ->preferredHeight = $data['preferredHeight'];
+            $image ->preferredHeight = $data['preferredHeight'];
     }
 
 }

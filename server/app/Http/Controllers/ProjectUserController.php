@@ -7,8 +7,27 @@ use App\Auth;
 use App\Project;
 use App\User;
 use Illuminate\Http\Request;
+use Laravel\Lumen\Application;
 
 class ProjectUserController extends Controller {
+
+    const ROUTE = 'projects/{project_id}/users';
+
+    public static function addRoutes(Application $app)
+    {
+        $app->POST(self::uri(''), self::action('addUser'));
+        $app->POST(self::uri('/{user_id}'), self::action('modifyUser'));
+        $app->DELETE(self::uri('/{user_id}'), self::action('removeUser'));
+    }
+
+    public static function uri(string $suffix) {
+        return self::ROUTE . $suffix;
+    }
+
+    public static function action(string $function_name) {
+        return self::class . '@' . $function_name;
+    }
+
     public function addUser(Request $request, Project $project) {
         $input = $request->all();
 

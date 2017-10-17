@@ -16,6 +16,7 @@ use App\Http\Controllers\DefaultApi;
 use App\Http\Controllers\InitController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectImageController;
+use App\Http\Controllers\ProjectLinkController;
 use App\Http\Controllers\ProjectUserController;
 use Illuminate\Support\Facades\Artisan;
 
@@ -66,15 +67,9 @@ $app->group(['middleware' => ['auth', 'cors', 'model', 'admin'], 'prefix' => '/a
     $app->POST('projects/{project_id}', ProjectController::class . '@projectsModify');
     $app->DELETE('projects/{project_id}', ProjectController::class . '@projectsDelete');
 
-    $app->POST('projects/{project_id}/users', ProjectUserController::class . '@addUser');
-    $app->POST('projects/{project_id}/users/{user_id}', ProjectUserController::class . '@modifyUser');
-    $app->DELETE('projects/{project_id}/users/{user_id}', ProjectUserController::class . '@removeUser');
+    ProjectUserController::addRoutes($app);
 
-    $app->POST('projects/{project_id}/links', ProjectController::class . '@addLink');
-    $app->POST('projects/{project_id}/links/{link_id}', ProjectController::class . '@modifyLink');
-    $app->DELETE('projects/{project_id}/links/{link_id}', ProjectController::class . '@deleteLink');
+    ProjectLinkController::addRoutes($app);
 
-    $app->PATCH('projects/{project_id}/images', ProjectImageController::class . '@imagePatch');
-    $app->PATCH('projects/{project_id}/images/{image_id}', ProjectImageController::class . '@imageModify');
-    $app->DELETE('projects/{project_id}/images/{image_id}', ProjectImageController::class . '@imageDelete');
+    ProjectImageController::addRoutes($app);
 });

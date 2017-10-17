@@ -114,34 +114,6 @@ class ProjectController extends Controller
         }
     }
 
-    public function addLink(Request $request, Project $project) {
-        $input = $request->all();
-
-        $link = new Link();
-        $link->name = self::getString($input, 'name');
-        $link->icon = self::getString($input, 'icon');
-        $link->url = self::getString($input, 'url');
-
-        $project->links()->save($link);
-        return $link;
-    }
-
-    public function modifyLink(Request $request, Link $link) {
-        $input = $request->all();
-
-        $link->name = self::getString($input, 'name');
-        $link->icon = self::getString($input, 'icon');
-        $link->url = self::getString($input, 'url');
-        $link->save();
-
-        return $link;
-    }
-
-    public function deleteLink(Link $link)
-    {
-        $link->delete();
-        return response('{}');
-    }
 
     public function textVersions(Request $request, Project $project) {
         if ($project == null)

@@ -6,9 +6,27 @@ use App\Image;
 use App\Project;
 use function App\slugify;
 use Illuminate\Http\Request;
+use Laravel\Lumen\Application;
 
 
 class ProjectImageController extends Controller {
+
+    const ROUTE = 'projects/{project_id}/images';
+
+    public static function addRoutes(Application $app)
+    {
+        $app->PATCH(self::uri(''), self::action('imagePatch'));
+        $app->PATCH(self::uri('/{image_id}'), self::action('imageModify'));
+        $app->DELETE(self::uri('/{image_id}'), self::action('imageDelete'));
+    }
+
+    public static function uri(string $suffix) {
+        return self::ROUTE . $suffix;
+    }
+
+    public static function action(string $function_name) {
+        return self::class . '@' . $function_name;
+    }
 
     static function hex2rgb($colour)
     {

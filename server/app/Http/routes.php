@@ -16,6 +16,7 @@ use App\Http\Controllers\DefaultApi;
 use App\Http\Controllers\InitController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectImageController;
+use App\Http\Controllers\ProjectUserController;
 use Illuminate\Support\Facades\Artisan;
 
 /**
@@ -61,11 +62,14 @@ $app->group(['middleware' => ['auth', 'cors', 'model', 'admin'], 'prefix' => '/a
 
     $app->POST('projects/{project_id}/languages', ProjectController::class . '@addLanguage');
     $app->DELETE('projects/{project_id}/languages', ProjectController::class . '@removeLanguage');
+
     $app->POST('projects/{project_id}', ProjectController::class . '@projectsModify');
     $app->DELETE('projects/{project_id}', ProjectController::class . '@projectsDelete');
-    $app->POST('projects/{project_id}/users', ProjectController::class . '@addUser');
-    $app->POST('projects/{project_id}/users/{user_id}', ProjectController::class . '@modifyUser');
-    $app->DELETE('projects/{project_id}/users/{user_id}', ProjectController::class . '@removeUser');
+
+    $app->POST('projects/{project_id}/users', ProjectUserController::class . '@addUser');
+    $app->POST('projects/{project_id}/users/{user_id}', ProjectUserController::class . '@modifyUser');
+    $app->DELETE('projects/{project_id}/users/{user_id}', ProjectUserController::class . '@removeUser');
+
     $app->POST('projects/{project_id}/links', ProjectController::class . '@addLink');
     $app->POST('projects/{project_id}/links/{link_id}', ProjectController::class . '@modifyLink');
     $app->DELETE('projects/{project_id}/links/{link_id}', ProjectController::class . '@deleteLink');

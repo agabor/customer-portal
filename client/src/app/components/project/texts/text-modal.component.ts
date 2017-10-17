@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import {ImageData} from '../../../image-data';
 import {Presenter} from '../../../logic/presenter';
 import {Modal} from '../../../ui/modal';
 import {Text} from '../../../../swagger/model/Text';

@@ -87,7 +87,9 @@ class ProjectImageController extends Controller {
     private static function getPlaceholderImage(Image $img)
     {
         // Create image
-        $image = imagecreate($img->minWidth, $img->minHeight);
+        $width = $img->minWidth ?? $img->maxWidth ?? 100;
+        $height = $img->minHeight ?? $img->maxHeight ?? 100;
+        $image = imagecreate($width, $height);
 
         // Colours
         $bg = 'f5f5f5';
@@ -99,11 +101,20 @@ class ProjectImageController extends Controller {
         $setfg = imagecolorallocate($image, $fg['r'], $fg['g'], $fg['b']);
 
         // Text
-        $text = $img->minWidth .' x ' . $img->minHeight;
+        $text = '';
+        if ($img->minWidth != null || $img->minHeight != null) {
+            $text = ($img->minWidth ?? '?') . ' x ' . ($img->minHeight ?? '?');
+        }
+        if (($img->maxWidth != null || $img->maxHeight != null) &&
+            ($img->maxWidth != $img->minWidth || $img->maxHeight != $img->minHeight)) {
+            if (strlen($text) != 0)
+                $text .= ' - ';
+            $text .= ($img->maxWidth ?? '?') . ' x ' . ($img->maxHeight ?? '?');
+        }
 
         $font = dirname(__FILE__) . '/HelveticaNeueMed.ttf';
         // Text positioning
-        $fontsize = $img->minWidth > 200 ? 20 : 10;
+        $fontsize = $width > 200 ? 20 : 10;
         $bbox = imagettfbbox($fontsize, 0, $font, $text);
         $fontheight = $bbox[5] - $bbox[1];   // height of a character
         $textwidth = $bbox[2] - $bbox[0];         // text width
@@ -118,7 +129,7 @@ class ProjectImageController extends Controller {
     {
         $image = new Image();
         $this->updateImage($request, $project, $image);
-
+        $this->setImageId($project, $image);
         $project->versionedImages()->save($image);
         $image->project()->associate($project);
         $image->save();
@@ -131,7 +142,7 @@ class ProjectImageController extends Controller {
         if ($image == null)
             return response('{}', 404);
         $this->updateImage($request, $project, $image);
-        $image ->save();
+        $image->save();
         return response($image);
     }
 
@@ -139,27 +150,44 @@ class ProjectImageController extends Controller {
     protected function updateImage(Request $request, Project $project, Image $image)
     {
         $data = $request->all();
-        if (isset($data['name'])) {
-
+        if (isset($data['name']))
             $image ->name = $data['name'];
-            $img_slug = slugify($image ->name);
-            $newImageId = $img_slug;
-            $idx = 1;
-            while ($project->hasImageWithId($newImageId)) {
-                $newImageId = $img_slug . (++$idx);
-            }
-            $image ->imageId = $newImageId;
-        }
         if (isset($data['description']))
             $image ->description = $data['description'];
         if (isset($data['minWidth']))
-            $image ->minWidth = $data['minWidth'];
+            $image->minWidth = $data['minWidth'];
+        else
+            $image->minWidth = null;
+
         if (isset($data['maxWidth']))
-            $image ->maxWidth = $data['maxWidth'];
+            $image->maxWidth = $data['maxWidth'];
+        else
+            $image->maxWidth = null;
+
         if (isset($data['minHeight']))
-            $image ->minHeight = $data['minHeight'];
+            $image->minHeight = $data['minHeight'];
+        else
+            $image->minHeight = null;
+
         if (isset($data['maxHeight']))
-            $image ->maxHeight = $data['maxHeight'];
+            $image->maxHeight = $data['maxHeight'];
+        else
+            $image->maxHeight = null;
+    }
+
+    /**
+     * @param Project $project
+     * @param Image $image
+     */
+    protected function setImageId(Project $project, Image $image)
+    {
+        $img_slug = slugify($image->name);
+        $newImageId = $img_slug;
+        $idx = 1;
+        while ($project->hasImageWithId($newImageId)) {
+            $newImageId = $img_slug . (++$idx);
+        }
+        $image->imageId = $newImageId;
     }
 
 }

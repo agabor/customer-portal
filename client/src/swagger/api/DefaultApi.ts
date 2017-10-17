@@ -137,11 +137,13 @@ export class DefaultApi {
      * @param imageId image identifier
      * @param name 
      * @param description 
-     * @param preferredWidth 
-     * @param preferredHeight 
+     * @param minWidth 
+     * @param maxWidth 
+     * @param minHeight 
+     * @param maxHeight 
      */
-    public projectsIdImagesImageIdPatch(id: string, imageId: string, name?: string, description?: string, preferredWidth?: number, preferredHeight?: number, extraHttpRequestParams?: any): Observable<models.Image> {
-        return this.projectsIdImagesImageIdPatchWithHttpInfo(id, imageId, name, description, preferredWidth, preferredHeight, extraHttpRequestParams)
+    public projectsIdImagesImageIdPatch(id: string, imageId: string, name?: string, description?: string, minWidth?: number, maxWidth?: number, minHeight?: number, maxHeight?: number, extraHttpRequestParams?: any): Observable<models.Image> {
+        return this.projectsIdImagesImageIdPatchWithHttpInfo(id, imageId, name, description, minWidth, maxWidth, minHeight, maxHeight, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -644,10 +646,12 @@ export class DefaultApi {
      * @param imageId image identifier
      * @param name 
      * @param description 
-     * @param preferredWidth 
-     * @param preferredHeight 
+     * @param minWidth 
+     * @param maxWidth 
+     * @param minHeight 
+     * @param maxHeight 
      */
-    public projectsIdImagesImageIdPatchWithHttpInfo(id: string, imageId: string, name?: string, description?: string, preferredWidth?: number, preferredHeight?: number, extraHttpRequestParams?: any): Observable<Response> {
+    public projectsIdImagesImageIdPatchWithHttpInfo(id: string, imageId: string, name?: string, description?: string, minWidth?: number, maxWidth?: number, minHeight?: number, maxHeight?: number, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/projects/${id}/images/${imageId}'
                     .replace('${' + 'id' + '}', String(id))
                     .replace('${' + 'imageId' + '}', String(imageId));
@@ -670,12 +674,20 @@ export class DefaultApi {
             queryParameters.set('description', <any>description);
         }
 
-        if (preferredWidth !== undefined) {
-            queryParameters.set('preferredWidth', <any>preferredWidth);
+        if (minWidth !== undefined) {
+            queryParameters.set('minWidth', <any>minWidth);
         }
 
-        if (preferredHeight !== undefined) {
-            queryParameters.set('preferredHeight', <any>preferredHeight);
+        if (maxWidth !== undefined) {
+            queryParameters.set('maxWidth', <any>maxWidth);
+        }
+
+        if (minHeight !== undefined) {
+            queryParameters.set('minHeight', <any>minHeight);
+        }
+
+        if (maxHeight !== undefined) {
+            queryParameters.set('maxHeight', <any>maxHeight);
         }
 
         // to determine the Content-Type header

@@ -9,58 +9,62 @@ import {Project} from "../../../../swagger/model/Project";
     styleUrls: ['./thumbnail.component.css']
 })
 export class ThumbnailComponent {
-    @Input() image: Image;
-    @Input() project: Project;
-    @Input() imageModalComponent: ImageModalComponent;
+  @Input() image: Image;
+  @Input() project: Project;
+  @Input() imageModalComponent: ImageModalComponent;
 
-    fileIsOver: Image = null;
-    file: File;
-    editing = false;
+  fileIsOver: Image = null;
+  file: File;
+  editing = false;
 
-    constructor(private presenter: Presenter){
+  constructor(private presenter: Presenter) {
+  }
+
+  getImageUrl() {
+    return this.presenter.getImageUrl(this.image);
+  }
+
+  showImage() {
+    this.imageModalComponent.showImage(this.image);
+  }
+
+  public load() {
+    const element = <HTMLImageElement>document.getElementById('img' + this.image.imageId);
+    this.image.width = element.naturalWidth;
+    this.image.height = element.naturalHeight;
+  }
+
+  public deleteImage() {
+    this.presenter.deleteImage(this.image);
+  }
+
+  public edit() {
+    this.editing = !this.editing;
+  }
+
+  public save() {
+    this.presenter.updateImage(this.image);
+  }
+
+  public fileOver(fileIsOver: boolean): void {
+    if (fileIsOver) {
+      this.fileIsOver = this.image;
+    } else {
+      if (this.fileIsOver === this.image) {
+        this.fileIsOver = null;
+      }
     }
+    console.log('fileIsOver ' + fileIsOver + ' ' + this.image.imageId);
+  }
 
-    getImageUrl() {
-        return this.presenter.getImageUrl(this.image);
-    }
+  public onFileDrop(file: File): void {
+    const reader = new FileReader();
 
-    showImage() {
-        this.imageModalComponent.showImage(this.image);
-    }
-
-    public load() {
-        const element = <HTMLImageElement>document.getElementById('img' + this.image.imageId);
-        this.image.width = element.naturalWidth;
-        this.image.height = element.naturalHeight;
-    }
-
-    public deleteImage() {
-        this.presenter.deleteImage(this.image);
-    }
-
-    public edit() {
-        this.editing = !this.editing;
-    }
-
-    public fileOver(fileIsOver: boolean): void {
-        if (fileIsOver) {
-            this.fileIsOver = this.image;
-        } else {
-            if (this.fileIsOver === this.image) {
-                this.fileIsOver = null;
-            }
-        }
-        console.log('fileIsOver ' + fileIsOver + ' ' + this.image.imageId);
-    }
-
-    public onFileDrop(file: File): void {
-        const reader = new FileReader();
-
-        reader.onload = (event: any) => {
-            this.image.fileName = event.target.result;
-        };
-        reader.readAsDataURL(file);
-        this.presenter.uploadImage(file, this.image);
-    }
+    reader.onload = (event: any) => {
+      this.image.fileName = event.target.result;
+    };
+    reader.readAsDataURL(file);
+    this.presenter.uploadImage(file, this.image);
+  }
 
 }

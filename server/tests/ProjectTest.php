@@ -195,21 +195,21 @@ class ProjectTest extends TestCase
         $this->assertImageCountIncreased();
 
         $newName = 'Sample Image Modified';
-        $newImageId = 'sample_image_modified';
+        //$newImageId = 'sample_image_modified';
         $this->call('PATCH', '/api/v1/projects/sample_project/images/' . $imageId, ['name' => $newName], $this->cookies());
         $this->assertStatusOk('modify sample_image');
         $this ->seeJson([
             'name' => $newName,
-            'imageId' => $newImageId,
+            'imageId' => $imageId,
             'description' => 'description',
-            'minWidth' => 100,
-            'maxWidth' => 100,
-            'minHeight' => 100,
-            'maxHeight' => 100
+            'minWidth' => null,
+            'maxWidth' => null,
+            'minHeight' => null,
+            'maxHeight' => null
         ]);
-        self::assertEquals($newName, self::sampleProject()->getImageWithId($newImageId)->name);
+        self::assertEquals($newName, self::sampleProject()->getImageWithId($imageId)->name);
 
-        $this->deleteImage($newImageId);
+        $this->deleteImage($imageId);
 
         $this->assertImageCountIsOriginal();
 

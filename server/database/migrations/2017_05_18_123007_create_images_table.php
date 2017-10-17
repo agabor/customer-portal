@@ -19,10 +19,10 @@ class CreateImagesTable extends Migration
             $table->text('description');
             $table->integer('width');
             $table->integer('height');
-            $table->integer('minWidth');
-            $table->integer('maxWidth');
-            $table->integer('minHeight');
-            $table->integer('maxHeight');
+            $table->integer('minWidth')->nullable();
+            $table->integer('maxWidth')->nullable();
+            $table->integer('minHeight')->nullable();
+            $table->integer('maxHeight')->nullable();
             $table->text('fileName');
             $table->unsignedInteger('project_id')->nullable()->index();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');

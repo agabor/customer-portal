@@ -1,5 +1,4 @@
 import {LoginData} from '../login-data';
-import {ImageData} from '../image-data';
 import {Inject, Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {AppComponent} from '../components/app.component';
@@ -218,8 +217,9 @@ export class Presenter {
         return this.basePath + '/projects/' + this.activeProject.slug + '/images/' + image.imageId;
     }
 
-    newImage(model: ImageData) {
-        const res = this.api.projectsIdImagesPatch(this.activeProject.slug, model.name, model.description, model.width, model.height);
+    newImage(image: Image) {
+        const res = this.api.projectsIdImagesPatch(this.activeProject.slug, image.name, image.description,
+          image.minWidth, image.maxWidth, image.minHeight, image.maxHeight);
         res.subscribe(data => {
             this.activeProject.images.push(data);
         }, error => {
@@ -235,6 +235,16 @@ export class Presenter {
         }, error => {
             console.log(error.json());
         });
+    }
+
+    updateImage(image: Image) {
+      const res = this.api.projectsIdImagesImageIdPatch(this.activeProject.slug, image.imageId, image.name,
+        image.description, image.minWidth, image.maxWidth, image.minHeight, image.maxHeight);
+      res.subscribe(data => {
+        console.log(data);
+      }, error => {
+        console.log(error);
+      });
     }
 
     getUser() {

@@ -437,12 +437,22 @@ paths:
           in: query
           type: string
         -
-          name: preferredWidth
+          name: minWidth
           in: query
           type: number
           format: integer
         -
-          name: preferredHeight
+          name: maxWidth
+          in: query
+          type: number
+          format: integer
+        -
+          name: minHeight
+          in: query
+          type: number
+          format: integer
+        -
+          name: maxHeight
           in: query
           type: number
           format: integer

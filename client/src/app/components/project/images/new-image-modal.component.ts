@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import {ImageData} from '../../../image-data';
 import {Presenter} from '../../../logic/presenter';
 import {Modal} from '../../../ui/modal';
+import {Image} from '../../../../swagger/model/Image';
 
 @Component({
     selector: 'app-new-image-modal',
@@ -10,7 +10,7 @@ import {Modal} from '../../../ui/modal';
 export class NewImageModalComponent {
 
     modal = new Modal();
-    model = new ImageData('', '', 100, 100);
+    image: Image = {name: '', description: '', minWidth: 100, maxWidth: 100, minHeight: 100, maxHeight: 100};
 
     constructor (private presenter: Presenter) {
     }
@@ -19,7 +19,7 @@ export class NewImageModalComponent {
         this.modal.show();
     }
     save() {
-        this.presenter.newImage(this.model);
+        this.presenter.newImage(this.image);
         this.hide();
     }
 

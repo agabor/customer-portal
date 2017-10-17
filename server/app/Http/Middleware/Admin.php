@@ -2,8 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Auth;
-use App\Http\Controllers\Controller;
 use App\Project;
 use Closure;
 use Illuminate\Http\Request;

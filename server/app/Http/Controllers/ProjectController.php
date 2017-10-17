@@ -171,20 +171,20 @@ class ProjectController extends Controller
         return $link;
     }
 
-    public function modifyLink(Request $request) {
+    public function modifyLink(Request $request, Link $link) {
         $input = $request->all();
 
-        self::$link->name = self::getString($input, 'name');
-        self::$link->icon = self::getString($input, 'icon');
-        self::$link->url = self::getString($input, 'url');
-        self::$link->save();
+        $link->name = self::getString($input, 'name');
+        $link->icon = self::getString($input, 'icon');
+        $link->url = self::getString($input, 'url');
+        $link->save();
 
-        return self::$link;
+        return $link;
     }
 
-    public function deleteLink()
+    public function deleteLink(Link $link)
     {
-        self::$link->delete();
+        $link->delete();
         return response('{}');
     }
 

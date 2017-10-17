@@ -15,20 +15,7 @@ use Laravel\Lumen\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {
-
-    /**
-     * @var Image
-     */
-    public static $image;
-
-
-    /**
-     * @var Link
-     */
-    public static $link;
-
-
-    protected static function getArray(array $input, string $paramName) : array
+   protected static function getArray(array $input, string $paramName) : array
     {
         if (!isset($input[$paramName]) || !is_array($input[$paramName])) {
             throw new \InvalidArgumentException('Missing the required parameter $' . $paramName);

@@ -74,7 +74,7 @@ class ModelBinderMiddleware
             /* @var Link $link */
             foreach ($project->links as $link) {
                 if ($link->id == $link_id) {
-                    Controller::$link = $link;
+                    $this->app->instance(Link::class, $link);
                     break;
                 }
             }

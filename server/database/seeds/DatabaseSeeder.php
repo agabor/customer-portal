@@ -74,8 +74,10 @@ class DatabaseSeeder extends Seeder
         $i->description = 'This image will appear on Facebook, when users log in to your application.';
         $i->width = 512;
         $i->height = 512;
-        $i->preferredWidth = 512;
-        $i->preferredHeight = 512;
+        $i->minWidth = 512;
+        $i->maxWidth = 512;
+        $i->minHeight = 512;
+        $i->maxHeight = 512;
         $i->fileName = '';
         $i->saveTo($p);
 
@@ -85,8 +87,10 @@ class DatabaseSeeder extends Seeder
         $i->description = 'This image will appear in the Google Play store as a banner.';
         $i->width = 1024;
         $i->height = 500;
-        $i->preferredWidth = 1024;
-        $i->preferredHeight = 500;
+        $i->minWidth = 1024;
+        $i->maxWidth = 1024;
+        $i->minHeight = 500;
+        $i->maxHeight = 500;
         $i->fileName = '';
         $i->saveTo($p);
 
@@ -124,8 +128,10 @@ class DatabaseSeeder extends Seeder
         $i->description = 'This image will appear on Facebook, when users log in to your application.';
         $i->width = 512;
         $i->height = 512;
-        $i->preferredWidth = 512;
-        $i->preferredHeight = 512;
+        $i->minWidth = 512;
+        $i->maxWidth = 512;
+        $i->minHeight = 512;
+        $i->maxHeight = 512;
         $i->fileName = 'ikon.png';
         $i->saveTo($p);
         $this->loadTestImage($i);
@@ -137,8 +143,10 @@ class DatabaseSeeder extends Seeder
         $i->description = 'This image will appear in the Google Play store as a banner.';
         $i->width = 1024;
         $i->height = 500;
-        $i->preferredWidth = 1024;
-        $i->preferredHeight = 500;
+        $i->minWidth = 1024;
+        $i->maxWidth = 1024;
+        $i->minHeight = 500;
+        $i->maxHeight = 500;
         $i->fileName = 'banner.png';
         $i->saveTo($p);
         $this->loadTestImage($i);

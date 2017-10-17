@@ -53,8 +53,10 @@ class ProjectTest extends TestCase
                         "description"=> "This image will appear in the Google Play store as a banner.",
                         "width"=> 1024,
                         "height"=> 500,
-                        "preferredHeight"=> 500,
-                        "preferredWidth"=> 1024,
+                        "minHeight"=> 500,
+                        "maxHeight"=> 500,
+                        "minWidth"=> 1024,
+                        "maxWidth"=> 1024,
                         "fileName"=> ""
                     ],[
                         'imageId' => 'facebook_icon',
@@ -62,8 +64,10 @@ class ProjectTest extends TestCase
                         'description' => 'This image will appear on Facebook, when users log in to your application.',
                         'width' => 512,
                         'height' => 512,
-                        'preferredWidth' => 512,
-                        'preferredHeight' => 512,
+                        'minWidth' => 512,
+                        'maxWidth' => 512,
+                        "minHeight"=> 512,
+                        "maxHeight"=> 512,
                         'fileName' => ''
                     ]],
                 'files' => [
@@ -198,8 +202,10 @@ class ProjectTest extends TestCase
             'name' => $newName,
             'imageId' => $newImageId,
             'description' => 'description',
-            'preferredWidth' => 100,
-            'preferredHeight' => 100
+            'minWidth' => 100,
+            'maxWidth' => 100,
+            'minHeight' => 100,
+            'maxHeight' => 100
         ]);
         self::assertEquals($newName, self::sampleProject()->getImageWithId($newImageId)->name);
 
@@ -244,15 +250,19 @@ class ProjectTest extends TestCase
     {
         $this->call('PATCH', '/api/v1/projects/sample_project/images', ['name' => $imageName,
             'description' => 'description',
-            'preferredWidth' => 100,
-            'preferredHeight' => 100], $this->cookies());
+            'minWidth' => 100,
+            'maxWidth' => 100,
+            'minHeight' => 100,
+            'maxHeight' => 100], $this->cookies());
         $this->assertStatusOk('add ' . $expectedId);
         $this->seeJsonEquals([
             'name' => $imageName,
             'imageId' => $expectedId,
             'description' => 'description',
-            'preferredWidth' => 100,
-            'preferredHeight' => 100
+            'minWidth' => 100,
+            'maxWidth' => 100,
+            'minHeight' => 100,
+            'maxHeight' => 100
         ]);
     }
 

@@ -13,8 +13,10 @@ use Illuminate\Http\UploadedFile;
  * @property string description
  * @property integer width
  * @property integer height
- * @property integer preferredWidth
- * @property integer preferredHeight
+ * @property integer minWidth
+ * @property integer maxWidth
+ * @property integer minHeight
+ * @property integer maxHeight
  * @property string fileName
  * @property Project project
  */
@@ -44,8 +46,10 @@ class Image extends Model
         $copy->name = $this->name;
         $copy->width = $this->width;
         $copy->height = $this->height;
-        $copy->preferredWidth = $this->preferredWidth;
-        $copy->preferredHeight = $this->preferredHeight;
+        $copy->minWidth = $this->minWidth;
+        $copy->maxWidth = $this->maxWidth;
+        $copy->minHeight = $this->minHeight;
+        $copy->maxHeight = $this->maxHeight;
         $copy->fileName = $this->fileName;
         return $copy;
     }

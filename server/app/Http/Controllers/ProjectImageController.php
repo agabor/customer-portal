@@ -87,7 +87,7 @@ class ProjectImageController extends Controller {
     private static function getPlaceholderImage(Image $img)
     {
         // Create image
-        $image = imagecreate($img->preferredWidth, $img->preferredHeight);
+        $image = imagecreate($img->minWidth, $img->minHeight);
 
         // Colours
         $bg = 'f5f5f5';
@@ -99,11 +99,11 @@ class ProjectImageController extends Controller {
         $setfg = imagecolorallocate($image, $fg['r'], $fg['g'], $fg['b']);
 
         // Text
-        $text = $img->preferredWidth .' x ' . $img->preferredHeight;
+        $text = $img->minWidth .' x ' . $img->minHeight;
 
         $font = dirname(__FILE__) . '/HelveticaNeueMed.ttf';
         // Text positioning
-        $fontsize = $img->preferredWidth > 200 ? 20 : 10;
+        $fontsize = $img->minWidth > 200 ? 20 : 10;
         $bbox = imagettfbbox($fontsize, 0, $font, $text);
         $fontheight = $bbox[5] - $bbox[1];   // height of a character
         $textwidth = $bbox[2] - $bbox[0];         // text width
@@ -152,10 +152,14 @@ class ProjectImageController extends Controller {
         }
         if (isset($data['description']))
             $image ->description = $data['description'];
-        if (isset($data['preferredWidth']))
-            $image ->preferredWidth = $data['preferredWidth'];
-        if (isset($data['preferredHeight']))
-            $image ->preferredHeight = $data['preferredHeight'];
+        if (isset($data['minWidth']))
+            $image ->minWidth = $data['minWidth'];
+        if (isset($data['maxWidth']))
+            $image ->maxWidth = $data['maxWidth'];
+        if (isset($data['minHeight']))
+            $image ->minHeight = $data['minHeight'];
+        if (isset($data['maxHeight']))
+            $image ->maxHeight = $data['maxHeight'];
     }
 
 }

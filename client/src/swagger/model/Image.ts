@@ -23,9 +23,13 @@ export interface Image {
 
     height?: number;
 
-    preferredWidth?: number;
+    minWidth?: number;
 
-    preferredHeight?: number;
+    maxWidth?: number;
+
+    minHeight?: number;
+
+    maxHeight?: number;
 
     fileName?: string;
 

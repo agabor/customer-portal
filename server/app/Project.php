@@ -124,7 +124,9 @@ class Project extends Model
 
     private static function imageHasWarning(Image $image) : bool
     {
-        return $image->fileName == null || strlen($image->fileName) == 0;
+        return $image->fileName == null || strlen($image->fileName) == 0
+            || $image->width < $image->minWidth || $image->width > $image->maxWidth
+            || $image->height < $image->minHeight || $image->height > $image->maxHeight;
     }
 
     private static function fileHasWarning(File $file) : bool

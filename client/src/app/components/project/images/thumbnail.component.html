@@ -27,26 +27,44 @@
                         <textarea class="form-control" autosize rows="1" id="description" name="description" required
                                   [(ngModel)]="image.description"></textarea>
                     </div>
-                    <div class="form-group">
-                        <label for="width">Width</label>
-                        <input type="number" class="form-control" name="width" id="width" required
-                               [(ngModel)]="image.preferredWidth">
-                    </div>
-                    <div class="form-group">
-                        <label for="width">Height</label>
-                        <input type="number" class="form-control" name="height" id="height" required
-                               [(ngModel)]="image.preferredHeight">
-                    </div>
+                  <div class="form-group">
+                    <label for="minWidth">Minimum Width</label>
+                    <input type="number" class="form-control" name="minWidth" id="minWidth" required
+                           [(ngModel)]="image.minWidth">
+                  </div>
+                  <div class="form-group">
+                    <label for="maxWidth">Maximum Width</label>
+                    <input type="number" class="form-control" name="maxWidth" id="maxWidth" required
+                           [(ngModel)]="image.maxWidth">
+                  </div>
+                  <div class="form-group">
+                    <label for="minHeight">Minimum Height</label>
+                    <input type="number" class="form-control" name="minHeight" id="minHeight" required
+                           [(ngModel)]="image.minHeight">
+                  </div>
+                  <div class="form-group">
+                    <label for="maxHeight">Maximum Height</label>
+                    <input type="number" class="form-control" name="maxHeight" id="maxHeight" required
+                           [(ngModel)]="image.maxHeight">
+                  </div>
                 </form>
                 <div [hidden]="image.fileName != null && image.fileName.length > 0"
                      class="alert alert-warning">
                     <span class="glyphicon glyphicon-cloud-upload"></span> You must upload this image!
                 </div>
-                <div [hidden]="image.fileName == null || image.fileName.length == 0 || image.width == image.preferredWidth && image.height == image.preferredHeight"
-                     class="alert alert-warning">
-                    <span class="glyphicon glyphicon-cloud-upload"></span>
-                    Worng image size! Expected: {{image.preferredWidth}} x {{image.preferredHeight}} actual: {{image.width}} x {{image.height}}
-                </div>
+              <div *ngIf="image.maxWidth === image.minWidth && image.maxHeight === image.minHeight" [hidden]="image.fileName == null || image.fileName.length == 0 || image.width == image.minWidth && image.height == image.minHeight"
+                   class="alert alert-warning">
+                <span class="glyphicon glyphicon-cloud-upload"></span>
+                Worng image size! Expected: {{image.minWidth}} x {{image.minHeight}} actual: {{image.width}} x {{image.height}}
+              </div>
+              <div *ngIf="image.maxWidth !== image.minWidth || image.maxHeight !== image.minHeight" [hidden]="image.fileName == null || image.fileName.length == 0 || image.width >= image.minWidth && image.height >= image.minHeight && image.width <= image.maxWidth && image.height <= image.maxHeight"
+                   class="alert alert-warning">
+                <span class="glyphicon glyphicon-cloud-upload"></span>
+                Worng image size!
+                Minimum size: {{image.minWidth}} x {{image.minHeight}}
+                Maximum size: {{image.maxWidth}} x {{image.maxHeight}}
+                Actual size: {{image.width}} x {{image.height}}
+              </div>
                 <div [hidden]="!project.admin">
                   <button type="button" class="btn btn-primary" (click)="save()" ><span class="glyphicon glyphicon-floppy-disk"></span></button>
                   <button type="button" class="btn btn-primary" (click)="edit()" ><span class="glyphicon glyphicon-edit"></span></button>

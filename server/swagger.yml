@@ -581,14 +581,18 @@ definitions:
         type: number
         format: integer
         example: 512
-      preferredWidth:
+      minWidth:
         type: number
         format: integer
-        example: 500
-      preferredHeight:
+      maxWidth:
         type: number
         format: integer
-        example: 512
+      minHeight:
+        type: number
+        format: integer
+      maxHeight:
+        type: number
+        format: integer
       fileName:
         type: string
         example: "logo.png"

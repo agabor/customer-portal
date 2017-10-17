@@ -19,18 +19,6 @@ export class FilesComponent implements OnInit{
         images: []
     };
 
-    currentImage: Image = {
-        imageId: null,
-        name: null,
-        width: 0,
-        height: 0,
-        preferredWidth: 0,
-        preferredHeight: 0,
-        fileName: null,
-        conditions: []
-    };
-
-
     modal = new Modal();
     public fileIsOver = false;
     private file: File;

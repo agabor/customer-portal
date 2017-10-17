@@ -210,7 +210,7 @@ export class Presenter {
         res.subscribe(data => {
             console.log(data);
         }, error => {
-            console.log(error.json());
+            console.log(error);
         });
     }
 

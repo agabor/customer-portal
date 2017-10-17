@@ -38,6 +38,7 @@ import {HomeGuard} from './guards/homeguard';
 import {NewPasswordComponent} from './components/new-password.component';
 import {PasswordSetGuard} from './guards/PasswordSetGuard';
 import {TokenGuard} from './guards/TokenGuard';
+import {CanDeactivateTexts} from './guards/CanDeactivateTexts';
 
 const appRoutes: Routes = [
   { path: '',         component: LoginFormComponent, canActivate: [HomeGuard] },
@@ -46,9 +47,14 @@ const appRoutes: Routes = [
   { path: 'password',    component: NewPasswordComponent, canActivate: [TokenGuard] },
   { path: 'logout',   component: LoginFormComponent, canActivate: [LogoutGuard] },
   { path: 'projects', component: ProjectListComponent, canActivate: [AuthGuard, PasswordSetGuard]},
-  { path: 'projects/:slug', component: ProjectComponent, canActivate: [AuthGuard, PasswordSetGuard]},
-  { path: 'projects/:slug/:part', component: ProjectComponent, canActivate: [AuthGuard, PasswordSetGuard]},
-  { path: 'projects/:slug/:part/:lang', component: ProjectComponent, canActivate: [AuthGuard, PasswordSetGuard]}
+  { path: 'projects/:slug', component: ProjectComponent, canActivate: [AuthGuard, PasswordSetGuard], children: [
+    {path: '', redirectTo: 'images', pathMatch: 'full'},
+    {path: 'images', component: ImagesComponent, canActivate: [AuthGuard, PasswordSetGuard]},
+    {path: 'texts', component: TextsComponent, canActivate: [AuthGuard, PasswordSetGuard], canDeactivate: [CanDeactivateTexts]},
+    {path: 'texts/:lang', component: TextsComponent, canActivate: [AuthGuard, PasswordSetGuard]},
+    {path: 'links', component: LinksComponent, canActivate: [AuthGuard, PasswordSetGuard]},
+    {path: 'users', component: UsersComponent, canActivate: [AuthGuard, PasswordSetGuard]}
+  ]},
   ];
 
 @NgModule({
@@ -83,6 +89,7 @@ const appRoutes: Routes = [
     HttpModule
   ],
   providers: [Presenter, AuthGuard, LogoutGuard, DefaultApi, HomeGuard, PasswordSetGuard, TokenGuard,
+    CanDeactivateTexts,
     {provide: BASE_PATH, useValue: AppConfig.basePath},
     {provide: Configuration, useValue: {withCredentials: true}},
     {provide: APP_BASE_HREF, useValue : AppConfig.appBasePath }],

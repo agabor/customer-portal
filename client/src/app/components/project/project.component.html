@@ -15,26 +15,26 @@
     <ul class="nav nav-pills">
         <li role="presentation" [class]="tabImages.pillClass"><a href="javascript:void(0);" (click)="showImages()">{{tabImages.name}} <span [innerHTML]="getBadgeImage()"></span></a></li>
         <li role="presentation" [class]="tabTexts.pillClass"><a href="javascript:void(0);" (click)="showTexts()" >{{tabTexts.name}} <span [innerHTML]="getBadgeText()"></span></a></li>
-        <!--<li role="presentation" [class]="tabFiles.pillClass"><a href="javascript:void(0);" (click)="showFiles()">{{tabFiles.name}} <span [innerHTML]="getBadgeFile()"></span></a></li>-->
         <li role="presentation" [class]="tabLinks.pillClass"><a href="javascript:void(0);" (click)="showLinks()">{{tabLinks.name}} </a></li>
         <li *ngIf="project.admin" role="presentation" [class]="tabUsers.pillClass"><a href="javascript:void(0);" (click)="showUsers()">{{tabUsers.name}} </a></li>
     </ul>
 
     <div class="tab-content">
-        <div id="images" [class]="tabImages.paneClass">
-            <app-project-images></app-project-images>
-        </div>
-        <div id="texts" [class]="tabTexts.paneClass">
-            <app-project-texts></app-project-texts>
-        </div>
-        <!--<div id="files" [class]="tabFiles.paneClass">
-           <project-files></project-files>
-        </div>-->
+      <router-outlet></router-outlet>
+      <!--<div id="images" [class]="tabImages.paneClass">
+          <app-project-images></app-project-images>
+      </div>
+      <div id="texts" [class]="tabTexts.paneClass">
+          <app-project-texts></app-project-texts>
+      </div>
+      <div id="files" [class]="tabFiles.paneClass">
+         <project-files></project-files>
+      </div>
         <div id="links" [class]="tabLinks.paneClass">
             <app-project-links></app-project-links>
         </div>
         <div id="users" [class]="tabUsers.paneClass">
             <app-project-users></app-project-users>
-        </div>
+        </div>-->
     </div>
 </div>

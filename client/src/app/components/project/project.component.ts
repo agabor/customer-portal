@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { Presenter } from '../../logic/presenter';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Project} from '../../../swagger/model/Project';
 import { Tab } from '../../ui/tab';
 import {ProjectLogic} from '../../logic/project-logic';
 import {User} from "../../../swagger/model/User";
+import {TextsComponent} from "./texts/texts.component";
 
 @Component({
     templateUrl: './project.component.html',
@@ -38,7 +39,6 @@ export class ProjectComponent implements OnInit {
     tabUsers: Tab = new Tab('Users');
 
     tabs: Tab[] = [this.tabImages, this.tabTexts, this.tabFiles, this.tabLinks, this.tabUsers];
-
 
     constructor(private route: ActivatedRoute, private router: Router, private presenter: Presenter) {
         presenter.setProjectComponent(this);
@@ -135,6 +135,4 @@ export class ProjectComponent implements OnInit {
         }
         return '<span class="badge">' +  count + '</span>';
     }
-
-
 }

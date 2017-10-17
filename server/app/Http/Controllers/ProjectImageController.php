@@ -63,8 +63,6 @@ class ProjectImageController extends Controller {
 
     public function imagePost(Request $request, Project $project, Image $image)
     {
-        if ($image == null)
-            return response('', 404);
         $uploadedFile = $request->file('image');
         if ($image->fileName !== null && $image->fileName !== '') {
             $copy = $image->copy();
@@ -90,11 +88,6 @@ class ProjectImageController extends Controller {
         $width = $img->minWidth ?? $img->maxWidth ?? 100;
         $height = $img->minHeight ?? $img->maxHeight ?? 100;
         $image = imagecreate($width, $height);
-
-        // Colours
-        $bg = 'f5f5f5';
-        $bg = self::hex2rgb($bg);
-        $setbg = imagecolorallocate($image, $bg['r'], $bg['g'], $bg['b']);
 
         $fg = '337ab7';
         $fg = self::hex2rgb($fg);

@@ -52,18 +52,13 @@
                      class="alert alert-warning">
                     <span class="glyphicon glyphicon-cloud-upload"></span> You must upload this image!
                 </div>
-              <div *ngIf="image.maxWidth === image.minWidth && image.maxHeight === image.minHeight" [hidden]="image.fileName == null || image.fileName.length == 0 || image.width == image.minWidth && image.height == image.minHeight"
+              <div [hidden]="widthWarning == null"
                    class="alert alert-warning">
-                <span class="glyphicon glyphicon-cloud-upload"></span>
-                Worng image size! Expected: {{image.minWidth}} x {{image.minHeight}} actual: {{image.width}} x {{image.height}}
+                {{widthWarning}}
               </div>
-              <div *ngIf="image.maxWidth !== image.minWidth || image.maxHeight !== image.minHeight" [hidden]="image.fileName == null || image.fileName.length == 0 || image.width >= image.minWidth && image.height >= image.minHeight && image.width <= image.maxWidth && image.height <= image.maxHeight"
+              <div [hidden]="heightWarning == null"
                    class="alert alert-warning">
-                <span class="glyphicon glyphicon-cloud-upload"></span>
-                Worng image size!
-                Minimum size: {{image.minWidth}} x {{image.minHeight}}
-                Maximum size: {{image.maxWidth}} x {{image.maxHeight}}
-                Actual size: {{image.width}} x {{image.height}}
+                {{heightWarning}}
               </div>
                 <div [hidden]="!project.admin">
                   <button type="button" class="btn btn-primary" (click)="save()" ><span class="glyphicon glyphicon-floppy-disk"></span></button>

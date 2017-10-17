@@ -204,10 +204,11 @@ export class Presenter {
         });
     }
 
-    uploadImage(file: File, image: Image) {
+    uploadImage(file: File, image: Image, callback: (Image) => void) {
         const res = this.api.projectsIdImagesImageIdPost(this.activeProject.slug, image.imageId, file);
         res.subscribe(data => {
             console.log(data);
+            callback(data);
         }, error => {
             console.log(error);
         });

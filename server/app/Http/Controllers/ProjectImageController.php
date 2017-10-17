@@ -71,7 +71,7 @@ class ProjectImageController extends Controller {
             $project->versionedImages()->save($copy);
         }
         $image->setFile($uploadedFile);
-        return response('{}');
+        return $image;
     }
 
     public function imageDelete(Project $project, Image $image)

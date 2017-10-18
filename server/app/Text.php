@@ -48,7 +48,7 @@ class Text extends Model
      * @var array
      */
     protected $hidden = [
-        'id', 'project_id'
+        'id', 'project_id', 'project'
     ];
 
     public function getValue(Language $localelanguage) {

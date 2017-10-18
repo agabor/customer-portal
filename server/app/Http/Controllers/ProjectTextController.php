@@ -78,6 +78,7 @@ class ProjectTextController extends Controller {
         $text->name = $input['name'];
         $text->textId = $input['textId'];
         $text->description = $input['description'];
+        $text->startGroup = $input['startGroup'];
         $text->minLength = $input['minLength'];
         $text->maxLength = $input['maxLength'];
         $project->texts()->save($text);
@@ -89,6 +90,7 @@ class ProjectTextController extends Controller {
             $lt->value = '';
             $text->saveLocale($lt);
         }
+        $text->load(['values']);
         return $text;
     }
 
@@ -96,6 +98,7 @@ class ProjectTextController extends Controller {
         $input = $request->all();
         $text->name = $input['name'];
         $text->description = $input['description'];
+        $text->startGroup = $input['startGroup'];
         $text->minLength = $input['minLength'];
         $text->maxLength = $input['maxLength'];
         $text->save();

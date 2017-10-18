@@ -89,6 +89,11 @@ class ProjectImageController extends Controller {
         $height = $img->minHeight ?? $img->maxHeight ?? 100;
         $image = imagecreate($width, $height);
 
+        // Colours
+        $bg = 'f5f5f5';
+        $bg = self::hex2rgb($bg);
+        imagecolorallocate($image, $bg['r'], $bg['g'], $bg['b']);
+
         $fg = '337ab7';
         $fg = self::hex2rgb($fg);
         $setfg = imagecolorallocate($image, $fg['r'], $fg['g'], $fg['b']);

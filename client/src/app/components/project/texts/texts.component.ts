@@ -188,6 +188,7 @@ export class TextsComponent implements OnInit {
     this.textModalComponent.model = {
       name: text.name,
       description: text.description,
+      startGroup: text.startGroup,
       minLength: text.minLength,
       maxLength: text.maxLength,
       values: []
@@ -196,11 +197,15 @@ export class TextsComponent implements OnInit {
   }
 
   public deleteText(text: Text) {
+    if (!confirm('Are you sure you want to delete this text?')) {
+      return;
+    }
     const texts = this.presenter.activeProject.texts;
     const index = texts.indexOf(text, 0);
     if (index > -1) {
       texts.splice(index, 1);
     }
+    this.presenter.deleteText(text);
     this.saved = false;
     this.setEntries();
   }
@@ -231,8 +236,10 @@ export class TextsComponent implements OnInit {
     } else {
       this.editedText.name = text.name;
       this.editedText.description = text.description;
+      this.editedText.startGroup = text.startGroup;
       this.editedText.minLength = text.minLength;
       this.editedText.maxLength = text.maxLength;
+      this.presenter.updateText(this.editedText);
     }
     this.textModalComponent.hide();
   }

@@ -17,6 +17,7 @@ use App\Http\Controllers\InitController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectImageController;
 use App\Http\Controllers\ProjectLinkController;
+use App\Http\Controllers\ProjectTextController;
 use App\Http\Controllers\ProjectUserController;
 use Illuminate\Support\Facades\Artisan;
 
@@ -51,12 +52,12 @@ $app->group(['middleware' => ['auth', 'cors'], 'prefix' => '/api/v1/'], function
 $app->group(['middleware' => ['auth', 'cors', 'model'], 'prefix' => '/api/v1/'], function () use ($app) {
 
     $app->GET('projects/{project_id}', ProjectController::class . '@projectsIdGet');
-    $app->PUT('projects/{project_id}/texts', ProjectController::class . '@projectsIdPutTexts');
+    $app->PUT('projects/{project_id}/texts', ProjectTextController::class . '@projectsIdPutTexts');
 
     $app->GET('projects/{project_id}/images/{image_id}', ProjectImageController::class . '@imageGet');
     $app->POST('projects/{project_id}/images/{image_id}', ProjectImageController::class . '@imagePost');
 
-    $app->GET('projects/{project_id}/text_versions',ProjectController::class . '@textVersions');
+    $app->GET('projects/{project_id}/text_versions',ProjectTextController::class . '@textVersions');
 });
 
 $app->group(['middleware' => ['auth', 'cors', 'model', 'admin'], 'prefix' => '/api/v1/'], function () use ($app) {

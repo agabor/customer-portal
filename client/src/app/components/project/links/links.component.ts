@@ -45,4 +45,18 @@ export class LinksComponent {
       this.presenter.deleteLink(link);
     }
   }
+
+  save() {
+    this.presenter.saveLinks();
+  }
+  reset() {
+    const self = this;
+    this.presenter.loadProject(this.presenter.activeProject.slug, function () {
+      self.project = self.presenter.activeProject;
+    });
+  }
+
+  isSaved() {
+    return false;
+  }
 }

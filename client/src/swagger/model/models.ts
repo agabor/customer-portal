@@ -1,4 +1,5 @@
 export * from './Body';
+export * from './Body1';
 export * from './File';
 export * from './Image';
 export * from './ImageCondition';

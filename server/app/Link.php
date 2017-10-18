@@ -33,6 +33,6 @@ class Link extends Model {
      * @var array
      */
     protected $hidden = [
-
+        'project_id', 'project'
     ];
 }

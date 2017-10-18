@@ -2,10 +2,11 @@
     float: left;
     font-size: 40px;
     margin-right: 20px;
+    margin-bottom: 10px;
     width: 40px;
 }
 
-button {
+.right {
   float: right;
   margin-left: 5px;
 }

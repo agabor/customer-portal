@@ -16,6 +16,7 @@ class ProjectLinkController extends Controller
     public static function addRoutes(Application $app)
     {
         $app->POST(self::uri(''), self::action('addLink'));
+        $app->PUT(self::uri(''), self::action('putLinks'));
         $app->POST(self::uri('/{link_id}'), self::action('modifyLink'));
         $app->DELETE(self::uri('/{link_id}'), self::action('deleteLink'));
     }
@@ -54,6 +55,22 @@ class ProjectLinkController extends Controller
     public function deleteLink(Link $link)
     {
         $link->delete();
+        return response('{}');
+    }
+
+    public function putLinks(Request $request, Project $project)
+    {
+        $input = $request->all();
+        $sources = self::getArray($input, 'sources');
+        $dict = [];
+        foreach ($sources as $link) {
+            $dict[$link['id']] = $link['url'];
+        }
+        /* @var Link $link */
+        foreach ($project->links as $link) {
+            $link->url = $dict[$link->id];
+            $link->save();
+        }
         return response('{}');
     }
 }

@@ -72,19 +72,24 @@ class ProjectTextController extends Controller {
     }
 
 
-    public function addText(Request $request, Project $project) {
+    public function addText(Request $request, Project $project)
+    {
         $input = $request->all();
         $text = new Text();
         $text->name = $input['name'];
         $text->textId = $input['textId'];
-        $text->description = $input['description'];
-        $text->startGroup = $input['startGroup'];
-        $text->minLength = $input['minLength'];
-        $text->maxLength = $input['maxLength'];
+        if (array_key_exists('description', $input))
+            $text->description = $input['description'];
+        if (array_key_exists('startGroup', $input))
+            $text->startGroup = $input['startGroup'];
+        if (array_key_exists('minLength', $input))
+            $text->minLength = $input['minLength'];
+        if (array_key_exists('maxLength', $input))
+            $text->maxLength = $input['maxLength'];
         $project->texts()->save($text);
 
         /* @var Language $language */
-        foreach($project->languages as $language) {
+        foreach ($project->languages as $language) {
             $lt = new Localtext();
             $lt->language_id = $language->id;
             $lt->value = '';

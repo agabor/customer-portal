@@ -195,7 +195,7 @@ export class Presenter {
   }
 
   saveProjectTexts(onDone: () => void) {
-    const res = this.api.projectsIdTextsPut(this.activeProject.slug, new TextsBody(this.activeProject.texts));
+    const res = this.api.projectsIdTextsPut(this.activeProject.slug, {sources: this.activeProject.texts});
     res.subscribe(data => {
       console.log(data);
       onDone();
@@ -405,10 +405,13 @@ export class Presenter {
       console.log(error);
     });
   }
-}
 
-class TextsBody implements Body {
-    constructor(public sources: Text[]) {
-
-    }
+  saveLinks() {
+    const res = this.api.projectsIdLinksPut(this.activeProject.slug, {sources: this.activeProject.links});
+    res.subscribe(data => {
+      console.log(data);
+    }, error => {
+      console.log(error);
+    });
+  }
 }

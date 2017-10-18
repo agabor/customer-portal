@@ -1,13 +1,19 @@
 <div class="list-group">
   <div *ngFor="let link of project.links" class="list-group-item">
     <span class="fa {{link.icon}}"></span>
-    <button type="button" class="btn btn-primary" (click)="deleteLink(link)" ><span class="glyphicon glyphicon-trash"></span></button>
-    <button type="button" class="btn btn-primary" (click)="edit(link)" ><span class="glyphicon glyphicon-edit"></span></button>
-    <strong>{{link.name}}</strong><br>
-    <a href="{{link.url}}" target="_blank">{{link.url}}</a>
+    <button type="button" class="right btn btn-success" (click)="deleteLink(link)" ><span class="glyphicon glyphicon-trash"></span></button>
+    <button type="button" class="right btn btn-success" (click)="edit(link)" ><span class="glyphicon glyphicon-edit"></span></button>
+    <a class="right btn btn-primary" href="{{link.url}}" target="_blank"><span class="glyphicon glyphicon-link"></span></a>
+    <form class="form-group">
+        <label for="link_url">{{link.name}}</label>
+        <input class="form-control" type="text" id="link_url" name="link_url" [value]="link.url" required
+               [(ngModel)]="link.url">
+    </form>
   </div>
 </div>
 <div *ngIf="project.admin">
-  <button type="button" class="btn btn-primary" (click)="add()" >Add link</button>
+  <button type="button" class="btn btn-success" (click)="add()" >Add link</button>
+  <button type="button" class="btn btn-primary right {{isSaved() ? 'disabled' : ''}}" (click)="save()" >Save <span [hidden]="!saving"><span class="glyphicon glyphicon-hourglass"></span></span></button>
+  <button type="button" class="btn btn-primary right {{isSaved() ? 'disabled' : ''}}" (click)="reset()" >Reset</button>
   <app-link-modal></app-link-modal>
 </div>

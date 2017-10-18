@@ -277,6 +277,22 @@ export class DefaultApi {
     }
 
     /**
+     * update links
+     * @param id project identifier
+     * @param body 
+     */
+    public projectsIdLinksPut(id: string, body?: models.Body, extraHttpRequestParams?: any): Observable<{}> {
+        return this.projectsIdLinksPutWithHttpInfo(id, body, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
      * modify project
      * @param id project identifier
      * @param name project name
@@ -318,7 +334,7 @@ export class DefaultApi {
      * @param id project identifier
      * @param body 
      */
-    public projectsIdTextsPut(id: string, body?: models.Body, extraHttpRequestParams?: any): Observable<{}> {
+    public projectsIdTextsPut(id: string, body?: models.Body1, extraHttpRequestParams?: any): Observable<{}> {
         return this.projectsIdTextsPutWithHttpInfo(id, body, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -1166,6 +1182,48 @@ export class DefaultApi {
 
     /**
      * 
+     * update links
+     * @param id project identifier
+     * @param body 
+     */
+    public projectsIdLinksPutWithHttpInfo(id: string, body?: models.Body, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/projects/${id}/links'
+                    .replace('${' + 'id' + '}', String(id));
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'id' is not null or undefined
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectsIdLinksPut.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        headers.set('Content-Type', 'application/json');
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Put,
+            headers: headers,
+            body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
      * modify project
      * @param id project identifier
      * @param name project name
@@ -1309,7 +1367,7 @@ export class DefaultApi {
      * @param id project identifier
      * @param body 
      */
-    public projectsIdTextsPutWithHttpInfo(id: string, body?: models.Body, extraHttpRequestParams?: any): Observable<Response> {
+    public projectsIdTextsPutWithHttpInfo(id: string, body?: models.Body1, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/projects/${id}/texts'
                     .replace('${' + 'id' + '}', String(id));
 

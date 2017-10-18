@@ -248,6 +248,27 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Link'
+    put:
+      description: update links
+      parameters:
+        -
+          name: id
+          in: path
+          description: project identifier
+          required: true
+          type: string
+        -
+          name: body
+          in: body
+          schema:
+            properties:
+              sources:
+                type: array
+                items:
+                  $ref: '#/definitions/Link'
+      responses:
+        200:
+          description: OK
   /projects/{id}/links/{link_id}:
     post:
       description: modify user

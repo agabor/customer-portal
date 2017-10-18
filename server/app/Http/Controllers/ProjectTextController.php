@@ -44,9 +44,6 @@ class ProjectTextController extends Controller {
 
         $this->updateTextValues($sources, $project);
 
-        if ($project->admin) {
-            $this->updateTexts($sources, $project);
-        }
         $project->calculateState();
         return response('{}');
     }
@@ -60,10 +57,6 @@ class ProjectTextController extends Controller {
 
         /* @var Text $text */
         foreach ($project->texts as $text) {
-            if (!$dict->hasText($text->textId)){
-                $text->delete();
-                continue;
-            }
             foreach ($languages as $language) {
                 /* @var Localtext value */
                 $value = $text->getValue($language);
@@ -78,40 +71,48 @@ class ProjectTextController extends Controller {
         }
     }
 
-    private function updateTexts(array $sources, Project $project)
-    {
-        $languages = Language::all();
-        $language_ids = [];
+
+    public function addText(Request $request, Project $project) {
+        $input = $request->all();
+        $text = new Text();
+        $text->name = $input['name'];
+        $text->textId = $input['textId'];
+        $text->description = $input['description'];
+        $text->minLength = $input['minLength'];
+        $text->maxLength = $input['maxLength'];
+        $project->texts()->save($text);
+
         /* @var Language $language */
-        foreach ($languages as $language) {
-            $language_ids[$language->code] = $language->id;
+        foreach($project->languages as $language) {
+            $lt = new Localtext();
+            $lt->language_id = $language->id;
+            $lt->value = '';
+            $text->saveLocale($lt);
         }
-        foreach ($sources as $text) {
-            $t = $project->getText($text['textId']);
-            if ($t != null) {
-                $t->name = $text['name'];
-                $t->description = $text['description'];
-                $t->minLength = $text['minLength'];
-                $t->maxLength = $text['maxLength'];
-                $t->save();
-            } else {
-                $t = new Text($text);
-                $project->texts()->save($t);
-                $values = self::getArray($text, 'values');
-                foreach ($values as $language => $value) {
-                    $t->saveLocale(new Localtext(['language_id' => $language_ids[$value['languageCode']], 'value' => $value['value']]));
-                }
-            }
-        }
+        return $text;
     }
 
+    public function updateText(Request $request, Text $text) {
+        $input = $request->all();
+        $text->name = $input['name'];
+        $text->description = $input['description'];
+        $text->minLength = $input['minLength'];
+        $text->maxLength = $input['maxLength'];
+        $text->save();
+        return $text;
+    }
+
+    public function deleteText(Request $request, Text $text){
+        $text->delete();
+        return response('{}');
+    }
 
     public function textVersions(Request $request, Project $project) {
         if ($project == null)
             return null;
 
         $input = $request->all();
-        $text_id = self::getString($input, 'text_id');
+        $text_id = self::getString($input, 'textId');
         $languageCode = self::getString($input, 'languageCode');
         $text = $project->getText($text_id);
         $versions = [];
@@ -137,11 +138,6 @@ class LocaleTextDict
             $this->dict[$textId] = [];
         $this->dict[$textId][$localCode] = $value;
 
-    }
-
-    public function hasText(string $textId)
-    {
-        return array_key_exists($textId, $this->dict);
     }
 
     public function get(string $textId, string $localCode) //: string

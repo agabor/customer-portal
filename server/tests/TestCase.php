@@ -77,7 +77,7 @@ abstract class TestCase extends Laravel\Lumen\Testing\TestCase
     protected function assertStatus($message, $expectedStatus)
     {
         $status = $this->response->status();
-        if ($status == 500)
+        if ($status !== $expectedStatus)
             file_put_contents('E:\temp\\' . $message . ' err.html', $this->response->content());
         $this->assertEquals($expectedStatus, $status, $message);
     }

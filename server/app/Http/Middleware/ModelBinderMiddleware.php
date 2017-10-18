@@ -15,6 +15,7 @@ use App\Http\Controllers\ProjectImageController;
 use App\Image;
 use App\Link;
 use App\Project;
+use App\Text;
 use App\User;
 use Illuminate\Container\Container;
 use Illuminate\Http\Request;
@@ -42,6 +43,7 @@ class ModelBinderMiddleware
                     $this->bindImage($params, $project);
                     $this->bindUser($params, $project);
                     $this->bindLink($params, $project);
+                    $this->bindText($params, $project);
                     break;
                 }
             }
@@ -91,6 +93,23 @@ class ModelBinderMiddleware
             foreach ($project->images as $image) {
                 if ($image->imageId == $image_id) {
                     $this->app->instance(Image::class, $image);
+                    break;
+                }
+            }
+        }
+    }
+
+    private function bindText(array $params, Project $project)
+    {
+        if (array_key_exists('text_id', $params) && is_string($params['text_id'])) {
+
+            /* @var string $text_id */
+            $text_id = $params['text_id'];
+
+            /* @var Text $text */
+            foreach ($project->texts as $text) {
+                if ($text->textId == $text_id) {
+                    $this->app->instance(Text::class, $text);
                     break;
                 }
             }

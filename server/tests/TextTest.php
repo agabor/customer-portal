@@ -7,7 +7,7 @@ class TextTest extends TestCase {
         $this->login();
 
 
-        $this->call('GET', '/api/v1/projects/sample_project/text_versions', ['text_id' => 'webpage_title', 'languageCode' => 'en'], $this->cookies());
+        $this->call('GET', '/api/v1/projects/sample_project/text_versions', ['textId' => 'webpage_title', 'languageCode' => 'en'], $this->cookies());
         $this->assertStatusOk('text versions');
         $response = json_decode($this->response->getContent(), true);
         self::assertEquals(1, count($response));
@@ -19,7 +19,7 @@ class TextTest extends TestCase {
         $texts[0]['values'][0]['value'] = 'changed';
         $this->call('PUT', '/api/v1/projects/sample_project/texts', ['sources' => $texts], $this->cookies());
         $this->assertStatusOk('put texts');
-        $this->call('GET', '/api/v1/projects/sample_project/text_versions', ['text_id' => 'webpage_title', 'languageCode' => 'en'], $this->cookies());
+        $this->call('GET', '/api/v1/projects/sample_project/text_versions', ['textId' => 'webpage_title', 'languageCode' => 'en'], $this->cookies());
         $this->assertStatusOk('text versions');
         $response = json_decode($this->response->getContent(), true);
         self::assertEquals(2, count($response));
@@ -38,23 +38,19 @@ class TextTest extends TestCase {
             'description' => 'abc',
             'textId' => 'sample',
             'minLength' => 9,
-            'maxLength' => 99,
-            'values' => [
-                ['languageCode' => 'en', 'value' => 'a'],
-                ['languageCode' => 'hu', 'value' => 'b']
-            ]
+            'maxLength' => 99
         ];
+
         $texts[] = $newTextData;
-        $this->call('PUT', '/api/v1/projects/sample_project/texts', ['sources' => $texts], $this->cookies());
-        $this->assertStatusOk('put texts');
+        $this->call('POST', '/api/v1/projects/sample_project/texts', $newTextData, $this->cookies());
+        $this->assertStatusOk('post texts');
         $this->call('GET', '/api/v1/projects/sample_project', [], $this->cookies());
         $this->assertStatusOk('get project');
         $this->seeJson($newTextData);
 
-
         array_pop($texts);
-        $this->call('PUT', '/api/v1/projects/sample_project/texts', ['sources' => $texts], $this->cookies());
-        $this->assertStatusOk('put texts');
+        $this->call('DELETE', '/api/v1/projects/sample_project/texts/' . $newTextData['textId'], [], $this->cookies());
+        $this->assertStatusOk('delete text');
         $this->call('GET', '/api/v1/projects/sample_project', [], $this->cookies());
         $this->assertStatusOk('get project');
         $this->dontSeeJson($newTextData);
@@ -75,11 +71,10 @@ class TextTest extends TestCase {
             'description' => 'abc',
             'textId' => 'sample',
             'minLength' => 9,
-            'maxLength' => 99,
-            'values' => []
+            'maxLength' => 99
         ];
         $texts[] = $newTextData;
-        $this->call('PUT', '/api/v1/projects/sample_project/texts', ['sources' => $texts], $this->cookies());
+        $this->call('POST', '/api/v1/projects/sample_project/texts', $newTextData, $this->cookies());
         $this->assertStatusOk('put texts');
         $this->call('GET', '/api/v1/projects/sample_project', [], $this->cookies());
         $this->assertStatusOk('get project');

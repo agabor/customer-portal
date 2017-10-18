@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property integer id
@@ -15,15 +16,15 @@ class Localtext extends Model
     public $timestamps = false;
     protected $appends = ['languageCode'];
 
-    public function text(){
+    public function text() : BelongsTo{
         return $this->belongsTo(Text::class);
     }
 
-    public function owningText(){
+    public function owningText() : BelongsTo{
         return $this->belongsTo(Text::class, 'owning_text_id');
     }
 
-    public function language(){
+    public function language() : BelongsTo{
         return $this->belongsTo(Language::class);
     }
 

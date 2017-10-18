@@ -324,6 +324,116 @@ paths:
       responses:
         200:
           description: OK
+    post:
+      description: add new text
+      parameters:
+        -
+          name: id
+          in: path
+          description: project identifier
+          required: true
+          type: string
+        -
+          name: textId
+          in: query
+          required: true
+          type: string
+        -
+          name: name
+          in: query
+          required: true
+          type: string
+        -
+          name: description
+          in: query
+          required: true
+          type: string
+        -
+          name: startGroup
+          in: query
+          required: true
+          type: string
+        -
+          name: minLength
+          in: query
+          required: true
+          type: number
+          format: integer
+        -
+          name: maxLength
+          in: query
+          required: true
+          type: number
+          format: integer
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Text'
+  /projects/{id}/texts/{textId}:
+    post:
+      description: modify text
+      parameters:
+        -
+          name: id
+          in: path
+          description: project identifier
+          required: true
+          type: string
+        -
+          name: textId
+          in: path
+          required: true
+          type: string
+        -
+          name: name
+          in: query
+          required: true
+          type: string
+        -
+          name: description
+          in: query
+          required: true
+          type: string
+        -
+          name: startGroup
+          in: query
+          required: true
+          type: string
+        -
+          name: minLength
+          in: query
+          required: true
+          type: number
+          format: integer
+        -
+          name: maxLength
+          in: query
+          required: true
+          type: number
+          format: integer
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Text'
+    delete:
+      description: delete text
+      parameters:
+        -
+          name: id
+          in: path
+          description: project identifier
+          required: true
+          type: string
+        -
+          name: textId
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
   /projects/{id}/images:
     patch:
       description: add image

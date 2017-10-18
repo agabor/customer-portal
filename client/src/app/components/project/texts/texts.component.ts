@@ -225,8 +225,9 @@ export class TextsComponent implements OnInit {
         text.textId = baseID + idx;
         idx += 1;
       }
-      this.presenter.activeProject.texts.push(text);
-      this.setEntries();
+      this.presenter.addText(text, () => {
+        this.setEntries();
+      });
     } else {
       this.editedText.name = text.name;
       this.editedText.description = text.description;
@@ -241,7 +242,7 @@ export class TextsComponent implements OnInit {
   }
 
   removeLanguage() {
-    let language = this.currentLanguage;
+    const language = this.currentLanguage;
     if (confirm('Are you sure that you want to remove the ' + language.name + ' language?')) {
       for (const text of this.project.texts) {
         const newValues = [];

@@ -36,6 +36,7 @@ export class TextModalComponent {
         this.model = {
             name: '',
             description: '',
+            startGroup: '',
             minLength: 10,
             maxLength: 1000,
             values: []

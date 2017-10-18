@@ -293,12 +293,70 @@ export class DefaultApi {
     }
 
     /**
+     * add new text
+     * @param id project identifier
+     * @param textId 
+     * @param name 
+     * @param description 
+     * @param startGroup 
+     * @param minLength 
+     * @param maxLength 
+     */
+    public projectsIdTextsPost(id: string, textId: string, name: string, description: string, startGroup: string, minLength: number, maxLength: number, extraHttpRequestParams?: any): Observable<models.Text> {
+        return this.projectsIdTextsPostWithHttpInfo(id, textId, name, description, startGroup, minLength, maxLength, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
      * update texts
      * @param id project identifier
      * @param body 
      */
     public projectsIdTextsPut(id: string, body?: models.Body, extraHttpRequestParams?: any): Observable<{}> {
         return this.projectsIdTextsPutWithHttpInfo(id, body, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
+     * delete text
+     * @param id project identifier
+     * @param textId 
+     */
+    public projectsIdTextsTextIdDelete(id: string, textId: string, extraHttpRequestParams?: any): Observable<{}> {
+        return this.projectsIdTextsTextIdDeleteWithHttpInfo(id, textId, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
+     * modify text
+     * @param id project identifier
+     * @param textId 
+     * @param name 
+     * @param description 
+     * @param startGroup 
+     * @param minLength 
+     * @param maxLength 
+     */
+    public projectsIdTextsTextIdPost(id: string, textId: string, name: string, description: string, startGroup: string, minLength: number, maxLength: number, extraHttpRequestParams?: any): Observable<models.Text> {
+        return this.projectsIdTextsTextIdPostWithHttpInfo(id, textId, name, description, startGroup, minLength, maxLength, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -1155,6 +1213,98 @@ export class DefaultApi {
 
     /**
      * 
+     * add new text
+     * @param id project identifier
+     * @param textId 
+     * @param name 
+     * @param description 
+     * @param startGroup 
+     * @param minLength 
+     * @param maxLength 
+     */
+    public projectsIdTextsPostWithHttpInfo(id: string, textId: string, name: string, description: string, startGroup: string, minLength: number, maxLength: number, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/projects/${id}/texts'
+                    .replace('${' + 'id' + '}', String(id));
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'id' is not null or undefined
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectsIdTextsPost.');
+        }
+        // verify required parameter 'textId' is not null or undefined
+        if (textId === null || textId === undefined) {
+            throw new Error('Required parameter textId was null or undefined when calling projectsIdTextsPost.');
+        }
+        // verify required parameter 'name' is not null or undefined
+        if (name === null || name === undefined) {
+            throw new Error('Required parameter name was null or undefined when calling projectsIdTextsPost.');
+        }
+        // verify required parameter 'description' is not null or undefined
+        if (description === null || description === undefined) {
+            throw new Error('Required parameter description was null or undefined when calling projectsIdTextsPost.');
+        }
+        // verify required parameter 'startGroup' is not null or undefined
+        if (startGroup === null || startGroup === undefined) {
+            throw new Error('Required parameter startGroup was null or undefined when calling projectsIdTextsPost.');
+        }
+        // verify required parameter 'minLength' is not null or undefined
+        if (minLength === null || minLength === undefined) {
+            throw new Error('Required parameter minLength was null or undefined when calling projectsIdTextsPost.');
+        }
+        // verify required parameter 'maxLength' is not null or undefined
+        if (maxLength === null || maxLength === undefined) {
+            throw new Error('Required parameter maxLength was null or undefined when calling projectsIdTextsPost.');
+        }
+        if (textId !== undefined) {
+            queryParameters.set('textId', <any>textId);
+        }
+
+        if (name !== undefined) {
+            queryParameters.set('name', <any>name);
+        }
+
+        if (description !== undefined) {
+            queryParameters.set('description', <any>description);
+        }
+
+        if (startGroup !== undefined) {
+            queryParameters.set('startGroup', <any>startGroup);
+        }
+
+        if (minLength !== undefined) {
+            queryParameters.set('minLength', <any>minLength);
+        }
+
+        if (maxLength !== undefined) {
+            queryParameters.set('maxLength', <any>maxLength);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
      * update texts
      * @param id project identifier
      * @param body 
@@ -1184,6 +1334,139 @@ export class DefaultApi {
             method: RequestMethod.Put,
             headers: headers,
             body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * delete text
+     * @param id project identifier
+     * @param textId 
+     */
+    public projectsIdTextsTextIdDeleteWithHttpInfo(id: string, textId: string, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/projects/${id}/texts/${textId}'
+                    .replace('${' + 'id' + '}', String(id))
+                    .replace('${' + 'textId' + '}', String(textId));
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'id' is not null or undefined
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectsIdTextsTextIdDelete.');
+        }
+        // verify required parameter 'textId' is not null or undefined
+        if (textId === null || textId === undefined) {
+            throw new Error('Required parameter textId was null or undefined when calling projectsIdTextsTextIdDelete.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Delete,
+            headers: headers,
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * modify text
+     * @param id project identifier
+     * @param textId 
+     * @param name 
+     * @param description 
+     * @param startGroup 
+     * @param minLength 
+     * @param maxLength 
+     */
+    public projectsIdTextsTextIdPostWithHttpInfo(id: string, textId: string, name: string, description: string, startGroup: string, minLength: number, maxLength: number, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/projects/${id}/texts/${textId}'
+                    .replace('${' + 'id' + '}', String(id))
+                    .replace('${' + 'textId' + '}', String(textId));
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'id' is not null or undefined
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectsIdTextsTextIdPost.');
+        }
+        // verify required parameter 'textId' is not null or undefined
+        if (textId === null || textId === undefined) {
+            throw new Error('Required parameter textId was null or undefined when calling projectsIdTextsTextIdPost.');
+        }
+        // verify required parameter 'name' is not null or undefined
+        if (name === null || name === undefined) {
+            throw new Error('Required parameter name was null or undefined when calling projectsIdTextsTextIdPost.');
+        }
+        // verify required parameter 'description' is not null or undefined
+        if (description === null || description === undefined) {
+            throw new Error('Required parameter description was null or undefined when calling projectsIdTextsTextIdPost.');
+        }
+        // verify required parameter 'startGroup' is not null or undefined
+        if (startGroup === null || startGroup === undefined) {
+            throw new Error('Required parameter startGroup was null or undefined when calling projectsIdTextsTextIdPost.');
+        }
+        // verify required parameter 'minLength' is not null or undefined
+        if (minLength === null || minLength === undefined) {
+            throw new Error('Required parameter minLength was null or undefined when calling projectsIdTextsTextIdPost.');
+        }
+        // verify required parameter 'maxLength' is not null or undefined
+        if (maxLength === null || maxLength === undefined) {
+            throw new Error('Required parameter maxLength was null or undefined when calling projectsIdTextsTextIdPost.');
+        }
+        if (name !== undefined) {
+            queryParameters.set('name', <any>name);
+        }
+
+        if (description !== undefined) {
+            queryParameters.set('description', <any>description);
+        }
+
+        if (startGroup !== undefined) {
+            queryParameters.set('startGroup', <any>startGroup);
+        }
+
+        if (minLength !== undefined) {
+            queryParameters.set('minLength', <any>minLength);
+        }
+
+        if (maxLength !== undefined) {
+            queryParameters.set('maxLength', <any>maxLength);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
             search: queryParameters,
             withCredentials:this.configuration.withCredentials
         });

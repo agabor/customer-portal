@@ -32,8 +32,8 @@
           </div>
         </div>
         <div [hidden]="!project.admin">
-        <button type="button" class="btn btn-primary" (click)="edit(entry.text)" ><span class="glyphicon glyphicon-edit"></span></button>
-        <button type="button" class="btn btn-primary" (click)="deleteText(entry.text)" ><span class="glyphicon glyphicon-trash"></span></button>
+        <button type="button" class="btn btn-success" (click)="edit(entry.text)" ><span class="glyphicon glyphicon-edit"></span></button>
+        <button type="button" class="btn btn-success" (click)="deleteText(entry.text)" ><span class="glyphicon glyphicon-trash"></span></button>
         </div>
       </div>
     </div>
@@ -41,9 +41,9 @@
 </form>
 <div class="row">
     <span [hidden]="!project.admin">
-      <button type="button" class="btn btn-primary" (click)="add()" >Add text</button>
-      <button type="button" class="btn btn-primary" (click)="addNewLanguage()" >Add language</button>
-      <button type="button" class="btn btn-primary" (click)="removeLanguage()" >Remove language</button>
+      <button type="button" class="btn btn-success" (click)="add()" >Add text</button>
+      <button type="button" class="btn btn-success" (click)="addNewLanguage()" >Add language</button>
+      <button type="button" class="btn btn-success" (click)="removeLanguage()" >Remove language</button>
     </span>
   <button type="button" class="btn btn-primary right {{saved ? 'disabled' : ''}}" (click)="save()" >Save <span [hidden]="!saving"><span class="glyphicon glyphicon-hourglass"></span></span></button>
   <button type="button" class="btn btn-primary right {{saved ? 'disabled' : ''}}" (click)="reset()" >Reset</button>

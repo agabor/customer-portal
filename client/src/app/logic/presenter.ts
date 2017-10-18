@@ -374,6 +374,18 @@ export class Presenter {
   isLoggedInWithToken() {
     return this.loggedInWithToken;
   }
+
+  addText(text: Text, callback: () => void) {
+    const res = this.api.projectsIdTextsPost(this.activeProject.slug, text.textId, text.name, text.description,
+      text.startGroup, text.minLength, text.maxLength);
+    res.subscribe(newText => {
+      console.log(newText);
+      this.activeProject.texts.push(newText);
+      callback();
+    }, error => {
+      console.log(error);
+    });
+  }
 }
 
 class TextsBody implements Body {

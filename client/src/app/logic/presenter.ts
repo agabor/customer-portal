@@ -406,10 +406,11 @@ export class Presenter {
     });
   }
 
-  saveLinks() {
+  saveLinks(callback: () => void) {
     const res = this.api.projectsIdLinksPut(this.activeProject.slug, {sources: this.activeProject.links});
     res.subscribe(data => {
       console.log(data);
+      callback();
     }, error => {
       console.log(error);
     });

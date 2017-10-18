@@ -10,28 +10,30 @@ import {Link} from '../../../../swagger/model/Link';
     styleUrls: ['./links.component.css']
 })
 export class LinksComponent {
-    project: Project;
-    @ViewChild(LinkModalComponent) linkModalComponent: LinkModalComponent;
-    private editedLink: Link;
+  static saved = true;
+  saving = false;
+  project: Project;
+  @ViewChild(LinkModalComponent) linkModalComponent: LinkModalComponent;
+  private editedLink: Link;
 
-    constructor (private presenter: Presenter) {
-        this.project = presenter.activeProject;
-    }
+  constructor(private presenter: Presenter) {
+    this.project = presenter.activeProject;
+  }
 
   saveLink() {
-      if (this.editedLink == null) {
-        this.presenter.addLink(this.linkModalComponent.link);
-      } else {
-        this.presenter.updateLink(this.linkModalComponent.link);
-        this.editedLink.name = this.linkModalComponent.link.name;
-        this.editedLink.icon = this.linkModalComponent.link.icon;
-        this.editedLink.url = this.linkModalComponent.link.url;
-      }
+    if (this.editedLink == null) {
+      this.presenter.addLink(this.linkModalComponent.link);
+    } else {
+      this.presenter.updateLink(this.linkModalComponent.link);
+      this.editedLink.name = this.linkModalComponent.link.name;
+      this.editedLink.icon = this.linkModalComponent.link.icon;
+      this.editedLink.url = this.linkModalComponent.link.url;
+    }
   }
 
   add() {
     this.editedLink = null;
-      this.linkModalComponent.show(this);
+    this.linkModalComponent.show(this);
   }
 
   edit(link: Link) {
@@ -47,16 +49,30 @@ export class LinksComponent {
   }
 
   save() {
-    this.presenter.saveLinks();
+    this.saving = true;
+    this.presenter.saveLinks(() => {
+      this.saving = false;
+    });
+    LinksComponent.saved = true;
   }
+
   reset() {
     const self = this;
+    LinksComponent.saved = true;
     this.presenter.loadProject(this.presenter.activeProject.slug, function () {
       self.project = self.presenter.activeProject;
     });
   }
 
   isSaved() {
-    return false;
+    return LinksComponent.saved;
+  }
+
+
+  onKey(event: any) {
+    const s = String(event.key);
+    if (s.length === 1 || s === 'Backspace' || s === 'Enter') {
+      LinksComponent.saved = false;
+    }
   }
 }

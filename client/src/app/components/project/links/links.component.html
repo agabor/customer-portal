@@ -7,7 +7,7 @@
     <form class="form-group">
         <label for="link_url">{{link.name}}</label>
         <input class="form-control" type="text" id="link_url" name="link_url" [value]="link.url" required
-               [(ngModel)]="link.url">
+               [(ngModel)]="link.url" (keyup)="onKey($event)">
     </form>
   </div>
 </div>

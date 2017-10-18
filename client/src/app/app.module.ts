@@ -51,7 +51,7 @@ const appRoutes: Routes = [
     {path: '', redirectTo: 'images', pathMatch: 'full'},
     {path: 'images', component: ImagesComponent, canActivate: [AuthGuard, PasswordSetGuard]},
     {path: 'texts', component: TextsComponent, canActivate: [AuthGuard, PasswordSetGuard], canDeactivate: [CanDeactivateTexts]},
-    {path: 'texts/:lang', component: TextsComponent, canActivate: [AuthGuard, PasswordSetGuard]},
+    {path: 'texts/:lang', component: TextsComponent, canActivate: [AuthGuard, PasswordSetGuard], canDeactivate: [CanDeactivateTexts]},
     {path: 'links', component: LinksComponent, canActivate: [AuthGuard, PasswordSetGuard]},
     {path: 'users', component: UsersComponent, canActivate: [AuthGuard, PasswordSetGuard]}
   ]},

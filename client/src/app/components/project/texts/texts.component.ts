@@ -16,6 +16,7 @@ import {LanguageModalComponent} from './language-modal.component';
     styleUrls: ['./texts.component.css']
 })
 export class TextsComponent implements OnInit {
+  static saved = true;
   saving = false;
   project: Project = {
     name: null,
@@ -37,7 +38,6 @@ export class TextsComponent implements OnInit {
 
   textEntries: TextEntry[] = [];
 
-  saved = true;
   @ViewChild(TextModalComponent) textModalComponent: TextModalComponent;
   @ViewChild(LanguageModalComponent) languageModalComponent: LanguageModalComponent;
 
@@ -84,8 +84,7 @@ export class TextsComponent implements OnInit {
 
   navigate(i: number) {
     this.setLanguage(i);
-    const slug = this.route.snapshot.params['slug'];
-    this.router.navigate(['/projects/' + slug + '/texts/' + this.currentLanguage.code]);
+    this.router.navigate(['/projects/' + this.project.slug + '/texts/' + this.currentLanguage.code]);
   }
 
   getLanguageIndex(languageId: string): number {
@@ -150,7 +149,7 @@ export class TextsComponent implements OnInit {
   }
 
   save() {
-    this.saved = true;
+    TextsComponent.saved = true;
     this.saving = true;
     this.presenter.saveProjectTexts(() => {
       this.saving = false;
@@ -160,12 +159,16 @@ export class TextsComponent implements OnInit {
   onKey(event: any) {
     const s = String(event.key);
     if (s.length === 1 || s === 'Backspace' || s === 'Enter') {
-      this.saved = false;
+      TextsComponent.saved = false;
     }
   }
 
   changed() {
-    this.saved = false;
+    TextsComponent.saved = false;
+  }
+
+  isSaved(): boolean {
+    return TextsComponent.saved;
   }
 
   public add() {
@@ -178,7 +181,7 @@ export class TextsComponent implements OnInit {
     const self = this;
     this.presenter.loadProject(this.presenter.activeProject.slug, function () {
       self.project = self.presenter.activeProject;
-      self.saved = true;
+      TextsComponent.saved = true;
       self.setEntries();
     });
   }
@@ -206,7 +209,7 @@ export class TextsComponent implements OnInit {
       texts.splice(index, 1);
     }
     this.presenter.deleteText(text);
-    this.saved = false;
+    TextsComponent.saved = false;
     this.setEntries();
   }
 
@@ -220,7 +223,7 @@ export class TextsComponent implements OnInit {
   }
 
   saveText() {
-    this.saved = false;
+    TextsComponent.saved = false;
     const text = this.textModalComponent.model;
     if (this.editedText == null) {
       const baseID = TextsComponent.slugify(text.name);

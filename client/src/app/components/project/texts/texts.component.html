@@ -45,8 +45,8 @@
       <button type="button" class="btn btn-success" (click)="addNewLanguage()" >Add language</button>
       <button type="button" class="btn btn-success" (click)="removeLanguage()" >Remove language</button>
     </span>
-  <button type="button" class="btn btn-primary right {{saved ? 'disabled' : ''}}" (click)="save()" >Save <span [hidden]="!saving"><span class="glyphicon glyphicon-hourglass"></span></span></button>
-  <button type="button" class="btn btn-primary right {{saved ? 'disabled' : ''}}" (click)="reset()" >Reset</button>
+  <button type="button" class="btn btn-primary right {{isSaved() ? 'disabled' : ''}}" (click)="save()" >Save <span [hidden]="!saving"><span class="glyphicon glyphicon-hourglass"></span></span></button>
+  <button type="button" class="btn btn-primary right {{isSaved() ? 'disabled' : ''}}" (click)="reset()" >Reset</button>
 </div>
 <app-new-text-modal></app-new-text-modal>
 <app-language-modal></app-language-modal>

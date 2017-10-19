@@ -95,8 +95,8 @@ class ProjectTextController extends Controller {
             $lt->value = '';
             $text->saveLocale($lt);
         }
-        $text->load(['values']);
         $project->calculateState();
+        $text->load(['values']);
         return $text;
     }
 

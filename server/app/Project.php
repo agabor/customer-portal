@@ -85,6 +85,7 @@ class Project extends Model
 
     public function calculateState()
     {
+        $this->load(['texts','images','files']);
         $warnings = 0;
         foreach ($this->texts as $text) {
             $warnings += self::getTextWarnings($text);

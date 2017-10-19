@@ -199,6 +199,10 @@ export class TextsComponent implements OnInit {
     this.textModalComponent.show(this);
   }
 
+  public resetText(text: Text) {
+    this.presenter.resetTextVaule(text, this.currentLanguage);
+  }
+
   public deleteText(text: Text) {
     if (!confirm('Are you sure you want to delete this text?')) {
       return;

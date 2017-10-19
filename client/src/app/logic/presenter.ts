@@ -17,6 +17,7 @@ import {BASE_PATH} from 'swagger';
 import {User} from '../../swagger/model/User';
 import {Link} from '../../swagger/model/Link';
 import {Language} from '../../swagger/model/Language';
+import {LocalText} from '../../swagger/model/LocalText';
 
 @Injectable()
 export class Presenter {
@@ -411,6 +412,30 @@ export class Presenter {
     res.subscribe(data => {
       console.log(data);
       callback();
+    }, error => {
+      console.log(error);
+    });
+  }
+
+  resetTextVaule(text: Text, language: Language) {
+    let toReset: LocalText;
+    for (let value of text.values) {
+      if (value.languageCode === language.code) {
+        toReset = value;
+        break;
+      }
+    }
+    if (toReset === null) {
+      return;
+    }
+    const res = this.api.projectsIdTextsTextIdGet(this.activeProject.slug, text.textId);
+    res.subscribe(original => {
+      console.log(original);
+      for (let value of original.values) {
+        if (value.languageCode === language.code) {
+          toReset.value = value.value;
+        }
+      }
     }, error => {
       console.log(error);
     });

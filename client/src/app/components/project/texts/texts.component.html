@@ -31,10 +31,11 @@
             Text is too long! Maximum required length is: {{entry.text.maxLength}}, current length is: {{textvalue.value?.length}}
           </div>
         </div>
-        <div [hidden]="!project.admin">
+        <button type="button" class="btn btn-primary" (click)="resetText(entry.text)" >Reset</button>
+        <span [hidden]="!project.admin">
         <button type="button" class="btn btn-success" (click)="edit(entry.text)" ><span class="glyphicon glyphicon-edit"></span></button>
         <button type="button" class="btn btn-success" (click)="deleteText(entry.text)" ><span class="glyphicon glyphicon-trash"></span></button>
-        </div>
+        </span>
       </div>
     </div>
   </div>

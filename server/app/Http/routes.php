@@ -70,6 +70,7 @@ $app->group(['middleware' => ['auth', 'cors', 'model', 'admin'], 'prefix' => '/a
 
     $app->POST('projects/{project_id}', ProjectController::class . '@projectsModify');
     $app->DELETE('projects/{project_id}', ProjectController::class . '@projectsDelete');
+    $app->GET('projects/{project_id}/texts/{text_id}', ProjectTextController::class . '@getText');
 
     ProjectUserController::addRoutes($app);
 

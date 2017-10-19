@@ -392,6 +392,25 @@ paths:
           schema:
             $ref: '#/definitions/Text'
   /projects/{id}/texts/{textId}:
+    get:
+      description: get text
+      parameters:
+        -
+          name: id
+          in: path
+          description: project identifier
+          required: true
+          type: string
+        -
+          name: textId
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Text'
     post:
       description: modify text
       parameters:

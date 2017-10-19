@@ -110,7 +110,12 @@ class ProjectTextController extends Controller {
         return $text;
     }
 
-    public function deleteText(Request $request, Text $text){
+    public function getText(Text $text) {
+        $text->load(['values']);
+        return $text;
+    }
+
+    public function deleteText(Text $text){
         $text->delete();
         return response('{}');
     }

@@ -362,6 +362,22 @@ export class DefaultApi {
     }
 
     /**
+     * get text
+     * @param id project identifier
+     * @param textId 
+     */
+    public projectsIdTextsTextIdGet(id: string, textId: string, extraHttpRequestParams?: any): Observable<models.Text> {
+        return this.projectsIdTextsTextIdGetWithHttpInfo(id, textId, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
      * modify text
      * @param id project identifier
      * @param textId 
@@ -1435,6 +1451,50 @@ export class DefaultApi {
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Delete,
+            headers: headers,
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * get text
+     * @param id project identifier
+     * @param textId 
+     */
+    public projectsIdTextsTextIdGetWithHttpInfo(id: string, textId: string, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/projects/${id}/texts/${textId}'
+                    .replace('${' + 'id' + '}', String(id))
+                    .replace('${' + 'textId' + '}', String(textId));
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'id' is not null or undefined
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling projectsIdTextsTextIdGet.');
+        }
+        // verify required parameter 'textId' is not null or undefined
+        if (textId === null || textId === undefined) {
+            throw new Error('Required parameter textId was null or undefined when calling projectsIdTextsTextIdGet.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Get,
             headers: headers,
             search: queryParameters,
             withCredentials:this.configuration.withCredentials

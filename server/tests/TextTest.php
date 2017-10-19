@@ -47,6 +47,9 @@ class TextTest extends TestCase {
         $this->call('GET', '/api/v1/projects/sample_project', [], $this->cookies());
         $this->assertStatusOk('get project');
         $this->seeJson($newTextData);
+        $this->call('GET', '/api/v1/projects/sample_project/texts/'.$newTextData['textId'], [], $this->cookies());
+        $this->assertStatusOk('get text');
+        $this->seeJson($newTextData);
 
         array_pop($texts);
         $this->call('DELETE', '/api/v1/projects/sample_project/texts/' . $newTextData['textId'], [], $this->cookies());

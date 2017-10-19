@@ -39,6 +39,7 @@ import {NewPasswordComponent} from './components/new-password.component';
 import {PasswordSetGuard} from './guards/PasswordSetGuard';
 import {TokenGuard} from './guards/TokenGuard';
 import {CanDeactivateTexts} from './guards/CanDeactivateTexts';
+import {CanDeactivateLinks} from './guards/CanDeactivateLinks';
 
 const appRoutes: Routes = [
   { path: '',         component: LoginFormComponent, canActivate: [HomeGuard] },
@@ -52,7 +53,7 @@ const appRoutes: Routes = [
     {path: 'images', component: ImagesComponent, canActivate: [AuthGuard, PasswordSetGuard]},
     {path: 'texts', component: TextsComponent, canActivate: [AuthGuard, PasswordSetGuard], canDeactivate: [CanDeactivateTexts]},
     {path: 'texts/:lang', component: TextsComponent, canActivate: [AuthGuard, PasswordSetGuard], canDeactivate: [CanDeactivateTexts]},
-    {path: 'links', component: LinksComponent, canActivate: [AuthGuard, PasswordSetGuard]},
+    {path: 'links', component: LinksComponent, canActivate: [AuthGuard, PasswordSetGuard], canDeactivate: [CanDeactivateLinks]},
     {path: 'users', component: UsersComponent, canActivate: [AuthGuard, PasswordSetGuard]}
   ]},
   ];
@@ -89,7 +90,7 @@ const appRoutes: Routes = [
     HttpModule
   ],
   providers: [Presenter, AuthGuard, LogoutGuard, DefaultApi, HomeGuard, PasswordSetGuard, TokenGuard,
-    CanDeactivateTexts,
+    CanDeactivateTexts, CanDeactivateLinks,
     {provide: BASE_PATH, useValue: AppConfig.basePath},
     {provide: Configuration, useValue: {withCredentials: true}},
     {provide: APP_BASE_HREF, useValue : AppConfig.appBasePath }],

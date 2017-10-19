@@ -43,7 +43,6 @@ export class ProjectComponent implements OnInit {
     ngOnInit() {
         const slug = this.route.snapshot.params['slug'];
         this.presenter.initProject(slug);
-        console.log(this.route.firstChild.snapshot.url);
         switch (this.route.firstChild.snapshot.url[0].path) {
             case 'images':
                 this.showTab(this.tabImages);
@@ -66,32 +65,47 @@ export class ProjectComponent implements OnInit {
         }
     }
 
-    private navigate(part: string) {
-        this.router.navigate(['/projects/' + this.project.slug + part]);
+    private navigate(part: string): Promise<boolean> {
+        return this.router.navigate(['/projects/' + this.project.slug + part]);
     }
 
     showImages() {
-        this.navigate('/images');
-        this.showTab(this.tabImages);
+        this.navigate('/images').then(success => {
+          if (success) {
+            this.showTab(this.tabImages);
+          }
+        });
     }
 
     showTexts() {
-        this.navigate('/texts');
-        this.showTab(this.tabTexts);
+        this.navigate('/texts').then(success => {
+          if (success) {
+            this.showTab(this.tabTexts);
+          }
+        });
     }
 
     showFiles() {
-        this.navigate('/files');
-        this.showTab(this.tabFiles);
+        this.navigate('/files').then(success => {
+          if (success) {
+            this.showTab(this.tabFiles);
+          }
+        });
     }
 
     showLinks() {
-        this.navigate('/links');
-        this.showTab(this.tabLinks);
+        this.navigate('/links').then(success => {
+          if (success) {
+            this.showTab(this.tabLinks);
+          }
+        });
     }
     showUsers() {
-        this.navigate('/users');
-        this.showTab(this.tabUsers);
+        this.navigate('/users').then(success => {
+          if (success) {
+            this.showTab(this.tabUsers);
+          }
+        });
     }
 
     showTab(tab: Tab) {

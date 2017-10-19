@@ -84,11 +84,11 @@ export class ProjectLogic {
     }
 
     getWarningCount(): number {
-        return this.getTextWarningCount();
+        return this.getTextWarningCount() + this.getImageWarningCount() + this.getFileWarningCount();
     }
 
     public getInfoPercentage(): number {
         const count = this.getFieldCount();
-        return (count -  this.getWarningCount() - this.getImageWarningCount() - this.getFileWarningCount()) * 100 / count;
+        return (count -  this.getWarningCount()) * 100 / count;
     }
 }

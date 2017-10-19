@@ -23,7 +23,6 @@ import {LocalText} from '../../swagger/model/LocalText';
 export class Presenter {
   projects: ProjectBase[] = null;
   appComponent: AppComponent = null;
-  private projectListComponent: ProjectListComponent;
   private loginFormComponent: LoginFormComponent;
   private projectComponent: ProjectComponent;
   activeProject: Project = null;
@@ -42,7 +41,6 @@ export class Presenter {
         name: localStorage.getItem('user_name'),
         email: localStorage.getItem('user_email')
       };
-      this.loadProjects();
     }
   }
 
@@ -67,7 +65,6 @@ export class Presenter {
     localStorage.setItem('user_id', this.user.id.toString());
     localStorage.setItem('user_name', this.user.name);
     localStorage.setItem('user_email', this.user.email);
-    this.loadProjects();
     this.menuComponent.setLoggedIn();
     this.router.navigate(['/projects']);
   }
@@ -83,11 +80,11 @@ export class Presenter {
     });
   }
 
-  loadProjects() {
+  loadProjects(callback: (projects: ProjectBase[]) => void) {
     const res = this.api.projectsGet();
     res.subscribe(data => {
       this.projects = data;
-      this.setProjects();
+      callback(this.projects);
     }, error => {
       console.log(error.json());
       this.router.navigate(['/logout']);
@@ -102,16 +99,6 @@ export class Presenter {
     return this._isLoggedIn;
   }
 
-  setProjectListComponent(projectListComponent: ProjectListComponent) {
-    this.projectListComponent = projectListComponent;
-    this.setProjects();
-  }
-
-  private setProjects() {
-    if (this.projectListComponent != null) {
-      this.projectListComponent.projects = this.projects;
-    }
-  }
 
   logout() {
     localStorage.removeItem('isLoggedIn');

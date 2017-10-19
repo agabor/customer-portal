@@ -15,14 +15,16 @@ export class ProjectListComponent {
     @ViewChild(ProjectModalComponent) projectModalComponent: ProjectModalComponent;
 
     constructor (private presenter: Presenter) {
-        presenter.setProjectListComponent(this);
+        presenter.loadProjects((projects: ProjectBase[]) =>{
+          this.projects = projects;
+        })
     }
 
     showProject(slug: string) {
         this.presenter.showProject(slug);
     }
 
-  edit(project: Project) {
+  edit(project: ProjectBase) {
       this.editedProject = project;
     this.projectModalComponent.project = {name: project.name};
     this.projectModalComponent.show(this);

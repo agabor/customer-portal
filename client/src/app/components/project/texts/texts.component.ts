@@ -227,7 +227,6 @@ export class TextsComponent implements OnInit {
   }
 
   saveText() {
-    TextsComponent.saved = false;
     const text = this.textModalComponent.model;
     if (this.editedText == null) {
       const baseID = TextsComponent.slugify(text.name);
@@ -241,6 +240,7 @@ export class TextsComponent implements OnInit {
         this.setEntries();
       });
     } else {
+      TextsComponent.saved = false;
       this.editedText.name = text.name;
       this.editedText.description = text.description;
       this.editedText.startGroup = text.startGroup;

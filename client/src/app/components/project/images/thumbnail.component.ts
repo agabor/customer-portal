@@ -109,7 +109,7 @@ export class ThumbnailComponent implements OnInit {
     this.presenter.updateImage(this.image);
   }
 
-  public fileOver(fileIsOver: boolean): void {
+  public fileOver(fileIsOver: boolean) {
     if (fileIsOver) {
       this.fileIsOver = this.image;
     } else {
@@ -119,8 +119,24 @@ export class ThumbnailComponent implements OnInit {
     }
     console.log('fileIsOver ' + fileIsOver + ' ' + this.image.imageId);
   }
+  fileChange(event) {
+    let fileList: FileList = event.target.files;
+    if (fileList.length > 0) {
+      let file: File = fileList[0];
+      this.onFileDrop(file);
+    }
+  }
+  public onFileDrop(file: File) {
 
-  public onFileDrop(file: File): void {
+    if (!(file.name.endsWith('.jpg') || file.name.endsWith('.png') || file.name.endsWith('.gif') || file.name.endsWith('.svg'))){
+      return;
+    }
+
+    if (file.size / 1024 / 1024 > 2) {
+      alert("The file is too large. Maximal image size is 2 MB.");
+      return;
+    }
+
     const reader = new FileReader();
 
     reader.onload = (event: any) => {

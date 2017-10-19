@@ -50,7 +50,7 @@
                 </form>
                 <div [hidden]="image.fileName != null && image.fileName.length > 0"
                      class="alert alert-warning">
-                    <span class="glyphicon glyphicon-cloud-upload"></span> You must upload this image!
+                    <span class="glyphicon glyphicon-cloud-upload"></span> You must upload this image! Click on the upload button, or drag & drop the image file into this box.
                 </div>
               <div [hidden]="widthWarning == null"
                    class="alert alert-warning">
@@ -60,11 +60,17 @@
                    class="alert alert-warning">
                 {{heightWarning}}
               </div>
-                <div [hidden]="!project.admin">
-                  <button type="button" class="btn btn-primary" (click)="save()" ><span class="glyphicon glyphicon-floppy-disk"></span></button>
-                  <button type="button" class="btn btn-primary" (click)="edit()" ><span class="glyphicon glyphicon-edit"></span></button>
-                  <button type="button" class="btn btn-primary" (click)="deleteImage()" ><span class="glyphicon glyphicon-trash"></span></button>
-                </div>
+              <form>
+                <label class="btn btn-primary" >
+                  <span class="glyphicon glyphicon-cloud-upload"></span> Upload
+                  <input type="file" (change)="fileChange($event)" placeholder="Upload file" accept=".jpg, .png, .gif, .svg">
+                </label>
+              </form>
+                <span [hidden]="!project.admin">
+                  <button type="button" class="btn btn-success" (click)="save()" ><span class="glyphicon glyphicon-floppy-disk"></span></button>
+                  <button type="button" class="btn btn-success" (click)="edit()" ><span class="glyphicon glyphicon-edit"></span></button>
+                  <button type="button" class="btn btn-success" (click)="deleteImage()" ><span class="glyphicon glyphicon-trash"></span></button>
+                </span>
             </div>
         </div>
     </div>

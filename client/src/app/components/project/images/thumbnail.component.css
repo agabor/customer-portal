@@ -1,3 +1,9 @@
 .file-is-over {
     border: medium solid #337ab7;
 }
+form {
+  display: inline-block;
+}
+input[type=file] {
+  display: none;
+}

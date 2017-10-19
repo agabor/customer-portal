@@ -8,7 +8,7 @@
                 <h4 class="modal-title">New image</h4>
             </div>
             <div class="modal-body">
-                <form>
+                <form #newImageForm="ngForm">
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input type="text" class="form-control" id="name" required
@@ -46,7 +46,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" (click)="save()">Save</button>
+                <button type="button" class="btn btn-default" (click)="save()" [disabled]="!newImageForm.form.valid">Save</button>
                 <button type="button" class="btn btn-default" (click)="modal.hide()">Cancel</button>
             </div>
         </div>

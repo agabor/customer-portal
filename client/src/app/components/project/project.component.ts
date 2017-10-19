@@ -24,10 +24,6 @@ export class ProjectComponent implements OnInit {
 
     projectLogic: ProjectLogic = new ProjectLogic(this.project);
 
-    slug: string;
-
-    part: string;
-
     tabImages: Tab = new Tab('Images');
 
     tabTexts: Tab = new Tab('Texts');
@@ -45,10 +41,10 @@ export class ProjectComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.slug = this.route.snapshot.params['slug'];
-        this.part = this.route.snapshot.params['part'];
-        this.presenter.initProject(this.slug);
-        switch (this.part) {
+        const slug = this.route.snapshot.params['slug'];
+        this.presenter.initProject(slug);
+        console.log(this.route.firstChild.snapshot.url);
+        switch (this.route.firstChild.snapshot.url[0].path) {
             case 'images':
                 this.showTab(this.tabImages);
                 break;
@@ -71,7 +67,7 @@ export class ProjectComponent implements OnInit {
     }
 
     private navigate(part: string) {
-        this.router.navigate(['/projects/' + this.slug + part]);
+        this.router.navigate(['/projects/' + this.project.slug + part]);
     }
 
     showImages() {

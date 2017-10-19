@@ -96,10 +96,11 @@ class ProjectTextController extends Controller {
             $text->saveLocale($lt);
         }
         $text->load(['values']);
+        $project->calculateState();
         return $text;
     }
 
-    public function updateText(Request $request, Text $text) {
+    public function updateText(Request $request, Project $project, Text $text) {
         $input = $request->all();
         $text->name = $input['name'];
         $text->description = $input['description'];
@@ -107,6 +108,7 @@ class ProjectTextController extends Controller {
         $text->minLength = $input['minLength'];
         $text->maxLength = $input['maxLength'];
         $text->save();
+        $project->calculateState();
         return $text;
     }
 

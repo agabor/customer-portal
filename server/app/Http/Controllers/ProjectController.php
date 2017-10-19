@@ -53,6 +53,7 @@ class ProjectController extends Controller
             $text->saveLocale($lt);
         }
 
+        $project->calculateState();
         return $language;
     }
 
@@ -81,6 +82,7 @@ class ProjectController extends Controller
                 }
             }
         }
+        $project->calculateState();
 
         return response('{}');
     }

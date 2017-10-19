@@ -38,16 +38,18 @@ class ProjectLinkController extends Controller
         $link->url = self::getString($input, 'url');
 
         $project->links()->save($link);
+        $project->calculateState();
         return $link;
     }
 
-    public function modifyLink(Request $request, Link $link) {
+    public function modifyLink(Request $request, Project $project, Link $link) {
         $input = $request->all();
 
         $link->name = self::getString($input, 'name');
         $link->icon = self::getString($input, 'icon');
         $link->url = self::getString($input, 'url');
         $link->save();
+        $project->calculateState();
 
         return $link;
     }

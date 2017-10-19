@@ -69,6 +69,7 @@ class ProjectImageController extends Controller {
             $project->versionedImages()->save($copy);
         }
         $image->setFile($uploadedFile);
+        $project->calculateState();
         return $image;
     }
 
@@ -79,6 +80,7 @@ class ProjectImageController extends Controller {
         /* @var Image $img */
         foreach ($project->versionedImagesForId($image->imageId) as $img)
             $img->delete();
+        $project->calculateState();
         return response('{}');
     }
 
@@ -131,7 +133,7 @@ class ProjectImageController extends Controller {
         $project->versionedImages()->save($image);
         $image->project()->associate($project);
         $image->save();
-
+        $project->calculateState();
         return response($image);
     }
 
@@ -141,6 +143,7 @@ class ProjectImageController extends Controller {
             return response('{}', 404);
         $this->updateImage($request, $project, $image);
         $image->save();
+        $project->calculateState();
         return response($image);
     }
 

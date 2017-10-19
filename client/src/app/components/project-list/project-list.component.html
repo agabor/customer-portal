@@ -1,5 +1,6 @@
 <h1>Projects</h1>
 <div class="list-group">
+    <div *ngIf="projects?.length == 0" class="alert alert-info" role="alert">Your projects will appear here. You can start adding projects by clicking on the "add project" button.</div>
     <div class="list-group-item" *ngFor="let project of projects">
       <a href="javascript:void(0)" (click)="showProject(project.slug)">{{project.name}}</a><span class="badge" *ngIf="project.warnings != 0">{{project.warnings}}</span>
         <div class="progress">

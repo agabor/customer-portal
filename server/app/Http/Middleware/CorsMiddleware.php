@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use function App\origin;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
@@ -11,11 +12,12 @@ class CorsMiddleware {
         $response = $next($request);
         if ($response instanceof BinaryFileResponse)
             return $response;
-        $referrer = $request->headers->get('referer');
+        $origin = origin($request);
         $response
-            //->header('Access-Control-Allow-Origin', env('CLIENT_URL'))
-            ->header('Access-Control-Allow-Origin', substr($referrer, 0, strpos($referrer, '/', 8)) )
+            ->header('Access-Control-Allow-Origin', $origin)
             ->header('Access-Control-Allow-Credentials', 'true');;
         return $response;
     }
+
+
 }

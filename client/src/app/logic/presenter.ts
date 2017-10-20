@@ -101,9 +101,8 @@ export class Presenter {
 
 
   logout() {
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('user_name');
-    localStorage.removeItem('user_email');
+    localStorage.clear();
+    this.activeProject = null;
     this.menuComponent.setLoggedOut();
     this.api.logoutPost();
   }

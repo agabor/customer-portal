@@ -2,19 +2,21 @@
   <div *ngIf="project.links.length == 0" class="alert alert-info" role="alert">Links belonging to your project, like Homepage, Facebook page etc., will appear here. You can start adding links by clicking on the "add link" button.</div>
   <div *ngFor="let link of project.links" class="list-group-item">
     <span class="fa {{link.icon}}"></span>
-    <button type="button" class="right btn btn-success" (click)="deleteLink(link)" ><span class="glyphicon glyphicon-trash"></span></button>
-    <button type="button" class="right btn btn-success" (click)="edit(link)" ><span class="glyphicon glyphicon-edit"></span></button>
+    <span *ngIf="project.admin">
+      <button type="button" class="right btn btn-success" (click)="deleteLink(link)" ><span class="glyphicon glyphicon-trash"></span></button>
+      <button type="button" class="right btn btn-success" (click)="edit(link)" ><span class="glyphicon glyphicon-edit"></span></button>
+    </span>
     <a class="right btn btn-primary" href="{{link.url}}" target="_blank"><span class="glyphicon glyphicon-link"></span></a>
     <form class="form-group">
-        <label for="link_url">{{link.name}}</label>
-        <input class="form-control" type="text" id="link_url" name="link_url" [value]="link.url" required
-               [(ngModel)]="link.url" (keyup)="onKey($event)">
+      <label for="link_url">{{link.name}}</label>
+      <input class="form-control" type="text" id="link_url" name="link_url" [value]="link.url" required
+             [(ngModel)]="link.url" (keyup)="onKey($event)">
     </form>
   </div>
 </div>
-<div *ngIf="project.admin">
-  <button type="button" class="btn btn-success" (click)="add()" >Add link</button>
+<div>
+  <button *ngIf="project.admin" type="button" class="btn btn-success" (click)="add()" >Add link</button>
   <button type="button" class="btn btn-primary right {{isSaved() ? 'disabled' : ''}}" (click)="save()" >Save <span [hidden]="!saving"><span class="glyphicon glyphicon-hourglass"></span></span></button>
   <button type="button" class="btn btn-primary right {{isSaved() ? 'disabled' : ''}}" (click)="reset()" >Reset</button>
-  <app-link-modal></app-link-modal>
 </div>
+<app-link-modal></app-link-modal>

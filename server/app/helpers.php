@@ -1,6 +1,8 @@
 <?php
 namespace  App;
 
+use Illuminate\Http\Request;
+
 function slugify(string $text) : string
 {
     // replace non letter or digits by -
@@ -26,4 +28,19 @@ function slugify(string $text) : string
     }
 
     return $text;
+}
+
+function origin(Request $request)
+{
+    $origin = env('CLIENT_URL');
+    /* @var string $referer */
+    $referer = $request->headers->get('referer');
+    if ($referer != null && strlen($referer) != 0) {
+        $url_data = parse_url($referer);
+        $origin = $url_data['scheme'] . '://' . $url_data['host'];
+        if (array_key_exists('port', $url_data)) {
+            $origin .= ':' . $url_data['port'];
+        }
+    }
+    return $origin;
 }

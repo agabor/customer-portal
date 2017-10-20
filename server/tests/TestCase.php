@@ -58,7 +58,6 @@ abstract class TestCase extends Laravel\Lumen\Testing\TestCase
         return array('jwt' => $this->jwt);
     }
 
-
     protected function sampleProjectImageCount(): int
     {
         return count(self::sampleProject()->images);

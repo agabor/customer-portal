@@ -34,7 +34,7 @@ function origin(Request $request)
 {
     $origin = env('CLIENT_URL');
     /* @var string $referer */
-    $referer = $request->headers->get('referer');
+    $referer = $request->headers->get('Origin');
     if ($referer != null && strlen($referer) != 0) {
         $url_data = parse_url($referer);
         $origin = $url_data['scheme'] . '://' . $url_data['host'];

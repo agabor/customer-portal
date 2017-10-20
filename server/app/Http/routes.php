@@ -32,7 +32,7 @@ $app->group([], function () use ($app) {
     $app->GET('/', function () use ($app) {
         return $app->version();
     });
-    $app->GET('/init',  InitController::class.'@init');
+    //$app->GET('/init',  InitController::class.'@init');
 });
 
 $app->group(['middleware' => 'cors', 'prefix' => '/api/v1/'], function () use ($app) {

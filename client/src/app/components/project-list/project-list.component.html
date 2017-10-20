@@ -8,9 +8,9 @@
                 <span class="sr-only">{{project.progress}}% Complete</span>
             </div>
         </div>
-      <div [hidden]="!project.admin">
-      <button type="button" class="btn btn-primary" (click)="edit(project)" ><span class="glyphicon glyphicon-edit"></span></button>
-      <button type="button" class="btn btn-primary" (click)="deleteProject(project)" ><span class="glyphicon glyphicon-trash"></span></button>
+      <div *ngIf="project.admin">
+      <button type="button" class="btn btn-success" (click)="edit(project)" ><span class="glyphicon glyphicon-edit"></span></button>
+      <button type="button" class="btn btn-success" (click)="deleteProject(project)" ><span class="glyphicon glyphicon-trash"></span></button>
       </div>
     </div>
 </div>

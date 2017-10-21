@@ -40,6 +40,7 @@ import {PasswordSetGuard} from './guards/PasswordSetGuard';
 import {TokenGuard} from './guards/TokenGuard';
 import {CanDeactivateTexts} from './guards/CanDeactivateTexts';
 import {CanDeactivateLinks} from './guards/CanDeactivateLinks';
+import {IconSelectorComponent} from './components/project/links/icon-selector.component';
 
 const appRoutes: Routes = [
   { path: '',         component: LoginFormComponent, canActivate: [HomeGuard] },
@@ -81,7 +82,8 @@ const appRoutes: Routes = [
     LanguageModalComponent,
     LinkModalComponent,
     ThumbnailComponent,
-    NewPasswordComponent
+    NewPasswordComponent,
+    IconSelectorComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

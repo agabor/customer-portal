@@ -3,6 +3,7 @@ import {Modal} from '../../../ui/modal';
 import {LinksComponent} from './links.component';
 import {NgForm} from '@angular/forms';
 import {Link} from '../../../../swagger/model/Link';
+import {IconSelectorComponent} from './icon-selector.component';
 
 @Component({
     selector: 'app-link-modal',
@@ -10,26 +11,34 @@ import {Link} from '../../../../swagger/model/Link';
 })
 export class LinkModalComponent {
 
-    @ViewChild('newLinkForm') newLinkForm: NgForm;
+  @ViewChild('newLinkForm') newLinkForm: NgForm;
+  @ViewChild(IconSelectorComponent) iconSelector: IconSelectorComponent;
 
-    modal = new Modal();
-    link: Link = {};
-    linksComponent: LinksComponent;
+  modal = new Modal();
+  link: Link = {};
+  linksComponent: LinksComponent;
 
-    show(linksComponent: LinksComponent) {
-      this.linksComponent = linksComponent;
-        this.modal.show();
-    }
+  show(linksComponent: LinksComponent) {
+    this.linksComponent = linksComponent;
+    this.modal.show();
+  }
 
-    save() {
-        this.hide();
-        this.linksComponent.saveLink();
-        this.link = {};
-        this.newLinkForm.form.markAsPristine();
-    }
+  save() {
+    this.hide();
+    this.linksComponent.saveLink();
+    this.link = {};
+    this.newLinkForm.form.markAsPristine();
+  }
 
-    hide() {
-        this.modal.hide();
-    }
+  hide() {
+    this.modal.hide();
+  }
+
+  chooseIcon() {
+    this.iconSelector.iconSelected = (icon: string) => {
+      this.link.icon = icon;
+    };
+    this.iconSelector.modal.show();
+  }
 }
 

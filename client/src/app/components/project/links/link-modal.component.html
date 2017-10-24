@@ -24,7 +24,7 @@
             <div class="input-group">
               <span class="input-group-addon"><span class="fa {{link.icon}}"></span></span>
               <input type="text" class="form-control" id="icon" required
-                     [(ngModel)]="link.icon" name="icon" #icon="ngModel">
+                     [(ngModel)]="iconSuffix" name="icon" #icon="ngModel">
               <span class="input-group-btn">
                 <button class="btn btn-secondary" type="button" (click)="chooseIcon()">Select</button>
               </span>
@@ -33,9 +33,13 @@
                  class="alert alert-danger">
               Icon is required
             </div>
+            <div [hidden]="isIconValid"
+                 class="alert alert-danger">
+              Invalid icon
+            </div>
           </div>
           <div class="form-group">
-            <label for="name">URL</label>
+            <label for="url">URL</label>
             <input type="text" class="form-control" id="url" required
                    [(ngModel)]="link.url" name="url" #url="ngModel">
             <div [hidden]="url.valid || url.pristine"
@@ -46,7 +50,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" (click)="save()" [disabled]="!newLinkForm.form.valid">Save</button>
+        <button type="button" class="btn btn-default" (click)="save()" [disabled]="!newLinkForm.form.valid || !isIconValid">Save</button>
         <button type="button" class="btn btn-default" (click)="modal.hide()">Cancel</button>
       </div>
     </div>

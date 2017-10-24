@@ -15,7 +15,7 @@ export class LinkModalComponent {
   @ViewChild(IconSelectorComponent) iconSelector: IconSelectorComponent;
 
   modal = new Modal();
-  link: Link = {};
+  link: Link = { icon: '' };
   linksComponent: LinksComponent;
 
   show(linksComponent: LinksComponent) {
@@ -39,6 +39,20 @@ export class LinkModalComponent {
       this.link.icon = icon;
     };
     this.iconSelector.modal.show();
+  }
+
+  get iconSuffix(): string {
+    if (this.link.icon == null || this.link.icon.length < 3) {
+      return '';
+    }
+    return this.link.icon.substr(3);
+  }
+  set iconSuffix(theIcon: string) {
+    this.link.icon = 'fa-' + theIcon;
+  }
+
+  get isIconValid(): boolean {
+    return /^[a-z0-9\-]*$/.test(this.iconSuffix);
   }
 }
 

@@ -34,7 +34,7 @@ class ProjectLinkController extends Controller
 
         $link = new Link();
         $link->name = self::getString($input, 'name');
-        $link->icon = self::getString($input, 'icon');
+        $link->icon = self::sanitizeFaIcon(self::getString($input, 'icon'));
         $link->url = self::getString($input, 'url');
 
         $project->links()->save($link);
@@ -46,12 +46,21 @@ class ProjectLinkController extends Controller
         $input = $request->all();
 
         $link->name = self::getString($input, 'name');
-        $link->icon = self::getString($input, 'icon');
+        $link->icon = self::sanitizeFaIcon(self::getString($input, 'icon'));
         $link->url = self::getString($input, 'url');
         $link->save();
         $project->calculateState();
 
         return $link;
+    }
+
+    private static function sanitizeFaIcon(string $icon) {
+        $icon = strtolower(trim($icon));
+        if (substr($icon,0, 3) === 'fa-') {
+            if (preg_match('^[a-z0-9\-]*$', substr($icon,3)))
+                return $icon;
+        }
+        return 'fa-globe';
     }
 
     public function deleteLink(Link $link)

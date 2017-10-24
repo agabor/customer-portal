@@ -5,7 +5,7 @@ class LinkTest extends TestCase {
     public function testProjectAddLink()
     {
         $this->login();
-        $link_data = ['name' => 'Play Store', 'icon' => 'fa_google', 'url' => 'http://google.com'];
+        $link_data = ['name' => 'Play Store', 'icon' => 'fa-google', 'url' => 'http://google.com'];
         $resp = $this->addLink($link_data);
         $link_id = $resp->id;
 
@@ -14,7 +14,7 @@ class LinkTest extends TestCase {
         $this->seeJson($link_data);
 
         $link_data['name'] = 'Play Store2';
-        $link_data['icon'] = 'fa_facebook';
+        $link_data['icon'] = 'fa-facebook';
         $link_data['url'] = 'http://google.com';
 
         $this->call('POST', '/api/v1/projects/sample_project/links/'.$link_id, $link_data, $this->cookies());
@@ -33,9 +33,9 @@ class LinkTest extends TestCase {
 
         $this->login();
         $links = [];
-        $links[] = ['name' => 'Play Store', 'icon' => 'fa_google', 'url' => 'http://google.com'];
-        $links[] = ['name' => 'App Store', 'icon' => 'fa_apple', 'url' => 'http://apple.com'];
-        $links[] = ['name' => 'Facebook', 'icon' => 'fa_facebook', 'url' => 'http://facebook.com'];
+        $links[] = ['name' => 'Play Store', 'icon' => 'fa-google', 'url' => 'http://google.com'];
+        $links[] = ['name' => 'App Store', 'icon' => 'fa-apple', 'url' => 'http://apple.com'];
+        $links[] = ['name' => 'Facebook', 'icon' => 'fa-facebook', 'url' => 'http://facebook.com'];
 
         foreach ($links as &$link) {
             $resp = $this->addLink($link);

@@ -57,7 +57,7 @@ class ProjectLinkController extends Controller
     private static function sanitizeFaIcon(string $icon) {
         $icon = strtolower(trim($icon));
         if (substr($icon,0, 3) === 'fa-') {
-            if (preg_match('^[a-z0-9\-]*$', substr($icon,3)))
+            if (preg_match('/^[a-z0-9\-]*$/', substr($icon,3)))
                 return $icon;
         }
         return 'fa-globe';

@@ -14,6 +14,7 @@ export class MenuComponent {
     items: MenuItem[] = [];
     activeItems: MenuItem[] = [];
     dropdownIsOpen = false;
+    show = '';
 
     constructor (private presenter: Presenter) {
         presenter.setMenuComponent(this);
@@ -76,4 +77,12 @@ export class MenuComponent {
     dropdown() {
         this.dropdownIsOpen = !this.dropdownIsOpen;
     }
+
+  toggle() {
+    if (this.show.length === 0) {
+      this.show = 'show';
+    } else {
+      this.show = '';
+    }
+  }
 }

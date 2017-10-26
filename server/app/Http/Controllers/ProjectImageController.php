@@ -56,11 +56,7 @@ class ProjectImageController extends Controller {
             header("Content-Type: image/png");
             imagepng($image);
         } else {
-            $ext = explode('.', $image->fileName)[1];
-            if (!file_exists($image->filePath())) {
-                $this->downloadFromS3($image);
-            }
-            return response()->download($image->filePath(), $image->imageId . '.' . $ext);
+            return $this->downloadFromS3($image);
         }
         return response('{}');
     }
@@ -75,7 +71,7 @@ class ProjectImageController extends Controller {
         }
         $image->setFile($uploadedFile);
         $project->calculateState();
-        $this->uploadToS3($image);
+        $this->uploadToS3($image, $uploadedFile);
         return $image;
     }
 
@@ -200,11 +196,21 @@ class ProjectImageController extends Controller {
     public function downloadFromS3(Image $image)
     {
         $client = $this->getS3Client();
-        $client->getObject(array(
+        $object = $client->getObject(array(
             'Bucket' => 'customerpoint-data',
-            'Key' => $image->fileName,
-            'SaveAs' => $image->filePath()
+            'Key' => $image->fileName
         ));
+
+        $ext = explode('.', $image->fileName)[1];
+
+        $headers =['Content-Description' => 'File Transfer',
+            'Content-Type' => $object['ContentType'],
+            'Content-Disposition' => 'attachment; filename=' . $image->imageId . '.' . $ext,
+            'Expires' => '0',
+            'Cache-Control' => 'must-revalidate',
+            'Pragma' => 'public'];
+
+        return response($object["Body"], 200, $headers);
     }
 
     protected function getS3Client(): S3Client
@@ -223,13 +229,13 @@ class ProjectImageController extends Controller {
     }
 
 
-    protected function uploadToS3(Image $image)
+    protected function uploadToS3(Image $image, UploadedFile $uploadedFile)
     {
         $client = $this->getS3Client();
         $client->putObject(array(
             'Bucket' => 'customerpoint-data',
             'Key' => $image->fileName,
-            'SourceFile' => $image->filePath(),
+            'SourceFile' => $uploadedFile->getPathname(),
             'Metadata' => array()
         ));
     }

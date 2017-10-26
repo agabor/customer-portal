@@ -72,44 +72,30 @@ class Image extends Model
         'id', 'project_id', 'project', 'owning_project_id'
     ];
 
-    public function dirPath() : string {
-        return $this->project->dirPath() . '/' . $this->imageId;
-    }
-    public function filePath() : string {
-        return $this->dirPath() . '/' . $this->fileName;
-    }
-
     public function setFile(UploadedFile $uploadedFile)
     {
-        $fileName = uniqid() . '.' . $uploadedFile->getClientOriginalExtension();
-
-        $directory = $this->dirPath();
-        if (!file_exists($directory)) {
-            mkdir($directory, 0777, true);
+        if ($this->fileName === null || strlen($this->fileName) === 0) {
+            $this->fileName = $this->guidv4(random_bytes(16))  . '.' . strtolower($uploadedFile->getClientOriginalExtension());
         }
-        $uploadedFile->move($directory, $fileName);
-        $this->fileName = $fileName;
-        $size = getimagesize($this->filePath());
+        $size = getimagesize($uploadedFile->getPathname());
         $this->width = $size[0];
         $this->height = $size[1];
         $this->save();
+    }
+
+    function guidv4($data)
+    {
+        assert(strlen($data) == 16);
+
+        $data[6] = chr(ord($data[6]) & 0x0f | 0x40); // set version to 0100
+        $data[8] = chr(ord($data[8]) & 0x3f | 0x80); // set bits 6-7 to 10
+
+        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
     }
 
     public function hasFile()
     {
         $fileName = $this->fileName;
         return $fileName != null && strlen($this->fileName) != 0;
-    }
-
-    public function delete()
-    {
-        if ($this->hasFile() && file_exists($this->filePath()))
-            try {
-                unlink($this->filePath());
-            } catch (\Exception $e){ }
-        try {
-            rmdir($this->dirPath());
-        } catch (\Exception $e){ }
-        return parent::delete();
     }
 }

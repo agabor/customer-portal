@@ -38,7 +38,6 @@ $app->group([], function () use ($app) {
 $app->group(['middleware' => 'cors', 'prefix' => '/api/v1/'], function () use ($app) {
     $app->POST('login', DefaultApi::class . '@loginPost');
     $app->GET('token/{login_token}', DefaultApi::class . '@loginLinkGet');
-    $app->POST('s3', ProjectImageController::class . '@s3');
 });
 
 $app->group(['middleware' => ['auth', 'cors'], 'prefix' => '/api/v1/'], function () use ($app) {

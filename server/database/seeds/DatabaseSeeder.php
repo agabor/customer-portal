@@ -132,9 +132,7 @@ class DatabaseSeeder extends Seeder
         $i->maxWidth = 512;
         $i->minHeight = 512;
         $i->maxHeight = 512;
-        $i->fileName = 'ikon.png';
         $i->saveTo($p);
-        $this->loadTestImage($i);
 
 
         $i = new \App\Image();
@@ -147,9 +145,7 @@ class DatabaseSeeder extends Seeder
         $i->maxWidth = 1024;
         $i->minHeight = 500;
         $i->maxHeight = 500;
-        $i->fileName = 'banner.png';
         $i->saveTo($p);
-        $this->loadTestImage($i);
 
         $t = new \App\Text();
 
@@ -317,16 +313,5 @@ Az automentokereso.hu weboldalon a károsultak autómentők, esetkocsik és gép
         $p->links()->save($l);
 
         $p->calculateState();
-    }
-
-    /**
-     * @param $i
-     */
-    protected function loadTestImage(Image $i)
-    {
-        $path = base_path('testdata/temp.png');
-        copy(base_path('testdata/' . $i->fileName), $path);
-        $file = new UploadedFile($path, $i->fileName, filesize($path), 'image/png', null, true);
-        $i->setFile($file);
     }
 }

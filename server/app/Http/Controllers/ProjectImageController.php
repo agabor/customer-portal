@@ -79,6 +79,9 @@ class ProjectImageController extends Controller {
     {
         if ($image == null)
             return response('', 404);
+
+        $this->deleteFromS3($image);
+
         /* @var Image $img */
         foreach ($project->versionedImagesForId($image->imageId) as $img)
             $img->delete();
@@ -193,6 +196,17 @@ class ProjectImageController extends Controller {
         $image->imageId = $newImageId;
     }
 
+    public function deleteFromS3(Image $image)
+    {
+        if ($image->fileName == null || strlen($image->fileName) == 0)
+            return;
+        $client = $this->getS3Client();
+        $client->deleteObject(array(
+            'Bucket' => 'customerpoint-data',
+            'Key' => $image->fileName
+        ));
+    }
+
     public function downloadFromS3(Image $image)
     {
         $client = $this->getS3Client();
@@ -215,14 +229,12 @@ class ProjectImageController extends Controller {
 
     protected function getS3Client(): S3Client
     {
-        define('AWS_ACCESS_KEY_ID', 'AKIAIRGOLS753PUJPBQA');
-        define('AWS_SECRET_ACCESS_KEY', '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');
         $client = new S3Client([
             'version' => 'latest',
             'region' => 'eu-central-1',
             'credentials' => array(
-                'key' => AWS_ACCESS_KEY_ID,
-                'secret' => AWS_SECRET_ACCESS_KEY,
+                'key' => env('AWS_ACCESS_KEY_ID'),
+                'secret' => env('AWS_SECRET_ACCESS_KEY'),
             )
         ]);
         return $client;

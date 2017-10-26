@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Image;
 use App\Project;
 use function App\slugify;
+use Aws\S3\S3Client;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Application;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 
 class ProjectImageController extends Controller {
@@ -55,6 +57,9 @@ class ProjectImageController extends Controller {
             imagepng($image);
         } else {
             $ext = explode('.', $image->fileName)[1];
+            if (!file_exists($image->filePath())) {
+                $this->downloadFromS3($image);
+            }
             return response()->download($image->filePath(), $image->imageId . '.' . $ext);
         }
         return response('{}');
@@ -70,6 +75,7 @@ class ProjectImageController extends Controller {
         }
         $image->setFile($uploadedFile);
         $project->calculateState();
+        $this->uploadToS3($image);
         return $image;
     }
 
@@ -189,6 +195,43 @@ class ProjectImageController extends Controller {
             $newImageId = $img_slug . (++$idx);
         }
         $image->imageId = $newImageId;
+    }
+
+    public function downloadFromS3(Image $image)
+    {
+        $client = $this->getS3Client();
+        $client->getObject(array(
+            'Bucket' => 'customerpoint-data',
+            'Key' => $image->fileName,
+            'SaveAs' => $image->filePath()
+        ));
+    }
+
+    protected function getS3Client(): S3Client
+    {
+        define('AWS_ACCESS_KEY_ID', 'AKIAIRGOLS753PUJPBQA');
+        define('AWS_SECRET_ACCESS_KEY', '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');
+        $client = new S3Client([
+            'version' => 'latest',
+            'region' => 'eu-central-1',
+            'credentials' => array(
+                'key' => AWS_ACCESS_KEY_ID,
+                'secret' => AWS_SECRET_ACCESS_KEY,
+            )
+        ]);
+        return $client;
+    }
+
+
+    protected function uploadToS3(Image $image)
+    {
+        $client = $this->getS3Client();
+        $client->putObject(array(
+            'Bucket' => 'customerpoint-data',
+            'Key' => $image->fileName,
+            'SourceFile' => $image->filePath(),
+            'Metadata' => array()
+        ));
     }
 
 }

@@ -21,7 +21,8 @@
         "vlucas/phpdotenv": "~2.2",
         "firebase/php-jwt": "^4.0",
         "sentry/sentry": "^1.7",
-        "matriphe/iso-639": "^1.2"
+        "matriphe/iso-639": "^1.2",
+        "aws/aws-sdk-php": "^3.36"
     },
     "autoload": {
         "psr-4": {

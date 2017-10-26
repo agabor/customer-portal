@@ -21,6 +21,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        ClearStorage::class,
         DropTables::class
     ];
 

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Aws\S3\S3Client;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 
@@ -97,5 +98,68 @@ class Image extends Model
     {
         $fileName = $this->fileName;
         return $fileName != null && strlen($this->fileName) != 0;
+    }
+
+    public function delete()
+    {
+        $this->deleteFromS3();
+        return parent::delete();
+    }
+
+
+    public function deleteFromS3()
+    {
+        if ($this->fileName == null || strlen($this->fileName) == 0)
+            return;
+        $client = $this->getS3Client();
+        $client->deleteObject(array(
+            'Bucket' => 'customerpoint-data',
+            'Key' => $this->fileName
+        ));
+    }
+
+    public function downloadFromS3()
+    {
+        $client = $this->getS3Client();
+        $object = $client->getObject(array(
+            'Bucket' => 'customerpoint-data',
+            'Key' => $this->fileName
+        ));
+
+        $ext = explode('.', $this->fileName)[1];
+
+        $headers =['Content-Description' => 'File Transfer',
+            'Content-Type' => $object['ContentType'],
+            'Content-Disposition' => 'attachment; filename=' . $this->imageId . '.' . $ext,
+            'Expires' => '0',
+            'Cache-Control' => 'must-revalidate',
+            'Pragma' => 'public'];
+
+        return response($object["Body"], 200, $headers);
+    }
+
+    private function getS3Client(): S3Client
+    {
+        $client = new S3Client([
+            'version' => 'latest',
+            'region' => 'eu-central-1',
+            'credentials' => array(
+                'key' => env('AWS_ACCESS_KEY_ID'),
+                'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            )
+        ]);
+        return $client;
+    }
+
+
+    public function uploadToS3(UploadedFile $uploadedFile)
+    {
+        $client = $this->getS3Client();
+        $client->putObject(array(
+            'Bucket' => 'customerpoint-data',
+            'Key' => $this->fileName,
+            'SourceFile' => $uploadedFile->getPathname(),
+            'Metadata' => array()
+        ));
     }
 }

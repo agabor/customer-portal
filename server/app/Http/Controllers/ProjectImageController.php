@@ -56,7 +56,7 @@ class ProjectImageController extends Controller {
             header("Content-Type: image/png");
             imagepng($image);
         } else {
-            return $this->downloadFromS3($image);
+            return $image->downloadFromS3();
         }
         return response('{}');
     }
@@ -71,7 +71,7 @@ class ProjectImageController extends Controller {
         }
         $image->setFile($uploadedFile);
         $project->calculateState();
-        $this->uploadToS3($image, $uploadedFile);
+        $image->uploadToS3($uploadedFile);
         return $image;
     }
 
@@ -80,7 +80,7 @@ class ProjectImageController extends Controller {
         if ($image == null)
             return response('', 404);
 
-        $this->deleteFromS3($image);
+        $image->deleteFromS3();
 
         /* @var Image $img */
         foreach ($project->versionedImagesForId($image->imageId) as $img)
@@ -196,60 +196,5 @@ class ProjectImageController extends Controller {
         $image->imageId = $newImageId;
     }
 
-    public function deleteFromS3(Image $image)
-    {
-        if ($image->fileName == null || strlen($image->fileName) == 0)
-            return;
-        $client = $this->getS3Client();
-        $client->deleteObject(array(
-            'Bucket' => 'customerpoint-data',
-            'Key' => $image->fileName
-        ));
-    }
-
-    public function downloadFromS3(Image $image)
-    {
-        $client = $this->getS3Client();
-        $object = $client->getObject(array(
-            'Bucket' => 'customerpoint-data',
-            'Key' => $image->fileName
-        ));
-
-        $ext = explode('.', $image->fileName)[1];
-
-        $headers =['Content-Description' => 'File Transfer',
-            'Content-Type' => $object['ContentType'],
-            'Content-Disposition' => 'attachment; filename=' . $image->imageId . '.' . $ext,
-            'Expires' => '0',
-            'Cache-Control' => 'must-revalidate',
-            'Pragma' => 'public'];
-
-        return response($object["Body"], 200, $headers);
-    }
-
-    protected function getS3Client(): S3Client
-    {
-        $client = new S3Client([
-            'version' => 'latest',
-            'region' => 'eu-central-1',
-            'credentials' => array(
-                'key' => env('AWS_ACCESS_KEY_ID'),
-                'secret' => env('AWS_SECRET_ACCESS_KEY'),
-            )
-        ]);
-        return $client;
-    }
-
-
-    protected function uploadToS3(Image $image, UploadedFile $uploadedFile)
-    {
-        $client = $this->getS3Client();
-        $client->putObject(array(
-            'Bucket' => 'customerpoint-data',
-            'Key' => $image->fileName,
-            'SourceFile' => $uploadedFile->getPathname(),
-            'Metadata' => array()
-        ));
-    }
 
 }

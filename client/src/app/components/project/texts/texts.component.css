@@ -12,3 +12,10 @@ button.right {
     float: right;
     margin-left: 5px;
 }
+
+.floating-buttons {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  z-index: 100;
+}

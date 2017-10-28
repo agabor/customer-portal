@@ -48,8 +48,10 @@
       <button type="button" class="btn btn-success" (click)="addNewLanguage()" >Add language</button>
       <button type="button" class="btn btn-success" [disabled]="project.languages.length < 2" (click)="removeLanguage()" >Remove language</button>
     </span>
+  <span class="floating-buttons">
   <button type="button" class="btn btn-primary right" [disabled]="isSaved()" (click)="save()" >Save <span [hidden]="!saving"><span class="glyphicon glyphicon-hourglass"></span></span></button>
   <button type="button" class="btn btn-primary right" [disabled]="isSaved()" (click)="reset()" >Reset</button>
+    </span>
 </div>
 <app-new-text-modal></app-new-text-modal>
 <app-language-selector></app-language-selector>

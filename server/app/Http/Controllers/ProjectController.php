@@ -36,10 +36,10 @@ class ProjectController extends Controller
     public function languages() {
         $iso = new ISO639();
         $result = [];
-        $codes = ['sq', 'an', 'av', 'az', 'ba', 'eu', 'be', 'bs', 'br', 'bg', 'ca', 'ce', 'zh', 'cv', 'kw', 'co', 'hr',
-            'cs', 'da', 'nl', 'en', 'et', 'fo', 'fi', 'fr', 'gl', 'de', 'el', 'hu', 'is', 'ga', 'it', 'ja', 'kk', 'kv',
-            'la', 'lv', 'lt', 'mk', 'mt', 'gv', 'mn', 'no', 'oc', 'pl', 'pt', 'ro', 'ru', 'sc', 'gd', 'sr', 'sk', 'sl',
-            'es', 'sv', 'tt', 'tr', 'uk', 'cy', 'yi'];
+        $codes = ['sq', 'ar', 'an', 'av', 'az', 'ba', 'eu', 'be', 'bn', 'bs', 'br', 'bg', 'ca', 'ce', 'zh', 'cv', 'kw',
+            'co', 'hr', 'cs', 'da', 'nl', 'en', 'et', 'fo', 'fi', 'fr', 'gl', 'de', 'el', 'hi', 'hu', 'is', 'id', 'ga',
+            'it', 'ja', 'kk', 'kv', 'ko', 'la', 'lv', 'lt', 'mk', 'mt', 'gv', 'mn', 'no', 'oc', 'pl', 'pt', 'ro', 'ru',
+            'sc', 'gd', 'sr', 'sk', 'sl', 'es', 'sv', 'tt', 'tr', 'uk', 'ur', 'vi', 'cy', 'yi'];
         foreach ($codes as $code) {
             $l = new Language();
             $l->code = $code;

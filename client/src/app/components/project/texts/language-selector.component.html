@@ -1,0 +1,15 @@
+<div [class]="modal.hClass" role="dialog" [style.display]="modal.shown? 'block' : 'none'">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="modal.hide()">×</button>
+        <h4 class="modal-title">Choose Language</h4>
+      </div>
+      <div class="modal-body row">
+        <a *ngFor="let language of languages" class="col-sm-4 col-md-2 {{projectHasLanguage(language) ? 'disabled' : ''}}" href="javascript:void(0)" (click)="selectLanguage(language)">{{language.name}}</a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -43,14 +43,13 @@ $app->group(['middleware' => ['auth', 'cors'], 'prefix' => '/api/v1/'], function
 $app->group(['middleware' => ['auth', 'cors', 'model'], 'prefix' => '/api/v1/'], function () use ($app) {
 
     $app->GET('projects/{project_id}', ProjectController::class . '@projectsIdGet');
+    $app->GET('languages', ProjectController::class . '@languages');
     $app->PUT('projects/{project_id}/texts', ProjectTextController::class . '@projectsIdPutTexts');
     $app->POST('projects/{project_id}/texts', ProjectTextController::class . '@addText');
     $app->DELETE('projects/{project_id}/texts/{text_id}', ProjectTextController::class . '@deleteText');
     $app->POST('projects/{project_id}/texts/{text_id}', ProjectTextController::class . '@updateText');
-
     $app->GET('projects/{project_id}/images/{image_id}', ProjectImageController::class . '@imageGet');
     $app->POST('projects/{project_id}/images/{image_id}', ProjectImageController::class . '@imagePost');
-
     $app->GET('projects/{project_id}/text_versions',ProjectTextController::class . '@textVersions');
 });
 

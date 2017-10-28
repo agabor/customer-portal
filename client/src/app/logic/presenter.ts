@@ -30,6 +30,7 @@ export class Presenter {
   private _isLoggedIn = false;
   private user: User;
   private loggedInWithToken = false;
+  private languages: Language[] = null;
 
   constructor(protected http: Http, private api: DefaultApi, private router: Router,
               @Inject(BASE_PATH) private basePath: string) {
@@ -405,7 +406,7 @@ export class Presenter {
 
   resetTextVaule(text: Text, language: Language) {
     let toReset: LocalText;
-    for (let value of text.values) {
+    for (const value of text.values) {
       if (value.languageCode === language.code) {
         toReset = value;
         break;
@@ -417,7 +418,7 @@ export class Presenter {
     const res = this.api.projectsIdTextsTextIdGet(this.activeProject.slug, text.textId);
     res.subscribe(original => {
       console.log(original);
-      for (let value of original.values) {
+      for (const value of original.values) {
         if (value.languageCode === language.code) {
           toReset.value = value.value;
         }
@@ -426,4 +427,18 @@ export class Presenter {
       console.log(error);
     });
   }
+
+  getLanguages(callback: (languages: Language[]) => void) {
+    if (this.languages != null) {
+      callback(this.languages);
+      return;
+    }
+    const res = this.api.languagesGet();
+    res.subscribe(languages => {
+      this.languages = languages;
+      callback(languages);
+    }, error => {
+      console.log(error);
+    });
+}
 }

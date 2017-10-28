@@ -42,6 +42,20 @@ export class DefaultApi {
     }
 
     /**
+     * list of languages
+     */
+    public languagesGet(extraHttpRequestParams?: any): Observable<Array<models.Language>> {
+        return this.languagesGetWithHttpInfo(extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
      * Login with email and password. The response contains a JWT. 
      * @param email 
      * @param password 
@@ -497,6 +511,38 @@ export class DefaultApi {
 
     /**
      * 
+     * list of languages
+     */
+    public languagesGetWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/languages';
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Get,
+            headers: headers,
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
      * Login with email and password. The response contains a JWT. 
      * @param email 
      * @param password 
@@ -850,7 +896,7 @@ export class DefaultApi {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
             headers: headers,
-            body: formParams/*.toString()*/,
+            body: formParams.toString(),
             search: queryParameters,
             withCredentials:this.configuration.withCredentials
         });

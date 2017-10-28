@@ -8,7 +8,7 @@ import {LocalText} from '../../../../swagger/model/LocalText';
 import {Text} from '../../../../swagger/model/Text';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TextModalComponent} from './text-modal.component';
-import {LanguageModalComponent} from './language-modal.component';
+import {LanguageSelectorComponent} from './language-selector.component';
 
 @Component({
     selector: 'app-project-texts',
@@ -39,7 +39,7 @@ export class TextsComponent implements OnInit {
   textEntries: TextEntry[] = [];
 
   @ViewChild(TextModalComponent) textModalComponent: TextModalComponent;
-  @ViewChild(LanguageModalComponent) languageModalComponent: LanguageModalComponent;
+  @ViewChild(LanguageSelectorComponent) languageSelectorComponent: LanguageSelectorComponent;
 
   static slugify(text: string): string {
     return text.toString().toLowerCase()
@@ -252,7 +252,11 @@ export class TextsComponent implements OnInit {
   }
 
   addNewLanguage() {
-    this.languageModalComponent.show(this);
+    this.presenter.getLanguages(languages => {
+      this.languageSelectorComponent.languages = languages;
+      this.languageSelectorComponent.languageSelected = language => this.addLanguage(language);
+      this.languageSelectorComponent.modal.show();
+    });
   }
 
   removeLanguage() {
@@ -281,12 +285,7 @@ export class TextsComponent implements OnInit {
     this.presenter.addLanguage(language, () => {
       this.setLanguageTabs();
       this.setLanguage(this.languageTabs.length - 1);
-      this.languageModalComponent.language = {};
-      this.languageModalComponent.recognized = true;
-      this.languageModalComponent.languageForm.form.markAsPristine();
-      this.languageModalComponent.hide();
     }, () => {
-      this.languageModalComponent.recognized = false;
     });
   }
 }

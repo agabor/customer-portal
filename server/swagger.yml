@@ -647,7 +647,17 @@ paths:
       responses:
         200:
           description: OK
-      
+
+  /languages:
+    get:
+      description: list of languages
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Language'
 definitions:
   User:
     type: object

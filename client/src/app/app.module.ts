@@ -33,7 +33,6 @@ import {APP_BASE_HREF} from '@angular/common';
 import {UserModalComponent} from './components/project/users/user-modal.component';
 import {LinkModalComponent} from './components/project/links/link-modal.component';
 import {ProjectModalComponent} from './components/project-list/project-modal.component';
-import {LanguageModalComponent} from './components/project/texts/language-modal.component';
 import {HomeGuard} from './guards/homeguard';
 import {NewPasswordComponent} from './components/new-password.component';
 import {PasswordSetGuard} from './guards/PasswordSetGuard';
@@ -41,6 +40,7 @@ import {TokenGuard} from './guards/TokenGuard';
 import {CanDeactivateTexts} from './guards/CanDeactivateTexts';
 import {CanDeactivateLinks} from './guards/CanDeactivateLinks';
 import {IconSelectorComponent} from './components/project/links/icon-selector.component';
+import {LanguageSelectorComponent} from './components/project/texts/language-selector.component';
 
 const appRoutes: Routes = [
   { path: '',         component: LoginFormComponent, canActivate: [HomeGuard] },
@@ -79,11 +79,11 @@ const appRoutes: Routes = [
     TextModalComponent,
     UserModalComponent,
     ProjectModalComponent,
-    LanguageModalComponent,
     LinkModalComponent,
     ThumbnailComponent,
     NewPasswordComponent,
-    IconSelectorComponent
+    IconSelectorComponent,
+    LanguageSelectorComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

@@ -8,6 +8,7 @@ use App\Localtext;
 use App\Project;
 use App\Text;
 use Illuminate\Http\Request;
+use Matriphe\ISO639\ISO639;
 
 
 class ProjectController extends Controller
@@ -30,6 +31,22 @@ class ProjectController extends Controller
     public function projectsDelete(Project $project){
         $project->delete();
         return \response('{}');
+    }
+
+    public function languages() {
+        $iso = new ISO639();
+        $result = [];
+        $codes = ['sq', 'an', 'av', 'az', 'ba', 'eu', 'be', 'bs', 'br', 'bg', 'ca', 'ce', 'zh', 'cv', 'kw', 'co', 'hr',
+            'cs', 'da', 'nl', 'en', 'et', 'fo', 'fi', 'fr', 'gl', 'de', 'el', 'hu', 'is', 'ga', 'it', 'ja', 'kk', 'kv',
+            'la', 'lv', 'lt', 'mk', 'mt', 'gv', 'mn', 'no', 'oc', 'pl', 'pt', 'ro', 'ru', 'sc', 'gd', 'sr', 'sk', 'sl',
+            'es', 'sv', 'tt', 'tr', 'uk', 'cy', 'yi'];
+        foreach ($codes as $code) {
+            $l = new Language();
+            $l->code = $code;
+            $l->name = $iso->languageByCode1($code);
+            $result[] = $l;
+        }
+        return $result;
     }
 
     public function addLanguage(Request $request, Project $project) {

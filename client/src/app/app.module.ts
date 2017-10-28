@@ -41,6 +41,8 @@ import {CanDeactivateTexts} from './guards/CanDeactivateTexts';
 import {CanDeactivateLinks} from './guards/CanDeactivateLinks';
 import {IconSelectorComponent} from './components/project/links/icon-selector.component';
 import {LanguageSelectorComponent} from './components/project/texts/language-selector.component';
+import {ChangePasswordComponent} from './components/change-password.component';
+import {PasswordInputComponent} from './components/password-input.component';
 
 const appRoutes: Routes = [
   { path: '',         component: LoginFormComponent, canActivate: [HomeGuard] },
@@ -57,6 +59,7 @@ const appRoutes: Routes = [
     {path: 'links', component: LinksComponent, canActivate: [AuthGuard, PasswordSetGuard], canDeactivate: [CanDeactivateLinks]},
     {path: 'users', component: UsersComponent, canActivate: [AuthGuard, PasswordSetGuard]}
   ]},
+  { path: 'changePassword', component: ChangePasswordComponent, canActivate: [AuthGuard, PasswordSetGuard]},
   ];
 
 @NgModule({
@@ -83,7 +86,9 @@ const appRoutes: Routes = [
     ThumbnailComponent,
     NewPasswordComponent,
     IconSelectorComponent,
-    LanguageSelectorComponent
+    LanguageSelectorComponent,
+    PasswordInputComponent,
+    ChangePasswordComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

@@ -18,6 +18,7 @@
     <li class="dropdown {{dropdownIsOpen ? 'open' : ''}}" (click)="dropdown()">
       <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" [attr.aria-expanded]="dropdownIsOpen">{{user?.name}}<span class="caret"></span></a>
       <ul class="dropdown-menu">
+        <li routerLink="/changePassword" routerLinkActive="active"><a href="javascript:void(0)">Change Password</a></li>
         <li routerLink="/logout" routerLinkActive="active"><a href="javascript:void(0)">Logout</a></li>
       </ul>
     </li>

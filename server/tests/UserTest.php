@@ -47,6 +47,15 @@ class UserTest extends TestCase {
         $this->logout();
 
         $this->login(['email' => 'test@test.test', 'password' => 'newPassword']);
+
+        $this->call('POST', '/api/v1/changePassword', ['old_password' => 'newPassword', 'new_password' => 'newnew'], $this->cookies());
+        $this->assertStatusOk('changePassword');
+        $this->call('POST', '/api/v1/changePassword', ['old_password' => 'newPassword', 'new_password' => 'newnew'], $this->cookies());
+        $this->assertStatus('changePassword', 401);
+
+        $this->logout();
+
+        $this->login(['email' => 'test@test.test', 'password' => 'newnew']);
         $this->logout();
 
         $this->login();

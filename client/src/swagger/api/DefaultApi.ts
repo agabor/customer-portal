@@ -42,6 +42,22 @@ export class DefaultApi {
     }
 
     /**
+     * change password 
+     * @param oldPassword 
+     * @param newPassword 
+     */
+    public changePasswordPost(oldPassword: string, newPassword: string, extraHttpRequestParams?: any): Observable<{}> {
+        return this.changePasswordPostWithHttpInfo(oldPassword, newPassword, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
      * list of languages
      */
     public languagesGet(extraHttpRequestParams?: any): Observable<Array<models.Language>> {
@@ -508,6 +524,56 @@ export class DefaultApi {
             });
     }
 
+
+    /**
+     * 
+     * change password 
+     * @param oldPassword 
+     * @param newPassword 
+     */
+    public changePasswordPostWithHttpInfo(oldPassword: string, newPassword: string, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/changePassword';
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'oldPassword' is not null or undefined
+        if (oldPassword === null || oldPassword === undefined) {
+            throw new Error('Required parameter oldPassword was null or undefined when calling changePasswordPost.');
+        }
+        // verify required parameter 'newPassword' is not null or undefined
+        if (newPassword === null || newPassword === undefined) {
+            throw new Error('Required parameter newPassword was null or undefined when calling changePasswordPost.');
+        }
+        if (oldPassword !== undefined) {
+            queryParameters.set('old_password', <any>oldPassword);
+        }
+
+        if (newPassword !== undefined) {
+            queryParameters.set('new_password', <any>newPassword);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
 
     /**
      * 

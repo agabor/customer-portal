@@ -34,14 +34,12 @@ $app->group(['middleware' => 'cors', 'prefix' => '/api/v1/'], function () use ($
 $app->group(['middleware' => ['auth', 'cors'], 'prefix' => '/api/v1/'], function () use ($app) {
     $app->POST('logout', DefaultApi::class . '@logoutPost');
     $app->POST('setPassword', DefaultApi::class . '@setPassword');
-
-
+    $app->POST('changePassword', DefaultApi::class . '@changePassword');
     $app->GET('projects', DefaultApi::class . '@projectsGet');
     $app->PATCH('projects', DefaultApi::class . '@projectsPatch');
 });
 
 $app->group(['middleware' => ['auth', 'cors', 'model'], 'prefix' => '/api/v1/'], function () use ($app) {
-
     $app->GET('projects/{project_id}', ProjectController::class . '@projectsIdGet');
     $app->GET('languages', ProjectController::class . '@languages');
     $app->PUT('projects/{project_id}/texts', ProjectTextController::class . '@projectsIdPutTexts');
@@ -54,7 +52,6 @@ $app->group(['middleware' => ['auth', 'cors', 'model'], 'prefix' => '/api/v1/'],
 });
 
 $app->group(['middleware' => ['auth', 'cors', 'model', 'admin'], 'prefix' => '/api/v1/'], function () use ($app) {
-
     $app->POST('projects/{project_id}/languages', ProjectController::class . '@addLanguage');
     $app->DELETE('projects/{project_id}/languages', ProjectController::class . '@removeLanguage');
 

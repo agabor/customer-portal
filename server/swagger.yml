@@ -71,6 +71,26 @@ paths:
           description: OK
         401:
           description: if the user is not logged in with a token
+  /changePassword:
+    post:
+      description: |
+        change password
+      parameters:
+        -
+          name: old_password
+          in: query
+          required: true
+          type: string
+        -
+          name: new_password
+          in: query
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+        401:
+          description: old_password is incorrect
   /logout:
     post:
       responses:

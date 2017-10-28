@@ -441,4 +441,13 @@ export class Presenter {
       console.log(error);
     });
 }
+
+  changePassword(oldPassword: string, newPassword: string, success: () => void, error: () => void) {
+    const res = this.api.changePasswordPost(oldPassword, newPassword);
+    res.subscribe(() => {
+      success();
+    }, () => {
+      error();
+    });
+  }
 }

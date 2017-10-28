@@ -69,6 +69,19 @@ class DefaultApi extends Controller
         return response('{}');
     }
 
+    public function changePassword(Request $request)
+    {
+        $input = $request->all();
+        $old_password = self::getString($input, 'old_password');
+        if(!password_verify($old_password, Auth::user()->password)) {
+            return response('{}', 401);
+        }
+        $new_password = self::getString($input, 'new_password');
+        Auth::user()->password = password_hash($new_password, PASSWORD_DEFAULT);
+        Auth::user()->save();
+        return response('{}');
+    }
+
     public function projectsGet()
     {
         return response(Auth::user()->projects);

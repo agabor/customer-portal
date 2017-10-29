@@ -17,6 +17,7 @@ import {LanguageSelectorComponent} from './language-selector.component';
 })
 export class TextsComponent implements OnInit {
   static saved = true;
+  static filter = false;
   saving = false;
   project: Project = {
     name: null,
@@ -115,7 +116,10 @@ export class TextsComponent implements OnInit {
   setEntries() {
     const entries = [];
     for (const text of this.project.texts) {
-      entries.push(new TextEntry(text, this.getLocalText(text)));
+      const localText = this.getLocalText(text);
+      if (!TextsComponent.filter || ProjectLogic.hasWarning(text, localText)) {
+        entries.push(new TextEntry(text, localText));
+      }
     }
     this.textEntries = entries;
   }
@@ -287,6 +291,11 @@ export class TextsComponent implements OnInit {
       this.setLanguage(this.languageTabs.length - 1);
     }, () => {
     });
+  }
+
+  toggleFilter() {
+    TextsComponent.filter = !TextsComponent.filter;
+    this.setEntries();
   }
 }
 

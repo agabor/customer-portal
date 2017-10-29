@@ -1,6 +1,9 @@
 <div *ngIf="project.images.length === 0" class="alert alert-info" role="alert">Images belonging to your project, will appear here. You can start adding images by clicking on the "add image" button.</div>
+<div *ngIf="project.images.length !== 0" class="checkbox">
+  <label><input type="checkbox"  [checked]="filter" (change)="toggleFilter()">Only show images with warnings</label>
+</div>
 <div class="row">
-    <app-thumbnail *ngFor="let image of project.images" [image]="image" [project]="project" [imageModalComponent]="imageModalComponent"></app-thumbnail>
+    <app-thumbnail *ngFor="let image of images" [image]="image" [project]="project" [imageModalComponent]="imageModalComponent"></app-thumbnail>
 </div>
 <div class="row" [hidden]="!project.admin">
   <div class="col-sm-6 col-md-4">

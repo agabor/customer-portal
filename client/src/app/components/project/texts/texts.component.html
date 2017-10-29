@@ -4,6 +4,9 @@
 <form id="textList">
   <div *ngIf="project.languages.length === 0" class="alert alert-info" role="alert">Texts belonging to your project, will appear here. First you must add a language by clicking to the "add language" button.</div>
   <div *ngIf="project.languages.length !== 0 && project.texts.length === 0" class="alert alert-info" role="alert">Texts belonging to your project, will appear here. You can start adding texts by clicking on the "add text" button.</div>
+  <div *ngIf="project.texts.length !== 0" class="checkbox">
+    <label><input type="checkbox"  [checked]="filter" (change)="toggleFilter()">Only show texts with warnings</label>
+  </div>
   <div *ngFor="let entry of textEntries">
     <h2 *ngIf="entry.text.startGroup != null && entry.text.startGroup.length != 0">{{entry.text.startGroup}}</h2>
     <div class="form-group">

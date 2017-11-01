@@ -186,6 +186,11 @@ paths:
           in: query
           required: true
           type: string
+        -
+          name: message
+          in: query
+          required: true
+          type: string
       responses:
         200:
           description: OK

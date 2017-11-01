@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Artisan;
 $app->group(['middleware' => 'cors', 'prefix' => '/api/v1/'], function () use ($app) {
     $app->POST('login', DefaultApi::class . '@loginPost');
     $app->GET('token/{login_token}', DefaultApi::class . '@loginLinkGet');
+    $app->GET('invite', DefaultApi::class . '@invite');
 });
 
 $app->group(['middleware' => ['auth', 'cors'], 'prefix' => '/api/v1/'], function () use ($app) {

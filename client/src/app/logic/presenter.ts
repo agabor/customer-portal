@@ -240,8 +240,8 @@ export class Presenter {
     return this.user;
   }
 
-  addUser(newUser: User) {
-    const res = this.api.projectsIdUsersPost(this.activeProject.slug, newUser.name, newUser.email);
+  addUser(newUser: User, message: string) {
+    const res = this.api.projectsIdUsersPost(this.activeProject.slug, newUser.name, newUser.email, message);
     res.subscribe(user => {
       this.activeProject.users.push(user);
     }, error => {

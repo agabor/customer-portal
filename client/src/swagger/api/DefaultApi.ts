@@ -433,9 +433,10 @@ export class DefaultApi {
      * @param id project identifier
      * @param name 
      * @param email 
+     * @param message 
      */
-    public projectsIdUsersPost(id: string, name: string, email: string, extraHttpRequestParams?: any): Observable<{}> {
-        return this.projectsIdUsersPostWithHttpInfo(id, name, email, extraHttpRequestParams)
+    public projectsIdUsersPost(id: string, name: string, email: string, message: string, extraHttpRequestParams?: any): Observable<{}> {
+        return this.projectsIdUsersPostWithHttpInfo(id, name, email, message, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -1714,8 +1715,9 @@ export class DefaultApi {
      * @param id project identifier
      * @param name 
      * @param email 
+     * @param message 
      */
-    public projectsIdUsersPostWithHttpInfo(id: string, name: string, email: string, extraHttpRequestParams?: any): Observable<Response> {
+    public projectsIdUsersPostWithHttpInfo(id: string, name: string, email: string, message: string, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/projects/${id}/users'
                     .replace('${' + 'id' + '}', String(id));
 
@@ -1733,12 +1735,20 @@ export class DefaultApi {
         if (email === null || email === undefined) {
             throw new Error('Required parameter email was null or undefined when calling projectsIdUsersPost.');
         }
+        // verify required parameter 'message' is not null or undefined
+        if (message === null || message === undefined) {
+            throw new Error('Required parameter message was null or undefined when calling projectsIdUsersPost.');
+        }
         if (name !== undefined) {
             queryParameters.set('name', <any>name);
         }
 
         if (email !== undefined) {
             queryParameters.set('email', <any>email);
+        }
+
+        if (message !== undefined) {
+            queryParameters.set('message', <any>message);
         }
 
         // to determine the Content-Type header

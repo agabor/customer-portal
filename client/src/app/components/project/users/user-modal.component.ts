@@ -3,6 +3,8 @@ import {Modal} from '../../../ui/modal';
 import {UsersComponent} from './users.component';
 import {User} from '../../../../swagger/model/User';
 import {NgForm} from '@angular/forms';
+import {Project} from '../../../../swagger/model/Project';
+import {Presenter} from '../../../logic/presenter';
 
 @Component({
     selector: 'app-user-modal',
@@ -14,9 +16,18 @@ export class UserModalComponent {
 
     modal = new Modal();
     user: User = {};
+    project: Project = {};
+    isNewUser = true;
     usersComponent: UsersComponent;
+    message: string;
+
+    constructor(private presenter: Presenter) {
+      this.project = presenter.activeProject;
+    }
 
     show() {
+      this.message = 'Dear ' + this.user.name + ',\n' +
+        'Please participate in the project named ' + this.project.name + '. You can register by clicking [link].';
         this.modal.show();
     }
 

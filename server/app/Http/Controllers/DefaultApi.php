@@ -12,6 +12,7 @@ use App\Text;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use PHPMailer\PHPMailer\PHPMailer;
 use Symfony\Component\HttpFoundation\Cookie;
 
 class DefaultApi extends Controller

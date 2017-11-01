@@ -5,7 +5,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" (click)="modal.hide()">×</button>
-                <h4 class="modal-title">New User</h4>
+                <h4 class="modal-title">{{isNewUser ? 'New' : 'Edit'}} User</h4>
             </div>
             <div class="modal-body">
                 <form #newUserForm="ngForm">
@@ -28,6 +28,16 @@
                             Not a valid e-mail address
                         </div>
                     </div>
+                  <div *ngIf="isNewUser" class="form-group">
+                    <label for="message">Message</label>
+                    <textarea type="text" class="form-control" id="message" required
+                           [(ngModel)]="message" name="message" #messageM="ngModel">
+                    </textarea>
+                    <div [hidden]="messageM.valid || messageM.pristine"
+                         class="alert alert-danger">
+                      You must fill out the message!
+                    </div>
+                  </div>
                 </form>
             </div>
             <div class="modal-footer">

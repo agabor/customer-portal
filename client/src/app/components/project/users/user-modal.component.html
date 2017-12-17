@@ -13,7 +13,7 @@
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input type="text" class="form-control" id="name" required
-                               [(ngModel)]="user.name" name="name" #name="ngModel">
+                               [(ngModel)]="user.name" name="name" (keypress)="nameChanged()" #name="ngModel">
                         <div [hidden]="name.valid || name.pristine"
                              class="alert alert-danger">
                             Name is required

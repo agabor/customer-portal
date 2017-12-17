@@ -12,38 +12,45 @@ import {Presenter} from '../../../logic/presenter';
 })
 export class UserModalComponent {
 
-    @ViewChild('newUserForm') newUserForm: NgForm;
+  @ViewChild('newUserForm') newUserForm: NgForm;
 
-    modal = new Modal();
-    user: User = {};
-    project: Project = {};
-    isNewUser = true;
-    usersComponent: UsersComponent;
-    message: string;
+  modal = new Modal();
+  user: User = {};
+  project: Project = {};
+  isNewUser = true;
+  usersComponent: UsersComponent;
+  message: string;
 
-    constructor(private presenter: Presenter) {
-      this.project = presenter.activeProject;
+  constructor(private presenter: Presenter) {
+    this.project = presenter.activeProject;
+  }
+
+  show() {
+    this.message = 'Dear ,\n' +
+      'Please participate in the project named ' + this.project.name + '. You can register by clicking [link].';
+    this.modal.show();
+  }
+
+  save() {
+    this.hide();
+    this.usersComponent.saveUser();
+    this.user = {};
+    this.newUserForm.form.markAsPristine();
+  }
+
+  hide() {
+    this.modal.hide();
+  }
+
+  nameChanged() {
+    const parts = this.message.split('\n');
+    if (parts.length === 0) {
+      return;
     }
-
-    show() {
-      this.message = 'Dear ' + this.user.name + ',\n' +
-        'Please participate in the project named ' + this.project.name + '. You can register by clicking [link].';
-        this.modal.show();
+    if (parts[0].startsWith('Dear ') && parts[0].endsWith(',')) {
+      parts[0] = 'Dear ' + this.user.name + ',';
     }
-
-    save() {
-        this.hide();
-        this.usersComponent.saveUser();
-        this.user = {};
-        this.newUserForm.form.markAsPristine();
-    }
-
-    hide() {
-        this.modal.hide();
-    }
-
-    setUsersComponent(usersComponent: UsersComponent) {
-        this.usersComponent = usersComponent;
-    }
+    this.message = parts.join('\n');
+  }
 }
 
